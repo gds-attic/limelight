@@ -19,7 +19,7 @@ function (Model, Backbone) {
             it("converts valid timestamps into moment date objects", function() {
                 var model = new Model({
                     foo: 'bar',
-                    '_timestamp': '2013'
+                    '_timestamp': '2013-01-01'
                 }, {
                     parse: true
                 });
