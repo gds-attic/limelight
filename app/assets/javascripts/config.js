@@ -6,7 +6,6 @@ require.config({
     paths: {
         jquery: '/assets/vendor/jquery',
         jqueryxdr: '/assets/vendor/jquery.xdr',
-        jquerymockjax: '/assets/vendor/jquery.mockjax',
         lodash: '/assets/vendor/lodash',
         backbone: '/assets/vendor/backbone',
         css: '/assets/vendor/require-css',
@@ -18,7 +17,7 @@ require.config({
 
     shim: {
         backbone: {
-            deps: ['lodash', 'jquery', 'jqueryxdr', 'jquerymockjax'],
+            deps: ['lodash', 'jquery', 'jqueryxdr'],
             exports: 'Backbone'
         },
 
