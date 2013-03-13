@@ -1,14 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Limelight</title>
+  <title><%= yield(:title) %></title>
   <%= stylesheet_link_tag "application", :media => "all" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
 
-<%= yield %>
+<%# Configuration variable added to wrapper element because slimmer removes body attributes %>
+<div id="wrapper" data-backdrop-url="<%= Rails.application.config.backdrop_url %>" data-environment="<%= ENV['RAILS_ENV'] %>"  >
+  
+  <header id="global">
+    <p>Licensing performance</p>
+  </header>
+  
+  <section id="content">
+    <%= yield %>
+  </section>
+</div>
 
 <%= javascript_include_tag 'vendor/require', data: { main: '/assets/config' } %>
+
 </body>
 </html>

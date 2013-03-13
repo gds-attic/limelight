@@ -1,19 +1,19 @@
 define([
-    'licensing/collections/applications'
-], function(Applications) {
-    
-    if (window.jasmine) {
-        return;
-    }
-    
-    var applications = new Applications();
-    applications.fetch({
-        success: function (e) {
-            console.log(arguments);
-        },
-        error: function (e) {
-            console.error(arguments);
-        }
-    })
-    
+  'licensing/collections/applications',
+  'licensing/views/totalapplications'
+], function(ApplicationsCollection, TotalApplicationsView) {
+
+  if (window.jasmine) {
+    // do not initialise app when unit testing
+    return;
+  }
+
+  var collection = new ApplicationsCollection();
+
+  var view = new TotalApplicationsView({
+    el: $('#total-applications'),
+    collection: collection
+  });
+
+  collection.fetch();
 });

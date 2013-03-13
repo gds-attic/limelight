@@ -1,0 +1,25 @@
+#wrapper {
+    max-width: 1020px;
+    margin: 0 auto;
+}
+
+#wrapper * {
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+}
+
+header#global {
+    padding: 1em 2em;
+    border-bottom: 5px solid black;
+}
+
+header#global p {
+    margin:0;
+}
+
+#content {
+    border-top: 10px solid #108095;
+    background-color: #FFFFFF;
+    padding: 1em 2em;
+}

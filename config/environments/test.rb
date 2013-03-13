@@ -33,4 +33,6 @@ Limelight::Application.configure do
   config.active_support.deprecation = :stderr
 
   config.assets.paths << Rails.root.join("spec", "javascripts")
+  
+  config.backdrop_url = ENV["BACKDROP_URL"] || "//fakeapi"
 end
