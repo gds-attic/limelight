@@ -70,12 +70,26 @@ function (View, d3) {
         width: '100%',
         height: '100%',
         viewBox: '0 0 ' + this.width + ' ' + this.height,
-        style: 'max-width:' + this.width + 'px; max-height:' + this.height + 'px'
+        style: 'max-width:' + this.width + 'px; max-height:' + this.height + 'px; display:block;'
       });
-
+      
+      // ensure that size is calculated correctly in all browsers
+      this.adjustSize();
+      $(window).on('resize', _.bind(this.adjustSize, this));
+      
       this.wrapper = svg.append('g')
         .classed('wrapper', true)
         .attr('transform', 'translate(' + this.margin.left + ', ' + this.margin.top +')');
+    },
+    
+    /**
+     * Resizes SVG element to parent container width, taking aspect ratio into
+     * account. This works around bugs in some Webkit builds and IE10.
+     */
+    adjustSize: function () {
+      var aspectRatio = this.width / this.height;
+      var svg = $(this.svg.node());
+      svg.height(this.el.width() / aspectRatio);
     },
     
     // Not implemented; override in configuration or subclass

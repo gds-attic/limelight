@@ -136,6 +136,7 @@ function (Graph, Collection, d3) {
       expect(svg.prop('viewBox').baseVal.height).toEqual(444);
       expect(svg.css('max-width')).toEqual('555px');
       expect(svg.css('max-height')).toEqual('444px');
+      expect(svg.css('display')).toEqual('block');
     });
     
     it("calculates inner width and inner height", function() {
@@ -203,5 +204,41 @@ function (Graph, Collection, d3) {
       expect(component2.render).toHaveBeenCalled();
     });
   });
+  
+  describe("adjustSize", function() {
+
+      var el, TestGraph;
+      beforeEach(function() {
+          el = $('<div id="jasmine-playground"></div>').appendTo($('body'));
+          el.css('display', 'block');
+          TestGraph = Graph.extend({
+            width: 600,
+            height: 400
+          });
+      });
+      
+      afterEach(function() {
+          el.remove();
+      });
+      
+      it("does not resize when no resize is needed", function() {
+          el.width(600);
+          graph = new TestGraph({
+            el: el,
+            collection: new Collection()
+          });
+          expect(el.height()).toEqual(400);
+      });
+      
+      it("resizes according to aspect ratio", function() {
+          el.width(300);
+          graph = new TestGraph({
+            el: el,
+            collection: new Collection()
+          });
+          expect(el.height()).toEqual(200);
+      });
+  });
+  
   
 });

@@ -7,9 +7,11 @@ function (Collection) {
         queryUrl: 'licensing',
         
         queryParams: function () {
+          // add 1 day to correct for sun-sat week
+          var end = this.moment().startOf('week').add(1, 'days');
           return {
-            start_at: this.moment().startOf('week').subtract(8, 'weeks'),
-            end_at: this.moment().startOf('week'),
+            start_at: this.moment(end).subtract(9, 'weeks'),
+            end_at: end,
             period: 'week'
           }
         },
