@@ -5,7 +5,6 @@ function (Component) {
   var Axis = Component.extend({
     
     position: 'bottom',
-    ticks: 10,
     tickPadding: 0,
     orient: 'bottom',
     classed: null,
@@ -23,12 +22,13 @@ function (Component) {
       var axis = this.d3.svg.axis()
         .scale(scale)
         .orient(this.orient)
-        .ticks(this.ticks)
         .tickPadding(this.tickPadding);
-        
-      if (this.tickFormat) {
-        axis.tickFormat(this.tickFormat());
-      }
+      
+      _.each(['ticks', 'tickValues', 'tickFormat'], function (id) {
+        if (this[id]) {
+          axis[id](_.isFunction(this[id]) ? this[id]() : this[id]);
+        }
+      }, this);
       
       this.wrapper.append("g")
         .classed(this.classed, true)

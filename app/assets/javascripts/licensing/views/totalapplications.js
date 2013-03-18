@@ -23,6 +23,12 @@ function (Graph, Axis, Line) {
           classed: 'x-axis',
           position: 'bottom',
           orient: 'bottom',
+          tickValues: function () {
+            // a tick every sunday
+            return this.collection.map(function (model) {
+              return moment(model.get('_end_at')).subtract(1, 'days').toDate();
+            });
+          },
           tickPadding: 4,
           tickFormat: function () {
             return d3.time.format("%e %b");
