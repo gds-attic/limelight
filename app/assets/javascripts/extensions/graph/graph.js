@@ -30,7 +30,7 @@ function (View, d3) {
       
       // initialize graph components
       var defaultComponentOptions = this.getDefaultComponentOptions();
-      _.each(this.components, function (definition) {
+      _.each(this.prop('components'), function (definition) {
         var options = _.extend({}, defaultComponentOptions, definition.options);
         componentInstances.push(new definition.view(options));
       }, this);

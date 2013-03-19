@@ -1,13 +1,15 @@
 define([
-  'licensing/collections/applications'
+  'licensing/collections/byauthority'
 ],
-function (Collection) {
-  describe("ApplicationsCollection", function() {
+function (Collection, Applications) {
+  describe("ApplicationsByAuthorityCollection", function() {
     describe("queryParams", function() {
       it("requests data for the last nine weeks", function() {
-        var collection = new Collection();
-        spyOn(collection, "moment");
-        collection.moment.plan = function () {
+        var collection = new Collection([], {
+          licenceUrlSlug: 'test-licence'
+        });
+        spyOn(Collection.__super__, "moment");
+        Collection.__super__.moment.plan = function () {
           var realMoment = collection.moment.originalValue;
           // set "now" to a fixed date to enable static expectations
           if (!arguments.length) {
@@ -20,6 +22,10 @@ function (Collection) {
         expect(params.start_at.format('YYYY-MM-DDTHH:mm:ss')).toEqual('2013-01-07T00:00:00');
         expect(params.end_at.format('YYYY-MM-DDTHH:mm:ss')).toEqual('2013-03-11T00:00:00');
         expect(params.period).toEqual('week');
+        expect(params.filter_by).toEqual('test-licence');
+        expect(params.group_by).toEqual('authorityUrlSlug');
+        expect(params.limit).toEqual(5);
+        expect(params.sort_by).toEqual('_count');
       });
     });
   });

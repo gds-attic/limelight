@@ -1,0 +1,18 @@
+<% content_for :title do %>Licences - Performance Platform - GOV.UK<% end %>
+
+<header>
+  <h1>Licences</h1>
+</header>
+
+<section>
+  <h2>Licence applications on GOV.UK</h2>
+  
+  <ul id="licences">
+    <% @licences.each do |licence| %>
+    
+      <li><a href="/licensing/licences/<%= licence[:licenceUrlSlug] %>"><%= licence[:licenceName]%></a></li>
+    <% end %>
+    
+  </ul>
+  
+</section>

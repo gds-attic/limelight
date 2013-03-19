@@ -1,0 +1,16 @@
+{
+  "bucket": "licensing",
+  "query": {
+    "group_by": "licenceUrlSlug",
+    "collect": ["licenceName"],
+    "period": "all"
+  },
+  "data": {
+    "licenceUrlSlug": {
+      "register-as-a-scrap-metal-dealer": {
+        "licenceName": ["Register as a scrap metal dealer"],
+        "_count": 1
+      }
+    }
+  }
+}

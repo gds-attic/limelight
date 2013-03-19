@@ -8,10 +8,22 @@
 <body>
 
 <%# Configuration variable added to wrapper element because slimmer removes body attributes %>
-<div id="wrapper" data-backdrop-url="<%= Rails.application.config.backdrop_url %>" data-environment="<%= ENV['RAILS_ENV'] %>"  >
+<div id="wrapper" data-backdrop-url="<%= Rails.application.config.backdrop_url %>" data-environment="<%= ENV['RAILS_ENV'] %>" <%= yield(:js_config) %> >
   
   <header id="global">
-    <p>Licensing performance</p>
+    <p>
+      <%= link_to "Licensing performance", :action => "index" %>
+    </p>
+    <nav>
+      <ul>
+        <li<% if controller.action_name == 'index' %> class="active"<% end %>>
+          <%= link_to "Overview", :action => "index" %>
+        </li>
+        <li<% if ['licences', 'per_licence'].include? controller.action_name %> class="active"<% end %>>
+          <%= link_to "Licences", :action => "licences" %>
+        </li>
+      </ul>
+    </nav>
   </header>
   
   <section id="content">

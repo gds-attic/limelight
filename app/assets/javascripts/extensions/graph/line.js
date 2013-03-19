@@ -14,18 +14,49 @@ function (Component) {
       throw('No y calculation defined.');
     },
     
+    /**
+     * Renders one or more lines for current collection. Uses meta collection
+     * if present to determine rendering order of lines.
+     */
     render: function () {
       Component.prototype.render.apply(this, arguments);
       
-      var line = d3.svg.line()
-        .x(_.bind(this.x, this))
-        .y(_.bind(this.y, this));
+      if (this.collection.meta) {
+        // collection has meta information, let's use it
+        this.collection.meta.each(function (metaModel, index) {
+          this.renderLine(metaModel, index);
+        }, this);
+      } else {
+        // render single line
+        this.renderLine();
+      }
+    },
+    
+    /**
+     * Renders an SVG path consisting of line segments between data points.
+     * @param {Model} [metaModel=undefined] Additional meta data
+     * @param {Number} [index=undefined] Index of this line when rendering multiple lines
+     */
+    renderLine: function (metaModel, index) {
+      
+      var line = d3.svg.line();
+      if (metaModel) {
+        line.x(_.bind(this.x, this, metaModel))
+        line.y(_.bind(this.y, this, metaModel));
+      } else {
+        line.x(_.bind(this.x, this))
+        line.y(_.bind(this.y, this));
+      }
 
       var path = this.wrapper.append("path")
         .attr("d", line(this.collection.models));
         
       if (this.classed) {
-        path.classed(this.classed, true);
+        var classed = this.classed;
+        if (_.isFunction(classed)) {
+          classed = classed(metaModel, index)
+        }
+        path.attr('class', classed);
       }
     }
   });

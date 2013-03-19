@@ -1,8 +1,9 @@
 define([
-  'fakeapi/licensing/totalapplications',
-  'jquerymockjax'
+  'jquerymockjax',
+  'fakeapi/licensing/perlicence',
+  'fakeapi/licensing/applications'
 ],
-function (applicationsResponse) {
+function () {
   
   var backdropUrl = $('#wrapper').data('backdrop-url');
   if (!window.jasmine && backdropUrl && backdropUrl.indexOf('//fakeapi') == -1) {
@@ -12,5 +13,10 @@ function (applicationsResponse) {
   
   $.mockjaxSettings.log = true;
   $.mockjaxSettings.responseTime = 300;
-  $.mockjax(applicationsResponse);
+  
+  var responses = Array.prototype.slice.call(arguments, 1);
+  for (var i = 0, ni = responses.length; i < ni; i++) {
+    var response = new responses[i]()
+    $.mockjax(response.getDefinition());
+  };
 });

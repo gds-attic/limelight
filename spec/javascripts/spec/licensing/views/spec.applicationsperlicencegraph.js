@@ -1,37 +1,67 @@
 define([
-  'licensing/views/totalapplications',
+  'licensing/views/applicationsperlicencegraph',
   'extensions/collection',
   'moment'
 ],
 function (Graph, Collection, moment) {
   
-  describe("Total Applications Graph", function() {
+  describe("Per Licence Applications Graph", function() {
     
-    var collection, graph;
+    var collection, graph, el;
     beforeEach(function() {
+      el = $('<div id="jasmine-playground"></div>').appendTo($('body'));
+      
       collection = new Collection([
         {
           _start_at: moment('2013-01-14').startOf('day'),
           _end_at: moment('2013-01-21').startOf('day'),
-          _count: 123
+          total:      90,
+          westminster: 1,
+          croydon:     2,
+          wandsworth:  3,
+          lambeth:     4,
+          bristol:     5
         },
         {
           _start_at: moment('2013-01-21').startOf('day'),
           _end_at: moment('2013-01-28').startOf('day'),
-          _count: 124
+          total:     100,
+          westminster: 6,
+          croydon:     7,
+          wandsworth:  8,
+          lambeth:     9,
+          bristol:    10
         },
         {
           _start_at: moment('2013-01-28').startOf('day'),
           _end_at: moment('2013-02-04').startOf('day'),
-          _count: 41
+          total:      114,
+          westminster: 11,
+          croydon:     12,
+          wandsworth:  13,
+          lambeth:     14,
+          bristol:     15
         }
       ]);
-      spyOn(Graph.prototype, "prepareGraphArea");
+      collection.meta = new Collection([
+        { id: 'total', title: 'Total' },
+        { id: 'westminster', title: 'Westminster' },
+        { id: 'croydon', title: 'Croydon' },
+        { id: 'wandsworth', title: 'Wandsworth' },
+        { id: 'lambeth', title: 'Lambeth' },
+        { id: 'bristol', title: 'Bristol' }
+      ]);
+      // spyOn(Graph.prototype, "prepareGraphArea");
       graph = new Graph({
+        el: el,
         collection: collection
       });
       graph.innerWidth = 444;
       graph.innerHeight = 333;
+    });
+    
+    afterEach(function() {
+      el.remove();
     });
     
     describe("calcXScale", function() {
@@ -48,11 +78,18 @@ function (Graph, Collection, moment) {
     
     describe("calcYScale", function() {
       it("scales domain from 0 to nice value above max value", function() {
-        expect(graph.calcYScale().domain()).toEqual([0, 130]);
+        expect(graph.calcYScale().domain()).toEqual([0, 120]);
       });
       
       it("scales range to inner height", function() {
         expect(graph.calcYScale().range()).toEqual([333, 0]);
+      });
+    });
+    
+    describe("render", function() {
+      it("renders lines for each time series", function() {
+        graph.render();
+        expect(graph.el.find('path.line').length).toEqual(6);
       });
     });
     

@@ -1,10 +1,12 @@
 <% content_for :title do %>Licensing - Performance Platform - GOV.UK<% end %>
 
+<% content_for :js_config do %>data-controller="licensing/controllers/overview"<% end %>
+
 <header>
   <h1>Licensing</h1>
 </header>
 
 <section>
   <h2>Licence applications on GOV.UK</h2>
-  <figure id="total-applications"></figure>
+  <figure class="applications-graph" id="total-applications"></figure>
 </section>

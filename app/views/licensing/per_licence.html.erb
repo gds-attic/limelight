@@ -1,0 +1,13 @@
+<% content_for :title do %><%= @licence[:licenceName] %> - Performance Platform - GOV.UK<% end %>
+<% content_for :js_config do %>data-controller="licensing/controllers/per_licence" data-licence-url-slug="<%= @licence[:licenceUrlSlug] %>"<% end %>
+
+<header>
+  <h1><%= @licence[:licenceName] %></h1>
+</header>
+
+<section>
+  <h2><%= @licence[:licenceName] %> applications on GOV.UK</h2>
+  
+  <figure class="applications-graph" id="applications-by-authority"></figure>
+  
+</section>

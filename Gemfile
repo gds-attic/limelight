@@ -5,6 +5,9 @@ gem 'rails', '3.2.13'
 gem "unicorn", "~> 4.4.0"
 
 gem "slimmer", "~> 3.10.0"
+gem "songkick-transport", "~> 0.1.6", :git => "git://github.com/songkick/transport.git"
+gem "httparty", "~> 0.10.0"
+gem "multi_xml", "~> 0.5.3"
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -38,6 +41,10 @@ end
 gem 'requirejs-rails', '~> 0.8.0'
 
 group :test, :development do
+  gem "rspec-rails", "~> 2.12.0"
+  
+  gem 'cucumber-rails', :require => false
+  
   gem "jasmine", "~> 1.2.0"
   gem "jasmine-phantom", "~> 0.0.6"
 end
