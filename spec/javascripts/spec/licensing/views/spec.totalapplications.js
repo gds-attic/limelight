@@ -18,12 +18,12 @@ function (Graph, Collection, moment) {
         {
           _start_at: moment('2013-01-21').startOf('day'),
           _end_at: moment('2013-01-28').startOf('day'),
-          _count: 124
+          _count: 569
         },
         {
           _start_at: moment('2013-01-28').startOf('day'),
           _end_at: moment('2013-02-04').startOf('day'),
-          _count: 41
+          _count: 1024
         }
       ]);
       spyOn(Graph.prototype, "prepareGraphArea");
@@ -48,14 +48,19 @@ function (Graph, Collection, moment) {
     
     describe("calcYScale", function() {
       it("scales domain from 0 to nice value above max value", function() {
-        expect(graph.calcYScale().domain()).toEqual([0, 130]);
+        expect(graph.calcYScale().domain()).toEqual([0, 1200]);
       });
       
       it("scales range to inner height", function() {
         expect(graph.calcYScale().range()).toEqual([333, 0]);
       });
+
+      it("sets the tickValues correctly", function() {
+        expect(graph.calcYScale().tickValues)
+            .toEqual([0, 200, 400, 600, 800, 1000, 1200])
+      })
     });
-    
+
   });
   
 });
