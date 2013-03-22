@@ -30,7 +30,7 @@ Limelight::Application.configure do
 
   config.assets.paths << Rails.root.join("spec", "javascripts")
   
-  config.backdrop_url = ENV["BACKDROP_URL"] || "http://read.backdrop.dev.gov.uk"
+  config.backdrop_url = ENV["BACKDROP_URL"] if ENV.has_key?("BACKDROP_URL")
 
   config.use_api_stub = ENV.has_key?("USE_API_STUB")
 end
