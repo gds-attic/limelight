@@ -8,7 +8,8 @@
 <body>
 
 <%# Configuration variable added to wrapper element because slimmer removes body attributes %>
-<div id="wrapper" data-backdrop-url="<%= Rails.application.config.backdrop_url %>" data-environment="<%= ENV['RAILS_ENV'] %>" <%= yield(:js_config) %> >
+<div id="wrapper" data-backdrop-url="<%= Rails.application.config.backdrop_url %>"
+     data-environment="<%= ENV['RAILS_ENV'] %>" data-base-url="<%= asset_path '' %>" <%= yield(:js_config) %> >
   
   <header id="global">
     <p>

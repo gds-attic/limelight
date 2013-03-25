@@ -7,7 +7,7 @@ require.config({
     window.$ && $('#wrapper').data('controller')
   ],
 
-  baseUrl: '/limelight',
+  baseUrl: (window.$ && $('#wrapper').data('base-url')) || '/limelight',
 
   paths: {
     jquery: 'vendor/jquery',
