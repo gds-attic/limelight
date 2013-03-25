@@ -6,6 +6,10 @@ class ApplicationController < ActionController::Base
   slimmer_template :homepage
 
   def backdrop_api
-    Rails.configuration.use_api_stub ? BackdropAPIStub.new : BackdropAPI.new(Rails.configuration.backdrop_url)
+    Rails.configuration.use_api_stub ? BackdropAPIStub.new : BackdropAPI.new(backdrop_url)
+  end
+
+  def backdrop_url
+    Rails.application.config.backdrop_url
   end
 end

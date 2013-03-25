@@ -31,7 +31,7 @@ describe BackdropAPI do
       response_stub = double("response")
       
       httparty_stub.should_receive(:get)
-        .with("/licensing?group_by=licenceUrlSlug&collect=licenceName&period=all")
+        .with("/performance/licensing/api?group_by=licenceUrlSlug&collect=licenceName&period=week")
         .and_return(response_stub)
       
       response_stub.stub(:data).and_return(response)
@@ -76,7 +76,7 @@ describe BackdropAPI do
       response_stub = double("response")
       
       httparty_stub.should_receive(:get)
-        .with("/licensing?filter_by=licenceUrlSlug:application-to-licence-a-street-collection&group_by=licenceUrlSlug&collect=licenceName&period=all")
+        .with("/performance/licensing/api?filter_by=licenceUrlSlug:application-to-licence-a-street-collection&group_by=licenceUrlSlug&collect=licenceName&period=all")
         .and_return(response_stub)
       
       response_stub.stub(:data).and_return(response)

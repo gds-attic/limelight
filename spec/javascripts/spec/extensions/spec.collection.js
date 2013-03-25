@@ -63,7 +63,7 @@ function (Collection, Model, Backbone) {
           
           it("constructs a backdrop query URL without params", function() {
             var collection = new TestCollection();
-            expect(collection.url()).toEqual('//testdomain/bucketname/?');
+            expect(collection.url()).toEqual('//testdomain/performance/bucketname/api?');
           });
           
           it("constructs a backdrop query URL with static params", function() {
@@ -72,7 +72,7 @@ function (Collection, Model, Backbone) {
               a: 1,
               b: 'foo bar'
             }
-            expect(collection.url()).toEqual('//testdomain/bucketname/?a=1&b=foo+bar');
+            expect(collection.url()).toEqual('//testdomain/performance/bucketname/api?a=1&b=foo+bar');
           });
           
           it("constructs a backdrop query URL with dynamic params", function() {
@@ -84,7 +84,7 @@ function (Collection, Model, Backbone) {
                 b: this.testProp
               };
             };
-            expect(collection.url()).toEqual('//testdomain/bucketname/?a=1&b=foo+bar');
+            expect(collection.url()).toEqual('//testdomain/performance/bucketname/api?a=1&b=foo+bar');
           });
           
           it("constructs a backdrop query URL with moment date params", function() {
@@ -96,7 +96,7 @@ function (Collection, Model, Backbone) {
                 somedate: this.moment('03/08/2013 14:53:26 +00:00', 'MM/DD/YYYY HH:mm:ss T')
               };
             };
-            expect(collection.url()).toEqual('//testdomain/bucketname/?a=1&somedate=2013-03-08T14%3A53%3A26%2B00%3A00');
+            expect(collection.url()).toEqual('//testdomain/performance/bucketname/api?a=1&somedate=2013-03-08T14%3A53%3A26%2B00%3A00');
           });
         });
     });

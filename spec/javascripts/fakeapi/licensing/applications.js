@@ -11,7 +11,7 @@ function (require, Timeseries, Random) {
       this.rnd = new Random(1);
     },
     
-    url: /\/licensing\/?\?(.*)/,
+    url: /\/licensing\/?.*\?(.*)/,
     
     getValue: function (start, end) {
       return {
