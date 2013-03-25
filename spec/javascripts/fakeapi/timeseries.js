@@ -18,7 +18,7 @@ define([
         data.push(_.extend({
           '_start_at': start.format(this.dateFormat),
           '_end_at': end.format(this.dateFormat)
-        }, this.getValue(start, end)));
+        }, this.getValue(start, end, query)));
       };
     
       return data;

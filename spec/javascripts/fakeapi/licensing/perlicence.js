@@ -13,15 +13,16 @@ function (require, Timeseries, Random) {
     
     url: /\/licensing\/?\?(.*group_by=authorityUrlSlug.*)/,
     
-    getValue: function (start, end) {
-      return {
+    getValue: function (start, end, query) {
+      
+      var values = {
         authorityUrlSlug: {
           westminster: {
-            _count: this.rnd(1e3, 3e4),
+            _count: this.rnd(1e3, 3e3),
             authorityName: ['Westminster']
           },
           croydon: {
-            _count: this.rnd(1e3, 2e4),
+            _count: this.rnd(1e3, 4e3),
             authorityName: ['Croydon']
           },
           wandsworth: {
@@ -38,7 +39,18 @@ function (require, Timeseries, Random) {
           },
           
         }
-      }
+      };
+      
+      var licenceUrlSlug = query.filter_by;
+      var licenceName = {
+        "application-to-licence-a-street-collection": "Application to licence a street collection",
+        "register-as-a-scrap-metal-dealer": "Register as a scrap metal dealer"
+      }[licenceUrlSlug];
+      _.each(values.authorityUrlSlug, function (value, key) {
+        value.licenceName = [licenceName];
+      });
+      
+      return values;
     }
     
   });

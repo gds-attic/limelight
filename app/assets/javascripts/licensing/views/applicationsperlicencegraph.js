@@ -1,13 +1,21 @@
 define([
   'require',
   './applicationsgraph',
-  'extensions/graph/line',
+  './linelabel',
 ],
-function (require, ApplicationsGraph, MultiLine) {
+function (require, ApplicationsGraph, LineLabel) {
   var ApplicationsPerLicenceGraph = ApplicationsGraph.extend({
+    
+    margin: {
+      top: 20,
+      bottom: 50,
+      left: 60,
+      right: 200
+    },
     
     components: function () {
       var components = ApplicationsGraph.prototype.components.apply(this, arguments);
+      // overwrite options for line component
       _.last(components).options = {
         classed: function (metaModel, index) {
           return 'line line' + index + ' ' + metaModel.get('id');
@@ -22,6 +30,9 @@ function (require, ApplicationsGraph, MultiLine) {
           return this.scales.y(model.get(metaModel.get('id')));
         }
       };
+      components.push({
+        view: LineLabel
+      });
       return components;
     },
     

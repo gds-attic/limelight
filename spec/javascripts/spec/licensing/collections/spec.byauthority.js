@@ -25,7 +25,8 @@ function (Collection, Applications) {
         expect(params.filter_by).toEqual('test-licence');
         expect(params.group_by).toEqual('authorityUrlSlug');
         expect(params.limit).toEqual(5);
-        expect(params.sort_by).toEqual('_count');
+        expect(params.sort_by).toEqual('_count:descending');
+        expect(params.collect).toEqual('authorityName,licenceName');
       });
     });
   });

@@ -1,0 +1,53 @@
+.applications-graph {
+  border: 1px solid #999;
+
+  .line {
+    fill: none;
+    stroke: #0F8094;
+    stroke-width: 4px;
+  }
+  
+  .line0 { stroke: #0F8094; }
+  .line1 { stroke: #4F8240; }
+  .line2 { stroke: #00A89E; }
+  .line3 { stroke: #F7941F; }
+  .line4 { stroke: #D6007D; }
+  .line5 { stroke: #662E91; }
+  
+  .x-axis path,
+  .y-axis path {
+    display: none;
+  }
+
+  .x-axis line {
+    fill: none;
+    stroke: #444;
+    stroke-width: 1px;
+    shape-rendering: crispEdges;
+  }
+
+  .labels {
+    
+    line {
+      fill: none;
+      stroke: #444;
+      stroke-width: 1px;
+
+      &.crisp {
+        shape-rendering: crispEdges;
+      }
+    }
+    
+    text.total {
+      font-size:1.2em;
+    }
+    
+    text.text2 {
+      fill: #777;
+      font-size:.8em;
+    }
+    
+  }
+
+}
+

@@ -1,12 +1,10 @@
 define([
   'require',
-  './applications',
-  'extensions/collection'
+  './applications'
 ],
-function (require, Applications, Collection) {
+function (require, Applications) {
   /**
-   * Retrieves data for a specific licence, grouped by authority,
-   * for the "top 5" authorities
+   * Retrieves data for a specific licence
    */
   var LicenceApplications = Applications.extend({
     
@@ -17,11 +15,7 @@ function (require, Applications, Collection) {
 
     queryParams: function () {
       return _.extend(Applications.prototype.queryParams(), {
-        filter_by: this.licenceUrlSlug,
-        group_by: 'authorityUrlSlug',
-        limit: 5,
-        sort_by: '_count:descending',
-        collect: 'authorityName,licenceName'
+        filter_by: this.licenceUrlSlug
       });
     }
   });

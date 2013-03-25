@@ -50,33 +50,33 @@ function (TotalAndByAuthority, Total, ByAuthority, Collection) {
             _start_at: moment('2013-02-18T00:00:00+00:00'),
             _end_at: moment('2013-02-25T00:00:00+00:00'),
             authorityUrlSlug: {
-              westminster: { _count: 1, authorityName: ['Westminster'] },
-              croydon:     { _count: 2, authorityName: ['Croydon']     },
-              wandsworth:  { _count: 3, authorityName: ['Wandsworth']  },
-              lambeth:     { _count: 4, authorityName: ['Lambeth']     },
-              bristol:     { _count: 5, authorityName: ['Bristol']     }
+              westminster: { _count: 1, authorityName: ['Westminster'], licenceName: ['Temporary events notice'] },
+              croydon:     { _count: 2, authorityName: ['Croydon']    , licenceName: ['Temporary events notice'] },
+              wandsworth:  { _count: 3, authorityName: ['Wandsworth'] , licenceName: ['Temporary events notice'] },
+              lambeth:     { _count: 4, authorityName: ['Lambeth']    , licenceName: ['Temporary events notice'] },
+              bristol:     { _count: 5, authorityName: ['Bristol']    , licenceName: ['Temporary events notice'] }
             }
           },
           {
             _start_at: moment('2013-02-25T00:00:00+00:00'),
             _end_at: moment('2013-03-04T00:00:00+00:00'),
             authorityUrlSlug: {
-              westminster: { _count:  6, authorityName: ['Westminster'] },
-              croydon:     { _count:  7, authorityName: ['Croydon']     },
-              wandsworth:  { _count:  8, authorityName: ['Wandsworth']  },
-              lambeth:     { _count:  9, authorityName: ['Lambeth']     },
-              bristol:     { _count: 10, authorityName: ['Bristol']     }
+              westminster: { _count:  6, authorityName: ['Westminster'], licenceName: ['Temporary events notice'] },
+              croydon:     { _count:  7, authorityName: ['Croydon']    , licenceName: ['Temporary events notice'] },
+              wandsworth:  { _count:  8, authorityName: ['Wandsworth'] , licenceName: ['Temporary events notice'] },
+              lambeth:     { _count:  9, authorityName: ['Lambeth']    , licenceName: ['Temporary events notice'] },
+              bristol:     { _count: 10, authorityName: ['Bristol']    , licenceName: ['Temporary events notice'] }
             }
           },
           {
             _start_at: moment('2013-03-04T00:00:00+00:00'),
             _end_at: moment('2013-03-11T00:00:00+00:00'),
             authorityUrlSlug: {
-              westminster: { _count: 11, authorityName: ['Westminster'] },
-              croydon:     { _count: 12, authorityName: ['Croydon']     },
-              wandsworth:  { _count: 13, authorityName: ['Wandsworth']  },
-              lambeth:     { _count: 14, authorityName: ['Lambeth']     },
-              bristol:     { _count: 15, authorityName: ['Bristol']     }
+              westminster: { _count: 11, authorityName: ['Westminster'], licenceName: ['Temporary events notice'] },
+              croydon:     { _count: 12, authorityName: ['Croydon']    , licenceName: ['Temporary events notice'] },
+              wandsworth:  { _count: 13, authorityName: ['Wandsworth'] , licenceName: ['Temporary events notice'] },
+              lambeth:     { _count: 14, authorityName: ['Lambeth']    , licenceName: ['Temporary events notice'] },
+              bristol:     { _count: 15, authorityName: ['Bristol']    , licenceName: ['Temporary events notice'] }
             }
           }
         ]);
@@ -86,7 +86,7 @@ function (TotalAndByAuthority, Total, ByAuthority, Collection) {
         totalAndByAuthority.parse();
         expect(totalAndByAuthority.meta.length).toEqual(6);
         expect(totalAndByAuthority.meta.at(0).get('id')).toEqual('total');
-        expect(totalAndByAuthority.meta.at(0).get('title')).toEqual('Total');
+        expect(totalAndByAuthority.meta.at(0).get('title')).toEqual('Total applications');
         expect(totalAndByAuthority.meta.find(function (metaModel) {
           return metaModel.get('id') == 'westminster';
         }).get('title')).toEqual('Westminster');

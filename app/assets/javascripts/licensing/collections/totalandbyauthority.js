@@ -2,7 +2,7 @@ define([
   'require',
   'extensions/multicollection',
   'extensions/collection',
-  './applications',
+  './totalperlicence',
   './byauthority'
 ],
 function (require, MultiCollection, Collection, Total, ByAuthority) {
@@ -26,17 +26,23 @@ function (require, MultiCollection, Collection, Total, ByAuthority) {
         return;
       }
       
-      var values = byAuthorityCollection.at(0).get('authorityUrlSlug');
+      var values = byAuthorityCollection.last().get('authorityUrlSlug');
       
       var meta = _.map(values, function (value, authorityUrlSlug) {
         return {
           id: authorityUrlSlug,
-          title: value.authorityName[0]
-        }
+          title: value.authorityName[0],
+          subTitle: value.licenceName[0],
+          sortCount: value._count
+        };
+      });
+      // sort by number of applications in the last week
+      meta = _.sortBy(meta, function (values) {
+        return -values.sortCount;
       });
       meta.unshift({
           id: 'total',
-          title: 'Total'
+          title: 'Total applications'
       });
       
       this.meta.reset(meta);
