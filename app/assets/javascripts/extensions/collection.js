@@ -50,7 +50,7 @@ function ($, Backbone, Model, moment) {
         }
       });
 
-      return this.baseUrl + this.queryUrl + '/?' + $.param(params);
+      return this.baseUrl + 'performance/' + this.queryUrl + '/api?' + $.param(params);
     }
   });
 

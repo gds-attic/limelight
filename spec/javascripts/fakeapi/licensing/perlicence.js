@@ -11,7 +11,7 @@ function (require, Timeseries, Random) {
       this.rnd = new Random(1);
     },
     
-    url: /\/licensing\/?\?(.*group_by=authorityUrlSlug.*)/,
+    url: /\/licensing\/?.*\?(.*group_by=authorityUrlSlug.*)/,
     
     getValue: function (start, end, query) {
       
