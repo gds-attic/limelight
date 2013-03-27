@@ -27,21 +27,21 @@ function (require, Timeseries, Random) {
           },
           wandsworth: {
             _count: this.rnd(1e3, 2e4),
-            authorityName: ['Wandsworth']
+            // authorityName: ['Wandsworth']
           },
           lambeth: {
             _count: this.rnd(1e3, 2e3),
-            authorityName: ['Lambeth']
+            // authorityName: ['Lambeth']
           },
           bristol: {
             _count: this.rnd(1e3, 1e4),
-            authorityName: ['Bristol']
+            // authorityName: ['Bristol']
           },
           
         }
       };
       
-      var licenceUrlSlug = query.filter_by;
+      var licenceUrlSlug = query.filter_by.split(':')[1];
       var licenceName = {
         "application-to-licence-a-street-collection": "Application to licence a street collection",
         "register-as-a-scrap-metal-dealer": "Register as a scrap metal dealer"

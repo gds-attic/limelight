@@ -15,7 +15,7 @@ function (require, Applications) {
 
     queryParams: function () {
       return _.extend(Applications.prototype.queryParams(), {
-        filter_by: this.licenceUrlSlug
+        filter_by: 'licenceUrlSlug:' + this.licenceUrlSlug
       });
     }
   });

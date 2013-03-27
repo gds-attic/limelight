@@ -29,12 +29,20 @@ function (require, MultiCollection, Collection, Total, ByAuthority) {
       var values = byAuthorityCollection.last().get('authorityUrlSlug');
       
       var meta = _.map(values, function (value, authorityUrlSlug) {
-        return {
+        var res = {
           id: authorityUrlSlug,
-          title: value.authorityName[0],
-          subTitle: value.licenceName[0],
           sortCount: value._count
         };
+        if (value.authorityName && value.authorityName[0]) {
+          res.title = value.authorityName[0];
+        } else {
+          res.title = authorityUrlSlug;
+        }
+        if (value.licenceName && value.licenceName[0]) {
+          res.subTitle = value.licenceName[0];
+        }
+
+        return res;
       });
       // sort by number of applications in the last week
       meta = _.sortBy(meta, function (values) {

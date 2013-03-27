@@ -24,13 +24,17 @@ function (LineLabel) {
           that.selectAll("text.total")
             .text(metaModel.get('title'))
             .attr('transform', 'translate(0, 6)');
-        } else {
+        } else if (metaModel.get('subTitle')) {
           that.selectAll("text.text1")
             .text(metaModel.get('title'))
             .attr('transform', 'translate(0, 0)');
           that.selectAll("text.text2")
             .text('(' + metaModel.get('subTitle') + ')')
             .attr('transform', 'translate(0, 15)');
+        } else {
+          that.selectAll("text.text1")
+            .text(metaModel.get('title'))
+            .attr('transform', 'translate(0, 4)');
         }
       });
     }

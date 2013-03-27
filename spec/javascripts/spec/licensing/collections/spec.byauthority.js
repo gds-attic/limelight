@@ -22,7 +22,7 @@ function (Collection, Applications) {
         expect(params.start_at.format('YYYY-MM-DDTHH:mm:ss')).toEqual('2013-01-07T00:00:00');
         expect(params.end_at.format('YYYY-MM-DDTHH:mm:ss')).toEqual('2013-03-11T00:00:00');
         expect(params.period).toEqual('week');
-        expect(params.filter_by).toEqual('test-licence');
+        expect(params.filter_by).toEqual('licenceUrlSlug:test-licence');
         expect(params.group_by).toEqual('authorityUrlSlug');
         expect(params.limit).toEqual(5);
         expect(params.sort_by).toEqual('_count:descending');

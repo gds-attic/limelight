@@ -17,7 +17,7 @@ function (require, Applications, Collection) {
 
     queryParams: function () {
       return _.extend(Applications.prototype.queryParams(), {
-        filter_by: this.licenceUrlSlug,
+        filter_by: 'licenceUrlSlug:' + this.licenceUrlSlug,
         group_by: 'authorityUrlSlug',
         limit: 5,
         sort_by: '_count:descending',

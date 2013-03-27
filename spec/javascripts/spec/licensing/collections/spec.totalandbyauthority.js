@@ -50,6 +50,44 @@ function (TotalAndByAuthority, Total, ByAuthority, Collection) {
             _start_at: moment('2013-02-18T00:00:00+00:00'),
             _end_at: moment('2013-02-25T00:00:00+00:00'),
             authorityUrlSlug: {
+              westminster: { _count: 1 },
+              croydon:     { _count: 2 },
+              wandsworth:  { _count: 3 },
+              lambeth:     { _count: 4 },
+              bristol:     { _count: 5 }
+            }
+          },
+          {
+            _start_at: moment('2013-02-25T00:00:00+00:00'),
+            _end_at: moment('2013-03-04T00:00:00+00:00'),
+            authorityUrlSlug: {
+              westminster: { _count:  6 },
+              croydon:     { _count:  7 },
+              wandsworth:  { _count:  8 },
+              lambeth:     { _count:  9 },
+              bristol:     { _count: 10 }
+            }
+          },
+          {
+            _start_at: moment('2013-03-04T00:00:00+00:00'),
+            _end_at: moment('2013-03-11T00:00:00+00:00'),
+            authorityUrlSlug: {
+              westminster: { _count: 11 },
+              croydon:     { _count: 12 },
+              wandsworth:  { _count: 13 },
+              lambeth:     { _count: 14 },
+              bristol:     { _count: 15 }
+            }
+          }
+        ]);
+      });
+      
+      it("populates the meta collection with additional data when available", function() {
+        totalAndByAuthority.collectionInstances[1].reset([
+          {
+            _start_at: moment('2013-02-18T00:00:00+00:00'),
+            _end_at: moment('2013-02-25T00:00:00+00:00'),
+            authorityUrlSlug: {
               westminster: { _count: 1, authorityName: ['Westminster'], licenceName: ['Temporary events notice'] },
               croydon:     { _count: 2, authorityName: ['Croydon']    , licenceName: ['Temporary events notice'] },
               wandsworth:  { _count: 3, authorityName: ['Wandsworth'] , licenceName: ['Temporary events notice'] },
@@ -80,19 +118,37 @@ function (TotalAndByAuthority, Total, ByAuthority, Collection) {
             }
           }
         ]);
-      });
-      
-      it("populates the meta collection", function() {
         totalAndByAuthority.parse();
         expect(totalAndByAuthority.meta.length).toEqual(6);
         expect(totalAndByAuthority.meta.at(0).get('id')).toEqual('total');
         expect(totalAndByAuthority.meta.at(0).get('title')).toEqual('Total applications');
-        expect(totalAndByAuthority.meta.find(function (metaModel) {
+        var westminster = totalAndByAuthority.meta.find(function (metaModel) {
           return metaModel.get('id') == 'westminster';
-        }).get('title')).toEqual('Westminster');
-        expect(totalAndByAuthority.meta.find(function (metaModel) {
+        });
+        expect(westminster.get('title')).toEqual('Westminster');
+        expect(westminster.get('subTitle')).toEqual('Temporary events notice');
+        var bristol = totalAndByAuthority.meta.find(function (metaModel) {
           return metaModel.get('id') == 'bristol';
-        }).get('title')).toEqual('Bristol');
+        });
+        expect(bristol.get('title')).toEqual('Bristol');
+        expect(bristol.get('subTitle')).toEqual('Temporary events notice');
+      });
+      
+      it("populates the meta collection with fallback data", function() {
+        totalAndByAuthority.parse();
+        expect(totalAndByAuthority.meta.length).toEqual(6);
+        expect(totalAndByAuthority.meta.at(0).get('id')).toEqual('total');
+        expect(totalAndByAuthority.meta.at(0).get('title')).toEqual('Total applications');
+        var westminster = totalAndByAuthority.meta.find(function (metaModel) {
+          return metaModel.get('id') == 'westminster';
+        });
+        expect(westminster.get('title')).toEqual('westminster');
+        expect(westminster.get('subTitle')).toBeFalsy();
+        var bristol = totalAndByAuthority.meta.find(function (metaModel) {
+          return metaModel.get('id') == 'bristol';
+        });
+        expect(bristol.get('title')).toEqual('bristol');
+        expect(bristol.get('subTitle')).toBeFalsy();
       });
       
       it("combines data from constituent collections", function() {

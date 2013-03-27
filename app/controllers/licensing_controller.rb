@@ -10,12 +10,12 @@ class LicensingController < ApplicationController
     
     response = api.get_licences
     
-    if response["data"]["licenceUrlSlug"]
+    if response["data"]
       
-      @licences = response["data"]["licenceUrlSlug"].map do |slug, value|
+      @licences = response["data"].map do |value|
         {
-          :licenceUrlSlug => slug,
-          :licenceName => value["licenceName"][0]
+          :licenceUrlSlug => value["licenceUrlSlug"],
+          :licenceName => value["licenceUrlSlug"] # value["licenceName"][0]
         }
       end
     else
@@ -28,22 +28,22 @@ class LicensingController < ApplicationController
     
     slug = params[:slug]
     
-    api = backdrop_api
-    
-    response = api.get_licence(slug)
-    
-    data = response["data"]["licenceUrlSlug"]
-    
-    if data && data[slug]
+    #api = backdrop_api
+    #
+    #response = api.get_licence(slug)
+    #
+    #data = response["data"]
+    #
+    #if data && data[0]
       
       @licence = {
         :licenceUrlSlug => slug,
-        :licenceName => response["data"]["licenceUrlSlug"][slug]["licenceName"][0]
+        :licenceName => slug # response["data"][0]["licenceName"][0]
       }
       
-    else
-      raise ActionController::RoutingError.new('Licence not found.')
-    end
+    #else
+    #  raise ActionController::RoutingError.new('Licence not found.')
+    #end
   end
 
 end

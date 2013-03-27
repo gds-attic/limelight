@@ -27,7 +27,7 @@ function (require, ApplicationsGraph, LineLabel) {
           return this.scales.x(x.toDate());
         },
         y: function (metaModel, model, index) {
-          return this.scales.y(model.get(metaModel.get('id')));
+          return this.scales.y(model.get(metaModel.get('id')) || 0);
         }
       };
       components.push({
