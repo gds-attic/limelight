@@ -6,12 +6,12 @@
   <h1>Authorities</h1>
 </header>
 
-<section>
+<section id="licensing-overview">
   <h2>Licensing Authorities on GOV.UK</h2>
 
   <ul id="authorities">
     <% @authorities.each do |authority| %>
-        <li><%= link_to authority.name, "#" %></li>
+        <li><%= link_to authority.name, authority_path(authority.slug) %></li>
     <% end %>
   </ul>
 </section>

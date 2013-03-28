@@ -25,11 +25,11 @@ Then(/^there should be (\d+) licences$/) do |num_licences|
 end
 
 Then(/^the (\d+)(?:st|nd|rd|th) title should be "(.*?)"$/) do |position, title|
-  page.all("ul#licences li")[position.to_i - 1].should have_link(title)
+  page.all("#licensing-overview ul li")[position.to_i - 1].should have_link(title)
 end
 
 Then(/^the (\d+)(?:st|nd|rd|th) link should be "(.*?)"$/) do |position, href|
-  page.all("ul#licences li a")[position.to_i - 1][:href].should == href
+  page.all("#licensing-overview ul li a")[position.to_i - 1][:href].should == href
 end
 
 Then(/^the page title should be "(.*?)"$/) do |title|

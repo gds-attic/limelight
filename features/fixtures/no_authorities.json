@@ -5,5 +5,5 @@
         "collect": ["authorityName"],
         "period": "all"
     },
-    "data": {}
+    "data": []
 }
