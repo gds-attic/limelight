@@ -16,7 +16,7 @@ class BackdropAPI
   end
 
   def get_authorities
-    response = get("/performance/licensing/api?group_by=authorityUrlSlug&collect=authorityName&period=week")
+    response = get("/performance/licensing/api?group_by=authorityUrlSlug")
     response.data
   end
 
@@ -28,9 +28,7 @@ class BackdropAPI
   def get_authority(slug)
     response = get(
       "/performance/licensing/api?filter_by=authorityUrlSlug:#{slug}" +
-      "&group_by=authorityUrlSlug" +
-      "&collect=authorityName" +
-      "&period=all"
+      "&group_by=authorityUrlSlug"
     )
     response.data
   end

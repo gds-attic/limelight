@@ -6,12 +6,10 @@
         "collect": ["authorityName"],
         "period": "all"
     },
-    "data": {
-        "authorityUrlSlug": {
-            "fake-authority-1": {
-                "authorityName": ["Fake Authority 1"],
-                "_count": 7
-            }
+    "data": [
+        {
+            "authorityUrlSlug":"fake-authority-1",
+            "_count":7
         }
-    }
+    ]
 }

@@ -25,7 +25,7 @@ class LicensingController < ApplicationController
   def per_authority
     slug = params[:slug]
     begin
-      @authority = Authority.from_backdrop_response(slug, backdrop_api.get_authority(slug))
+      @authority = Authority.from_backdrop_response(backdrop_api.get_authority(slug))
     rescue Exception => e
       raise ActionController::RoutingError.new('Authority not found')
     end

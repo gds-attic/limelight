@@ -31,7 +31,7 @@ describe BackdropAPI do
 
       FakeWeb.register_uri(
         :get,
-        "http://backdrop/performance/licensing/api?group_by=authorityUrlSlug&collect=authorityName&period=week",
+        "http://backdrop/performance/licensing/api?group_by=authorityUrlSlug",
         :body => response.to_json
       )
 
@@ -69,7 +69,7 @@ describe BackdropAPI do
 
       FakeWeb.register_uri(
         :get,
-        "http://backdrop/performance/licensing/api?filter_by=authorityUrlSlug:some-auth-slug&group_by=authorityUrlSlug&collect=authorityName&period=all",
+        "http://backdrop/performance/licensing/api?filter_by=authorityUrlSlug:some-auth-slug&group_by=authorityUrlSlug",
         :body => response.to_json
       )
 

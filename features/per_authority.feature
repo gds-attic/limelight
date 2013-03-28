@@ -8,5 +8,5 @@ Feature: Visiting per-authority
     When I go to /performance/licensing/authorities/fake-authority-1
     Then I should get back a status of 200
     And the navigation link for "Authorities" should be active
-    And the page title should be "Fake Authority 1"
-    And the subtitle should be "Applications handled by Fake Authority 1 on GOV.UK"
+    And the page title should be "fake-authority-1"
+    And the subtitle should be "Applications handled by fake-authority-1 on GOV.UK"
