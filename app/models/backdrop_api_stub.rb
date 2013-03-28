@@ -17,6 +17,14 @@ class BackdropAPIStub
     fixture(slug)
   end
 
+  def get_authorities
+    fixture("get_authorities")
+  end
+
+  def get_authority(slug)
+    fixture(slug)
+  end
+
   private
   def fixture(name)
     fixture_file = File.join(@fixture_path, "#{name}.json")

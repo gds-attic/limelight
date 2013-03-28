@@ -1,0 +1,17 @@
+<% content_for :title do %>
+    Authorities - Performance Platform - GOV.UK
+<% end %>
+
+<header>
+  <h1>Authorities</h1>
+</header>
+
+<section>
+  <h2>Licensing Authorities on GOV.UK</h2>
+
+  <ul id="authorities">
+    <% @authorities.each do |authority| %>
+        <li><%= link_to authority.name, "#" %></li>
+    <% end %>
+  </ul>
+</section>

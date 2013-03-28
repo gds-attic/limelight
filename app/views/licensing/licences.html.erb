@@ -10,7 +10,7 @@
   <ul id="licences">
     <% @licences.each do |licence| %>
 
-      <li><%= link_to licence[:licenceName], licence_path(licence[:licenceUrlSlug]) %></li>
+      <li><%= link_to licence.name, licence_path(licence.slug) %></li>
     <% end %>
     
   </ul>

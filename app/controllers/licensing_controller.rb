@@ -5,45 +5,30 @@ class LicensingController < ApplicationController
   end
   
   def licences
-    
-    api = backdrop_api
-    
-    response = api.get_licences
-    
-    if response["data"]
-      
-      @licences = response["data"].map do |value|
-        {
-          :licenceUrlSlug => value["licenceUrlSlug"],
-          :licenceName => value["licenceUrlSlug"] # value["licenceName"][0]
-        }
-      end
-    else
-      @licences = []
-    end
-    
+    @licences = Licences.from_backdrop_response(backdrop_api.get_licences)
   end
 
   def per_licence
-    
     slug = params[:slug]
-    
-    #api = backdrop_api
-    #
-    #response = api.get_licence(slug)
-    #
-    #data = response["data"]
-    #
-    #if data && data[0]
-      
-      @licence = {
-        :licenceUrlSlug => slug,
-        :licenceName => slug # response["data"][0]["licenceName"][0]
-      }
-      
-    #else
-    #  raise ActionController::RoutingError.new('Licence not found.')
-    #end
+    begin
+      #@licence = Licence.from_backdrop_response(backdrop_api.get_licence(slug))
+      @licence = Licence.new(slug, slug)
+    rescue Exception => e
+      raise ActionController::RoutingError.new('Licence not found.')
+    end
+  end
+
+  def authorities
+    @authorities = Authorities.from_backdrop_response(backdrop_api.get_authorities)
+  end
+
+  def per_authority
+    slug = params[:slug]
+    begin
+      @authority = Authority.from_backdrop_response(slug, backdrop_api.get_authority(slug))
+    rescue Exception => e
+      raise ActionController::RoutingError.new('Authority not found')
+    end
   end
 
 end

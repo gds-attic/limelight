@@ -8,7 +8,6 @@ Given(/^API responds with (.*)$/) do |fixture_file|
     .and_return(response_stub)
   
   response_stub.stub(:data).and_return(JSON.parse(File.read(path)))
-  
   Songkick::Transport::HttParty.stub(:new)
     .and_return(httparty_stub)
 end
@@ -43,4 +42,8 @@ end
 
 Then(/^the navigation link for "(.*?)" should be active$/) do |link_title|
   page.find("#global nav li.active a[text()='#{link_title}']").should be_visible
+end
+
+When /^there should be (\d+) authorities$/ do |num_authorities|
+  page.all("ul#authorities li").count.should == num_authorities.to_i
 end
