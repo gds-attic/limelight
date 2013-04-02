@@ -19,6 +19,8 @@ function (require, Applications, Group) {
       });
     },
     
+    queryId: 'byauthorityapplications',
+    
     comparator: function (a, b) {
       // sort by last value
       var aVal = a.get('values').last().get('_count');

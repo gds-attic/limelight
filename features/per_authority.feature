@@ -9,4 +9,4 @@ Feature: Visiting per-authority
     Then I should get back a status of 200
     And the navigation link for "Authorities" should be active
     And the page title should be "fake-authority-1"
-    And the subtitle should be "Applications handled by fake-authority-1 on GOV.UK"
+    And the 1st subtitle should be "Applications handled by fake-authority-1 on GOV.UK"

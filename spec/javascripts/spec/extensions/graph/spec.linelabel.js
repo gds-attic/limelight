@@ -50,7 +50,7 @@ function (LineLabel, Collection) {
       el.remove();
     });
     
-    it("positions labels", function() {
+    it("positions labels vertically so they do not collide", function() {
       wrapper.selectAll('g').each(function (metaModel) {
         spyOn(this, "getBBox").andReturn({
           height: 20
@@ -126,7 +126,7 @@ function (LineLabel, Collection) {
     });
   });
   
-  describe("applyEllipsis", function() {
+  describe("truncateWithEllipsis", function() {
     
     var el, wrapper;
     beforeEach(function() {
@@ -142,22 +142,22 @@ function (LineLabel, Collection) {
     });
     
     it("does not truncate text elements when they fit", function() {
-      LineLabel.prototype.applyEllipsis(wrapper, 1000);
+      LineLabel.prototype.truncateWithEllipsis(wrapper, 1000);
       expect(wrapper.select('text').text()).toEqual('XXX XXXXXX');
     });
     
     it("truncates text elements that don't fit with a default symbol", function() {
-      LineLabel.prototype.applyEllipsis(wrapper, 500);
+      LineLabel.prototype.truncateWithEllipsis(wrapper, 500);
       expect(wrapper.select('text').text()).toEqual('XXX XX…');
     });
     
     it("does not leave trailing spaces", function() {
-      LineLabel.prototype.applyEllipsis(wrapper, 390);
+      LineLabel.prototype.truncateWithEllipsis(wrapper, 390);
       expect(wrapper.select('text').text()).toEqual('XXX…');
     });
     
     it("truncates text elements that don't fit with a custom symbol", function() {
-      LineLabel.prototype.applyEllipsis(wrapper, 460, '*');
+      LineLabel.prototype.truncateWithEllipsis(wrapper, 460, '*');
       expect(wrapper.select('text').text()).toEqual('XXX XX*');
     });
     

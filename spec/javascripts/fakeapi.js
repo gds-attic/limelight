@@ -1,9 +1,11 @@
 define([
+  'lodash',
   'jquerymockjax',
-  'fakeapi/licensing/perlicence',
-  'fakeapi/licensing/applications'
+  'fakeapi/licensing/perlicencetable',
+  'fakeapi/licensing/perlicencegraph',
+  'fakeapi/licensing/total'
 ],
-function () {
+function (_) {
   // use XMLHttpRequest for cross domain mock calls on IE
   // as mockjax does not replace XDomainRequest
   $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
@@ -13,9 +15,9 @@ function () {
   $.mockjaxSettings.log = true;
   $.mockjaxSettings.responseTime = 300;
   
-  var responses = Array.prototype.slice.call(arguments, 1);
+  var responses = Array.prototype.slice.call(arguments, 2);
   for (var i = 0, ni = responses.length; i < ni; i++) {
     var response = new responses[i]()
-    $.mockjax(response.getDefinition());
+    $.mockjax(_.bind(response.getDefinition, response));
   };
 });

@@ -16,6 +16,9 @@ define(function () {
     return function(min, max) {
       seed *= constant;
       seed += prime;
+      while (seed > 1e12) {
+        seed /= 10;
+      }
       var value = seed % maximum / maximum;
       return (min != null && max != null) ? min + value * (max - min) : value;
       // if 'min' and 'max' are not provided, return random number between 0 & 1

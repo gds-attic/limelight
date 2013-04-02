@@ -7,6 +7,12 @@ function (Backbone, moment) {
       
       moment: moment,
       
+      initialize: function (options) {
+        options = _.extend({}, options);
+        this.el = options.el;
+        Backbone.View.prototype.initialize.apply(this, arguments);
+      },
+      
       magnitudes: {
           million:  {value: 1e6, suffix:"m"},
           thousand: {value: 1e3, suffix:"k"},
@@ -84,6 +90,41 @@ function (Backbone, moment) {
       },
 
       /**
+       * Format a number to be displayed with abbreviated suffixes.
+       * This function is more complicated than one would think it need be,
+       * this is due to lack of predictability in Number.toPrecision, Number.toFixed
+       * and some rounding issues.
+       */
+      formatNumericLabel: function(value) {
+        if (value == 0) return "0";
+        
+        var magnitudes = View.prototype.magnitudes;
+        var magnitude = function(num, n) {
+              return Math.pow(10, n - Math.ceil(Math.log(Math.abs(num)) / Math.LN10));
+            },
+            roundToSignificantFigures = function(num, n) {
+              return Math.round(num * magnitude(num, n)) / magnitude(num, n);
+            },
+            thresholds = [ magnitudes.million, magnitudes.thousand ],
+            roundedValue = roundToSignificantFigures(value, 3),
+            significantFigures = null;
+
+        for (var i = 0; i < thresholds.length; i++) {
+          if (roundedValue >= (thresholds[i].value / 2)) {
+            if (roundedValue < thresholds[i].value) {
+              significantFigures = 2;
+            } else {
+              significantFigures = 3;
+              value = roundedValue;
+            }
+            value = roundToSignificantFigures(value, significantFigures) / thresholds[i].value;
+            return value.toPrecision(value < 1 ? 2 : 3) + thresholds[i].suffix;
+          }
+        }
+        return roundedValue.toString();
+      },
+      
+      /**
        * Convenience method, gets object property or method result. The method
        * is passed no arguments and is executed in the object context.
        * @param {String} prop Name of object property or method.
@@ -93,7 +134,6 @@ function (Backbone, moment) {
         obj = obj || this;
         return _.isFunction(obj[prop]) ? obj[prop].call(obj) : obj[prop];
       }
-
     });
     
     return View;

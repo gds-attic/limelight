@@ -11,10 +11,11 @@ function (require, Timeseries, Random) {
       this.rnd = new Random(1);
     },
     
-    url: /\/licensing\/?.*\?(.*group_by=authorityUrlSlug.*)/,
+    url: /\/licensing\/?.*\?(.*)/,
+    
+    queryId: 'byauthorityapplications',
     
     getData: function (query) {
-      
       var authorities = [
         { slug: 'westminster', name: 'Westminster', min: 1e3,  max: 3e3 },
         { slug: 'croydon',     name: 'Croydon'    , min: 1e3,  max: 4e3 },

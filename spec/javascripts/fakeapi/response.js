@@ -23,13 +23,16 @@ function (_, Backbone, moment) {
       throw('Not implemented.');
     },
     
-    getDefinition: function () {
-      return {
-        dataType: this.dataType,
-        url: this.url,
-        urlParams: this.urlParams,
-        response: this.getResponse()
-      };
+    getDefinition: function (settings) {
+      if (settings.queryId === this.queryId) {
+        return {
+          dataType: this.dataType,
+          url: this.url,
+          data: this.data,
+          urlParams: this.urlParams,
+          response: this.getResponse()
+        };
+      }
     },
     
     getQueryForResponse: function (query) {
@@ -59,7 +62,6 @@ function (_, Backbone, moment) {
     },
     
     getResponse: function () {
-      
       // use closure as the response function needs to be executed with
       // mockjax as context and cannot be bound to the response object
       var that = this;

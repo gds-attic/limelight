@@ -1,16 +1,31 @@
 define([
   'licensing/collections/totalandbyauthority',
-  'licensing/views/applicationsperlicencegraph'
-], function(Collection, Graph) {
+  'licensing/views/applicationsperlicencegraph',
+  'licensing/collections/perlicencetable',
+  'licensing/views/applicationstable'
+], function(GraphCollection, GraphView, TableCollection, TableView) {
   
-  var collection = new Collection([], {
+  var graphCollection = new GraphCollection([], {
     licenceUrlSlug: $('#wrapper').data('licence-url-slug')
   });
 
-  var view = new Graph({
+  var graphView = new GraphView({
     el: $('#applications-by-authority'),
-    collection: collection
+    collection: graphCollection
   });
 
-  collection.fetch();
+  graphCollection.fetch();
+  
+  
+  var tableCollection = new TableCollection([], {
+    licenceUrlSlug: $('#wrapper').data('licence-url-slug')
+  });
+
+  var tableView = new TableView({
+    el: $('#applications-table'),
+    collection: tableCollection
+  });
+
+  tableCollection.fetch();
+  
 });

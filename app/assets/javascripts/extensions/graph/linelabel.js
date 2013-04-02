@@ -33,7 +33,7 @@ function (Component) {
       this.updateLines(selection);
       
       if (this.maxTextWidth) {
-        this.applyEllipsis(selection, this.maxTextWidth);
+        this.truncateWithEllipsis(selection, this.maxTextWidth);
       }
     },
     
@@ -124,7 +124,7 @@ function (Component) {
      * @param {Number} maxWidth Width to truncate text elements to
      * @param {String} [ellipsis=…] Symbol to use for truncation
      */
-    applyEllipsis: function (selection, maxWidth, ellipsis) {
+    truncateWithEllipsis: function (selection, maxWidth, ellipsis) {
       ellipsis = ellipsis || '…';
       
       selection.selectAll('text').each(function (metaModel) {

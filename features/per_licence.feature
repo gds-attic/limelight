@@ -9,4 +9,5 @@ Feature: Visiting per-licence
        Then I should get back a status of 200
         And the navigation link for "Licences" should be active
         And the page title should be "application-to-licence-a-street-collection"
-        And the subtitle should be "application-to-licence-a-street-collection applications on GOV.UK"
+        And the 1st subtitle should be "application-to-licence-a-street-collection applications on GOV.UK"
+        And the 2nd subtitle should be "application-to-licence-a-street-collection on GOV.UK"

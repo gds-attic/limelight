@@ -36,8 +36,8 @@ Then(/^the page title should be "(.*?)"$/) do |title|
   page.find("#content h1").should have_content(title)
 end
 
-Then(/^the subtitle should be "(.*?)"$/) do |subtitle|
-  page.find("#content h2").should have_content(subtitle)
+Then(/^the (\d+)(?:st|nd|rd|th) subtitle should be "(.*?)"$/) do |position, subtitle|
+  page.all("#content h2")[position.to_i - 1].should have_content(subtitle)
 end
 
 Then(/^the navigation link for "(.*?)" should be active$/) do |link_title|

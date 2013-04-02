@@ -8,4 +8,4 @@ Feature: Overview page
        Then I should get back a status of 200
         And the navigation link for "Overview" should be active
         And the page title should be "Licensing"
-        And the subtitle should be "Licence applications on GOV.UK"
+        And the 1st subtitle should be "Licence applications on GOV.UK"

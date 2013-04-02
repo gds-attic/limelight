@@ -13,6 +13,8 @@ function (require, Response, Random) {
     
     url: /\/licensing\/?.*\?(.*)/,
     
+    queryId: 'totalapplications',
+    
     getData: function (query) {
       var rnd = this.rnd;
       var getValue = function (start, end, query) {

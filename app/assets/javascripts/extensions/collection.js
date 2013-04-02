@@ -41,6 +41,13 @@ function ($, Backbone, Model, moment) {
       return _.isFunction(obj[prop]) ? obj[prop].call(obj) : obj[prop];
     },
     
+    fetch: function (options) {
+      options = _.extend({
+        queryId: this.queryId
+      }, options);
+      Backbone.Collection.prototype.fetch.call(this, options);
+    },
+    
     /**
      * Constructs a Backdrop query for the current environment
      */
@@ -56,7 +63,76 @@ function ($, Backbone, Model, moment) {
       });
 
       return this.baseUrl + 'performance/' + this.queryUrl + '/api?' + $.param(params, true);
+    },
+    
+    /**
+     * Sets a new attribute-specific comparator to sort by and then re-sorts.
+     * This will trigger a reset event.
+     * Uses custom comparator if one is defined for attribute,
+     * otherwise uses default comparator.
+     * @param {String} attr attribute to sort by
+     * @param {Boolean} [descending=false] Sort descending when true, ascending when false
+     */
+    sortByAttr: function (attr, descending) {
+      var comparators = this.prop('comparators');
+      if (comparators && comparators[attr]) {
+        // use custom comparator
+        this.comparator = comparators[attr].call(this, attr, descending);
+      } else {
+        this.comparator = this.defaultComparator.call(this, attr, descending)
+      }
+      this.sortDescending = Boolean(descending);
+      this.sortAttr = attr;
+      this.sort();
+    },
+    
+    /**
+     * Returns a general purpose comparator function that will sort collection
+     * by an attribute. Sorts numbers or strings alphabetically.
+     * @param {String} attr attribute to sort by
+     * @param {Boolean} [descending=false] Sort descending when true, ascending when false
+     * @returns {Function} Function that can be used as collection comparator
+     */
+    defaultComparator: function (attr, descending) {
+      return function (a, b) {
+        var aVal = a.get(attr);
+        var bVal = b.get(attr);
+
+        var res = 0;
+        
+        // special cases - nulls are always lower than an actual value
+        if (aVal == null && bVal == null) {
+          // no point comparing two null values,
+          // allow fallback to other comparator
+          return null;
+        }
+        else if (bVal == null) {
+          return -1;
+        }
+        else if (aVal == null) {
+          return 1;
+        }
+        
+        // normal sort behaviour, sorts by numbers or alphabetically
+        if (typeof aVal === 'string') {
+            aVal = aVal.toLowerCase();
+        }
+        if (typeof bVal === 'string') {
+            bVal = bVal.toLowerCase();
+        }
+        
+        if (aVal < bVal) {
+          res = -1;
+        } else if (aVal > bVal) {
+          res = 1;
+        }
+        if (descending) {
+            res *= -1;
+        }
+        return res;
+      };
     }
+    
   });
 
   return Collection;

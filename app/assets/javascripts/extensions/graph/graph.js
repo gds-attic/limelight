@@ -21,8 +21,6 @@ function (View, d3) {
       var collection = this.collection = options.collection;
       collection.on('reset add remove', this.render, this);
       
-      this.el = options.el;
-      
       this.prepareGraphArea();
       
       this.scales = {};

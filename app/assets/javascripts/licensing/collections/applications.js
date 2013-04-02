@@ -9,6 +9,8 @@ function (Collection, Group) {
     
     queryUrl: 'licensing',
 
+    queryId: 'totalapplications',
+    
     queryParams: function () {
       // add 1 day to correct for sun-sat week
       var end = this.moment().startOf('week').add(1, 'days');
