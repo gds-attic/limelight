@@ -7,9 +7,9 @@ function (LineLabel) {
     maxTextWidth: 160,
     
     enter: function (selection) {
-      selection.each(function (metaModel) {
+      selection.each(function (group) {
         var that = d3.select(this);
-        if (metaModel.get('id') === 'total') {
+        if (group.get('id') === 'total') {
           that.append('text').attr('class', 'total');
         } else {
           that.append('text').attr('class', 'text1');
@@ -18,22 +18,22 @@ function (LineLabel) {
       });
     },
     update: function (selection) {
-      selection.each(function (metaModel) {
+      selection.each(function (group) {
         var that = d3.select(this);
-        if (metaModel.get('id') === 'total') {
+        if (group.get('id') === 'total') {
           that.selectAll("text.total")
-            .text(metaModel.get('title'))
+            .text(group.get('title'))
             .attr('transform', 'translate(0, 6)');
-        } else if (metaModel.get('subTitle')) {
+        } else if (group.get('subTitle')) {
           that.selectAll("text.text1")
-            .text(metaModel.get('title'))
+            .text(group.get('title'))
             .attr('transform', 'translate(0, 0)');
           that.selectAll("text.text2")
-            .text('(' + metaModel.get('subTitle') + ')')
+            .text('(' + group.get('subTitle') + ')')
             .attr('transform', 'translate(0, 15)');
         } else {
           that.selectAll("text.text1")
-            .text(metaModel.get('title'))
+            .text(group.get('title'))
             .attr('transform', 'translate(0, 4)');
         }
       });

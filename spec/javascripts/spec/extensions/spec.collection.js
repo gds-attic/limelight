@@ -75,6 +75,14 @@ function (Collection, Model, Backbone) {
             expect(collection.url()).toEqual('//testdomain/performance/bucketname/api?a=1&b=foo+bar');
           });
           
+          it("constructs a backdrop query URL with multiple values for a single parameter", function() {
+            var collection = new TestCollection();
+            collection.queryParams = {
+              a: [1, 'foo']
+            }
+            expect(collection.url()).toEqual('//testdomain/performance/bucketname/api?a=1&a=foo');
+          });
+          
           it("constructs a backdrop query URL with dynamic params", function() {
             var collection = new TestCollection();
             collection.testProp = 'foo bar';

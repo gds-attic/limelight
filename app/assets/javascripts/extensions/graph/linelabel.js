@@ -22,7 +22,7 @@ function (Component) {
         .attr('transform', 'translate(' + left + ', 0)');
       
       var selection = this.group.selectAll('g')
-          .data(this.collection.meta.models);
+          .data(this.collection.models);
           
       var enterSelection = selection.enter().append('g')
       enterSelection.append('line');
@@ -49,15 +49,15 @@ function (Component) {
       // prepare 'positions' array
       var yScale = this.scales.y;
       var positions = [];
-      selection.each(function (metaModel) {
-        var value = model.get(metaModel.get('id'));
+      selection.each(function (group) {
+        var value = group.get('values').last().get('_count');
         var y = yScale(value);
-        metaModel.set('y', y);
+        group.set('y', y);
         
         positions.push({
           ideal: y,
           size: this.getBBox().height,
-          id: metaModel.get('id')
+          id: group.get('id')
         });
       });
       

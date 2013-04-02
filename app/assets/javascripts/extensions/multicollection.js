@@ -50,7 +50,7 @@ function (Collection) {
         
         if (successfulRequests == numRequests) {
           // all constituent collections returned successfully
-          that.reset.call(that, that.parse.call(that, options));
+          that.reset.call(that, that.parse.call(that, options), { parse: true });
         }
       };
       var onSuccess = function () {

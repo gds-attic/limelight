@@ -13,45 +13,69 @@ function (Graph, Collection, moment) {
       
       collection = new Collection([
         {
-          _start_at: moment('2013-01-14').startOf('day'),
-          _end_at: moment('2013-01-21').startOf('day'),
-          total:      90,
-          westminster: 1,
-          croydon:     2,
-          wandsworth:  3,
-          lambeth:     4,
-          bristol:     5
+          id: 'total',
+          title: 'Total applications',
+          values: new Collection([
+            {
+              _start_at: moment('2013-01-14').startOf('day'),
+              _end_at: moment('2013-01-21').startOf('day'),
+              _count: 90
+            },
+            {
+              _start_at: moment('2013-01-21').startOf('day'),
+              _end_at: moment('2013-01-28').startOf('day'),
+              _count: 100
+            },
+            {
+              _start_at: moment('2013-01-28').startOf('day'),
+              _end_at: moment('2013-02-04').startOf('day'),
+              _count: 114
+            }
+          ])
         },
         {
-          _start_at: moment('2013-01-21').startOf('day'),
-          _end_at: moment('2013-01-28').startOf('day'),
-          total:     100,
-          westminster: 6,
-          croydon:     7,
-          wandsworth:  8,
-          lambeth:     9,
-          bristol:    10
+          id: 'westminster',
+          title: 'Westminster',
+          values: new Collection([
+            {
+              _start_at: moment('2013-01-14').startOf('day'),
+              _end_at: moment('2013-01-21').startOf('day'),
+              _count: 1
+            },
+            {
+              _start_at: moment('2013-01-21').startOf('day'),
+              _end_at: moment('2013-01-28').startOf('day'),
+              _count: 6
+            },
+            {
+              _start_at: moment('2013-01-28').startOf('day'),
+              _end_at: moment('2013-02-04').startOf('day'),
+              _count: 11
+            }
+          ])
         },
         {
-          _start_at: moment('2013-01-28').startOf('day'),
-          _end_at: moment('2013-02-04').startOf('day'),
-          total:      114,
-          westminster: 11,
-          croydon:     12,
-          wandsworth:  13,
-          lambeth:     14,
-          bristol:     15
+          id: 'croydon',
+          title: 'Croydon',
+          values: new Collection([
+            {
+              _start_at: moment('2013-01-14').startOf('day'),
+              _end_at: moment('2013-01-21').startOf('day'),
+              _count: 2
+            },
+            {
+              _start_at: moment('2013-01-21').startOf('day'),
+              _end_at: moment('2013-01-28').startOf('day'),
+              _count: 7
+            },
+            {
+              _start_at: moment('2013-01-28').startOf('day'),
+              _end_at: moment('2013-02-04').startOf('day'),
+              _count: 12
+            }
+          ])
         }
       ]);
-      collection.meta = new Collection([
-        { id: 'total', title: 'Total' },
-        { id: 'westminster', title: 'Westminster' },
-        { id: 'croydon', title: 'Croydon' },
-        { id: 'wandsworth', title: 'Wandsworth' },
-        { id: 'lambeth', title: 'Lambeth' },
-        { id: 'bristol', title: 'Bristol' }
-      ]);
-      // spyOn(Graph.prototype, "prepareGraphArea");
       graph = new Graph({
         el: el,
         collection: collection
@@ -94,7 +118,7 @@ function (Graph, Collection, moment) {
     describe("render", function() {
       it("renders lines for each time series", function() {
         graph.render();
-        expect(graph.el.find('path.line').length).toEqual(6);
+        expect(graph.el.find('path.line').length).toEqual(3);
       });
     });
     

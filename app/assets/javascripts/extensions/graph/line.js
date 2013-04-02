@@ -15,46 +15,36 @@ function (Component) {
     },
     
     /**
-     * Renders one or more lines for current collection. Uses meta collection
-     * if present to determine rendering order of lines.
+       * Renders a line for each group in the collection.
      */
     render: function () {
       Component.prototype.render.apply(this, arguments);
       
-      if (this.collection.meta) {
-        // collection has meta information, let's use it
-        this.collection.meta.each(function (metaModel, index) {
-          this.renderLine(metaModel, index);
-        }, this);
-      } else {
-        // render single line
-        this.renderLine();
-      }
+      this.collection.each(function (group, index) {
+        this.renderLine(group, index);
+      }, this);
     },
     
     /**
      * Renders an SVG path consisting of line segments between data points.
-     * @param {Model} [metaModel=undefined] Additional meta data
-     * @param {Number} [index=undefined] Index of this line when rendering multiple lines
+     * @param {Model} [group=undefined] Model for timeseries
+     * @param {Number} [index=undefined] Index of this timeseries
      */
-    renderLine: function (metaModel, index) {
+    renderLine: function (group, index) {
+      
+      var timeseries = group.get('values');
       
       var line = d3.svg.line();
-      if (metaModel) {
-        line.x(_.bind(this.x, this, metaModel))
-        line.y(_.bind(this.y, this, metaModel));
-      } else {
-        line.x(_.bind(this.x, this))
-        line.y(_.bind(this.y, this));
-      }
+      line.x(_.bind(this.x, this, group, this.collection))
+      line.y(_.bind(this.y, this, group, this.collection));
 
       var path = this.wrapper.append("path")
-        .attr("d", line(this.collection.models));
-        
+        .attr("d", line(timeseries.models));
+      
       if (this.classed) {
         var classed = this.classed;
         if (_.isFunction(classed)) {
-          classed = classed(metaModel, index)
+          classed = classed(group, index)
         }
         path.attr('class', classed);
       }

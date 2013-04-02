@@ -1,11 +1,11 @@
 define([
   'require',
-  '../timeseries',
+  '../response',
   'fakeapi/random'
 ],
-function (require, Timeseries, Random) {
+function (require, Response, Random) {
   
-  var TotalApplicationsResponse = Timeseries.extend({
+  var TotalApplicationsResponse = Response.extend({
     
     initialize: function () {
       this.rnd = new Random(1);
@@ -13,12 +13,15 @@ function (require, Timeseries, Random) {
     
     url: /\/licensing\/?.*\?(.*)/,
     
-    getValue: function (start, end) {
-      return {
-        _count: this.rnd(3e4, 6e4)
-      }
+    getData: function (query) {
+      var rnd = this.rnd;
+      var getValue = function (start, end, query) {
+        return {
+          _count: rnd(3e4, 6e4)
+        }
+      };
+      return this.getTimeseries(query, getValue);
     }
-    
   });
   
   return TotalApplicationsResponse;

@@ -86,7 +86,26 @@ function (_, Backbone, moment) {
           data: that.getData(query)
         };
       }
+    },
+    
+    getTimeseries: function (query, getValue) {
+      // translate Backdrop period to moment period
+      var period = query.period + 's';
+    
+      var start = moment(query.start_at);
+      var end = moment(start).add(1, period);
+    
+      var data = [];
+      for (; end <= query.end_at; start.add(1, period), end.add(1, period)) {
+        data.push(_.extend({
+          '_start_at': start.format(this.dateFormat),
+          '_end_at': end.format(this.dateFormat)
+        }, getValue(start, end, query)));
+      };
+    
+      return data;
     }
+    
   });
   
   Response.extend = Backbone.Model.extend;

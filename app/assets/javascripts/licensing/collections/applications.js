@@ -1,30 +1,36 @@
 define([
-  'extensions/collection'
+  'extensions/collection',
+  'extensions/group',
 ],
-function (Collection) {
+function (Collection, Group) {
   var WeeklyApplications = Collection.extend({
 
+    model: Group,
+    
     queryUrl: 'licensing',
 
     queryParams: function () {
       // add 1 day to correct for sun-sat week
       var end = this.moment().startOf('week').add(1, 'days');
-      return {
+      
+      var query = {
         start_at: this.moment(end).subtract(9, 'weeks'),
         end_at: end,
         period: 'week'
+      };
+      if (this.options.licenceUrlSlug) {
+        query.filter_by = 'licenceUrlSlug:' + this.options.licenceUrlSlug;
       }
+      
+      return query;
     },
 
     parse: function (response) {
-      return response.data;
-    },
-
-    /**
-    * Keep sorted chronologically
-    */
-    comparator: function(model) {
-      return +model.get('_start_at');
+      return [{
+        id: 'total',
+        title: 'Total applications',
+        values: response.data
+      }];
     }
   });
 

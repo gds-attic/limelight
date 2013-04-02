@@ -25,6 +25,11 @@ function ($, Backbone, Model, moment) {
     
     defaultDateFormat: Model.prototype.defaultDateFormat,
     
+    initialize: function (models, options) {
+      this.options = options || {};
+      Backbone.Collection.prototype.initialize.apply(this, arguments);
+    },
+
     /**
      * Convenience method, gets object property or method result. The method
      * is passed no arguments and is executed in the object context.
@@ -50,7 +55,7 @@ function ($, Backbone, Model, moment) {
         }
       });
 
-      return this.baseUrl + 'performance/' + this.queryUrl + '/api?' + $.param(params);
+      return this.baseUrl + 'performance/' + this.queryUrl + '/api?' + $.param(params, true);
     }
   });
 

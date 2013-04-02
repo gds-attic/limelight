@@ -35,54 +35,35 @@ function (Line, Collection) {
       }).toThrow();
     });
     
-    it("renders a path with sections for each model in the collection", function() {
-      
+    it("renders paths for each group in the collection with sections for each point in the timeseries", function() {
       var collection = new Collection([
-        { a: 1, b: 2 },
-        { a: 3, b: 4 },
-        { a: 5, b: 6 }
-      ]);
-      
-      var view = new Line({
-        wrapper: wrapper,
-        collection: collection,
-        x: function (model, index) {
-          return model.get('a') + index;
-        },
-        y: function (model, index) {
-          return model.get('b') + index;
-        }
-      });
-      view.render();
-      
-      expect(wrapper.select('path').attr('d')).toEqual('M1,2L4,5L7,8');
-    });
-    
-    it("renders paths for each model in the meta collection with sections for each model in the collection", function() {
-      var collection = new Collection([
-        { a: 1, b: 2, c: 3 },
-        { a: 4, b: 5, c: 6 },
-        { a: 7, b: 8, c: 9 }
-      ]);
-      
-      collection.meta = new Collection([
         {
-          testAttr: 'b'
+          testAttr: 'b',
+          values: new Collection([
+            { a: 1, b: 2},
+            { a: 4, b: 5},
+            { a: 7, b: 8}
+          ])
         },
         {
-          testAttr: 'c'
+          testAttr: 'c',
+          values: new Collection([
+            { a: 1, c: 3},
+            { a: 4, c: 6},
+            { a: 7, c: 9}
+          ])
         }
       ]);
       
       var view = new Line({
         wrapper: wrapper,
         collection: collection,
-        x: function (metaModel, model, index) {
-          return model.get('a') + index;
+        x: function (group, collection, point, index) {
+          return point.get('a') + index;
         },
-        y: function (metaModel, model, index) {
-          var attr = metaModel.get('testAttr');
-          return model.get(attr) + index;
+        y: function (group, collection, point, index) {
+          var attr = group.get('testAttr');
+          return point.get(attr) + index;
         }
       });
       view.render();

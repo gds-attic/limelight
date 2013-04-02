@@ -26,7 +26,8 @@ function (Graph, Axis, Line) {
             orient: 'bottom',
             tickValues: function () {
               // a tick every sunday
-              return this.collection.map(function (model) {
+              var total = this.collection.first().get('values');
+              return total.map(function (model) {
                 return moment(model.get('_end_at')).subtract(1, 'days').toDate();
               });
             },
@@ -58,14 +59,16 @@ function (Graph, Axis, Line) {
         {
           view: Line,
           options: {
-            classed: 'line',
-            x: function (model) {
+            classed: function (group, index) {
+              return 'line line' + index + ' ' + group.get('id');
+            },
+            x: function (group, collection, point) {
               // display data points on sundays
-              var x = this.moment(model.get('_end_at')).subtract(1, 'days');
+              var x = this.moment(point.get('_end_at')).subtract(1, 'days');
               return this.scales.x(x.toDate());
             },
-            y: function (model) {
-              return this.scales.y(model.get('_count'));
+            y: function (group, collection, point) {
+              return this.scales.y(point.get('_count'));
             }
           }
         }
@@ -74,9 +77,9 @@ function (Graph, Axis, Line) {
     
     calcXScale: function () {
       // scale from first sunday to last sunday
-      var collection = this.collection;
-      var start = moment(collection.first().get('_end_at')).subtract(1, 'days');
-      var end = moment(collection.last().get('_end_at')).subtract(1, 'days');
+      var total = this.collection.first().get('values');
+      var start = moment(total.first().get('_end_at')).subtract(1, 'days');
+      var end = moment(total.last().get('_end_at')).subtract(1, 'days');
       var xScale = this.d3.time.scale();
       xScale.domain([start.toDate(), end.toDate()]);
       xScale.range([0, this.innerWidth]);
@@ -85,10 +88,14 @@ function (Graph, Axis, Line) {
     
     calcYScale: function () {
       var collection = this.collection;
-      var yScale = this.d3.scale.linear();
-      var max = this.d3.max(collection.models, function (model) {
-        return model.get('_count');
+      var d3 = this.d3;
+      var max = d3.max(this.collection.models, function (group) {
+        return d3.max(group.get('values').models, function (value) {
+          return value.get('_count');
+        });
       });
+      
+      var yScale = this.d3.scale.linear();
       var tickValues = this.calculateLinearTicks([0, max], 7);
       yScale.domain(tickValues.extent);
       yScale.rangeRound([this.innerHeight, 0]);

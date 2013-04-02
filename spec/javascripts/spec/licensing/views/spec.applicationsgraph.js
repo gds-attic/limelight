@@ -11,19 +11,25 @@ function (Graph, Collection, moment) {
     beforeEach(function() {
       collection = new Collection([
         {
-          _start_at: moment('2013-01-14').startOf('day'),
-          _end_at: moment('2013-01-21').startOf('day'),
-          _count: 123
-        },
-        {
-          _start_at: moment('2013-01-21').startOf('day'),
-          _end_at: moment('2013-01-28').startOf('day'),
-          _count: 569
-        },
-        {
-          _start_at: moment('2013-01-28').startOf('day'),
-          _end_at: moment('2013-02-04').startOf('day'),
-          _count: 1024
+          id: 'total',
+          title: 'Total applications',
+          values: new Collection([
+            {
+              _start_at: moment('2013-01-14').startOf('day'),
+              _end_at: moment('2013-01-21').startOf('day'),
+              _count: 123
+            },
+            {
+              _start_at: moment('2013-01-21').startOf('day'),
+              _end_at: moment('2013-01-28').startOf('day'),
+              _count: 569
+            },
+            {
+              _start_at: moment('2013-01-28').startOf('day'),
+              _end_at: moment('2013-02-04').startOf('day'),
+              _count: 1024
+            }
+          ])
         }
       ]);
       spyOn(Graph.prototype, "prepareGraphArea");

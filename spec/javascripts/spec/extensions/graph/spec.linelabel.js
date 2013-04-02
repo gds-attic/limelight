@@ -8,14 +8,22 @@ function (LineLabel, Collection) {
     var el, wrapper, lineLabel;
     beforeEach(function() {
       var collection = new Collection([
-        { a: 1, b: 2 },
-        { a: 4, b: 5 },
-        { a: 7, b: 8 }
-      ]);
-      
-      collection.meta = new Collection([
-        { id: 'a' },
-        { id: 'b' }
+        {
+          id: 'a',
+          values: new Collection([
+            { _count: 1 },
+            { _count: 4 },
+            { _count: 7 }
+          ])
+        },
+        {
+          id: 'b',
+          values: new Collection([
+            { _count: 2 },
+            { _count: 5 },
+            { _count: 8 }
+          ])
+        }
       ]);
       
       var yScale = jasmine.createSpy();
@@ -34,7 +42,7 @@ function (LineLabel, Collection) {
       
       el = $('<div></div>').appendTo($('body'));
       wrapper = lineLabel.d3.select(el[0]).append('svg').append('g');
-      wrapper.selectAll('g').data(collection.meta.models)
+      wrapper.selectAll('g').data(collection.models)
         .enter().append('g');
     });
     
