@@ -13,7 +13,7 @@ function (require, Response, Random) {
     
     url: /\/licensing\/?.*\?(.*)/,
     
-    queryId: 'totalapplications',
+    queryId: 'applications-total-weekly',
     
     getData: function (query) {
       var rnd = this.rnd;

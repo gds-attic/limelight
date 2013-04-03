@@ -1,7 +1,7 @@
 define([
-  'licensing/collections/totalandbyauthority',
-  'licensing/collections/applications',
-  'licensing/collections/byauthority',
+  'licensing/collections/applications-totalandtop5authorities-weekly',
+  'licensing/collections/applications-total-weekly',
+  'licensing/collections/applications-top5authorities-weekly',
   'extensions/collection'
 ],
 function (TotalAndByAuthority, Total, ByAuthority, Collection) {

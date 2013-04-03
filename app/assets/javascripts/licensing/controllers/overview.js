@@ -1,5 +1,5 @@
 define([
-  'licensing/collections/applications',
+  'licensing/collections/applications-total-weekly',
   'licensing/views/applicationsgraph'
 ], function(ApplicationsCollection, ApplicationsGraph) {
   

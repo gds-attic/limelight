@@ -26,7 +26,8 @@ function ($, Backbone, Model, moment) {
     defaultDateFormat: Model.prototype.defaultDateFormat,
     
     initialize: function (models, options) {
-      this.options = options || {};
+      this.options = options = options || {};
+      this.filterBy = options.filterBy;
       Backbone.Collection.prototype.initialize.apply(this, arguments);
     },
 
@@ -48,12 +49,26 @@ function ($, Backbone, Model, moment) {
       Backbone.Collection.prototype.fetch.call(this, options);
     },
     
+    defaultQueryParams: function () {
+      var params = {};
+      if (this.filterBy) {
+        params.filter_by = _.map(this.filterBy, function(value, key) {
+          return key + ':' + value;
+        });
+        
+        if (params.filter_by.length === 1) {
+          params.filter_by = params.filter_by[0];
+        }
+      }
+      return params;
+    },
+    
     /**
      * Constructs a Backdrop query for the current environment
      */
     url: function() {
       // add query parameters
-      var params = _.extend({}, this.prop('queryParams'));
+      var params = _.extend({}, this.prop('defaultQueryParams'), this.prop('queryParams'));
       
       // convert date parameters
       _.each(params, function (value, key) {

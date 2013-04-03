@@ -9,7 +9,7 @@ function (Collection, Group) {
     
     queryUrl: 'licensing',
 
-    queryId: 'totalapplications',
+    queryId: 'applications-total-weekly',
     
     queryParams: function () {
       // add 1 day to correct for sun-sat week
@@ -20,9 +20,6 @@ function (Collection, Group) {
         end_at: end,
         period: 'week'
       };
-      if (this.options.licenceUrlSlug) {
-        query.filter_by = 'licenceUrlSlug:' + this.options.licenceUrlSlug;
-      }
       
       return query;
     },

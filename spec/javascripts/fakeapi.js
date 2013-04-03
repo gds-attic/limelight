@@ -1,9 +1,10 @@
 define([
   'lodash',
   'jquerymockjax',
-  'fakeapi/licensing/perlicencetable',
-  'fakeapi/licensing/perlicencegraph',
-  'fakeapi/licensing/total'
+  'fakeapi/licensing/applications-detail-lastweek',
+  'fakeapi/licensing/applications-top5authorities-weekly',
+  'fakeapi/licensing/applications-top5licences-weekly',
+  'fakeapi/licensing/applications-total-weekly'
 ],
 function (_) {
   // use XMLHttpRequest for cross domain mock calls on IE

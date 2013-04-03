@@ -1,8 +1,8 @@
 define([
   'require',
   'extensions/multicollection',
-  './applications',
-  './byauthority'
+  './applications-total-weekly',
+  './applications-top5authorities-weekly'
 ],
 function (require, MultiCollection, Total, ByAuthority) {
   

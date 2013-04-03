@@ -13,7 +13,7 @@ function (require, Timeseries, Random) {
     
     url: /\/licensing\/?.*\?(.*)/,
     
-    queryId: 'byauthorityapplications',
+    queryId: 'applications-top5authorities-weekly',
     
     getData: function (query) {
       var authorities = [

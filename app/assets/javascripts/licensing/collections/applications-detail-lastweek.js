@@ -13,7 +13,10 @@ function (require, Collection, Model) {
     model: Model,
     
     initialize: function (models, options) {
-      this.licenceUrlSlug = options.licenceUrlSlug;
+      if (!options.groupBy) {
+        throw "groupBy option is mandatory";
+      }
+      this.groupBy = options.groupBy;
       Collection.prototype.initialize.apply(this, arguments);
     },
     
@@ -23,18 +26,25 @@ function (require, Collection, Model) {
     
     queryUrl: 'licensing',
     
-    queryId: 'perlicencetable',
+    queryId: 'applications-detail-lastweek',
 
     queryParams: function () {
       // add 1 day to correct for sun-sat week
       var end = this.moment().startOf('week').add(1, 'days');
-      return {
+      var params = {
         start_at: this.moment(end).subtract(1, 'weeks'),
         end_at: end,
-        filter_by: 'licenceUrlSlug:' + this.licenceUrlSlug,
-        group_by: 'authorityUrlSlug',
+        group_by: this.groupBy,
         collect: ['authorityName', 'licenceName']
       };
+      
+      return params;
+    },
+    
+    comparators: {
+      group: function (attr, descending) {
+        return this.defaultComparator(this.groupBy, descending);
+      }
     }
     
   });

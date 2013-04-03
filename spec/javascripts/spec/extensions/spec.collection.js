@@ -124,6 +124,42 @@ function (Collection, Model, Backbone) {
         };
         expect(collection.url()).toEqual('//testdomain/performance/bucketname/api?a=1&somedate=2013-03-08T14%3A53%3A26%2B00%3A00');
       });
+      
+      it("constructs a backdrop query URL with a single filter parameter", function () {
+        var collection = new TestCollection([], {
+          filterBy: {
+            foo: 'bar'
+          }
+        });
+        collection.queryParams = function () {
+          return {
+            a: 1
+          };
+        };
+        var url = collection.url()
+        expect(url).toMatch('//testdomain/performance/bucketname/api?');
+        expect(url).toMatch('filter_by=foo%3Abar');
+        expect(url).toMatch('a=1');
+      });
+      
+      it("constructs a backdrop query URL with multiple filter parameters", function () {
+        var collection = new TestCollection([], {
+          filterBy: {
+            foo: 'bar',
+            b: 'c'
+          }
+        });
+        collection.queryParams = function () {
+          return {
+            a: 1
+          };
+        };
+        var url = collection.url()
+        expect(url).toMatch('//testdomain/performance/bucketname/api?');
+        expect(url).toMatch('filter_by=foo%3Abar');
+        expect(url).toMatch('filter_by=b%3Ac');
+        expect(url).toMatch('a=1');
+      });
     });
     
     describe("sortByAttr", function () {

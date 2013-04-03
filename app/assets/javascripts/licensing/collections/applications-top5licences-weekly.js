@@ -1,6 +1,6 @@
 define([
   'require',
-  './applications',
+  './applications-total-weekly',
   'extensions/group'
 ],
 function (require, Applications, Group) {
@@ -12,14 +12,14 @@ function (require, Applications, Group) {
     
     queryParams: function () {
       return _.extend(Applications.prototype.queryParams.call(this, arguments), {
-        group_by: 'authorityUrlSlug',
+        group_by: 'licenceUrlSlug',
         limit: 5,
         sort_by: '_count:descending',
         collect: ['authorityName', 'licenceName']
       });
     },
     
-    queryId: 'byauthorityapplications',
+    queryId: 'applications-top5licences-weekly',
     
     comparator: function (a, b) {
       // sort by last value
@@ -33,16 +33,16 @@ function (require, Applications, Group) {
       
       _.each(response.data, function (group) {
         var attributes = {
-          id: group.authorityUrlSlug,
+          id: group.licenceUrlSlug,
           values: group.values
         };
-        if (group.authorityName) {
-          attributes.title = group.authorityName[0];
-        } else {
-          attributes.title = group.authorityUrlSlug;
-        }
         if (group.licenceName) {
-          attributes.subTitle = group.licenceName[0];
+          attributes.title = group.licenceName[0];
+        } else {
+          attributes.title = group.licenceUrlSlug;
+        }
+        if (group.authorityName) {
+          attributes.subTitle = group.authorityName[0];
         }
         data.push(attributes);
       });

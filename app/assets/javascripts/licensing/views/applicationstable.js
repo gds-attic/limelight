@@ -8,7 +8,7 @@ function (Table) {
     
     columns: [
       {
-        id: 'authorityName',
+        id: 'group',
         title: 'Licence',
         sortable: true,
         getValue: function (model) {

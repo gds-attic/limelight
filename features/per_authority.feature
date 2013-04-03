@@ -10,3 +10,4 @@ Feature: Visiting per-authority
     And the navigation link for "Authorities" should be active
     And the page title should be "fake-authority-1"
     And the 1st subtitle should be "Applications handled by fake-authority-1 on GOV.UK"
+    And the 2nd subtitle should be "fake-authority-1 on GOV.UK"
