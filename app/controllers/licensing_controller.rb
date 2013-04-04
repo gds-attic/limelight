@@ -1,7 +1,7 @@
 class LicensingController < ApplicationController
   
   def index
-    
+    @last_month = 1.months.ago.strftime("%B")
   end
   
   def licences

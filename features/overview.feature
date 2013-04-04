@@ -9,3 +9,5 @@ Feature: Overview page
         And the navigation link for "Overview" should be active
         And the page title should be "Licensing"
         And the 1st subtitle should be "Licence applications on GOV.UK"
+        And the 2nd subtitle should be "Most applied-for licences in \w+"
+        And the 3rd subtitle should be "Authorities with most applications in \w+"

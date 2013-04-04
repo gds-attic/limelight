@@ -4,15 +4,12 @@ define([
   'licensing/models/applicationstablerow'
 ],
 function (require, Collection, Model) {
-  /**
-   * Retrieves data for a specific licence, grouped by authority,
-   * for all authorities
-   */
-  var LicenceApplications = Collection.extend({
+  var Top5Collection = Collection.extend({
     
     model: Model,
     
     initialize: function (models, options) {
+      options = options || {};
       if (!options.groupBy) {
         throw "groupBy option is mandatory";
       }
@@ -26,26 +23,27 @@ function (require, Collection, Model) {
     
     queryUrl: 'licensing',
     
-    queryId: 'applications-detail-lastweek',
+    queryId: 'applications-top5-lastmonth',
 
     queryParams: function () {
+      var end = this.moment().startOf('month');
       var params = {
-        start_at: this.moment().day(1).subtract(1, 'weeks'),
-        end_at: this.moment().day(1),
-        group_by: this.groupBy,
-        collect: ['authorityName', 'licenceName']
+        start_at: this.moment(end).subtract(1, 'months'),
+        end_at: end,
+        limit: 5,
+        group_by: this.groupBy
       };
       
-      return params;
-    },
-    
-    comparators: {
-      group: function (attr, descending) {
-        return this.defaultComparator(this.groupBy, descending);
+      if (this.groupBy === 'authorityUrlSlug') {
+        params.collect = 'authorityName';
+      } else if (this.groupBy === 'licenceUrlSlug') {
+        params.collect = 'licenceName';
       }
+      
+      return params;
     }
     
   });
 
-  return LicenceApplications;
+  return Top5Collection;
 });

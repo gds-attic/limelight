@@ -2,15 +2,17 @@ define([
   'extensions/table/table'
 ],
 function (Table) {
-  var ApplicationsTable = Table.extend({
+  var Top5Table = Table.extend({
     
-    lazyRender: true,
+    lazyRender: false,
     
     columns: [
       {
         id: 'group',
-        title: 'Licence',
-        sortable: true,
+        title: function () {
+          return this.options.title || 'Licence';
+        },
+        sortable: false,
         getValue: function (model) {
           var res = [];
           _.each(['licenceName', 'authorityName'], function (attr) {
@@ -25,7 +27,7 @@ function (Table) {
       {
         id: '_count',
         title: 'Licence applications',
-        sortable: true,
+        sortable: false,
         defaultDescending: true,
         getValue: function (model) {
           return this.formatNumericLabel(model.get('_count'));
@@ -36,5 +38,5 @@ function (Table) {
     defaultSortColumn: 1
   });
   
-  return ApplicationsTable;
+  return Top5Table;
 });

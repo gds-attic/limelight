@@ -94,24 +94,6 @@ function (View) {
       var tableWidth = el.width();
       head.width(tableWidth);
       body.width(tableWidth);
-
-      var ths = el.find('th');
-      var tds = el.find('td');
-      ths.each(function (i) {
-        var th = $(this);
-        var td = tds.eq(i);
-        
-        if (th.prop('style')) {
-          delete th.prop('style').width;
-        }
-        if (td.prop('style')) {
-          delete td.prop('style').width;
-        }
-        
-        var width = Math.max(th.width(), td.width());
-        th.width(width);
-        td.width(width);
-      });
     },
 
     /**
@@ -226,6 +208,8 @@ function (View) {
         } else {
           if (_.isFunction(model.get)) {
             value = model.get(column.id);
+          } else if (_.isFunction(model[column.id])) {
+            value = model[column.id].call(that);
           } else {
             value = model[column.id];
           }
@@ -242,31 +226,9 @@ function (View) {
             td.addClass(that.collection.sortDescending ? 'descending' : 'ascending');
           }
         }
-      });
+      }, this);
 
       return tr;
-    },
-
-    defaultComparator: function (a, b, column, descending) {
-      var aVal = a[column.id];
-      if (typeof aVal === 'string') {
-        aVal = aVal.toLowerCase();
-      }
-      var bVal = b[column.id];
-      if (typeof bVal === 'string') {
-        bVal = bVal.toLowerCase();
-      }
-      var res = 0;
-      if (aVal < bVal) {
-        res = -1;
-      } else if (aVal > bVal) {
-        res = 1;
-      }
-      if (descending) {
-        res *= -1;
-      }
-
-      return res;
     },
 
     /**

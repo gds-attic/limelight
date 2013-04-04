@@ -126,13 +126,16 @@ function (Table, Collection, Model) {
             },
             {
               id: 'bar',
-              title: 'Bar Title',
+              title: function () {
+                return this.options.barTitle;
+              },
               className: 'barclass'
             }
           ]
         });
         
         table = new TestTable({
+          barTitle: 'Bar Title',
           collection: {
             on: jasmine.createSpy()
           }
