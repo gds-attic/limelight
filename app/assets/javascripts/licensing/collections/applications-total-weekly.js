@@ -12,12 +12,9 @@ function (Collection, Group) {
     queryId: 'applications-total-weekly',
     
     queryParams: function () {
-      // add 1 day to correct for sun-sat week
-      var end = this.moment().startOf('week').add(1, 'days');
-      
       var query = {
-        start_at: this.moment(end).subtract(9, 'weeks'),
-        end_at: end,
+        start_at: this.moment().day(1).subtract(9, 'weeks'),
+        end_at: this.moment().day(1),
         period: 'week'
       };
       

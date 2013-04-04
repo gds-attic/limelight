@@ -29,11 +29,9 @@ function (require, Collection, Model) {
     queryId: 'applications-detail-lastweek',
 
     queryParams: function () {
-      // add 1 day to correct for sun-sat week
-      var end = this.moment().startOf('week').add(1, 'days');
       var params = {
-        start_at: this.moment(end).subtract(1, 'weeks'),
-        end_at: end,
+        start_at: this.moment().day(1).subtract(1, 'weeks'),
+        end_at: this.moment().day(1),
         group_by: this.groupBy,
         collect: ['authorityName', 'licenceName']
       };
