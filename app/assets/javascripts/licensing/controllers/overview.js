@@ -5,12 +5,14 @@ define([
   'licensing/views/top5table'
 ], function(GraphCollection, ApplicationsGraph, Top5Collection, Top5Table) {
   
-  var graphCollection = new GraphCollection();
-  var graphView = new ApplicationsGraph({
-    el: $('#total-applications'),
-    collection: graphCollection
-  });
-  graphCollection.fetch();
+  if (!$('.lte-ie8').length) {
+    var graphCollection = new GraphCollection();
+    var graphView = new ApplicationsGraph({
+      el: $('#total-applications'),
+      collection: graphCollection
+    });
+    graphCollection.fetch();
+  }
   
   
   var top5LicencesCollection = new Top5Collection([], {

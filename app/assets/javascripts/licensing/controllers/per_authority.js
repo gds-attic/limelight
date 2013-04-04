@@ -7,19 +7,20 @@ define([
   
   var authorityUrlSlug = $('#wrapper').data('authority-url-slug');
   
-  var graphCollection = new GraphCollection([], {
-    filterBy: {
-      authorityUrlSlug: authorityUrlSlug
-    }
-  });
+  if (!$('.lte-ie8').length) {
+    var graphCollection = new GraphCollection([], {
+      filterBy: {
+        authorityUrlSlug: authorityUrlSlug
+      }
+    });
 
-  var graphView = new GraphView({
-    el: $('#applications-by-licence'),
-    collection: graphCollection
-  });
+    var graphView = new GraphView({
+      el: $('#applications-by-licence'),
+      collection: graphCollection
+    });
 
-  graphCollection.fetch();
-  
+    graphCollection.fetch();
+  }
   
   var tableCollection = new TableCollection([], {
     groupBy: 'licenceUrlSlug',
