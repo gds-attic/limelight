@@ -16,7 +16,17 @@ function (Collection, Group) {
         expect(params.end_at.format('YYYY-MM-DDTHH:mm:ss')).toEqual('2013-03-11T00:00:00');
         expect(params.period).toEqual('week');
       });
-      
+
+      it("requests data for the last nine weeks", function () {
+            var collection = new Collection();
+
+            setupMoment('2013-03-13 06:15:32', collection);
+
+            var params = collection.queryParams();
+            expect(params.start_at.format('YYYY-MM-DDTHH:mm:ss')).toEqual('2013-01-07T00:00:00');
+            expect(params.end_at.format('YYYY-MM-DDTHH:mm:ss')).toEqual('2013-03-11T00:00:00');
+            expect(params.period).toEqual('week');
+      });
     });
     
     describe("parse", function () {
