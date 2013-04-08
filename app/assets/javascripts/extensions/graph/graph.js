@@ -1,6 +1,6 @@
 define([
   'extensions/view',
-  'd3'
+  'd3loader!'
 ],
 function (View, d3) {
   

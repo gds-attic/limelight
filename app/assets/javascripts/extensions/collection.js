@@ -1,10 +1,9 @@
 define([
-  'jquery',
   'backbone',
   'extensions/model',
   'moment'
 ],
-function ($, Backbone, Model, moment) {
+function (Backbone, Model, moment) {
   
   // get base URL for Backdrop instance (with trailing slash if missing)
   var baseUrl = $('#wrapper').data('backdrop-url');

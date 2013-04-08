@@ -1,6 +1,6 @@
 define([
   'lodash',
-  'jquerymockjax',
+  'helpers/jquery.mockjax',
   'fakeapi/licensing/applications-top5-lastmonth',
   'fakeapi/licensing/applications-detail-lastweek',
   'fakeapi/licensing/applications-top5authorities-weekly',

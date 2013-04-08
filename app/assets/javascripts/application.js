@@ -19,7 +19,7 @@ define({
         });
       }
     }
-
+    
     var backdropUrl = $('#wrapper').data('backdrop-url');
     if (!window.jasmine && backdropUrl && backdropUrl.indexOf('//fakeapi') == -1) {
       // use real API

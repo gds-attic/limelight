@@ -1,55 +1,44 @@
-// Set the require.js configuration for your application.
-require.config({
+$(document).ready(function () {
+  
+  var baseUrl = $('#wrapper').data('base-url') || '/limelight';
+  
+  require.config({
 
-  deps: [
-    'bootstrap'
-  ],
+    deps: ['bootstrap'],
 
-  baseUrl: (window.$ && $('#wrapper').data('base-url')) || '/limelight',
+    baseUrl: baseUrl,
 
-  paths: {
-    jquery: 'vendor/jquery',
-    jqueryxdr: 'vendor/jquery.xdr',
-    jquerymousewheel: 'vendor/jquery.mousewheel',
-    jquerymockjax: 'helpers/jquery.mockjax',
-    lodash: 'vendor/lodash',
-    backbone: 'vendor/backbone',
-    css: 'vendor/require-css',
-    modernizr: 'vendor/modernizr',
-    moment: 'vendor/moment',
-    tpl: 'vendor/tpl',
-    d3: 'vendor/d3.v3'
-  },
-
-  shim: {
-    backbone: {
-      deps: ['lodash', 'jquery', 'jqueryxdr', 'jquerymousewheel'],
-      exports: 'Backbone'
+    paths: {
+      jquery: 'jqueryloader',
+      jqueryxdr: 'vendor/jquery.xdr',
+      jquerymousewheel: 'vendor/jquery.mousewheel',
+      lodash: 'vendor/lodash',
+      backbone: 'vendor/backbone',
+      css: 'vendor/require-css',
+      modernizr: 'vendor/modernizr',
+      moment: 'vendor/moment',
+      tpl: 'vendor/tpl',
+      d3: 'vendor/d3.v3'
     },
 
-    modernizr: {
-      exports: 'Modernizr'
-    },
+    shim: {
+      backbone: {
+        deps: ['lodash', 'jqueryxdr', 'jquerymousewheel'],
+        exports: 'Backbone'
+      },
 
-    moment: {
-      exports: 'Moment'
-    },
-    
-    jqueryxdr: {
-      deps: ['jquery']
-    },
+      modernizr: {
+        exports: 'Modernizr'
+      },
 
-    jquerymousewheel: {
-      deps: ['jquery']
-    },
+      moment: {
+        exports: 'Moment'
+      },
 
-    jquerymockjax: {
-      deps: ['jquery']
-    },
-
-    d3: {
-      exports: 'd3'
+      d3: {
+        exports: 'd3'
+      }
     }
-  }
 
-});
+  });
+})
