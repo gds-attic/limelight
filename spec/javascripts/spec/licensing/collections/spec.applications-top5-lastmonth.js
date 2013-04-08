@@ -15,7 +15,7 @@ function (Collection, Applications) {
           groupBy: 'licenceUrlSlug'
         });
         
-        setupMoment('2013-03-13', collection);
+        setupMoment('2013-03-13 06:45:00', collection);
       
         var params = collection.queryParams();
         expect(params.start_at.format('YYYY-MM-DDTHH:mm:ss')).toEqual('2013-02-01T00:00:00');
@@ -29,7 +29,7 @@ function (Collection, Applications) {
           groupBy: 'authorityUrlSlug'
         });
         
-        setupMoment('2013-03-13', collection);
+        setupMoment('2013-03-13 06:45:00', collection);
       
         var params = collection.queryParams();
         expect(params.start_at.format('YYYY-MM-DDTHH:mm:ss')).toEqual('2013-02-01T00:00:00');

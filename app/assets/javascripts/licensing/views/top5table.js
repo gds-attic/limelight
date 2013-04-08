@@ -9,6 +9,7 @@ function (Table) {
     columns: [
       {
         id: 'group',
+        className: 'js_group',
         title: function () {
           return this.options.title || 'Licence';
         },

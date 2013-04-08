@@ -29,9 +29,10 @@ function (require, Collection, Model) {
     queryId: 'applications-detail-lastweek',
 
     queryParams: function () {
-      var params = {
-        start_at: this.moment().day(1).subtract(1, 'weeks'),
-        end_at: this.moment().day(1),
+        var start_of_day = this.moment().day(1).startOf('day');
+        var params = {
+        start_at: start_of_day.clone().subtract(1, 'weeks'),
+        end_at: start_of_day,
         group_by: this.groupBy,
         collect: ['authorityName', 'licenceName']
       };

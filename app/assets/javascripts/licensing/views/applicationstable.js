@@ -9,6 +9,7 @@ function (Table) {
     columns: [
       {
         id: 'group',
+        className: 'js_group',
         title: 'Licence',
         sortable: true,
         getValue: function (model) {

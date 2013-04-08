@@ -15,7 +15,7 @@ function (Collection, Applications) {
           groupBy: 'authorityUrlSlug'
         });
         
-        setupMoment('2013-03-13', collection);
+        setupMoment('2013-03-13 06:15:45', collection);
       
         var params = collection.queryParams();
         expect(params.start_at.format('YYYY-MM-DDTHH:mm:ss')).toEqual('2013-03-04T00:00:00');
