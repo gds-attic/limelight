@@ -6,6 +6,7 @@ article {
 
 article.table-wrapper {
     float:none;
+    min-height:0;
 }
 
 .outer-table-wrapper {
@@ -15,9 +16,9 @@ article.table-wrapper {
 
 .inner-table-wrapper {
     display: block;
-    height:447px;
+    max-height:447px;
     overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-y: auto;
     -webkit-overflow-scrolling: touch;
 
 }

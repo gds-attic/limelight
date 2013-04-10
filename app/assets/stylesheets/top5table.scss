@@ -2,17 +2,8 @@ article.top5-table-wrapper {
     float:none;
     min-height:0;
     
-    .inner-table-wrapper {
-      height:auto;
-      overflow-y: auto;
-    }
-    
     th._count,
     td._count {
         width: 12em;
     }
-
-//    th:last-child {
-//        border-right-color:#a1acb2;
-//    }
 }
