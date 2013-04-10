@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe Licence do
-  it "should initialize from a backdrop response" do
+  it "should initialize from a backdrop response with additional data" do
     response = {
       "data" => [{
                    "licenceUrlSlug" => "some-slug",
@@ -14,6 +14,21 @@ describe Licence do
 
     licence.should be_a(Licence)
     licence.name.should == "Some Name"
+    licence.slug.should == "some-slug"
+  end
+
+  it "should initialize from a backdrop response without additional data" do
+    response = {
+      "data" => [{
+                   "licenceUrlSlug" => "some-slug",
+                   "_count" => 2
+                 }]
+    }
+
+    licence = Licence.from_backdrop_response(response)
+
+    licence.should be_a(Licence)
+    licence.name.should == "some-slug"
     licence.slug.should == "some-slug"
   end
 

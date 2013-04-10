@@ -2,8 +2,7 @@
     "bucket": "licensify",
     "query": {
         "group_by": "authorityUrlSlug",
-        "collect": ["authorityName"],
-        "period": "all"
+        "collect": ["authorityName"]
     },
     "data": []
 }

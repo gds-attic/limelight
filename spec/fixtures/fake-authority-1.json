@@ -3,12 +3,12 @@
     "query": {
         "group_by": "authorityUrlSlug",
         "filter_by": "authorityUrlSlug:fake-authority-1",
-        "collect": ["authorityName"],
-        "period": "all"
+        "collect": ["authorityName"]
     },
     "data": [
         {
             "authorityUrlSlug":"fake-authority-1",
+            "authorityName": ["Fake authority 1"],
             "_count":7
         }
     ]

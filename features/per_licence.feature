@@ -8,6 +8,6 @@ Feature: Visiting per-licence
        When I go to /performance/licensing/licences/application-to-licence-a-street-collection
        Then I should get back a status of 200
         And the navigation link for "Licences" should be active
-        And the page title should be "application-to-licence-a-street-collection"
-        And the 1st subtitle should be "application-to-licence-a-street-collection applications on GOV.UK"
-        And the 2nd subtitle should be "application-to-licence-a-street-collection on GOV.UK"
+        And the page title should be "Application to licence a street collection"
+        And the 1st subtitle should be "Application to licence a street collection applications on GOV.UK"
+        And the 2nd subtitle should be "Application to licence a street collection on GOV.UK"

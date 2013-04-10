@@ -1,7 +1,26 @@
 require "spec_helper"
 
 describe Authority do
-  it "should initialize from a backdrop response" do
+  it "should initialize from a backdrop response with additional data" do
+    response = JSON.parse <<-HERE
+      {
+        "data": [
+          {
+            "authorityUrlSlug": "some-slug",
+            "authorityName": ["Some name"]
+          }
+        ]
+      }
+    HERE
+
+    authority = Authority.from_backdrop_response(response)
+
+    authority.should be_a(Authority)
+    authority.name.should == "Some name"
+    authority.slug.should == "some-slug"
+  end
+
+  it "should initialize from a backdrop response without additional data" do
     response = JSON.parse <<-HERE
       {
         "data": [

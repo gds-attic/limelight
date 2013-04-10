@@ -3,14 +3,14 @@ require "songkick/transport"
 class BackdropAPIStub
   def initialize(fixture_path=nil)
     if fixture_path.nil?
-      @fixture_path = File.join(File.dirname(__FILE__), "../../spec/fixtures/stub_api")
+      @fixture_path = File.join(File.dirname(__FILE__), "../../spec/fixtures")
     else
       @fixture_path = fixture_path
     end
   end
 
   def get_licences
-    fixture("get_licences")
+    fixture("two_licences")
   end
 
   def get_licence(slug)
@@ -18,7 +18,7 @@ class BackdropAPIStub
   end
 
   def get_authorities
-    fixture("get_authorities")
+    fixture("two_authorities")
   end
 
   def get_authority(slug)

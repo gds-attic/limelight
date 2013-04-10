@@ -1,5 +1,5 @@
 Given(/^API responds with (.*)$/) do |fixture_file|
-  path = Rails.root.join('features', 'fixtures', fixture_file)
+  path = Rails.root.join('spec', 'fixtures', fixture_file)
   
   httparty_stub = double("HttpParty")
   response_stub = double("response")

@@ -1,7 +1,0 @@
-{
-  "bucket": "licensing",
-  "query": {
-    "group_by": "licenceUrlSlug"
-  },
-  "data": []
-}
