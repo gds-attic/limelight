@@ -22,6 +22,7 @@ function (Collection, Applications) {
         expect(params.end_at.format('YYYY-MM-DDTHH:mm:ss')).toEqual('2013-03-01T00:00:00');
         expect(params.group_by).toEqual('licenceUrlSlug');
         expect(params.collect).toEqual('licenceName');
+        expect(params.sort_by).toEqual('_count:descending');
       });
       
       it("requests date for previous month with authority name when grouping by authority", function() {
@@ -36,6 +37,7 @@ function (Collection, Applications) {
         expect(params.end_at.format('YYYY-MM-DDTHH:mm:ss')).toEqual('2013-03-01T00:00:00');
         expect(params.group_by).toEqual('authorityUrlSlug');
         expect(params.collect).toEqual('authorityName');
+        expect(params.sort_by).toEqual('_count:descending');
       });
     });
   });

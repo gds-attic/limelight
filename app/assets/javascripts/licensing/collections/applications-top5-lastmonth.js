@@ -31,7 +31,8 @@ function (require, Collection, Model) {
         start_at: this.moment(end).subtract(1, 'months'),
         end_at: end,
         limit: 5,
-        group_by: this.groupBy
+        group_by: this.groupBy,
+        sort_by: '_count:descending'
       };
       
       if (this.groupBy === 'authorityUrlSlug') {
