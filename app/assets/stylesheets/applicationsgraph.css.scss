@@ -1,18 +1,22 @@
+@import 'colours';
+
 .applications-graph {
-  border: 1px solid #999;
+  
 
   .line {
     fill: none;
     stroke: #0F8094;
-    stroke-width: 4px;
+    stroke-width: 2.5px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
   
-  .line0 { stroke: #0F8094; }
-  .line1 { stroke: #4F8240; }
-  .line2 { stroke: #00A89E; }
-  .line3 { stroke: #F7941F; }
-  .line4 { stroke: #D6007D; }
-  .line5 { stroke: #662E91; }
+  .line0 { stroke: $data-colour-1; }
+  .line1 { stroke: $data-colour-2; }
+  .line2 { stroke: $data-colour-3; }
+  .line3 { stroke: $data-colour-4; }
+  .line4 { stroke: $data-colour-5; }
+  .line5 { stroke: $data-colour-6; }
   
   .x-axis path,
   .y-axis path {
@@ -32,6 +36,7 @@
       fill: none;
       stroke: #444;
       stroke-width: 1px;
+      vector-effect: non-scaling-stroke;
 
       &.crisp {
         shape-rendering: crispEdges;
@@ -39,7 +44,7 @@
     }
     
     text.total {
-      font-size:1.2em;
+      font-size:1em;
     }
     
     text.text2 {
@@ -49,5 +54,29 @@
     
   }
 
+  .tick line {
+    vector-effect: non-scaling-stroke;
+  }
 }
+
+@media (max-width: 640px) {
+  .applications-graph {
+    .y-axis .tick text {
+      font-size:1.5em;
+    }
+    .y-axis .tick:nth-child(even) text {
+      font-size:2em;
+        display:none;
+    }
+    
+    .x-axis .tick text {
+      font-size:1.5em;
+    }
+    .x-axis .tick:nth-child(even) text {
+      font-size:2em;
+        display:none;
+    }
+  }
+}
+
 

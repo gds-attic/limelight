@@ -4,17 +4,20 @@
 <% end %>
 
 <header>
-  <h1><%= @authority.name %></h1>
+  <p class="category-title"><%= link_to "Authorities", :action => "authorities" %></p>
+  <h1><%= @authority.name %> <span class="tagline">(GOV.UK applications)</span></h1>
 </header>
 
 <section class="graph">
-  <h2>Applications handled by <%= @authority.name %> on GOV.UK</h2>
+  <h1>Weekly licence applications</h1>
+  <h2>Total licence applications over the last 12 weeks and top 5 licences by application volume in this time</h2>
 
   <figure class="applications-graph" id="applications-by-licence"></figure>
 </section>
 
 <section>
-  <h2><%= @authority.name %> on GOV.UK</h2>
+  <h1>Licence applications by licence</h1>
+  <h2>Licences offered by <%= @authority.name %> on GOV.UK</h2>
   
   <article class="table-wrapper" id="applications-table"></article>
 </section>

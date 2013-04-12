@@ -1,7 +1,7 @@
 define([
   'lodash',
   'helpers/jquery.mockjax',
-  'fakeapi/licensing/applications-top5-lastmonth',
+  'fakeapi/licensing/applications-top5-lastweek',
   'fakeapi/licensing/applications-detail-lastweek',
   'fakeapi/licensing/applications-top5authorities-weekly',
   'fakeapi/licensing/applications-top5licences-weekly',

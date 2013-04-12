@@ -12,21 +12,31 @@
      data-environment="<%= ENV['RAILS_ENV'] %>" data-base-url="<%= assets_base_url %>" <%= yield(:js_config) %> >
   
   <header id="global">
-    <p>
-      <%= link_to "Licensing performance", :action => "index" %>
-    </p>
-    <nav>
-      <ul>
-        <li<% if controller.action_name == 'index' %> class="active"<% end %>>
-          <%= link_to "Overview", :action => "index" %>
-        </li>
-        <li<% if ['licences', 'per_licence'].include? controller.action_name %> class="active"<% end %>>
-          <%= link_to "Licences", :action => "licences" %>
-        </li>
-        <li <% if ['authorities','per_authority'].include? controller.action_name %> class="active" <% end %>>
-          <%= link_to "Authorities", :action => "authorities" %>
-        </li>
-      </ul>
+    
+    <nav class="performance-nav">
+      <%= link_to({action: 'index'}, class: "top-level") do %>
+          <span class="top-level-link">Licensing performance</span>
+          <span class="alpha-tag">Alpha</span>
+      <% end %>
+      <div class="menu-wrapper">
+        <a id="menu-toggle" href="#" data-hide-or-show="sub-level">menu</a>
+        <div class="inner-nav">
+          <ul id="navigation">
+            <li class="sub-level">
+              <% authoritiesClassName = 'current' if ['authorities', 'per_authority'].include? controller.action_name %>
+              <%= link_to({action: 'authorities'}, class: authoritiesClassName ) do %>
+                Authorities
+              <% end %>
+            </li>
+            <li class="sub-level">
+              <% licencesClassName = 'current' if ['licences', 'per_licence'].include? controller.action_name %>
+              <%= link_to({action: 'licences'}, class: licencesClassName ) do %>
+                Licences
+              <% end %>
+            </li>
+          </ul>
+        </div>
+      </div>
     </nav>
   </header>
   

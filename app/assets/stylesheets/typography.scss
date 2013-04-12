@@ -1,0 +1,57 @@
+@import '_conditionals';
+@import '_typography';
+@import '_colours';
+
+body {
+    font-family: ntatabularnumbers, nta, Arial, sans-serif;
+}
+
+
+h2 {
+  @include core-19;
+}
+
+p {
+  @include core-16;
+}
+
+#content header {
+  h1 {
+    @include bold-48;
+
+    span.tagline {
+      display:block;
+      @include core-16;
+      color: $grey-1;
+    }
+  }
+  
+  p.category-title {
+    @include core-24;
+    color: $grey-1;
+    margin-bottom:.5em;
+    
+    a {
+      color: $grey-1;
+      text-decoration:none;
+      
+      &:hover {
+        text-decoration:underline;
+      }
+    }
+  }
+}
+
+#content section {
+  margin-top:1em;
+  margin-bottom:1.5em;
+  
+  h1 {
+    @include bold-24;
+  }
+  
+  h2 {
+    margin-top:0;
+    @include core-16;
+  }
+}

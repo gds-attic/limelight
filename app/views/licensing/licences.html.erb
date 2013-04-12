@@ -1,18 +1,16 @@
 <% content_for :title do %>Licences - Performance Platform - GOV.UK<% end %>
 
 <header>
-  <h1>Licences</h1>
+  <p class="category-title"><%= link_to "Licensing performance", :action => "index" %></p>
+  <h1>Licences <span class="tagline">(GOV.UK applications)</span></h1>
 </header>
 
-<section id="licensing-overview">
-  <h2>Licence applications on GOV.UK</h2>
-  
-  <ul id="licences">
-    <% @licences.each do |licence| %>
+<h2>Licences offered through GOV.UK</h2>
 
-      <li><%= link_to licence.name, licence_path(licence.slug) %></li>
-    <% end %>
-    
-  </ul>
+<ul id="licences">
+  <% @licences.each do |licence| %>
+
+    <li><%= link_to licence.name, licence_path(licence.slug) %></li>
+  <% end %>
   
-</section>
+</ul>

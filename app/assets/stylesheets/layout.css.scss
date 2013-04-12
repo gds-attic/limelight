@@ -1,6 +1,6 @@
-body {
-    font-family: ntatabularnumbers, nta, Arial, sans-serif;
-}
+@import 'colours';
+
+
 
 #wrapper {
   max-width: 1020px;
@@ -13,50 +13,26 @@ body {
           box-sizing: border-box;
 }
 
-header#global {
-  padding: 1em 2em;
-  border-bottom: 5px solid black;
-  position:relative;
-  
-  a {
-    color: #0b0c0c;
-    text-decoration: none;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-  
-  p {
-    margin:0;
-    font-size:1em;
-  }
-  
-  nav ul {
-    font-size:1em;
-    position:absolute;
-    list-style: none;
-    right:2em;
-    top:0;
-    margin: .7em 0 0 0;
-    
-    li {
-      float:left;
-      padding: .3em .5em 1em .5em;
-
-      &.active {
-        background: #0b0c0c;
-        
-        a {
-          color: white;
-        }
-      }
-    }
-  }
-  
-}
-
 #content {
   border-top: 10px solid #108095;
   background-color: #FFFFFF;
   padding: 1em 2em;
+  
+  header {
+    border-bottom: 5px solid $primary-colour;
+    padding-bottom: 2em;
+    margin-bottom:1.5em;
+    
+    h1 {
+      width: 75%  ;
+    }
+  }
+}
+
+
+@media (max-width: 640px) {
+  #content {
+    padding: 1em;
+    
+  }
 }

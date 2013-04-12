@@ -13,7 +13,7 @@ define([
     
     url: /\/licensing\/?.*\?(.*)/,
     
-    queryId: 'applications-top5-lastmonth',
+    queryId: 'applications-top5-lastweek',
     
     getData: function (query) {
       
@@ -30,7 +30,7 @@ define([
     getAuthorities: function (query) {
       var values = _.map(this.authorities, function (name) {
         return {
-          authorityUrlSlug: name.replace(' ', '-').toLowerCase(),
+          authorityUrlSlug: name.replace(/ /g, '-').toLowerCase(),
           _count: Math.floor(this.rnd(0, 1e4)),
           authorityName: [name]
         }
@@ -42,7 +42,7 @@ define([
     getLicences: function (query) {
       var values = _.map(this.licences, function (name) {
         return {
-          licenceUrlSlug: name.replace(' ', '-').toLowerCase(),
+          licenceUrlSlug: name.replace(/ /g, '-').toLowerCase(),
           _count: Math.floor(this.rnd(0, 1e4)),
           licenceName: [name]
         }
@@ -53,15 +53,15 @@ define([
     
     authorities: [
       "Powys",
-      "Strabane",
-      "Tunbridge Wells",
+      "Fake authority 2",
+      "Fake authority 1",
       "West Lothian",
       "Wyre Forest"
     ],
     
     licences: [
-      "Hold, keep or release any of the specified species of non-native fish",
-      "Approval of meat plants with veterinary attendance",
+      "Application to licence a street collection",
+      "Register as a scrap metal dealer",
       "Licenses and consents for structures over, along and under the highway",
       "Transmissible spongiform encephalopathies testing",
       "Licence to buy and sell salmon, trout, pike, eel or pollan"

@@ -3,24 +3,27 @@
 <% content_for :js_config do %>data-controller="licensing/controllers/overview"<% end %>
 
 <header>
-  <h1>Licensing</h1>
+  <p class="category-title">Transactions</p>
+  <h1>Licensing <span class="tagline">(GOV.UK applications)</span></h1>
 </header>
 
 <section class="graph">
-  <h2>Licence applications on GOV.UK</h2>
-  <h3>Total licence applications made on GOV.UK per week</h3>
+  <h1>Weekly licence applications</h1>
+  <h2>Total licence applications per week over the last 12 weeks</h2>
   <figure class="applications-graph" id="total-applications"></figure>
 </section>
 
 <section>
-  <h2>Most applied-for licences in <%= @last_month %></h2>
-  <h3>Top 5 licences applied for on GOV.UK</h3>
+  <h1>Top licences last week</h1>
+  <h2>Top 5 most applied for licences on GOV.UK last week</h2>
   <article class="top5-table-wrapper" id="top5-licences-table"></article>
+  <p><%= link_to "See all licences", :action => "licences" %></p>
 </section>
 
 <section>
-  <h2>Authorities with most applications in <%= @last_month %></h2>
-  <h3>Authorities with the most licence applications on GOV.UK</h3>
+  <h1>Top authorities last week</h1>
+  <h2>Top authorities by licence application volume on GOV.UK last week</h2>
   <article class="top5-table-wrapper" id="top5-authorities-table"></article>
+  <p><%= link_to "See all authorities", :action => "authorities" %></p>
 </section>
 

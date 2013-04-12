@@ -1,0 +1,15 @@
+{
+    "bucket": "licensify",
+    "query": {
+        "group_by": "authorityUrlSlug",
+        "filter_by": "authorityUrlSlug:fake-authority-2",
+        "collect": ["authorityName"]
+    },
+    "data": [
+        {
+            "authorityUrlSlug":"fake-authority-2",
+            "authorityName": ["Fake authority 2"],
+            "_count":7
+        }
+    ]
+}

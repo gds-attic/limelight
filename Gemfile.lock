@@ -77,6 +77,9 @@ GEM
     ffi (1.5.0)
     gherkin (2.11.6)
       json (>= 1.7.6)
+    govuk_frontend_toolkit (0.17.0)
+      rails (>= 3.1.0)
+      sass (>= 3.2.0)
     haml (3.1.7)
     highline (1.6.15)
     hike (1.2.1)
@@ -207,6 +210,7 @@ DEPENDENCIES
   brakeman (= 1.9.1)
   cucumber-rails
   fakeweb
+  govuk_frontend_toolkit (~> 0.17.0)
   httparty (~> 0.10.0)
   jasmine
   jasmine-phantom
