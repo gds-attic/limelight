@@ -24,7 +24,7 @@ nav {
     
     a {
         color: #333;
-        padding: 10px 8px 10px 8px;
+        padding: 6px 8px 8px;
         text-decoration: none;
         
         &:hover, &:focus {
@@ -34,9 +34,9 @@ nav {
     
     ul {
         padding: 0;
-        height: 27px;
-        padding-bottom: 3px;
-        margin-bottom:4px;
+        height: 30px;
+        margin-top:.7em;
+        margin-bottom:0;
     }
 
     li.sub-level {
@@ -87,15 +87,18 @@ nav {
     nav.performance-nav {
         height: auto;
         width: auto;
-        background-color: #EAEDEF;
+        background-color: $canvas-colour;
+
         
         #menu-toggle {
             display: inline-block;
             float:right;
             padding-right: 23px;
             padding-left: 15px;
+
+
             width: auto;
-            background-color: #DEE0E2;
+            background-color: $canvas-colour;
         }
         
         .inner-nav {
@@ -108,7 +111,7 @@ nav {
         
         .menu-wrapper:hover {
           #menu-toggle {
-            background-color: #EAEDEF;
+            background-color: $panel-colour;
             &:after {
                 content: " \25B2";
             }
@@ -120,14 +123,14 @@ nav {
         }
         
         a {
-            padding: 10px 8px 10px 8px;
+            padding: 10px 8px 7px 8px;
             
             &.top-level {
                 display: block;
                 float: left;
                 width: auto;
                 margin: 0;
-                padding: 10px 8px 10px 15px;
+                padding: 10px 8px 6px 15px;
             }
         }
         
@@ -136,29 +139,31 @@ nav {
             width: auto;
             padding-left: 8px;
             color: black;
-            background-color: #DEE0E2;
         }
         
         ul {
             display: block;
             height: auto;
             margin: 0 0 0 0;
-            background-color: #DEE0E2;;
         }
 
         li.sub-level {
-            margin: 0 15px 0 15px;
-            padding: 0;
+            padding: 0 15px 0 15px;
+            margin: 0;
             float: none;
             display: block;
-            background-color: white;
+            background-color: $panel-colour;
             clear:both;
+
+            &:last-child {
+                padding-bottom:3px;
+            }
         }
     }
 }
 
 
-@media (max-width: 380px) {
+@media (max-width: 379px) {
   nav.performance-nav {
     a.top-level .alpha-tag {
       display:none;
