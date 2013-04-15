@@ -29,12 +29,19 @@ function (require, Collection, Model) {
     queryId: 'applications-detail-lastweek',
 
     queryParams: function () {
-        var start_of_day = this.moment().utc().day(1).startOf('day');
-        var params = {
+      var start_of_day = this.moment().utc().day(1).startOf('day');
+      
+      var collect;
+      if (this.groupBy === 'authorityUrlSlug') {
+        collect = 'authorityName';
+      } else if (this.groupBy === 'licenceUrlSlug') {
+        collect = 'licenceName';
+      }
+      var params = {
         start_at: start_of_day.clone().subtract(1, 'weeks'),
         end_at: start_of_day,
         group_by: this.groupBy,
-        collect: ['authorityName', 'licenceName']
+        collect: collect
       };
       
       return params;
@@ -42,7 +49,12 @@ function (require, Collection, Model) {
     
     comparators: {
       group: function (attr, descending) {
-        return this.defaultComparator(this.groupBy, descending);
+        if (this.groupBy == 'authorityUrlSlug') {
+          var comparatorAttr = 'authoritySortName';
+        } else {
+          var comparatorAttr = this.groupBy;
+        }
+        return this.defaultComparator(comparatorAttr, descending);
       }
     }
     

@@ -10,9 +10,9 @@ function (Table, Collection) {
       beforeEach(function() {
         el = $('<div id="jasmine-playground"></div>').appendTo($('body'));
         collection = new Collection([
-          { authorityName: 'Authority 1', licenceName: 'Licence 1', _count: 1 },
-          { authorityName: 'Authority 2', licenceName: 'Licence 2', _count: 3 },
-          { authorityName: 'Authority 3', licenceName: 'Licence 3', _count: 2 }
+          { authorityName: 'Authority 1', authoritySortName: 'sortB', licenceName: 'Licence 1', _count: 1 },
+          { authorityName: 'Authority 2', authoritySortName: 'sortC', licenceName: 'Licence 2', _count: 3 },
+          { authorityName: 'Authority 3', authoritySortName: 'sortA', licenceName: 'Licence 3', _count: 2 }
         ]);
         
       });

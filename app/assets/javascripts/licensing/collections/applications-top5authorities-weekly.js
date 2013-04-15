@@ -1,9 +1,9 @@
 define([
   'require',
   './applications-total-weekly',
-  'extensions/group'
+  '../mixins/authorityhelpers'
 ],
-function (require, Applications, Group) {
+function (require, Applications, AuthorityHelpersMixin) {
   /**
    * Retrieves data for a specific licence, grouped by authority,
    * for the "top 5" authorities
@@ -37,7 +37,8 @@ function (require, Applications, Group) {
           values: group.values
         };
         if (group.authorityName) {
-          attributes.title = group.authorityName[0];
+          var authorityName = group.authorityName[0];
+          attributes.title = this.getAuthorityShortName(authorityName);
         } else {
           attributes.title = group.authorityUrlSlug;
         }
@@ -45,11 +46,13 @@ function (require, Applications, Group) {
           attributes.subTitle = group.licenceName[0];
         }
         data.push(attributes);
-      });
+      }, this);
 
       return data;
     }
   });
+
+  _.extend(LicenceApplications.prototype, AuthorityHelpersMixin);
 
   return LicenceApplications;
 });

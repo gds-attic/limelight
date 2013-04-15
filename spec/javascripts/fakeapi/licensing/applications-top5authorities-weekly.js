@@ -17,11 +17,11 @@ function (require, Timeseries, Random) {
     
     getData: function (query) {
       var authorities = [
-        { slug: 'westminster', name: 'Westminster', min: 1e3,  max: 3e3 },
-        { slug: 'croydon',     name: 'Croydon'    , min: 1e3,  max: 4e3 },
-        { slug: 'wandsworth',  name: 'Wandsworth' , min: 1e3,  max: 2e4 },
-        { slug: 'lambeth',     name: 'Lambeth'    , min: 1e3,  max: 2e3 },
-        { slug: 'bristol',     name: 'Bristol'    , min: 1e3,  max: 1e4 }
+        { slug: 'westminster', name: 'London Borough of Westminster', min: 1e3,  max: 3e3 },
+        { slug: 'croydon',     name: 'London Borough of Croydon'    , min: 1e3,  max: 4e3 },
+        { slug: 'wandsworth',  name: 'London Borough of Wandsworth' , min: 1e3,  max: 2e4 },
+        { slug: 'lambeth',     name: 'London Borough of Lambeth'    , min: 1e3,  max: 2e3 },
+        { slug: 'bristol',     name: 'Bristol City Council'         , min: 1e3,  max: 1e4 }
       ];
       
       var that = this;
