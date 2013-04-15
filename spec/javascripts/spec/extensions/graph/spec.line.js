@@ -35,7 +35,7 @@ function (Line, Collection) {
       }).toThrow();
     });
     
-    it("renders paths for each group in the collection with sections for each point in the timeseries", function() {
+    it("renders paths for each group in the collection in reverse order with sections for each point in the timeseries", function() {
       var collection = new Collection([
         {
           testAttr: 'b',
@@ -69,8 +69,8 @@ function (Line, Collection) {
       view.render();
       
       var paths = wrapper.selectAll('path');
-      expect(wrapper.selectAll('path:nth-child(1)').attr('d')).toEqual('M1,2L5,6L9,10');
-      expect(wrapper.selectAll('path:nth-child(2)').attr('d')).toEqual('M1,3L5,7L9,11');
+      expect(wrapper.selectAll('path:nth-child(1)').attr('d')).toEqual('M1,3L5,7L9,11');
+      expect(wrapper.selectAll('path:nth-child(2)').attr('d')).toEqual('M1,2L5,6L9,10');
     });
     
   });

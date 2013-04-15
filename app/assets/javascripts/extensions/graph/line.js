@@ -20,9 +20,10 @@ function (Component) {
     render: function () {
       Component.prototype.render.apply(this, arguments);
       
-      this.collection.each(function (group, index) {
-        this.renderLine(group, index);
-      }, this);
+      var models = this.collection.models;
+      for (var i = models.length - 1; i >= 0; i--){
+        this.renderLine(models[i], i);
+      };
     },
     
     /**
