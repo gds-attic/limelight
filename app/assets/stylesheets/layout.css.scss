@@ -1,3 +1,4 @@
+
 @import 'colours';
 
 
@@ -14,7 +15,7 @@
 }
 
 #content {
-  border-top: 10px solid #108095;
+  border-top: 10px solid $primary-colour;
   background-color: #FFFFFF;
   padding: 1em 2em;
   

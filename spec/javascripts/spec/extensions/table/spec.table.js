@@ -191,6 +191,24 @@ function (Table, Collection, Model) {
         });
       });
 
+      it("renders a placeholder message when there is no data", function() {
+        
+        table.collection.reset([], {silent: true})
+
+        var el = $('<table></table>');
+        var tbody = $('<tbody></tbody>').appendTo(el);
+        table.renderBody(tbody);
+
+        expect(tbody.prop('tagName').toLowerCase()).toEqual('tbody');
+
+        var tr = tbody.find('tr');
+        expect(tr.length).toEqual(1);
+
+        var tds = tr.eq(0).find('td');
+        expect(tds.length).toEqual(1);
+        expect(tds.eq(0).html()).toEqual('No data available.');
+      });
+
       it("renders table body", function() {
 
         var el = $('<table></table>');
@@ -215,12 +233,12 @@ function (Table, Collection, Model) {
         expect(tds99.eq(1).hasClass('barclass')).toBe(true);
       });
 
-      it("renders full table body for small number of rows when lazy render is active", function() {
-
+      xit("renders full table body for small number of rows when lazy render is active", function() {
+        // TODO
       });
-
-      it("renders partial table body for large number of rows when lazy render is active and initialises lazy rendering", function() {
-
+      
+      xit("renders partial table body for large number of rows when lazy render is active and initialises lazy rendering", function() {
+        // TODO
       });
     });
 

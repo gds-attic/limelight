@@ -1,7 +1,7 @@
 @import 'colours';
 
 .applications-graph {
-  
+
 
   .line {
     fill: none;
@@ -9,6 +9,7 @@
     stroke-width: 2.5px;
     stroke-linecap: round;
     stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
   }
   
   .line0 { stroke: $data-colour-1; }
@@ -31,7 +32,7 @@
   }
 
   .labels {
-    
+
     line {
       fill: none;
       stroke: #444;
@@ -41,10 +42,6 @@
       &.crisp {
         shape-rendering: crispEdges;
       }
-    }
-    
-    text.total {
-      font-size:1em;
     }
     
     text.text2 {
@@ -61,21 +58,23 @@
 
 @media (max-width: 640px) {
   .applications-graph {
-    .y-axis .tick text {
-      font-size:1.5em;
-    }
+
     .y-axis .tick:nth-child(even) text {
-      font-size:2em;
-        display:none;
+      display:none;
     }
     
     .x-axis .tick text {
-      font-size:1.5em;
+      font-size:1.3em;
     }
     .x-axis .tick:nth-child(even) text {
-      font-size:2em;
-        display:none;
+
+      display:none;
     }
+
+    text {
+      font-size:1.3em;
+    }
+
   }
 }
 

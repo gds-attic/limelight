@@ -127,8 +127,21 @@ function (View) {
 
       var data = this.collection;
       var that = this;
-
-      if (this.lazyRender) {
+      
+      if (!data || !data.length) {
+        // no data, show placeholder message
+        var message = "No data available.";
+        
+        var placeholderRow = $([
+          '<tr class="placeholder"><td colspan="',
+          this.columns.length,
+          '">',
+          message,
+          '</td></tr>'
+        ].join(''));
+        
+        tbody.append(placeholderRow);
+      } else if (this.lazyRender) {
         // render table on demand in chunks. whenever the user scrolls to the
         // bottom, append another chunk of rows.
 
