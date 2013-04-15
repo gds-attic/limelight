@@ -96,7 +96,7 @@ function (Graph, Axis, Line) {
       });
       
       var yScale = this.d3.scale.linear();
-      var tickValues = this.calculateLinearTicks([0, max], 7);
+      var tickValues = this.calculateLinearTicks([0, Math.max(max, 6)], 7);
       yScale.domain(tickValues.extent);
       yScale.rangeRound([this.innerHeight, 0]);
       yScale.tickValues = tickValues.values;

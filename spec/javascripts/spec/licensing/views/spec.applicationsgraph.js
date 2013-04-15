@@ -53,6 +53,17 @@ function (Graph, Collection, moment) {
     });
     
     describe("calcYScale", function() {
+      it("scales domain to a minimum value of 6 to avoid extreme line jumps on graph and duplicate y axis values", function () {
+        collection.at(0).get('values').each(function (model) { model.set('_count', 1); });
+        expect(graph.calcYScale().domain()).toEqual([0, 6]);
+        
+        collection.at(0).get('values').each(function (model) { model.set('_count', 2); });
+        expect(graph.calcYScale().domain()).toEqual([0, 6]);
+        
+        collection.at(0).get('values').each(function (model) { model.set('_count', 5); });
+        expect(graph.calcYScale().domain()).toEqual([0, 6]);
+      });
+      
       it("scales domain from 0 to nice value above max value", function() {
         expect(graph.calcYScale().domain()).toEqual([0, 1200]);
       });
