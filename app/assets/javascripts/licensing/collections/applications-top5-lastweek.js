@@ -49,7 +49,7 @@ function (require, Collection, Model) {
     queryId: 'applications-top5-lastweek',
 
     queryParams: function () {
-      var end = this.moment().day(1).startOf('day');
+      var end = this.moment().utc().day(1).startOf('day');
       var params = {
         start_at: this.moment(end).subtract(1, 'weeks'),
         end_at: end,

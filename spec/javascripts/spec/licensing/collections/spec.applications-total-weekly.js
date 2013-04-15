@@ -27,6 +27,16 @@ function (Collection, Group) {
             expect(params.end_at.format('YYYY-MM-DDTHH:mm:ss')).toEqual('2013-03-11T00:00:00');
             expect(params.period).toEqual('week');
       });
+
+      it("requests date for a month during BST time", function() {
+        var collection = new Collection();
+
+        setupMoment('2013-07-13 06:45:00', collection);
+
+        var params = collection.queryParams();
+        expect(params.start_at.format('YYYY-MM-DDTHH:mm:ssZZ')).toEqual('2013-05-06T00:00:00+0000');
+        expect(params.end_at.format('YYYY-MM-DDTHH:mm:ssZZ')).toEqual('2013-07-08T00:00:00+0000');
+      });
     });
     
     describe("parse", function () {

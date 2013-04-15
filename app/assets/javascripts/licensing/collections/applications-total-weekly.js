@@ -12,7 +12,7 @@ function (Collection, Group) {
     queryId: 'applications-total-weekly',
     
     queryParams: function () {
-      var at_midnight = this.moment().day(1).startOf('day');
+      var at_midnight = this.moment().utc().day(1).startOf('day');
       var query = {
         start_at: at_midnight.clone().subtract(9, 'weeks'),
         end_at: at_midnight,

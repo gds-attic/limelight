@@ -29,7 +29,7 @@ function (require, Collection, Model) {
     queryId: 'applications-detail-lastweek',
 
     queryParams: function () {
-        var start_of_day = this.moment().day(1).startOf('day');
+        var start_of_day = this.moment().utc().day(1).startOf('day');
         var params = {
         start_at: start_of_day.clone().subtract(1, 'weeks'),
         end_at: start_of_day,
