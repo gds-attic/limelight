@@ -4,14 +4,19 @@ define([
 function (Component) {
   var LineLabel = Component.extend({
     
-    offset: 30,
+    offset: 20,
     linePaddingInner: 4,
     linePaddingOuter: 4,
     overlapLabelTop: 0,
     overlapLabelBottom: 30,
     
+    maxTextWidth: null,
+    showSquare: false,
+    squareSize: 11,
+    squarePadding: 4,
+    
     /**
-     * Renders labels for current collection. Requires meta collection.
+     * Renders labels for current collection.
      */
     render: function () {
       Component.prototype.render.apply(this, arguments);
@@ -26,11 +31,17 @@ function (Component) {
           
       var enterSelection = selection.enter().append('g')
       enterSelection.append('line');
+      if (this.showSquare) {
+        enterSelection.append('rect');
+      }
       this.enter(enterSelection);
       
       this.update(selection);
       this.setLabelPositions(selection);
       this.updateLines(selection);
+      if (this.showSquare) {
+        this.updateSquares(selection);
+      }
       
       if (this.maxTextWidth) {
         this.truncateWithEllipsis(selection, this.maxTextWidth);
@@ -82,7 +93,7 @@ function (Component) {
      * @param {Selection} selection d3 selection to operate on
      */
     enter: function (selection) {
-      selection.each(function (metaModel) {
+      selection.each(function (model) {
         d3.select(this).append('text');
       });
     },
@@ -92,10 +103,28 @@ function (Component) {
      * @param {Selection} selection d3 selection to operate on
      */
     update: function (selection) {
-      selection.each(function (metaModel) {
-        d3.select(this).selectAll("text")
-            .text(metaModel.get('title'))
-            .attr('transform', 'translate(0, 5)');
+      var showSquare = this.showSquare;
+      var xOffset = 0;
+      if (showSquare) {
+        xOffset += this.squareSize + this.squarePadding;
+      }
+      selection.each(function (model, i) {
+        var selection = d3.select(this)
+        selection.selectAll("text")
+            .text(model.get('title'))
+            .attr('transform', 'translate(' + xOffset + ', 6)');
+      });
+    },
+    
+    updateSquares: function (selection) {
+      var squareSize = this.squareSize;
+      selection.each(function (model, i) {
+        d3.select(this).selectAll('rect')
+          .attr('class', model.get('id') + ' square' + i)
+          .attr('x', 0)
+          .attr('y', -squareSize / 2)
+          .attr('width', squareSize)
+          .attr('height', squareSize);
       });
     },
     

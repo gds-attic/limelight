@@ -3,7 +3,80 @@ define([
   'extensions/collection'
 ],
 function (LineLabel, Collection) {
-
+  
+  describe("render", function () {
+    var el, wrapper, lineLabel;
+    beforeEach(function() {
+      var collection = new Collection([
+        { y: 30, yLabel: 30, title: 'Title 1', id: 'id1' },
+        { y: 80, yLabel: 80, title: 'Title 2', id: 'id2' }
+      ]);
+      
+      el = $('<div></div>').appendTo($('body'));
+      wrapper = LineLabel.prototype.d3.select(el[0]).append('svg').append('g');
+      
+      lineLabel = new LineLabel({
+        collection: collection
+      });
+      lineLabel.wrapper = wrapper;
+      lineLabel.offset = 100;
+      lineLabel.linePaddingInner = 20;
+      lineLabel.linePaddingOuter = 30;
+      lineLabel.innerWidth = 400;
+      spyOn(lineLabel, "setLabelPositions");
+    });
+    
+    afterEach(function() {
+      el.remove();
+    });
+    
+    it("renders a label with text and line at the correct position", function () {
+      lineLabel.render();
+      var labels = wrapper.select('.labels');
+      expect(labels.attr('transform')).toEqual('translate(500, 0)');
+      var label1 = labels.select('g:nth-child(1)');
+      var label2 = labels.select('g:nth-child(2)');
+      expect(label1.select('line').length).toEqual(1);
+      expect(label1.select('text').attr('transform')).toEqual('translate(0, 6)');
+      expect(label1.select('text').text()).toEqual('Title 1');
+      expect(label2.select('line').length).toEqual(1);
+      expect(label2.select('text').attr('transform')).toEqual('translate(0, 6)');
+      expect(label2.select('text').text()).toEqual('Title 2');
+    });
+    
+    it("renders a label with text, square and line at the correct position", function () {
+      lineLabel.showSquare = true;
+      lineLabel.squareSize = 20;
+      lineLabel.squarePadding = 6;
+      lineLabel.render();
+      var labels = wrapper.select('.labels');
+      expect(labels.attr('transform')).toEqual('translate(500, 0)');
+      var label1 = labels.select('g:nth-child(1)');
+      var label2 = labels.select('g:nth-child(2)');
+      
+      expect(label1.select('line').length).toEqual(1);
+      expect(label1.select('text').attr('transform')).toEqual('translate(26, 6)');
+      expect(label1.select('text').text()).toEqual('Title 1');
+      expect(label1.select('rect').attr('class')).toMatch('id1');
+      expect(label1.select('rect').attr('class')).toMatch('square0');
+      expect(label1.select('rect').attr('x')).toEqual('0');
+      expect(label1.select('rect').attr('y')).toEqual('-10');
+      expect(label1.select('rect').attr('width')).toEqual('20');
+      expect(label1.select('rect').attr('height')).toEqual('20');
+      
+      expect(label2.select('line').length).toEqual(1);
+      expect(label2.select('text').attr('transform')).toEqual('translate(26, 6)');
+      expect(label2.select('text').text()).toEqual('Title 2');
+      expect(label2.select('rect').attr('class')).toMatch('id2');
+      expect(label2.select('rect').attr('class')).toMatch('square1');
+      expect(label1.select('rect').attr('x')).toEqual('0');
+      expect(label1.select('rect').attr('y')).toEqual('-10');
+      expect(label1.select('rect').attr('width')).toEqual('20');
+      expect(label1.select('rect').attr('height')).toEqual('20');
+    });
+  });
+  
+  
   describe("setLabelPositions", function() {
     var el, wrapper, lineLabel;
     beforeEach(function() {
@@ -91,11 +164,11 @@ function (LineLabel, Collection) {
       
       el = $('<div></div>').appendTo($('body'));
       wrapper = lineLabel.d3.select(el[0]).append('svg').append('g');
-      var metaCollection = new Collection([
+      var collection = new Collection([
         { y: 30, yLabel: 40 },
         { y: 80, yLabel: 80 }
       ]);
-      wrapper.selectAll('line').data(metaCollection.models)
+      wrapper.selectAll('line').data(collection.models)
         .enter().append('line');
     });
     
