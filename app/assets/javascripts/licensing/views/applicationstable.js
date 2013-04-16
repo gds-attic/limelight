@@ -10,7 +10,9 @@ function (Table) {
       {
         id: 'group',
         className: 'js_group',
-        title: 'Licence',
+        title: function () {
+          return this.options.title || 'Licence';
+        },
         sortable: true,
         getValue: function (model) {
           var res = [];

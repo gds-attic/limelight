@@ -31,7 +31,8 @@ define([
 
   var tableView = new TableView({
     el: $('#applications-table'),
-    collection: tableCollection
+    collection: tableCollection,
+    title: 'Authority'
   });
 
   tableCollection.fetch();
