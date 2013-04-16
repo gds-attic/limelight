@@ -4,7 +4,7 @@ Feature: Listing licences
   So I can navigate to individual licences
 
   Scenario: there are two licences
-      Given API responds with two_licences.json
+      Given API responds with licences.json
        When I go to /performance/licensing/licences
        Then I should get back a status of 200
         And the navigation link for "Licences" should be active

@@ -10,7 +10,7 @@ class BackdropAPIStub
   end
 
   def get_licences
-    fixture("two_licences")
+    fixture("licences")
   end
 
   def get_licence(slug)
@@ -18,7 +18,7 @@ class BackdropAPIStub
   end
 
   def get_authorities
-    fixture("two_authorities")
+    fixture("authorities")
   end
 
   def get_authority(slug)

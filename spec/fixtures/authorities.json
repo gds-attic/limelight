@@ -6,6 +6,16 @@
     },
     "data":[
         {
+            "authorityUrlSlug":"city-of-fake-authority",
+            "authorityName": ["City of Fake authority"],
+            "_count":2
+        },
+        {
+            "authorityUrlSlug":"City of London",
+            "authorityName": ["City of London"],
+            "_count":2
+        },
+        {
             "authorityUrlSlug":"fake-authority-1",
             "authorityName": ["Fake authority 1"],
             "_count":2

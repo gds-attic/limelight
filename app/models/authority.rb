@@ -1,4 +1,6 @@
 class Authority
+  include Comparable
+
   attr_accessor :slug, :name
   def initialize(slug, name)
     @slug = slug
@@ -21,5 +23,14 @@ class Authority
 
     authority = backdrop_response['data'].first
     self.create(authority)
+  end
+
+  def short_name
+    regexp = /(^((London |Royal )?Borough (Council )?of |City (and County )?of (?!London))|( City| County|( County| Metropolitan)? Borough|( City( and| Metropolitan))? District)? Council$)/;
+    @name.gsub(regexp, "")
+  end
+
+  def <=>(another_authority)
+    short_name <=> another_authority.short_name
   end
 end

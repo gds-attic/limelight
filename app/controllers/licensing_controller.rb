@@ -18,7 +18,7 @@ class LicensingController < ApplicationController
   end
 
   def authorities
-    @authorities = Authorities.from_backdrop_response(backdrop_api.get_authorities)
+    @authorities = Authorities.from_backdrop_response(backdrop_api.get_authorities).sort
   end
 
   def per_authority
