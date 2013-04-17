@@ -39,11 +39,11 @@ function (Component) {
       line.x(_.bind(this.x, this, group, this.collection))
       line.y(_.bind(this.y, this, group, this.collection));
 
-      var path = this.wrapper.append("path")
+      var path = this.componentWrapper.append("path")
         .attr("d", line(timeseries.models));
       
-      if (this.classed) {
-        var classed = this.classed;
+      if (this.lineClassed) {
+        var classed = this.lineClassed;
         if (_.isFunction(classed)) {
           classed = classed(group, index)
         }

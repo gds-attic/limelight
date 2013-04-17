@@ -1,8 +1,7 @@
 @import 'colours';
 
 .applications-graph {
-
-
+  
   .line {
     fill: none;
     stroke: #0F8094;
@@ -18,6 +17,14 @@
   .line3 { stroke: $data-colour-4; }
   .line4 { stroke: $data-colour-5; }
   .line5 { stroke: $data-colour-6; }
+  
+  .stack0 { fill: transparentize($data-colour-1, .8); }
+  .stack1 { fill: transparentize($data-colour-2, .8); }
+  .stack2 { fill: transparentize($data-colour-3, .8); }
+  .stack3 { fill: transparentize($data-colour-4, .8); }
+  .stack4 { fill: transparentize($data-colour-5, .8); }
+  .stack5 { fill: transparentize($data-colour-6, .8); }
+  
   
   .x-axis path,
   .y-axis path {

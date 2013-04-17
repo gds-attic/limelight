@@ -23,5 +23,35 @@ function (Component, d3) {
       });
     });
     
+    describe("render", function () {
+      var componentWrapper, wrapper, view
+      beforeEach(function() {
+        componentWrapper = {
+          classed: jasmine.createSpy()
+        };
+        wrapper = {
+          append: jasmine.createSpy().andReturn(componentWrapper)
+        };
+        view = new Component({
+          wrapper: wrapper
+        });
+      });
+      
+      it("creates a group element for the component", function () {
+        view.render();
+        expect(wrapper.append).toHaveBeenCalledWith('g');
+        expect(view.componentWrapper).toBe(componentWrapper);
+        expect(componentWrapper.classed).not.toHaveBeenCalled();
+      });
+      
+      it("creates a group element for the component with a class", function () {
+        view.classed = 'foo';
+        view.render();
+        expect(wrapper.append).toHaveBeenCalledWith('g');
+        expect(view.componentWrapper).toBe(componentWrapper);
+        expect(componentWrapper.classed).toHaveBeenCalledWith('foo', true);
+      });
+    });
+    
   });
 });

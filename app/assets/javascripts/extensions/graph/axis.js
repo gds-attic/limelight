@@ -30,8 +30,7 @@ function (Component) {
         }
       }, this);
       
-      this.wrapper.append("g")
-        .classed(this.classed, true)
+      this.componentWrapper
         .attr("transform", this.getTransform())
         .call(axis);
     },
