@@ -1,13 +1,12 @@
 define([
   'require',
-  'extensions/collection'
+  'extensions/collection',
+  '../models/entity'
 ],
-function (require, Collection) {
-  /**
-   * Retrieves data for a specific licence, grouped by authority,
-   * for all authorities
-   */
-  var LicenceApplications = Collection.extend({
+function (require, Collection, Entity) {
+  var AllEntities = Collection.extend({
+    
+    model: Entity,
     
     initialize: function (models, options) {
       if (!options.groupBy) {
@@ -23,20 +22,23 @@ function (require, Collection) {
     
     queryUrl: 'licensing',
     
-    queryId: 'applications-detail-lastweek',
+    queryId: 'all-entities',
 
     queryParams: function () {
-      var start_of_day = this.moment().utc().day(1).startOf('day');
-      
+      var collect;
+      if (this.groupBy === 'authorityUrlSlug') {
+        collect = 'authorityName';
+      } else if (this.groupBy === 'licenceUrlSlug') {
+        collect = 'licenceName';
+      }
       var params = {
-        start_at: start_of_day.clone().subtract(1, 'weeks'),
-        end_at: start_of_day,
-        group_by: this.groupBy
+        group_by: this.groupBy,
+        collect: collect
       };
       
       return params;
     }
   });
 
-  return LicenceApplications;
+  return AllEntities;
 });

@@ -1,8 +1,8 @@
 define([
-  'licensing/models/applicationstablerow'
+  'licensing/models/entity'
 ],
 function (Model) {
-  describe("ApplicationsTableRow", function () {
+  describe("Entity", function () {
     
     describe("parse", function () {
       

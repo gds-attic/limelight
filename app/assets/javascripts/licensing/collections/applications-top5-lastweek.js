@@ -1,7 +1,7 @@
 define([
   'require',
   'extensions/collection',
-  'licensing/models/applicationstablerow'
+  'licensing/models/entity'
 ],
 function (require, Collection, Model) {
   var Top5Collection = Collection.extend({

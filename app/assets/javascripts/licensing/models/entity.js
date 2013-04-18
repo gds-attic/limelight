@@ -4,7 +4,7 @@ define([
   '../mixins/authorityhelpers'
 ],
 function (require, Model, AuthorityHelpersMixin) {
-  var ApplicationsTableRow = Model.extend({
+  var Entity = Model.extend({
     parse: function (data) {
       if (data.authorityName && data.authorityName[0]) {
         data.authorityName = data.authorityName[0];
@@ -23,7 +23,7 @@ function (require, Model, AuthorityHelpersMixin) {
     }
   });
   
-  _.extend(ApplicationsTableRow.prototype, AuthorityHelpersMixin);
-	
-  return ApplicationsTableRow;
+  _.extend(Entity.prototype, AuthorityHelpersMixin);
+  
+  return Entity;
 });

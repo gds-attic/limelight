@@ -1,7 +1,7 @@
 define([
   'licensing/collections/applications-totalandtop5authorities-weekly',
   'licensing/views/applicationsperlicencegraph',
-  'licensing/collections/applications-detail-lastweek',
+  'licensing/collections/all-entities-and-applications-lastweek',
   'licensing/views/applicationstable'
 ], function(GraphCollection, GraphView, TableCollection, TableView) {
   
