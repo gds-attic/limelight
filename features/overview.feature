@@ -8,7 +8,7 @@ Feature: Overview page
        Then I should get back a status of 200
         And the category title should be "Performance Platform"
         And the category title should link to "/performance"
-        And the page title should be "Licensing performance(GOV.UK applications)"
+        And the page title should be "Licensing performance (licences and authorities on GOV.UK only)"
         And the 1st subtitle should be "Weekly licence applications"
         And the 1st section description should be "Total licence applications per week over the last 9 weeks"
         And the 2nd subtitle should be "Top licences last week"

@@ -10,7 +10,7 @@ Feature: Visiting per-authority
     And the navigation link for "Authorities" should be active
     And the category title should be "Authorities"
     And the category title should link to "/performance/licensing/authorities"
-    And the page title should be "Fake authority 1 (GOV.UK applications)"
+    And the page title should be "Fake authority 1"
     And the 1st subtitle should be "Weekly licence applications"
     And the 1st section description should be "Total licence applications per week over the last 9 weeks and top licences by application volume in this time"
     And the 2nd subtitle should be "Licence applications"

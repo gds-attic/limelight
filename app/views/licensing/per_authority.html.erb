@@ -5,7 +5,7 @@
 
 <header>
   <p class="category-title"><%= link_to "Authorities", :action => "authorities" %></p>
-  <h1><%= @authority.name %> <span class="tagline">(GOV.UK applications)</span></h1>
+  <h1><%= @authority.name %></h1>
 </header>
 
 <section class="graph">
@@ -17,7 +17,7 @@
 
 <section>
   <h1>Licence applications</h1>
-  <h2>Licences offered by <%= @authority.name %> on GOV.UK</h2>
+  <h2>Licences offered by <strong><%= @authority.name %></strong> on GOV.UK</h2>
   
   <article class="table-wrapper" id="applications-table"></article>
 </section>

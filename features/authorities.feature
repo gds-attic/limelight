@@ -11,7 +11,7 @@ Feature: Listing authorities
     And there should be 4 authorities
     And the category title should be "Licensing"
     And the category title should link to "/performance/licensing"
-    And the page title should be "Licensing authorities (GOV.UK applications)"
+    And the page title should be "Licensing authorities (authorities on GOV.UK only)"
     And the 1st title should be "City of London"
     And the 2nd title should be "City of Fake authority"
     And the 3rd title should be "Fake authority 1"
