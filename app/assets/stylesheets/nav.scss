@@ -37,6 +37,7 @@ nav {
         height: 30px;
         margin-top:.7em;
         margin-bottom:0;
+        margin-right:23px;
     }
 
     li.sub-level {
@@ -87,7 +88,6 @@ nav {
     nav.performance-nav {
         height: auto;
         width: auto;
-        background-color: $canvas-colour;
 
         
         #menu-toggle {
@@ -98,7 +98,6 @@ nav {
 
 
             width: auto;
-            background-color: $canvas-colour;
         }
         
         .inner-nav {
