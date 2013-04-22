@@ -1,6 +1,6 @@
 define([
   'licensing/views/applicationsgraph',
-  'extensions/collection',
+  'extensions/collections/collection',
   'moment'
 ],
 function (Graph, Collection, moment) {

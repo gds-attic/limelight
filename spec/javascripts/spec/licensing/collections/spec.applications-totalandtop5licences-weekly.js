@@ -2,7 +2,7 @@ define([
   'licensing/collections/applications-totalandtop5licences-weekly',
   'licensing/collections/applications-total-weekly',
   'licensing/collections/applications-top5licences-weekly',
-  'extensions/collection'
+  'extensions/collections/collection'
 ],
 function (TotalAndByLicence, Total, ByLicence, Collection) {
   describe("ApplicationsTotalAndByLicenceCollection", function() {

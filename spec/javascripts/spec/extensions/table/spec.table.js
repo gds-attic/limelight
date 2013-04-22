@@ -1,7 +1,7 @@
 define([
-  'extensions/table/table',
-  'extensions/collection',
-  'extensions/model'
+  'extensions/views/table/table',
+  'extensions/collections/collection',
+  'extensions/models/model'
 ],
 function (Table, Collection, Model) {
   describe("Table", function() {

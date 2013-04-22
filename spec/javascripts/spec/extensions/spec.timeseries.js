@@ -1,5 +1,5 @@
 define([
-  'extensions/timeseries',
+  'extensions/collections/timeseries',
   'moment'
 ],
 function (Timeseries, moment) {

@@ -1,6 +1,6 @@
 define([
   'licensing/views/top5table',
-  'extensions/collection'
+  'extensions/collections/collection'
 ],
 function (Table, Collection) {
   describe("Top5 Table", function () {

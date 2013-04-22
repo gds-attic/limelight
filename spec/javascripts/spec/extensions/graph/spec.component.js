@@ -1,5 +1,5 @@
 define([
-  'extensions/graph/component',
+  'extensions/views/graph/component',
   'd3'
 ],
 function (Component, d3) {

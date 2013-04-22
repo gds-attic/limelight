@@ -1,6 +1,6 @@
 define([
   'licensing/collections/applications-total-weekly',
-  'extensions/group'
+  'extensions/models/group'
 ],
 function (Collection, Group) {
   describe("ApplicationsCollection", function() {

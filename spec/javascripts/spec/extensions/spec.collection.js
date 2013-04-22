@@ -1,6 +1,6 @@
 define([
-  'extensions/collection',
-  'extensions/model',
+  'extensions/collections/collection',
+  'extensions/models/model',
   'backbone'
 ],
 function (Collection, Model, Backbone) {

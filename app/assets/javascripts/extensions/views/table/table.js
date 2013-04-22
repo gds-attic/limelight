@@ -1,5 +1,5 @@
 define([
-  'extensions/view'
+  'extensions/views/view'
 ],
 function (View) {
   var Table = View.extend({

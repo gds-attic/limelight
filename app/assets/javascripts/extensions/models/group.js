@@ -1,6 +1,6 @@
 define([
-  'extensions/model',
-  'extensions/timeseries'
+  'extensions/models/model',
+  'extensions/collections/timeseries'
 ],
 function (Model, Timeseries) {
   

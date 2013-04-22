@@ -1,6 +1,6 @@
 define([
   'require',
-  'extensions/collection',
+  'extensions/collections/collection',
   '../models/entity'
 ],
 function (require, Collection, Entity) {

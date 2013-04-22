@@ -1,6 +1,6 @@
 define([
-  'extensions/graph/graph',
-  'extensions/collection',
+  'extensions/views/graph/graph',
+  'extensions/collections/collection',
   'd3'
 ],
 function (Graph, Collection, d3) {

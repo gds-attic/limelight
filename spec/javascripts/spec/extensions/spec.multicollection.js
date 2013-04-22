@@ -1,5 +1,5 @@
 define([
-  'extensions/multicollection'
+  'extensions/collections/multicollection'
 ],
 function (MultiCollection) {
   

@@ -1,5 +1,5 @@
 define([
-  'extensions/collection'
+  'extensions/collections/collection'
 ],
 function (Collection) {
   

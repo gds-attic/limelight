@@ -2,7 +2,7 @@ define([
   'require',
   './applicationsgraph',
   './linelabel',
-  'extensions/graph/line'
+  'extensions/views/graph/line'
 ],
 function (require, ApplicationsGraph, LineLabel, Line) {
   var ApplicationsPerLicenceGraph = ApplicationsGraph.extend({

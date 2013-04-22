@@ -1,6 +1,6 @@
 define([
-  'extensions/collection',
-  'extensions/group',
+  'extensions/collections/collection',
+  'extensions/models/group'
 ],
 function (Collection, Group) {
   var WeeklyApplications = Collection.extend({

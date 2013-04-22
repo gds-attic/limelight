@@ -1,5 +1,5 @@
 define([
-  'extensions/table/table'
+  'extensions/views/table/table'
 ],
 function (Table) {
   var ApplicationsTable = Table.extend({

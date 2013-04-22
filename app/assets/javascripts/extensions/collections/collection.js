@@ -1,6 +1,6 @@
 define([
   'backbone',
-  'extensions/model',
+  'extensions/models/model',
   'moment'
 ],
 function (Backbone, Model, moment) {

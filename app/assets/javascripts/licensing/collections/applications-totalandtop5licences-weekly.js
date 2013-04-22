@@ -1,6 +1,6 @@
 define([
   'require',
-  'extensions/multicollection',
+  'extensions/collections/multicollection',
   './applications-total-weekly',
   './applications-top5licences-weekly'
 ],

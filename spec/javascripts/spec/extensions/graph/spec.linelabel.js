@@ -1,6 +1,6 @@
 define([
-  'extensions/graph/linelabel',
-  'extensions/collection'
+  'extensions/views/graph/linelabel',
+  'extensions/collections/collection'
 ],
 function (LineLabel, Collection) {
   

@@ -1,6 +1,6 @@
 define([
   'licensing/views/applicationstable',
-  'extensions/collection'
+  'extensions/collections/collection'
 ],
 function (Table, Collection) {
   describe("Licence Applications Table", function () {

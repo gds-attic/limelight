@@ -1,5 +1,5 @@
 define([
-  'extensions/graph/stack'
+  'extensions/views/graph/stack'
 ],
 function (Stack) {
   var ApplicationsStack = Stack.extend({

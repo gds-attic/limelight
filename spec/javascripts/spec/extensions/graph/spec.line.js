@@ -1,6 +1,6 @@
 define([
-  'extensions/graph/line',
-  'extensions/collection'
+  'extensions/views/graph/line',
+  'extensions/collections/collection'
 ],
 function (Line, Collection) {
   describe("render", function() {

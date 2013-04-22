@@ -1,5 +1,5 @@
 define([
-  'extensions/graph/linelabel'
+  'extensions/views/graph/linelabel'
 ],
 function (LineLabel) {
   var ApplicationsLineLabel = LineLabel.extend({

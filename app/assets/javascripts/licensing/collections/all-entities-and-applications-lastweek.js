@@ -1,6 +1,6 @@
 define([
   'require',
-  'extensions/multicollection',
+  'extensions/collections/multicollection',
   './all-entities',
   './applications-detail-lastweek'
 ],

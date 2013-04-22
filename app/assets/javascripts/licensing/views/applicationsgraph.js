@@ -1,6 +1,6 @@
 define([
   'require',
-  'extensions/graph/graph',
+  'extensions/views/graph/graph',
   './xaxis',
   './yaxis',
   './stack'

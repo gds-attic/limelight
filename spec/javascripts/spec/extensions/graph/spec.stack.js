@@ -1,6 +1,6 @@
 define([
-  'extensions/graph/stack',
-  'extensions/collection'
+  'extensions/views/graph/stack',
+  'extensions/collections/collection'
 ],
 function (Stack, Collection) {
   describe("render", function() {

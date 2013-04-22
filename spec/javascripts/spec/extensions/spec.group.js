@@ -1,6 +1,6 @@
 define([
-  'extensions/group',
-  'extensions/timeseries'
+  'extensions/models/group',
+  'extensions/collections/timeseries'
 ],
 function (Group, Timeseries) {
   describe("Group", function () {

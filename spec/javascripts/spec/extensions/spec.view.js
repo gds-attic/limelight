@@ -1,5 +1,5 @@
 define([
-  'extensions/view',
+  'extensions/views/view',
   'backbone'
 ],
 function (View, Backbone) {

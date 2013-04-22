@@ -1,6 +1,6 @@
 define([
   'require',
-  'extensions/collection',
+  'extensions/collections/collection',
   'licensing/models/entity'
 ],
 function (require, Collection, Model) {

@@ -1,5 +1,5 @@
 define([
-    'extensions/model',
+    'extensions/models/model',
     'backbone'
 ],
 function (Model, Backbone) {

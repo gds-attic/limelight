@@ -1,6 +1,6 @@
 define([
   'require',
-  'extensions/model',
+  'extensions/models/model',
   '../mixins/authorityhelpers'
 ],
 function (require, Model, AuthorityHelpersMixin) {

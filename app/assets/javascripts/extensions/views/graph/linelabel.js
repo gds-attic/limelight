@@ -1,5 +1,5 @@
 define([
-  'extensions/graph/component'
+  'extensions/views/graph/component'
 ],
 function (Component) {
   var LineLabel = Component.extend({
