@@ -27,7 +27,7 @@ function (Table) {
       },
       {
         id: '_count',
-        title: 'Applications last week',
+        title: 'Submissions last week',
         sortable: true,
         defaultDescending: true,
         getValue: function (model) {

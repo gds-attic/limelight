@@ -63,7 +63,7 @@ function (Collection, Group) {
         var group = collection.at(0);
         expect(group instanceof Group).toBe(true);
         expect(group.get('id')).toEqual('total');
-        expect(group.get('title')).toEqual('Total applications');
+        expect(group.get('title')).toEqual('Total submissions');
         expect(group.get('values').length).toEqual(3);
         expect(group.get('values').at(0).get('_count')).toEqual(90);
         expect(group.get('values').at(0).get('_start_at').format('YYYY-MM-DD')).toEqual('2013-02-18');

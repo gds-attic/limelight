@@ -5,18 +5,18 @@
 
 <header>
   <p class="category-title"><%= link_to "Licences", :action => "licences" %></p>
-  <h1><%= @licence.name %> <span class="tagline">(applications made through GOV.UK only)</span></h1>
+  <h1><%= @licence.name %> <span class="tagline">(submissions made through GOV.UK only)</span></h1>
 </header>
 
 <section class="graph">
-  <h1>Weekly licence applications</h1>
-  <h2>Total licence applications per week over the last 9 weeks and top authorities by licence application volume in this time</h2>
+  <h1>Weekly form submissions</h1>
+  <h2>Total form submissions per week over the last 9 weeks and top authorities by submission volume in this time</h2>
   
   <figure class="applications-graph" id="applications-by-authority"></figure>
 </section>
 
 <section>
-  <h1>Applications per authority</h1>
+  <h1>Submissions per authority</h1>
   <h2>Authorities offering <strong><%= @licence.name %></strong> on GOV.UK</h2>
   
   <article class="table-wrapper" id="applications-table"></article>

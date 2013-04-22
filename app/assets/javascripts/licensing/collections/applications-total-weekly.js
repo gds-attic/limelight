@@ -25,7 +25,7 @@ function (Collection, Group) {
     parse: function (response) {
       return [{
         id: 'total',
-        title: 'Total applications',
+        title: 'Total submissions',
         values: response.data
       }];
     }
