@@ -1,16 +1,17 @@
 define([
   'backbone',
   'extensions/models/model',
+  'extensions/mixins/safesync',
   'moment'
 ],
-function (Backbone, Model, moment) {
+function (Backbone, Model, SafeSync, moment) {
   
   // get base URL for Backdrop instance (with trailing slash if missing)
   var baseUrl = $('#wrapper').data('backdrop-url');
   if (baseUrl) {
     baseUrl = baseUrl.replace(/\/?$/, '/');
   }
-  
+
   var Collection = Backbone.Collection.extend({
     
     moment: moment,
@@ -40,7 +41,7 @@ function (Backbone, Model, moment) {
       obj = obj || this;
       return _.isFunction(obj[prop]) ? obj[prop].call(obj) : obj[prop];
     },
-    
+
     fetch: function (options) {
       options = _.extend({
         queryId: this.queryId
@@ -148,6 +149,8 @@ function (Backbone, Model, moment) {
     }
     
   });
+
+	_.extend(Collection.prototype, SafeSync);
 
   return Collection;
 });

@@ -50,7 +50,7 @@ function (Collection, Model, Backbone) {
         expect(collection.prop('testProp', anotherObject)).toEqual({ foo: 'bar' });
       });
     });
-    
+
     describe("fetch", function () {
       var TestCollection;
       beforeEach(function() {
@@ -100,7 +100,7 @@ function (Collection, Model, Backbone) {
         }
         expect(collection.url()).toEqual('//testdomain/performance/bucketname/api?a=1&a=foo');
       });
-      
+
       it("constructs a backdrop query URL with dynamic params", function() {
         var collection = new TestCollection();
         collection.testProp = 'foo bar';
@@ -124,7 +124,7 @@ function (Collection, Model, Backbone) {
         };
         expect(collection.url()).toEqual('//testdomain/performance/bucketname/api?a=1&somedate=2013-03-08T14%3A53%3A26%2B00%3A00');
       });
-      
+
       it("constructs a backdrop query URL with a single filter parameter", function () {
         var collection = new TestCollection([], {
           filterBy: {
@@ -141,7 +141,7 @@ function (Collection, Model, Backbone) {
         expect(url).toMatch('filter_by=foo%3Abar');
         expect(url).toMatch('a=1');
       });
-      
+
       it("constructs a backdrop query URL with multiple filter parameters", function () {
         var collection = new TestCollection([], {
           filterBy: {
@@ -161,10 +161,10 @@ function (Collection, Model, Backbone) {
         expect(url).toMatch('a=1');
       });
     });
-    
+
     describe("sortByAttr", function () {
-      
-      
+
+
       describe("default comparator", function () {
         var c;
         beforeEach(function() {
@@ -174,17 +174,17 @@ function (Collection, Model, Backbone) {
             { numericAttr: 5, stringAttr: 'bar' }
           ]);
         });
-        
+
         it("stores current sort attribute and direction", function () {
           c.sortByAttr('numericAttr', true);
           expect(c.sortAttr).toEqual('numericAttr');
           expect(c.sortDescending).toBe(true);
-          
+
           c.sortByAttr('stringAttr');
           expect(c.sortAttr).toEqual('stringAttr');
           expect(c.sortDescending).toBe(false);
         });
-        
+
         it("re-sorts collection by a numeric attribute ascending", function () {
           c.sortByAttr('numericAttr');
           expect(c.at(0).attributes).toEqual({ numericAttr: 2, stringAttr: 'Baz' });
@@ -214,7 +214,7 @@ function (Collection, Model, Backbone) {
         });
 
       });
-      
+
       describe("custom comparators", function () {
         var c;
         beforeEach(function() {
@@ -243,7 +243,7 @@ function (Collection, Model, Backbone) {
             { numericAttr: 3, stringAttr: 'foo' }
           ]);
         });
-        
+
         it("re-sorts collection by an attribute using a custom comparator ascending", function () {
           c.sortByAttr('numericAttr');
           expect(c.at(0).attributes).toEqual({ numericAttr: 3, stringAttr: 'foo' });
@@ -251,7 +251,7 @@ function (Collection, Model, Backbone) {
           expect(c.at(2).attributes).toEqual({ numericAttr: 2, stringAttr: 'Baz' });
           expect(c.at(3).attributes).toEqual({ numericAttr: 4, stringAttr: 'foo' });
         });
-        
+
         it("re-sorts collection by an attribute using a custom comparator descending", function () {
           c.sortByAttr('numericAttr', true);
           expect(c.at(0).attributes).toEqual({ numericAttr: 5, stringAttr: 'bar' });
@@ -260,11 +260,11 @@ function (Collection, Model, Backbone) {
           expect(c.at(3).attributes).toEqual({ numericAttr: 2, stringAttr: 'Baz' });
         });
       });
-      
+
     });
-    
+
     describe("defaultComparator", function () {
-      
+
       describe("normal cases", function () {
         var c;
         beforeEach(function() {
@@ -303,7 +303,7 @@ function (Collection, Model, Backbone) {
           expect(comparator(c.at(1), c.at(2))).toEqual(-1);
         });
       });
-      
+
       describe("handling of null values", function () {
         it("creates a function that considers nulls always lower than other values", function () {
           var c = new Collection([
@@ -315,17 +315,17 @@ function (Collection, Model, Backbone) {
           expect(comparator(c.at(0), c.at(1))).toEqual(-1);
           expect(comparator(c.at(0), c.at(2))).toEqual(1);
           expect(comparator(c.at(1), c.at(2))).toEqual(1);
-          
+
           comparator = c.defaultComparator('numericAttr', true);
           expect(comparator(c.at(0), c.at(1))).toEqual(-1);
           expect(comparator(c.at(0), c.at(2))).toEqual(-1);
           expect(comparator(c.at(1), c.at(2))).toEqual(1);
-          
+
           comparator = c.defaultComparator('stringAttr');
           expect(comparator(c.at(0), c.at(1))).toEqual(1);
           expect(comparator(c.at(0), c.at(2))).toEqual(1);
           expect(comparator(c.at(1), c.at(2))).toEqual(1);
-          
+
           comparator = c.defaultComparator('stringAttr', true);
           expect(comparator(c.at(0), c.at(1))).toEqual(1);
           expect(comparator(c.at(0), c.at(2))).toEqual(1);
@@ -338,22 +338,22 @@ function (Collection, Model, Backbone) {
             { numericAttr: null, stringAttr: null },
             { numericAttr: null, stringAttr: 'bar' }
           ]);
-          
+
           var comparator = c.defaultComparator('numericAttr');
           expect(comparator(c.at(0), c.at(1))).toEqual(-1);
           expect(comparator(c.at(0), c.at(2))).toEqual(-1);
           expect(comparator(c.at(1), c.at(2))).toEqual(null);
-          
+
           comparator = c.defaultComparator('numericAttr', true);
           expect(comparator(c.at(0), c.at(1))).toEqual(-1);
           expect(comparator(c.at(0), c.at(2))).toEqual(-1);
           expect(comparator(c.at(1), c.at(2))).toEqual(null);
-          
+
           comparator = c.defaultComparator('stringAttr');
           expect(comparator(c.at(0), c.at(1))).toEqual(null);
           expect(comparator(c.at(0), c.at(2))).toEqual(1);
           expect(comparator(c.at(1), c.at(2))).toEqual(1);
-          
+
           comparator = c.defaultComparator('stringAttr', true);
           expect(comparator(c.at(0), c.at(1))).toEqual(null);
           expect(comparator(c.at(0), c.at(2))).toEqual(1);
@@ -361,6 +361,34 @@ function (Collection, Model, Backbone) {
         });
       });
 
+    });
+
+    describe("sync", function () {
+      it("escapes HTML characters in received response", function () {
+        $.mockjax({
+          url: '//testdomain/performance/bucketname/api?',
+          contentType: 'application/json',
+          responseText: '[{"someProperty": "<b>html content</b>"}]'
+        });
+
+        var TestCollection = Collection.extend({
+          baseUrl: '//testdomain/',
+          queryUrl: 'bucketname'
+        });
+        var collection = new TestCollection();
+
+        runs(function() {
+          collection.fetch();
+        });
+
+        waitsFor(function() {
+          return collection.length > 0;
+        }, "the collection should fetch the mocked response", 2000);
+
+        runs(function() {
+          expect(collection.at(0).get('someProperty')).toBe("&lt;b&gt;html content&lt;/b&gt;")
+        });
+      });
     });
   });
 });
