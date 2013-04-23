@@ -1,16 +1,25 @@
 <% content_for :title do %>Licences - Performance Platform - GOV.UK<% end %>
+<% content_for :js_config do %>
+    data-controller="licensing/controllers/licences"
+<% end %>
+
 
 <header>
   <p class="category-title"><%= link_to "Licensing performance", :action => "index" %></p>
   <h1>Licences <span class="tagline">(licences on GOV.UK only)</span></h1>
 </header>
 
-<h2>Licences offered through GOV.UK</h2>
+<div id="filter-wrapper" class="licences"></div>
 
-<ul id="licences">
-  <% @licences.each do |licence| %>
+<section id="licences-list" class="entity-type">
+  <header>
+    <h2>Applications, Licences, Notices and Registrations</h2>
+    <p class="count"><%= @licences.length %></p>
+  </header>
 
-    <li><%= link_to licence.name, licence_path(licence.slug) %></li>
-  <% end %>
-  
-</ul>
+  <ul>
+    <% @licences.each do |licence| %>
+      <li><%= link_to licence.name, licence_path(licence.slug) %></li>
+    <% end %>
+  </ul>
+</section>

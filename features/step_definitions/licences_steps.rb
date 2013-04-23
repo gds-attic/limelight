@@ -21,7 +21,7 @@ Then(/^I should get back a status of (\d+)$/) do |status_code|
 end
 
 Then(/^there should be (\d+) licences$/) do |num_licences|
-  page.all("ul#licences li").count.should == num_licences.to_i
+  page.all("#licences-list li").count.should == num_licences.to_i
 end
 
 Then(/^the (\d+)(?:st|nd|rd|th) title should be "(.*?)"$/) do |position, title|
@@ -58,7 +58,7 @@ Then(/^the navigation link for "(.*?)" should be active$/) do |link_title|
 end
 
 When /^there should be (\d+) authorities$/ do |num_authorities|
-  page.all("ul#authorities li").count.should == num_authorities.to_i
+  page.all("#authorities-list li").count.should == num_authorities.to_i
 end
 
 Then(/^I see a link to "(.*?)"$/) do |url|

@@ -8,11 +8,6 @@ function (View, d3) {
     
     d3: d3,
     
-    initialize: function (options) {
-      _.extend(this, options);
-      View.prototype.initialize.apply(this, arguments);
-    },
-    
     render: function () {
       View.prototype.render.apply(this, arguments);
       

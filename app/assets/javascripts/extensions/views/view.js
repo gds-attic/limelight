@@ -8,8 +8,7 @@ function (Backbone, moment) {
       moment: moment,
       
       initialize: function (options) {
-        options = _.extend({}, options);
-        this.el = options.el;
+        _.extend(this, options);
         Backbone.View.prototype.initialize.apply(this, arguments);
       },
       

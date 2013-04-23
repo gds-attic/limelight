@@ -1,5 +1,6 @@
-<% content_for :title do %>
-    Authorities - Performance Platform - GOV.UK
+<% content_for :title do %>Authorities - Performance Platform - GOV.UK<% end %>
+<% content_for :js_config do %>
+    data-controller="licensing/controllers/authorities"
 <% end %>
 
 <header>
@@ -9,8 +10,17 @@
 
 <h2>Licensing authorities on GOV.UK</h2>
 
-<ul id="authorities">
-  <% @authorities.each do |authority| %>
-      <li><%= link_to authority.name, authority_path(authority.slug) %></li>
-  <% end %>
-</ul>
+<div id="filter-wrapper"></div>
+
+<section id="authorities-list" class="entity-type">
+  <header>
+    <h2>National and local authorities</h2>
+    <p class="count"><%= @authorities.length %></p>
+  </header>
+
+  <ul>
+    <% @authorities.each do |authority| %>
+        <li><%= link_to authority.name, authority_path(authority.slug) %></li>
+    <% end %>
+  </ul>
+</section>

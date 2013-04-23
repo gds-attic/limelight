@@ -1,0 +1,84 @@
+@import '_typography';
+@import 'colours';
+
+#content {
+  #filter-wrapper {
+    
+    &.licences {
+      max-width:40em;
+    }
+
+    label {
+      @include core-36;
+      margin-right:.5em;
+    }
+
+    input {
+      width: 16em;
+      padding: .2em .5em;
+      position:relative;
+      top:-.3em;
+    }
+  }
+
+  section.entity-type {
+    margin-top:3em;
+    min-height:8em;
+    
+    header {
+      padding:0;
+      margin:0;
+      border:0;
+      max-width:17em;
+      float:left;
+      
+      h2 {
+        @include core-24;
+      }
+      p.count {
+        @include bold-80;
+        color:$grey-1;
+        margin:0;
+      }
+    }
+    
+    ul {
+      margin-left:20em;
+      padding-left:0;
+      list-style:none;
+      
+      li {
+        border-bottom: 1px solid $grey-3;
+        padding:.3em 0;
+      }
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  #content {
+    #filter-wrapper input {
+      top:0;
+    }
+
+    section.entity-type {
+      margin-top:1.5em;
+      header {
+        max-width:none;
+        float:none;
+        
+        p.count {
+          @include bold-48;
+          color:$grey-1;
+          margin:0;
+        }
+      }
+
+      ul {
+        margin:0;
+      }
+    }
+  }
+  
+  
+}
