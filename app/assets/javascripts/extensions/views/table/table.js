@@ -147,11 +147,7 @@ function (View) {
 
         var rowsPerChunk = 30;
         var index = 0;
-
-        var placeholderRow = $('<tr class="placeholder"><td colspan="' + this.columns.length + '">&hellip;</td></tr>');
-        // FIXME: placeholder height needs to be measured, rather than hardcoded
-        var placeholderHeight = 43;
-
+        
         var renderChunk = function () {
           placeholderRow.remove();
           var last = Math.min(index + rowsPerChunk, data.length);
@@ -163,7 +159,24 @@ function (View) {
             // more rows available, show placeholder
             tbody.append(placeholderRow);
           }
-        }
+        };
+
+        var loadMoreLink = $('<a href="#">Show more rows&hellip;</a>').addClass('js-load-more');
+        tbody.on('click', 'a.js-load-more', function (e) {
+          renderChunk();
+          return false;
+        });
+
+        var placeholderRow = $([
+          '<tr class="placeholder"><td colspan="',
+          this.columns.length,
+          '"></td></tr>'
+        ].join(''));
+        
+        placeholderRow.find('td').append(loadMoreLink);
+        
+        // FIXME: placeholder height needs to be measured, rather than hardcoded
+        var placeholderHeight = 43;
 
         scrollWrapper.on('scroll', function (e) {
           var visibleHeight = scrollWrapper.outerHeight();
