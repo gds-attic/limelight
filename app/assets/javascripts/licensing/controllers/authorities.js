@@ -7,7 +7,7 @@ define([
     $.map($('#authorities-list li'), function (li) {
       var $li = $(li);
       return {
-        id: $li.text(),
+        title: $li.text(),
         el: $li
       };
     })
@@ -15,6 +15,7 @@ define([
   
   var view = new Filter({
     el: $('#filter-wrapper'),
+    listEl: $('#authorities-list dl'),
     countEl: $('#authorities-list .count'),
     label: 'Find a licencing authority named:',
     placeholder: 'Example: Westminster',

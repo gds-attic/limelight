@@ -12,10 +12,13 @@ Feature: Listing licences
         And the category title should be "Licensing"
         And the category title should link to "/performance/licensing"
         And the page title should be "Licences (licences on GOV.UK only)"
-        And the 1st title should be "Application to licence a street collection"
-        And the 1st link should be "/performance/licensing/licences/application-to-licence-a-street-collection"
-        And the 2nd title should be "Register as a scrap metal dealer"
-        And the 2nd link should be "/performance/licensing/licences/register-as-a-scrap-metal-dealer"
+        And the "licences" count should be 2
+        And the 1st group title should be "A"
+        And the 2nd group title should be "R"
+        And the 1st title in the 1st group should be "Application to licence a street collection"
+        And the 1st link in the 1st group should be "/performance/licensing/licences/application-to-licence-a-street-collection"
+        And the 1st title in the 2nd group should be "Register as a scrap metal dealer"
+        And the 1st link in the 2nd group should be "/performance/licensing/licences/register-as-a-scrap-metal-dealer"
   
   Scenario: there are no licences
       Given API responds with no_licences.json

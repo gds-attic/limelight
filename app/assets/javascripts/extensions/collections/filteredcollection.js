@@ -9,8 +9,10 @@ function (Collection) {
       this.trigger('reset');
     },
     
-    initialize: function () {
+    initialize: function (models, options) {
       Collection.prototype.initialize.apply(this, arguments);
+      options = options || {};
+      this.filterAttr = options.filterAttr || 'title';
       this.filtered = new Collection();
       this.on('reset', this.resetFilter, this);
     },
@@ -20,9 +22,10 @@ function (Collection) {
     },
     
     applyFilter: function (term) {
+      var filterAttr = this.filterAttr;
       this.term = term;
       this.filtered.reset(this.filter(function (model) {
-        if (model.get('id').toLowerCase().indexOf(term.toLowerCase()) >= 0) {
+        if (model.get(filterAttr).toLowerCase().indexOf(term.toLowerCase()) >= 0) {
           return model;
         }
       }), this);

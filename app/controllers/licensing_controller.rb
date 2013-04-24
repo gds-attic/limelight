@@ -5,7 +5,9 @@ class LicensingController < ApplicationController
   end
   
   def licences
-    @licences = Licences.from_backdrop_response(backdrop_api.get_licences)
+    licences_flat = Licences.from_backdrop_response(backdrop_api.get_licences)
+    @licences = licences_flat.group_by{ |licence| licence.name[0].downcase }
+    @num_licences = licences_flat.length
   end
 
   def per_licence
@@ -18,7 +20,9 @@ class LicensingController < ApplicationController
   end
 
   def authorities
-    @authorities = Authorities.from_backdrop_response(backdrop_api.get_authorities).sort
+    authorities_flat = Authorities.from_backdrop_response(backdrop_api.get_authorities).sort
+    @authorities = authorities_flat.group_by{ |authority| authority.short_name[0].downcase }
+    @num_authorities = authorities_flat.length
   end
 
   def per_authority

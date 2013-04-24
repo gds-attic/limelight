@@ -42,15 +42,30 @@
       }
     }
     
-    ul {
+    dl {
       margin-left:20em;
       padding-left:0;
       list-style:none;
       
-      li {
-        border-bottom: 1px solid $grey-3;
-        padding:.3em 0;
+      dt {
+        @include core-19;
+        color:$grey-1;
       }
+      
+      dd {
+        margin:0 0 1em 0;
+        
+        ol {
+          padding:0;
+          margin:0;
+          
+          li {
+            border-bottom: 1px solid $grey-3;
+            padding:.3em 0;
+          }
+        }
+      }
+      
     }
   }
 }
@@ -74,7 +89,7 @@
         }
       }
 
-      ul {
+      dl {
         margin:0;
       }
     }

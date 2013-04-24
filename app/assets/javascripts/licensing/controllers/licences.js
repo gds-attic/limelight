@@ -7,7 +7,7 @@ define([
     $.map($('#licences-list li'), function (li) {
       var $li = $(li);
       return {
-        id: $li.text(),
+        title: $li.text(),
         el: $li
       };
     })
@@ -15,6 +15,7 @@ define([
   
   var view = new Filter({
     el: $('#filter-wrapper'),
+    listEl: $('#licences-list dl'),
     countEl: $('#licences-list .count'),
     label: 'Find an application, licence, notice or registration named:',
     placeholder: 'Example: Temporary Event Notice',

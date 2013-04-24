@@ -23,6 +23,17 @@ function (View) {
         model.get('el').removeClass('performance-hidden');
       });
       
+      // hide groups that have no visible children
+      this.listEl.find('dd, dt').removeClass('performance-hidden');
+      this.listEl.find('dd').each(function (i, dd) {
+        var $dd = $(dd);
+        if (!$dd.find('li:not(.performance-hidden)').length) {
+          // no children visible, hide group too
+          $dd.addClass('performance-hidden');
+          $dd.prev('dt').addClass('performance-hidden');
+        }
+      });
+      
       if (this.countEl) {
         this.countEl.text(this.collection.filtered.length);
       }
