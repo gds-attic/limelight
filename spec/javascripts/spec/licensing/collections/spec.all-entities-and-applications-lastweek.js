@@ -2,7 +2,7 @@ define([
   'licensing/collections/all-entities-and-applications-lastweek'
 ],
 function (Collection) {
-  describe("Collection", function() {
+  describe("AllEntitiesAndApplicationsLastWeekCollection", function() {
     // 
     describe("initialize", function () {
       it("requires a grouping criterion", function() {
@@ -34,16 +34,16 @@ function (Collection) {
         var applicationsLastWeek = collection.collectionInstances[1];
         allEntities.reset([
           {
-            authorityUrlSlug: 'slug1',
-            authorityName: 'Name 1'
+            slug: 'slug1',
+            name: 'Name 1'
           },
           {
-            authorityUrlSlug: 'slug2',
-            authorityName: 'Name 2'
+            slug: 'slug2',
+            name: 'Name 2'
           },
           {
-            authorityUrlSlug: 'slug3',
-            authorityName: 'Name 3'
+            slug: 'slug3',
+            name: 'Name 3'
           }
         ]);
   
@@ -59,14 +59,14 @@ function (Collection) {
         ], { parse: true });
         
         var result = collection.parse();
-        expect(result[0].get('authorityUrlSlug')).toEqual('slug1');
-        expect(result[0].get('authorityName')).toEqual('Name 1');
+        expect(result[0].get('slug')).toEqual('slug1');
+        expect(result[0].get('name')).toEqual('Name 1');
         expect(result[0].get('_count')).toEqual(1);
-        expect(result[1].get('authorityUrlSlug')).toEqual('slug2');
-        expect(result[1].get('authorityName')).toEqual('Name 2');
+        expect(result[1].get('slug')).toEqual('slug2');
+        expect(result[1].get('name')).toEqual('Name 2');
         expect(result[1].get('_count')).toEqual(2);
-        expect(result[2].get('authorityUrlSlug')).toEqual('slug3');
-        expect(result[2].get('authorityName')).toEqual('Name 3');
+        expect(result[2].get('slug')).toEqual('slug3');
+        expect(result[2].get('name')).toEqual('Name 3');
         expect(result[2].get('_count')).toEqual(0);
       });
       
@@ -78,16 +78,16 @@ function (Collection) {
         var applicationsLastWeek = collection.collectionInstances[1];
         allEntities.reset([
           {
-            licenceUrlSlug: 'slug1',
-            licenceName: 'Name 1'
+            slug: 'slug1',
+            name: 'Name 1'
           },
           {
-            licenceUrlSlug: 'slug2',
-            licenceName: 'Name 2'
+            slug: 'slug2',
+            name: 'Name 2'
           },
           {
-            licenceUrlSlug: 'slug3',
-            licenceName: 'Name 3'
+            slug: 'slug3',
+            name: 'Name 3'
           }
         ]);
   
@@ -103,14 +103,14 @@ function (Collection) {
         ], { parse: true });
         
         var result = collection.parse();
-        expect(result[0].get('licenceUrlSlug')).toEqual('slug1');
-        expect(result[0].get('licenceName')).toEqual('Name 1');
+        expect(result[0].get('slug')).toEqual('slug1');
+        expect(result[0].get('name')).toEqual('Name 1');
         expect(result[0].get('_count')).toEqual(1);
-        expect(result[1].get('licenceUrlSlug')).toEqual('slug2');
-        expect(result[1].get('licenceName')).toEqual('Name 2');
+        expect(result[1].get('slug')).toEqual('slug2');
+        expect(result[1].get('name')).toEqual('Name 2');
         expect(result[1].get('_count')).toEqual(2);
-        expect(result[2].get('licenceUrlSlug')).toEqual('slug3');
-        expect(result[2].get('licenceName')).toEqual('Name 3');
+        expect(result[2].get('slug')).toEqual('slug3');
+        expect(result[2].get('name')).toEqual('Name 3');
         expect(result[2].get('_count')).toEqual(0);
       });
     });

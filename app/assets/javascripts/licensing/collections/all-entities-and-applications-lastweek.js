@@ -35,23 +35,10 @@ function (require, MultiCollection, AllEntities, ApplicationsLastWeek) {
       }, this);
       
       return allEntities.map(function (model) {
-        var slug = model.get(groupBy);
-        model.set('_count', applicationsBySlug[slug] || 0);
+        model.set('_count', applicationsBySlug[model.get('slug')] || 0);
         return model;
       });
-    },
-    
-    comparators: {
-      group: function (attr, descending) {
-        if (this.groupBy == 'authorityUrlSlug') {
-          var comparatorAttr = 'authoritySortName';
-        } else {
-          var comparatorAttr = this.groupBy;
-        }
-        return this.defaultComparator(comparatorAttr, descending);
-      }
     }
-    
   });
 
   return AllEntitiesAndApplicationsLastWeek;

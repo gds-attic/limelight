@@ -1,18 +1,26 @@
 define([
   'require',
   'extensions/collections/collection',
-  '../models/entity'
+  '../models/authority',
+  '../models/licence'
 ],
-function (require, Collection, Entity) {
+function (require, Collection, Authority, Licence) {
   var AllEntities = Collection.extend({
     
-    model: Entity,
-    
     initialize: function (models, options) {
+      options = options || {};
       if (!options.groupBy) {
         throw "groupBy option is mandatory";
       }
       this.groupBy = options.groupBy;
+      if (this.groupBy === 'authorityUrlSlug') {
+        this.collect = 'authorityName';
+        this.model = Authority;
+      } else if (this.groupBy === 'licenceUrlSlug') {
+        this.collect = 'licenceName';
+        this.model = Licence;
+      }
+      
       Collection.prototype.initialize.apply(this, arguments);
     },
     
@@ -25,15 +33,9 @@ function (require, Collection, Entity) {
     queryId: 'all-entities',
 
     queryParams: function () {
-      var collect;
-      if (this.groupBy === 'authorityUrlSlug') {
-        collect = 'authorityName';
-      } else if (this.groupBy === 'licenceUrlSlug') {
-        collect = 'licenceName';
-      }
       var params = {
         group_by: this.groupBy,
-        collect: collect
+        collect: this.collect
       };
       
       return params;

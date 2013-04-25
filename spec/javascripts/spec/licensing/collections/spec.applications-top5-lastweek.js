@@ -2,7 +2,7 @@ define([
   'licensing/collections/applications-top5-lastweek'
 ],
 function (Collection, Applications) {
-  describe("ApplicationsDetailLastWeek", function() {
+  describe("ApplicationsTop5LastWeek", function() {
     describe("queryParams", function() {
       it("requires a grouping criterion", function() {
         expect(function () {
@@ -52,124 +52,6 @@ function (Collection, Applications) {
         expect(params.end_at.format('YYYY-MM-DDTHH:mm:ssZZ')).toEqual('2013-05-13T00:00:00+0000');
       });
 
-    });
-    
-    describe("parse", function () {
-      it("reads name and slug when grouping by authority when additional data is available", function () {
-        var collection = new Collection([], {
-          groupBy: 'authorityUrlSlug'
-        });
-        
-        var response = {
-          data: [
-            {
-              authorityUrlSlug: 'slug1',
-              authorityName: ['Slug 1']
-            },
-            {
-              authorityUrlSlug: 'slug2',
-              authorityName: ['Slug 2']
-            }
-          ]
-        };
-        
-        expect(collection.parse(response)).toEqual([
-          {
-            slug: 'slug1',
-            name: 'Slug 1',
-            url: '/performance/licensing/authorities/slug1'
-          },
-          {
-            slug: 'slug2',
-            name: 'Slug 2',
-            url: '/performance/licensing/authorities/slug2'
-          }
-        ]);
-      });
-      
-      it("reads name and slug when grouping by authority when additional data is not available", function () {
-        var collection = new Collection([], {
-          groupBy: 'authorityUrlSlug'
-        });
-        
-        var response = {
-          data: [
-            {authorityUrlSlug: 'slug1'},
-            {authorityUrlSlug: 'slug2'}
-          ]
-        };
-        
-        expect(collection.parse(response)).toEqual([
-          {
-            slug: 'slug1',
-            name: 'slug1',
-            url: '/performance/licensing/authorities/slug1'
-          },
-          {
-            slug: 'slug2',
-            name: 'slug2',
-            url: '/performance/licensing/authorities/slug2'
-          }
-        ]);
-      });
-      
-      it("reads name and slug when grouping by licence when additional data is available", function () {
-        var collection = new Collection([], {
-          groupBy: 'licenceUrlSlug'
-        });
-        
-        var response = {
-          data: [
-            {
-              licenceUrlSlug: 'slug1',
-              licenceName: ['Slug 1']
-            },
-            {
-              licenceUrlSlug: 'slug2',
-              licenceName: ['Slug 2']
-            }
-          ]
-        };
-        
-        expect(collection.parse(response)).toEqual([
-          {
-            slug: 'slug1',
-            name: 'Slug 1',
-            url: '/performance/licensing/licences/slug1'
-          },
-          {
-            slug: 'slug2',
-            name: 'Slug 2',
-            url: '/performance/licensing/licences/slug2'
-          }
-        ]);
-      });
-      
-      it("reads name and slug when grouping by licence when additional data is not available", function () {
-        var collection = new Collection([], {
-          groupBy: 'licenceUrlSlug'
-        });
-        
-        var response = {
-          data: [
-            {licenceUrlSlug: 'slug1'},
-            {licenceUrlSlug: 'slug2'}
-          ]
-        };
-        
-        expect(collection.parse(response)).toEqual([
-          {
-            slug: 'slug1',
-            name: 'slug1',
-            url: '/performance/licensing/licences/slug1'
-          },
-          {
-            slug: 'slug2',
-            name: 'slug2',
-            url: '/performance/licensing/licences/slug2'
-          }
-        ]);
-      });
     });
   });
 });

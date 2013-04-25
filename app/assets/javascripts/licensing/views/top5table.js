@@ -1,35 +1,17 @@
 define([
-  'extensions/views/table/table'
+  './applicationstable'
 ],
-function (Table) {
-  var Top5Table = Table.extend({
+function (ApplicationsTable) {
+  var Top5Table = ApplicationsTable.extend({
     
     lazyRender: false,
     
-    columns: [
-      {
-        id: 'group',
-        className: 'js_group',
-        title: function () {
-          return this.options.title || 'Licence';
-        },
-        sortable: false,
-        getValue: function (model) {
-          return $('<a>').text(model.get('name')).prop('href', model.get('url'));
-        }
-      },
-      {
-        id: '_count',
-        title: 'Submissions last week',
-        sortable: false,
-        defaultDescending: true,
-        getValue: function (model) {
-          return this.formatNumericLabel(model.get('_count'));
-        }
-      }
-    ],
-    
-    defaultSortColumn: 1
+    initialize: function () {
+      _.each(this.columns, function (column) {
+        column.sortable = false;
+      });
+      ApplicationsTable.prototype.initialize.apply(this, arguments);
+    }
   });
   
   return Top5Table;

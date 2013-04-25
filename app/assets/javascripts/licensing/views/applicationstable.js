@@ -8,21 +8,14 @@ function (Table) {
     
     columns: [
       {
-        id: 'group',
+        id: 'sortName',
         className: 'js_group',
         title: function () {
           return this.options.title || 'Licence';
         },
         sortable: true,
         getValue: function (model) {
-          var res = [];
-          _.each(['licenceName', 'authorityName'], function (attr) {
-            var name = model.get(attr);
-            if (name) {
-              res.push(name);
-            }
-          });
-          return res.join(' &ndash; ');
+          return $('<a>').text(model.get('name')).prop('href', model.get('url'));
         }
       },
       {

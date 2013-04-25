@@ -1,67 +1,25 @@
 define([
   'require',
-  'extensions/collections/collection',
-  'licensing/models/entity'
+  './all-entities'
 ],
-function (require, Collection, Model) {
-  var Top5Collection = Collection.extend({
-    
-    model: Model,
-    
-    initialize: function (models, options) {
-      options = options || {};
-      if (!options.groupBy) {
-        throw "groupBy option is mandatory";
-      }
-      this.groupBy = options.groupBy;
-      if (this.groupBy === 'authorityUrlSlug') {
-        this.collect = 'authorityName';
-        this.urlFragment = 'authorities';
-      } else if (this.groupBy === 'licenceUrlSlug') {
-        this.collect = 'licenceName';
-        this.urlFragment = 'licences';
-      }
-      
-      
-      Collection.prototype.initialize.apply(this, arguments);
-    },
-    
-    parse: function (response) {
-      
-      return _.map(response.data, function (row) {
-        row.slug = row[this.groupBy];
-        delete row[this.groupBy];
-        
-        row.url = '/performance/licensing/' + this.urlFragment + '/' + row.slug;
-        
-        if (row[this.collect]) {
-          row.name = row[this.collect][0];
-          delete row[this.collect];
-        } else {
-          row.name = row.slug;
-        }
-        return row;
-      }, this);
-    },
-    
-    queryUrl: 'licensing',
+function (require, AllEntitiesCollection) {
+  var Top5Collection = AllEntitiesCollection.extend({
     
     queryId: 'applications-top5-lastweek',
 
     queryParams: function () {
+      var params = AllEntitiesCollection.prototype.queryParams.apply(this, arguments);
+      
       var end = this.moment().utc().day(1).startOf('day');
-      var params = {
+      return _.extend(params, {
         start_at: this.moment(end).subtract(1, 'weeks'),
         end_at: end,
         limit: 5,
-        group_by: this.groupBy,
-        sort_by: '_count:descending',
-        collect: this.collect
-      };
+        sort_by: '_count:descending'
+      });
       
       return params;
     }
-    
   });
 
   return Top5Collection;
