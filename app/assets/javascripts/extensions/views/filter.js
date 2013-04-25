@@ -12,6 +12,7 @@ function (View) {
     },
     
     events: {
+      'keydown input': 'onKeyDown',
       'keyup input': 'onKeyUp'
     },
     
@@ -39,9 +40,15 @@ function (View) {
       }
     },
     
+    onKeyDown: function (e) {
+      if (e.keyCode == this.keys.escape) {
+        return false;
+      }
+    },
+    
     onKeyUp: function (e) {
       var term = this.inputEl.val();
-      if (e.keyCode == 27) {
+      if (e.keyCode == this.keys.escape) {
         if (!term.length) {
           this.inputEl.blur();
           return;

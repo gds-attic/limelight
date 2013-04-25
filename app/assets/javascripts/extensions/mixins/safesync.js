@@ -5,7 +5,7 @@ define([
   var mapRecursive = function(object, func) {
     var recur = function (object) {
       if (_.isArray(object)) {
-        return object.map(recur);
+        return _.map(object, recur);
       }
 
       if (_.isObject(object)) {

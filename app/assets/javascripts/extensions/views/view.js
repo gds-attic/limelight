@@ -12,6 +12,10 @@ function (Backbone, moment) {
         Backbone.View.prototype.initialize.apply(this, arguments);
       },
       
+      keys: {
+        escape: 27
+      },
+      
       magnitudes: {
           million:  {value: 1e6, suffix:"m"},
           thousand: {value: 1e3, suffix:"k"},

@@ -31,7 +31,7 @@ define([
       var values = _.map(this.authorities, function (slug) {
         return {
           authorityUrlSlug: slug,
-          _count: Math.floor(this.rnd(0, 1e4)),
+          _count: Math.floor(this.rnd(0, 1e4))
         }
       }, this);
       

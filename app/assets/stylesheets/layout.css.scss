@@ -1,6 +1,9 @@
 
 @import 'colours';
 
+::-ms-clear {
+    display: none;
+}
 
 .performance-hidden {
   display:none;
