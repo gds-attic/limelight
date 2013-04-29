@@ -14,7 +14,7 @@ function (Table, Collection) {
           { name: 'Authority 2', sortName: 'sortC', url: '/url2', _count: 3 },
           { name: 'Authority 3', sortName: 'sortA', url: '/url3', _count: 2 }
         ]);
-        
+        spyOn(collection, "sortByAttr").andCallThrough();
       });
 
       afterEach(function() {
@@ -42,11 +42,10 @@ function (Table, Collection) {
           collection: collection
         });
         table.render();
-        
         expect(el.find('.body tr:eq(0) td:eq(1)').text()).toEqual('3');
         expect(el.find('.body tr:eq(1) td:eq(1)').text()).toEqual('2');
         expect(el.find('.body tr:eq(2) td:eq(1)').text()).toEqual('1');
-        expect(el.find('.head tr:eq(0) th:eq(1)').hasClass('descending')).toBe(true);
+        expect(collection.sortByAttr).toHaveBeenCalledWith('_count', true);
       });
     });
   });
