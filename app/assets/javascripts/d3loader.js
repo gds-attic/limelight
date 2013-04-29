@@ -1,7 +1,10 @@
 define({
   load: function(name, req, onLoad, config) {
-    if ($('.lte-ie8').length) {
-      // browser does not support d3, skip
+    function browserDoesNotSupportD3() {
+      return $('.lte-ie8').length;
+    }
+
+    if (!config.isBuild && browserDoesNotSupportD3()) {
       onLoad();
     } else {
       req(['d3'], function (d3) {

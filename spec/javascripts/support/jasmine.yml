@@ -1,7 +1,7 @@
 src_files:
   - assets/vendor/jquery.js
   - assets/vendor/require.js
-  - assets/config.js
+  - assets/main.js
 
 spec_files:
   - spec/**/spec.*.js

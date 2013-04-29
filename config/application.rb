@@ -59,7 +59,7 @@ module Limelight
     config.assets.prefix = 'limelight'
 
     # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
-    config.assets.precompile += %w( *.css *.js )
+    config.assets.precompile += %w( *.css production.js vendor/require.js vendor/d3.v3.js )
 
   end
 end

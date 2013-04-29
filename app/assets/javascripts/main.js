@@ -1,11 +1,11 @@
 $(document).ready(function () {
-  
-  var baseUrl = $('#wrapper').data('base-url') || '/limelight';
-  
-  require.config({
 
-    deps: ['bootstrap'],
+  var baseUrl, d3Url, requireConfig;
 
+  baseUrl = $('#wrapper').data('base-url') || '/limelight';
+  d3Url = $('#wrapper').data('d3-url') || 'vendor/d3.v3';
+
+  requireConfig = {
     baseUrl: baseUrl,
 
     paths: {
@@ -18,7 +18,7 @@ $(document).ready(function () {
       modernizr: 'vendor/modernizr',
       moment: 'vendor/moment',
       tpl: 'vendor/tpl',
-      d3: 'vendor/d3.v3'
+      d3: d3Url
     },
 
     shim: {
@@ -26,19 +26,19 @@ $(document).ready(function () {
         deps: ['lodash', 'jqueryxdr', 'jquerymousewheel'],
         exports: 'Backbone'
       },
-
       modernizr: {
         exports: 'Modernizr'
       },
-
       moment: {
         exports: 'Moment'
       },
-
       d3: {
         exports: 'd3'
       }
     }
+  };
 
-  });
-})
+  require.config(requireConfig);
+
+  require(['bootstrap']);
+});
