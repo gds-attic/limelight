@@ -15,7 +15,7 @@ function (Table) {
         },
         sortable: true,
         getValue: function (model) {
-          return $('<a>').text(model.get('name')).prop('href', model.get('url'));
+          return $('<a>').html(model.get('name')).prop('href', model.get('url'));
         }
       },
       {

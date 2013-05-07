@@ -64,7 +64,7 @@ function (View) {
       View.prototype.render.apply(this, arguments);
       
       if (this.label) {
-        var label = $('<label/>').prop('for', this.id).text(this.label);
+        var label = $('<label/>').prop('for', this.id).html(this.label);
         this.$el.append(label);
       }
       

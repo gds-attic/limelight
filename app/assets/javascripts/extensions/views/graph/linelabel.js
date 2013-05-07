@@ -113,7 +113,7 @@ function (Component) {
       selection.each(function (model, i) {
         var selection = d3.select(this)
         selection.selectAll("text")
-            .text(model.get('title'))
+            .text(_.unescape(model.get('title')))
             .attr('transform', 'translate(' + xOffset + ', 6)');
       });
     },
