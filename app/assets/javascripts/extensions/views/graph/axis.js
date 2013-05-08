@@ -21,11 +21,10 @@ function (Component) {
       
       var axis = this.d3.svg.axis()
         .scale(scale)
-        .orient(this.orient)
-        .tickPadding(this.tickPadding);
+        .orient(this.orient);
       
-      _.each(['ticks', 'tickValues', 'tickFormat'], function (id) {
-        if (this[id]) {
+      _.each(['ticks', 'tickValues', 'tickFormat', 'tickPadding', 'tickSize'], function (id) {
+        if (this[id] != null) {
           axis[id](_.isFunction(this[id]) ? this[id]() : this[id]);
         }
       }, this);

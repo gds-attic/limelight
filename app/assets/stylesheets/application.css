@@ -16,7 +16,7 @@
  = require typography
  = require nav
  = require table
- = require applicationsgraph
+ = require graph
  = require applicationstable
  = require top5table
  = require filteredlist

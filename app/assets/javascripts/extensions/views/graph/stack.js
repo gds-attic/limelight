@@ -40,6 +40,12 @@ function (Component) {
         .y(_.bind(this.yStack, this));
       var layers = stack(this.collection.models);
       
+      var selection = this.componentWrapper.selectAll('g.group')
+          .data(layers);
+      this.renderContent(selection);
+    },
+    
+    renderContent: function (selection) {
       var getX = _.bind(this.x, this);
       var getY = _.bind(this.y, this);
       var area = d3.svg.area()
@@ -51,11 +57,7 @@ function (Component) {
         .x(getX)
         .y(getY);
       
-      
-      var selection = this.componentWrapper.selectAll('g')
-          .data(layers);
-      
-      var enterSelection = selection.enter().append('g');
+      var enterSelection = selection.enter().append('g').attr('class', 'group');
       enterSelection.append("path")
           .attr("class", function (group, index) {
             return 'stack stack' + index + ' ' + group.get('id');

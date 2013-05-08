@@ -1,16 +1,6 @@
 @import 'colours';
 
-.applications-graph {
-  
-  .line {
-    fill: none;
-    stroke: #0F8094;
-    stroke-width: 2.5px;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    vector-effect: non-scaling-stroke;
-  }
-  
+.graph {
   .line0 { stroke: $data-colour-1; }
   .line1 { stroke: $data-colour-2; }
   .line2 { stroke: $data-colour-3; }
@@ -25,19 +15,58 @@
   .stack4 { fill: transparentize($data-colour-5, .8); }
   .stack5 { fill: transparentize($data-colour-6, .8); }
   
+  .text0 { fill: $data-colour-1; }
+  .text1 { fill: $data-colour-2; }
+  .text2 { fill: $data-colour-3; }
+  .text3 { fill: $data-colour-4; }
+  .text4 { fill: $data-colour-5; }
+  .text5 { fill: $data-colour-6; }
   
   .x-axis path,
   .y-axis path {
     display: none;
   }
 
+  .bar {
+    line {
+      stroke-width: 2px;
+      shape-rendering: crispEdges;
+      vector-effect: non-scaling-stroke;
+    }
+    
+    rect {
+      shape-rendering: crispEdges;
+    }
+    
+    text {
+      text-anchor: middle;
+      baseline-shift: 10px;
+    }
+  }
+  
+  .tick line {
+    vector-effect: non-scaling-stroke;
+  }
+  
   .x-axis line {
     fill: none;
     stroke: #444;
     stroke-width: 1px;
     shape-rendering: crispEdges;
   }
+  
+}
 
+.applications-graph {
+  
+  .line {
+    fill: none;
+    stroke-width: 2.5px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+  }
+  
   .labels {
 
     line {
@@ -60,9 +89,13 @@
     
   }
 
-  .tick line {
-    vector-effect: non-scaling-stroke;
+  .x-axis line {
+    fill: none;
+    stroke: #444;
+    stroke-width: 1px;
+    shape-rendering: crispEdges;
   }
+
 }
 
 @media (max-width: 640px) {
@@ -86,5 +119,3 @@
 
   }
 }
-
-

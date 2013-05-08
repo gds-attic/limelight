@@ -2,16 +2,28 @@ define([
   'licensing/collections/applications-total-weekly',
   'licensing/views/applicationsgraph',
   'licensing/collections/applications-top5-lastweek',
-  'licensing/views/top5table'
-], function(GraphCollection, ApplicationsGraph, Top5Collection, Top5Table) {
+  'licensing/views/top5table',
+  'extensions/collections/graphcollection',
+  'licensing/collections/applications-conversion',
+  'licensing/views/applications-conversion-graph'
+], function(ApplicationsCollection, ApplicationsGraph, Top5Collection, Top5Table, GraphCollection, ConversionCollection, ConversionGraph) {
   
   if (!$('.lte-ie8').length) {
-    var graphCollection = new GraphCollection();
+    var applicationsCollection = new ApplicationsCollection();
     var graphView = new ApplicationsGraph({
       el: $('#total-applications'),
-      collection: graphCollection
+      collection: applicationsCollection
     });
-    graphCollection.fetch();
+    applicationsCollection.fetch();
+    
+    var conversionCollection = new GraphCollection(null, {
+      collections: [ConversionCollection]
+    });
+    var conversionGraph = new ConversionGraph({
+      el: $('#applications-conversion-graph'),
+      collection: conversionCollection
+    });
+    conversionCollection.fetch();
   }
   
   
@@ -39,5 +51,4 @@ define([
   });
   
   top5AuthoritiesCollection.fetch();
-  
 });
