@@ -3,24 +3,30 @@ define([
 ], function(Collection) {
   var ApplicationsConversionCollection = Collection.extend({
     
-    queryUrl: 'licensing_conversion',
+    queryUrl: 'licensing-journey',
 
     queryId: 'applications-conversion',
 
-    steps: ['apply_1', 'apply_2', 'apply_3'],
+    steps: [
+      'licensingUserJourney:downloadFormPage',
+      'licensingUserJourney:submitApplicationPage',
+      'licensingUserJourney:feeInfoPage',
+      'licensingUserJourney:end'
+    ],
     
     stepTitles: {
-      apply_1: 'Step 1',
-      apply_2: 'Step 2',
-      apply_3: 'End'
+      'licensingUserJourney:downloadFormPage': 'Download form',
+      'licensingUserJourney:submitApplicationPage': 'Submit application',
+      'licensingUserJourney:feeInfoPage': 'Fee info',
+      'licensingUserJourney:end': 'End'
     },
     
     queryParams: function() {
-      var at_midnight = this.moment().utc().day(1).startOf('day');
+      var at_midnight = this.moment().day(1).startOf('day');
       var query = {
         start_at: at_midnight.clone().subtract(1, 'weeks'),
         end_at: at_midnight,
-        group_by: 'stepUrlSlug'
+        filter_by: "dataType:licensing_overview_journey"
       };
 
       return query;
@@ -30,19 +36,19 @@ define([
       var titles = this.stepTitles;
       var data = response.data;
       _.each(data, function (step) {
-        step.title = titles[step.stepUrlSlug];
+        step.title = titles[step.eventCategory];
       });
       return data;
     },
 
     comparator: function(step1, step2) {
-      var index1 = _.indexOf(this.steps, step1.get('stepUrlSlug'));
-      var index2 = _.indexOf(this.steps, step2.get('stepUrlSlug'));
+      var index1 = _.indexOf(this.steps, step1.get('eventCategory'));
+      var index2 = _.indexOf(this.steps, step2.get('eventCategory'));
 
       if (index1 == -1 && index2 == -1) {
         return this.compare(
-          step1.get('stepUrlSlug').toLowerCase(),
-          step2.get('stepUrlSlug').toLowerCase()
+          step1.get('eventCategory').toLowerCase(),
+          step2.get('eventCategory').toLowerCase()
         );
       } else if (index1 == -1) {
         return 1;

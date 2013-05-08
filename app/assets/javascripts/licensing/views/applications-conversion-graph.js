@@ -42,13 +42,13 @@ function (require, Graph, XAxis, Bar) {
               return this.scales.x(i);
             },
             yStack: function (model) {
-              return model.get('events');
+              return model.get('uniqueEvents');
             },
             barWidth: function (model, i) {
               return this.scales.x(1) - this.scales.x(0);
             },
             text: function (model, i) {
-              return Math.round(100 * model.get('events') / this.scales.y.domain()[1]) + '%';
+              return Math.round(100 * model.get('uniqueEvents') / this.scales.y.domain()[1]) + '%';
             }
           }
         }
@@ -69,7 +69,7 @@ function (require, Graph, XAxis, Bar) {
       var d3 = this.d3;
       var max = d3.max(this.collection.models, function (group) {
         return d3.max(group.get('values').models, function (value) {
-          return value.get('events');
+          return value.get('uniqueEvents');
         });
       });
       
