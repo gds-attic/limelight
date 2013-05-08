@@ -87,8 +87,9 @@ function (Backbone, Model, SafeSync, moment) {
      * otherwise uses default comparator.
      * @param {String} attr attribute to sort by
      * @param {Boolean} [descending=false] Sort descending when true, ascending when false
+     * @param {Object} [options={}] Sort options
      */
-    sortByAttr: function (attr, descending) {
+    sortByAttr: function (attr, descending, options) {
       var comparators = this.prop('comparators');
       if (comparators && comparators[attr]) {
         // use custom comparator
@@ -98,7 +99,7 @@ function (Backbone, Model, SafeSync, moment) {
       }
       this.sortDescending = Boolean(descending);
       this.sortAttr = attr;
-      this.sort();
+      this.sort(options);
     },
     
     /**

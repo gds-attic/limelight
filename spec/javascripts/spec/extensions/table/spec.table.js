@@ -209,6 +209,24 @@ function (Table, Collection, Model) {
         expect(tds.eq(0).html()).toEqual('No data available.');
       });
 
+      it("renders a placeholder message while data is being retrieved", function() {
+        
+        table.collection.loading = true;
+
+        var el = $('<table></table>');
+        var tbody = $('<tbody></tbody>').appendTo(el);
+        table.renderBody(tbody);
+
+        expect(tbody.prop('tagName').toLowerCase()).toEqual('tbody');
+
+        var tr = tbody.find('tr');
+        expect(tr.length).toEqual(1);
+
+        var tds = tr.eq(0).find('td');
+        expect(tds.length).toEqual(1);
+        expect(tds.eq(0).html()).toEqual('Loading…');
+      });
+
       it("renders table body", function() {
 
         var el = $('<table></table>');

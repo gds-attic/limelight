@@ -31,13 +31,30 @@ define([
   };
 
   var SafeSync = {};
-
+  
+  /**
+   * Escapes all content retrieved.
+   * Sets `loading` state while retrieving data.
+   */
   SafeSync.sync = function (method, model, options) {
+    // N.B. `loading` state is not set correctly when multiple requests
+    // are sent simultaneously
+    this.loading = true;
+    this.trigger('loading');
+    
+    var that = this;
     var success = options.success;
     options.success = function (resp, status, xhr) {
+      that.loading = false;
       var escaped = escapeHtml(resp);
-      success(escaped, status, xhr);
+      if (success) success(escaped, status, xhr);
     };
+    var error = options.error;
+    options.error = function(xhr, status, thrown) {
+      that.loading = false;
+      if (error) error(xhr, status, thrown);
+    };
+    
     Backbone.sync.apply(this, arguments);
   };
 

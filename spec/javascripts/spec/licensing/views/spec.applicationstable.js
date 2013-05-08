@@ -45,7 +45,7 @@ function (Table, Collection) {
         expect(el.find('.body tr:eq(0) td:eq(1)').text()).toEqual('3');
         expect(el.find('.body tr:eq(1) td:eq(1)').text()).toEqual('2');
         expect(el.find('.body tr:eq(2) td:eq(1)').text()).toEqual('1');
-        expect(collection.sortByAttr).toHaveBeenCalledWith('_count', true);
+        expect(collection.sortByAttr).toHaveBeenCalledWith('_count', true, { silent: true });
       });
     });
   });

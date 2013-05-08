@@ -10,13 +10,15 @@ function (View) {
     initialize: function (options) {
       options = _.extend({}, options);
       var collection = this.collection = options.collection;
-      collection.on('reset add remove', this.render, this);
+      collection.on('reset add remove loading', this.render, this);
       
       _.bindAll(this, 'adjustTableLayout');
       
       if (this.defaultSortColumn) {
         var column = this.columns[this.defaultSortColumn];
-        this.collection.sortByAttr(column.id, column.defaultDescending);
+        this.collection.sortByAttr(
+          column.id, column.defaultDescending, { silent: true}
+        );
       }
       
       View.prototype.initialize.apply(this, arguments);
@@ -128,9 +130,14 @@ function (View) {
       var data = this.collection;
       var that = this;
       
-      if (!data || !data.length) {
-        // no data, show placeholder message
-        var message = "No data available.";
+      if (this.collection.loading || !data || !data.length) {
+        var message;
+        if (this.collection.loading) {
+          message = "Loading&hellip;";
+        } else {
+          // no data, show placeholder message
+          message = "No data available.";
+        }
         
         var placeholderRow = $([
           '<tr class="placeholder"><td colspan="',
