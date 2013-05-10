@@ -15,11 +15,77 @@ function (Component, d3) {
     });
     
     describe("initialize", function() {
+      
+      var graph, collection;
+      beforeEach(function() {
+        spyOn(Component.prototype, "onHover");
+        graph = {
+          on: jasmine.createSpy()
+        };
+        collection = {
+          on: jasmine.createSpy()
+        };
+      });
+      
       it("assigns options as object properties", function() {
         var view = new Component({
-          testProperty: true
+          testProperty: true,
+          collection: collection
         });
         expect(view.testProperty).toBe(true);
+      });
+      
+      it("does not listen to user interaction by default", function () {
+        var view = new Component({
+          graph: graph,
+          collection: collection
+        });
+        expect(graph.on).not.toHaveBeenCalled();
+      });
+      
+      it("listens to user interaction unconditionally when configured", function () {
+        var view = new Component({
+          graph: graph,
+          collection: collection,
+          interactive: true
+        });
+        expect(graph.on).toHaveBeenCalled();
+        expect(graph.on.argsForCall[0][0]).toEqual('hover');
+        var callback = graph.on.argsForCall[0][1];
+        
+        callback();
+        expect(view.onHover).toHaveBeenCalled();
+      });
+      
+      it("listens to user interaction conditionally when configured", function () {
+        var view = new Component({
+          graph: graph,
+          collection: collection,
+          interactive: function (e) {
+            return e.foo === true;
+          }
+        });
+        expect(graph.on).toHaveBeenCalled();
+        expect(graph.on.argsForCall[0][0]).toEqual('hover');
+        var callback = graph.on.argsForCall[0][1];
+        
+        callback.call(view, {
+          foo: false
+        });
+        expect(view.onHover).not.toHaveBeenCalled();
+        
+        callback.call(view, {
+          foo: true
+        });
+        expect(view.onHover).toHaveBeenCalledWith({ foo: true });
+      });
+      
+      it("listens to selection changes in the graph collection", function () {
+        var view = new Component({
+          graph: graph,
+          collection: collection
+        });
+        expect(collection.on.argsForCall[0][0]).toEqual('change:selected');
       });
     });
     
@@ -33,7 +99,8 @@ function (Component, d3) {
           append: jasmine.createSpy().andReturn(componentWrapper)
         };
         view = new Component({
-          wrapper: wrapper
+          wrapper: wrapper,
+          collection: { on: jasmine.createSpy() }
         });
       });
       

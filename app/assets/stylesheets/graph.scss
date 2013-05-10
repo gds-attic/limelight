@@ -1,6 +1,8 @@
 @import 'colours';
 
 .graph {
+  position:relative;
+  
   .line0 { stroke: $data-colour-1; }
   .line1 { stroke: $data-colour-2; }
   .line2 { stroke: $data-colour-3; }
@@ -26,7 +28,27 @@
   .y-axis path {
     display: none;
   }
-
+  
+  .selectedIndicator {
+    fill: white;
+    vector-effect: non-scaling-stroke;
+    stroke-width: 4px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  
+  .line {
+    fill: none;
+    stroke-width: 2.5px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+    
+    &.selected {
+      stroke-width: 4px;
+    }
+  }
+  
   .bar {
     line {
       stroke-width: 2px;
@@ -55,17 +77,51 @@
     shape-rendering: crispEdges;
   }
   
+  .hover {
+    position: absolute;
+    left:0;
+    top:0;
+    right:0;
+    bottom:0;
+    background:none;
+  }
+  
+  .callout {
+    position: absolute;
+    left:0;
+    top:0;
+    background-color: $grey-4;
+    width:170px;
+    box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.35);
+    h3 {
+      background-color: $grey-3;
+      margin:0;
+      font-size:1em;
+      padding:.2em .5em;
+    }
+    dl {
+      padding:.2em .5em;
+      margin:0;
+      dt {
+        float:left;
+      }
+      dd {
+        margin:0;
+        float:right;
+      }
+      &:after {
+        clear:both;
+        display:block;
+        content:'.';
+        height:0;
+        overflow:hidden;
+      }
+    }
+  }
+  
 }
 
 .applications-graph {
-  
-  .line {
-    fill: none;
-    stroke-width: 2.5px;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    vector-effect: non-scaling-stroke;
-  }
   
   .labels {
 
@@ -87,6 +143,28 @@
     .square4 { fill: $data-colour-5; }
     .square5 { fill: $data-colour-6; }
     
+    .selected {
+      text {
+        font-weight: bold;
+      }
+      
+      line {
+        stroke-width: 2px;
+      }
+      
+      rect {
+        stroke-width:2px;
+        
+        &.square0 { stroke: darken($data-colour-1, 10%); }
+        &.square1 { stroke: darken($data-colour-2, 10%); }
+        &.square2 { stroke: darken($data-colour-3, 10%); }
+        &.square3 { stroke: darken($data-colour-4, 10%); }
+        &.square4 { stroke: darken($data-colour-5, 10%); }
+        &.square5 { stroke: darken($data-colour-6, 10%); }
+      }
+      
+    }
+    
   }
 
   .x-axis line {
@@ -99,7 +177,8 @@
 }
 
 @media (max-width: 640px) {
-  .applications-graph {
+  
+  .graph {
 
     .y-axis .tick:nth-child(even) text {
       display:none;
@@ -113,9 +192,27 @@
       display:none;
     }
 
+    .line {
+      fill: none;
+      stroke-width: 1.5px;
+      
+      &.selected {
+        stroke-width: 3px;
+      }
+    }
     text {
       font-size:1.3em;
     }
-
+    
+    
+    .callout {
+      font-size:.7em;
+      margin-top:.5em;
+      position:static;
+      max-width:170px;
+      margin:.5em auto;
+//      width:100%;
+      
+    }
   }
 }

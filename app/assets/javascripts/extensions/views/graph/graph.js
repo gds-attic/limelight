@@ -41,6 +41,7 @@ function (View, d3) {
      */
     getDefaultComponentOptions: function () {
       return {
+        graph: this,
         collection: this.collection,
         el: this.el,
         svg: this.svg,
@@ -88,6 +89,14 @@ function (View, d3) {
       var aspectRatio = this.width / this.height;
       var svg = $(this.svg.node());
       svg.height(this.el.width() / aspectRatio);
+    },
+    
+    /**
+     * Calculates current factor between size in displayed pixels and logical
+     * size.
+     */
+    scaleFactor: function () {
+      return this.$el.width() / this.width;
     },
     
     // Not implemented; override in configuration or subclass

@@ -9,7 +9,9 @@ define([
 ], function(ApplicationsCollection, ApplicationsGraph, Top5Collection, Top5Table, GraphCollection, ConversionCollection, ConversionGraph) {
   
   if (!$('.lte-ie8').length) {
-    var applicationsCollection = new ApplicationsCollection();
+    var applicationsCollection = window.applicationsCollection = new GraphCollection(null, {
+      collections: [ApplicationsCollection]
+    });
     var graphView = new ApplicationsGraph({
       el: $('#total-applications'),
       collection: applicationsCollection

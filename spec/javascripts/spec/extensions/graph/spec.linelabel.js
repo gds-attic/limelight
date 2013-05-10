@@ -4,10 +4,11 @@ define([
 ],
 function (LineLabel, Collection) {
   
-  describe("render", function () {
-    var el, wrapper, lineLabel;
+  describe("rendering tests", function () {
+    
+    var el, wrapper, lineLabel, collection;
     beforeEach(function() {
-      var collection = new Collection([
+      collection = new Collection([
         { y: 30, yLabel: 30, title: 'Title 1', id: 'id1' },
         { y: 80, yLabel: 80, title: 'Title 2', id: 'id2' }
       ]);
@@ -30,50 +31,91 @@ function (LineLabel, Collection) {
       el.remove();
     });
     
-    it("renders a label with text and line at the correct position", function () {
-      lineLabel.render();
-      var labels = wrapper.select('.labels');
-      expect(labels.attr('transform')).toEqual('translate(500, 0)');
-      var label1 = labels.select('g:nth-child(1)');
-      var label2 = labels.select('g:nth-child(2)');
-      expect(label1.select('line').length).toEqual(1);
-      expect(label1.select('text').attr('transform')).toEqual('translate(0, 6)');
-      expect(label1.select('text').text()).toEqual('Title 1');
-      expect(label2.select('line').length).toEqual(1);
-      expect(label2.select('text').attr('transform')).toEqual('translate(0, 6)');
-      expect(label2.select('text').text()).toEqual('Title 2');
+    describe("render", function () {
+      it("renders a label with text and line at the correct position", function () {
+        lineLabel.render();
+        var labels = wrapper.select('.labels');
+        expect(labels.attr('transform')).toEqual('translate(500, 0)');
+        var label1 = labels.select('g:nth-child(1)');
+        var label2 = labels.select('g:nth-child(2)');
+        expect(label1.select('line').length).toEqual(1);
+        expect(label1.select('text').attr('transform')).toEqual('translate(0, 6)');
+        expect(label1.select('text').text()).toEqual('Title 1');
+        expect(label2.select('line').length).toEqual(1);
+        expect(label2.select('text').attr('transform')).toEqual('translate(0, 6)');
+        expect(label2.select('text').text()).toEqual('Title 2');
+      });
+
+      it("renders a label with text, square and line at the correct position", function () {
+        lineLabel.showSquare = true;
+        lineLabel.squareSize = 20;
+        lineLabel.squarePadding = 6;
+        lineLabel.render();
+        var labels = wrapper.select('.labels');
+        expect(labels.attr('transform')).toEqual('translate(500, 0)');
+        var label1 = labels.select('g:nth-child(1)');
+        var label2 = labels.select('g:nth-child(2)');
+
+        expect(label1.select('line').length).toEqual(1);
+        expect(label1.select('text').attr('transform')).toEqual('translate(26, 6)');
+        expect(label1.select('text').text()).toEqual('Title 1');
+        expect(label1.select('rect').attr('class')).toMatch('id1');
+        expect(label1.select('rect').attr('class')).toMatch('square0');
+        expect(label1.select('rect').attr('x')).toEqual('0');
+        expect(label1.select('rect').attr('y')).toEqual('-10');
+        expect(label1.select('rect').attr('width')).toEqual('20');
+        expect(label1.select('rect').attr('height')).toEqual('20');
+
+        expect(label2.select('line').length).toEqual(1);
+        expect(label2.select('text').attr('transform')).toEqual('translate(26, 6)');
+        expect(label2.select('text').text()).toEqual('Title 2');
+        expect(label2.select('rect').attr('class')).toMatch('id2');
+        expect(label2.select('rect').attr('class')).toMatch('square1');
+        expect(label1.select('rect').attr('x')).toEqual('0');
+        expect(label1.select('rect').attr('y')).toEqual('-10');
+        expect(label1.select('rect').attr('width')).toEqual('20');
+        expect(label1.select('rect').attr('height')).toEqual('20');
+      });
     });
     
-    it("renders a label with text, square and line at the correct position", function () {
-      lineLabel.showSquare = true;
-      lineLabel.squareSize = 20;
-      lineLabel.squarePadding = 6;
-      lineLabel.render();
-      var labels = wrapper.select('.labels');
-      expect(labels.attr('transform')).toEqual('translate(500, 0)');
-      var label1 = labels.select('g:nth-child(1)');
-      var label2 = labels.select('g:nth-child(2)');
-      
-      expect(label1.select('line').length).toEqual(1);
-      expect(label1.select('text').attr('transform')).toEqual('translate(26, 6)');
-      expect(label1.select('text').text()).toEqual('Title 1');
-      expect(label1.select('rect').attr('class')).toMatch('id1');
-      expect(label1.select('rect').attr('class')).toMatch('square0');
-      expect(label1.select('rect').attr('x')).toEqual('0');
-      expect(label1.select('rect').attr('y')).toEqual('-10');
-      expect(label1.select('rect').attr('width')).toEqual('20');
-      expect(label1.select('rect').attr('height')).toEqual('20');
-      
-      expect(label2.select('line').length).toEqual(1);
-      expect(label2.select('text').attr('transform')).toEqual('translate(26, 6)');
-      expect(label2.select('text').text()).toEqual('Title 2');
-      expect(label2.select('rect').attr('class')).toMatch('id2');
-      expect(label2.select('rect').attr('class')).toMatch('square1');
-      expect(label1.select('rect').attr('x')).toEqual('0');
-      expect(label1.select('rect').attr('y')).toEqual('-10');
-      expect(label1.select('rect').attr('width')).toEqual('20');
-      expect(label1.select('rect').attr('height')).toEqual('20');
+    describe("onChangeSelected", function () {
+      it("adds class 'selected' to label of selected group", function () {
+        lineLabel.render();
+        var labels = wrapper.select('.labels');
+        lineLabel.onChangeSelected(collection.at(1), 1);
+        expect(labels.select('g:nth-child(1)').attr('class').indexOf('selected')).toBe(-1);
+        expect(labels.select('g:nth-child(2)').attr('class').indexOf('selected')).not.toBe(-1);
+        lineLabel.onChangeSelected(collection.at(0), 0);
+        expect(labels.select('g:nth-child(1)').attr('class').indexOf('selected')).not.toBe(-1);
+        expect(labels.select('g:nth-child(2)').attr('class').indexOf('selected')).toBe(-1);
+        lineLabel.onChangeSelected(null, null);
+        expect(labels.select('g:nth-child(1)').attr('class').indexOf('selected')).toBe(-1);
+        expect(labels.select('g:nth-child(2)').attr('class').indexOf('selected')).toBe(-1);
+      });
     });
+    
+    describe("onHover", function () {
+      beforeEach(function() {
+        spyOn(collection, "selectItem");
+        lineLabel.render();
+      });
+      
+      it("selects the closest label", function () {
+        lineLabel.onHover({ x: null, y: 54 });
+        expect(collection.selectItem).toHaveBeenCalledWith(0);
+        lineLabel.onHover({ x: null, y: 56 });
+        expect(collection.selectItem).toHaveBeenCalledWith(1);
+      });
+      
+      it("unselects when the closest label is already selected and the toggle option is used", function () {
+        lineLabel.onHover({ x: null, y: 54, toggle: true });
+        expect(collection.selectItem).toHaveBeenCalledWith(0);
+        collection.selectedIndex = 0;
+        lineLabel.onHover({ x: null, y: 54, toggle: true });
+        expect(collection.selectItem).toHaveBeenCalledWith(null);
+      });
+    });
+
   });
   
   
@@ -157,7 +199,11 @@ function (LineLabel, Collection) {
   describe("updateLines", function() {
     var el, wrapper, lineLabel;
     beforeEach(function() {
-      lineLabel = new LineLabel();
+      lineLabel = new LineLabel({
+        collection: {
+          on: jasmine.createSpy()
+        }
+      });
       lineLabel.offset = 100;
       lineLabel.linePaddingInner = 20;
       lineLabel.linePaddingOuter = 30;
@@ -240,7 +286,11 @@ function (LineLabel, Collection) {
     
     var line;
     beforeEach(function() {
-      line = new LineLabel();
+      line = new LineLabel({
+        collection: {
+          on: jasmine.createSpy()
+        }
+      });
     });
     
     it("places non-adjacent items at their ideal positions when possible", function() {

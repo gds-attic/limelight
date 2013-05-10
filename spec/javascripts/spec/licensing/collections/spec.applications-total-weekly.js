@@ -38,36 +38,5 @@ function (Collection, Group) {
         expect(params.end_at.format('YYYY-MM-DDTHH:mm:ssZZ')).toEqual('2013-07-08T00:00:00+0000');
       });
     });
-    
-    describe("parse", function () {
-      it("creates a single group", function () {
-        var collection = new Collection();
-        collection.reset(collection.parse({ data: [
-          {
-            _start_at: moment('2013-02-18T00:00:00+00:00'),
-            _end_at: moment('2013-02-25T00:00:00+00:00'),
-            _count: 90
-          },
-          {
-            _start_at: moment('2013-02-25T00:00:00+00:00'),
-            _end_at: moment('2013-03-04T00:00:00+00:00'),
-            _count: 100
-          },
-          {
-            _start_at: moment('2013-03-04T00:00:00+00:00'),
-            _end_at: moment('2013-03-11T00:00:00+00:00'),
-            _count: 110
-          }
-        ]}), { parse: true });
-        expect(collection.length).toEqual(1);
-        var group = collection.at(0);
-        expect(group instanceof Group).toBe(true);
-        expect(group.get('id')).toEqual('total');
-        expect(group.get('title')).toEqual('Total submissions');
-        expect(group.get('values').length).toEqual(3);
-        expect(group.get('values').at(0).get('_count')).toEqual(90);
-        expect(group.get('values').at(0).get('_start_at').format('YYYY-MM-DD')).toEqual('2013-02-18');
-      });
-    });
   });
 });

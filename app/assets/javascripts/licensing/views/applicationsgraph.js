@@ -3,9 +3,11 @@ define([
   'extensions/views/graph/graph',
   './xaxis',
   './yaxis',
-  './stack'
+  './stack',
+  'extensions/views/graph/hover',
+  './callout'
 ],
-function (require, Graph, XAxis, YAxis, Stack) {
+function (require, Graph, XAxis, YAxis, Stack, Hover, Callout) {
   var ApplicationsGraph = Graph.extend({
     
     width: 954,
@@ -18,17 +20,22 @@ function (require, Graph, XAxis, YAxis, Stack) {
       right: 40
     },
     
-    axisComponents: function () {
-      return [
-        { view: XAxis },
-        { view: YAxis }
-      ];
+    sharedComponents: {
+      xaxis: XAxis,
+      yaxis: YAxis,
+      stack: Stack,
+      callout: Callout,
+      hover: Hover,
     },
     
     components: function () {
-      return this.axisComponents().concat([
-        { view: Stack }
-      ]);
+      return [
+        { view: this.sharedComponents.xaxis },
+        { view: this.sharedComponents.yaxis },
+        { view: this.sharedComponents.stack },
+        { view: this.sharedComponents.callout },
+        { view: this.sharedComponents.hover }
+      ];
     },
     
     calcXScale: function () {

@@ -240,5 +240,38 @@ function (Graph, Collection, d3) {
       });
   });
   
+  describe("scaleFactor", function () {
+    var el, TestGraph;
+    beforeEach(function() {
+        el = $('<div id="jasmine-playground"></div>').appendTo($('body'));
+        el.css('display', 'block');
+        TestGraph = Graph.extend({
+          width: 600,
+          height: 400
+        });
+    });
+    
+    afterEach(function() {
+        el.remove();
+    });
+    
+    it("calculates the scale factor when the graph is not resized", function() {
+        el.width(600);
+        graph = new TestGraph({
+          el: el,
+          collection: new Collection()
+        });
+        expect(graph.scaleFactor()).toEqual(1);
+    });
+    
+    it("calculates the scale factor when the graph is resized", function() {
+        el.width(300);
+        graph = new TestGraph({
+          el: el,
+          collection: new Collection()
+        });
+        expect(graph.scaleFactor()).toEqual(0.5);
+    });
+  });
   
 });

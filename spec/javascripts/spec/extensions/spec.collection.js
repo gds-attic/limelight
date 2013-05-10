@@ -57,7 +57,7 @@ function (Collection, Model, Backbone) {
         TestCollection = Collection.extend({
           baseUrl: '//testdomain/',
           serviceName: 'service',
-          apiName: 'apiname'
+          apiName: 'apiname',
           queryId: 'testid'
         });
         spyOn(TestCollection.prototype, "sync");
@@ -391,6 +391,53 @@ function (Collection, Model, Backbone) {
         runs(function() {
           expect(collection.at(0).get('someProperty')).toBe("&lt;b&gt;html content&lt;/b&gt;")
         });
+      });
+    });
+    
+    describe("selectItem", function () {
+      
+      var collection, spy;
+      beforeEach(function() {
+        spy = jasmine.createSpy();
+        collection = new Collection([
+          { a: 'one' },
+          { a: 'two' },
+          { a: 'three' }
+        ]);
+        collection.on('change:selected', spy);
+      });
+      
+      it("selects an item in the collection and triggers an event by default", function () {
+        collection.selectItem(1);
+        expect(collection.selectedItem).toBe(collection.at(1));
+        expect(collection.selectedIndex).toEqual(1);
+        expect(spy).toHaveBeenCalledWith(collection.at(1), 1);
+      });
+      
+      it("selects an item in the collection but allows suppressing the event", function () {
+        collection.selectItem(1, { silent: true });
+        expect(collection.selectedItem).toBe(collection.at(1));
+        expect(collection.selectedIndex).toEqual(1);
+        expect(spy).not.toHaveBeenCalled();
+      });
+      
+      it("does not do anything when the item is already selected", function () {
+        collection.selectItem(1, { silent: true });
+        expect(collection.selectedItem).toBe(collection.at(1));
+        expect(collection.selectedIndex).toEqual(1);
+        expect(spy).not.toHaveBeenCalled();
+        collection.selectItem(1);
+        expect(spy).not.toHaveBeenCalled();
+        collection.selectItem(2);
+        expect(spy).toHaveBeenCalled();
+      });
+      
+      it("unselects the current selection", function () {
+        collection.selectItem(1, { silent: true });
+        expect(collection.selectedItem).toBe(collection.at(1));
+        expect(collection.selectedIndex).toEqual(1);
+        collection.selectItem(null);
+        expect(spy).toHaveBeenCalledWith(null, null);
       });
     });
   });

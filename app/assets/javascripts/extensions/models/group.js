@@ -9,7 +9,7 @@ function (Model, Timeseries) {
     parse: function (data) {
       data.values = new Timeseries(data.values, { parse: true });
       return data;
-    }  
+    }
   });
   
   return Group;

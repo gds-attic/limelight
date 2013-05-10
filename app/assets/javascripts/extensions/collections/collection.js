@@ -147,8 +147,25 @@ function (Backbone, Model, SafeSync, moment) {
         }
         return res;
       };
-    }
+    },
     
+    /**
+     * Chooses an item in the collection as `selected` and notifies listeners.
+     * @param {Number} index Index of item to select, or `null` to unselect
+     * @param {Object} [options={}] Options
+     * @param {Boolean} [options.silent=false] Suppress `change:selected` event
+     */
+    selectItem: function(index, options) { 
+      if (index === this.selectedIndex) {
+        return;
+      }
+      var model = (index == null) ? null : this.models[index];
+      this.selectedItem = model;
+      this.selectedIndex = index;
+      if (!options || !options.silent) {
+        this.trigger("change:selected", model, index);
+      }
+    }
   });
 
 	_.extend(Collection.prototype, SafeSync);

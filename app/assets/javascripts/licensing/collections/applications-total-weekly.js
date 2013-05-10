@@ -1,16 +1,17 @@
 define([
-  'extensions/collections/collection',
-  'extensions/models/group'
+  'extensions/collections/collection'
 ],
-function (Collection, Group) {
+function (Collection) {
   var WeeklyApplications = Collection.extend({
 
-    model: Group,
-    
     serviceName: 'licensing',
     apiName: 'application',
 
     queryId: 'applications-total-weekly',
+    
+    id: 'total',
+    
+    title: 'Total submissions',
     
     queryParams: function () {
       var at_midnight = this.moment().utc().day(1).startOf('day');
@@ -24,11 +25,7 @@ function (Collection, Group) {
     },
 
     parse: function (response) {
-      return [{
-        id: 'total',
-        title: 'Total submissions',
-        values: response.data
-      }];
+      return response.data;
     }
   });
 

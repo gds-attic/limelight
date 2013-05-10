@@ -1,8 +1,10 @@
 define([
+  'require',
+  './line',
   'extensions/views/graph/component'
 ],
-function (Component) {
-  var Stack = Component.extend({
+function (require, Line, Component) {
+  var Stack = Line.extend({
     
     stackValues: function (group) {
       return group.get('values').models;

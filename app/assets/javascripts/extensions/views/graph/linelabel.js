@@ -28,10 +28,10 @@ function (Component) {
         .classed(this.classed, true)
         .attr('transform', 'translate(' + left + ', 0)');
       
-      var selection = this.componentWrapper.selectAll('g')
+      var selection = this.componentWrapper.selectAll('g.label')
           .data(this.collection.models);
           
-      var enterSelection = selection.enter().append('g')
+      var enterSelection = selection.enter().append('g').attr('class', 'label');
       enterSelection.append('line');
       if (this.showSquare) {
         enterSelection.append('rect');
@@ -75,7 +75,7 @@ function (Component) {
       });
       
       // optimise positions
-      positions = this.calcPositions(positions, {
+      positions = this.positions = this.calcPositions(positions, {
         min: this.overlapLabelTop,
         max: this.innerHeight + this.overlapLabelBottom
       });
@@ -180,6 +180,29 @@ function (Component) {
           };
         };
       })
+    },
+    
+    onChangeSelected: function (groupSelected, groupIndexSelected, modelSelected, indexSelected) {
+      this.componentWrapper.selectAll('g.label').classed('selected', function (group, groupIndex) {
+        return groupIndexSelected === groupIndex;
+      });
+    },
+    
+    onHover: function (e) {
+      var y = e.y;
+      var bestIndex, bestDistance = Infinity;
+      this.collection.each(function (group, index) {
+        var distance = Math.abs(group.get('yLabel') - y);
+        if (distance < bestDistance) {
+          bestDistance = distance;
+          bestIndex = index;
+        }
+      });
+      if (e.toggle && bestIndex == this.collection.selectedIndex) {
+        this.collection.selectItem(null);
+      } else {
+        this.collection.selectItem(bestIndex);
+      }
     },
     
     /**

@@ -1,14 +1,17 @@
 define([
   'require',
   './applications-total-weekly',
-  '../mixins/authorityhelpers'
+  '../mixins/authorityhelpers',
+  'extensions/models/group'
 ],
-function (require, Applications, AuthorityHelpersMixin) {
+function (require, Applications, AuthorityHelpersMixin, Group) {
   /**
    * Retrieves data for a specific licence, grouped by authority,
    * for the "top 5" authorities
    */
   var LicenceApplications = Applications.extend({
+    
+    model: Group,
     
     queryParams: function () {
       return _.extend(Applications.prototype.queryParams.call(this, arguments), {
@@ -47,7 +50,7 @@ function (require, Applications, AuthorityHelpersMixin) {
         }
         data.push(attributes);
       }, this);
-
+      
       return data;
     }
   });

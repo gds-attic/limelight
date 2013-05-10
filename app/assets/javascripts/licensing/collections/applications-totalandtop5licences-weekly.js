@@ -1,12 +1,12 @@
 define([
   'require',
-  'extensions/collections/multicollection',
+  'extensions/collections/graphcollection',
   './applications-total-weekly',
   './applications-top5licences-weekly'
 ],
-function (require, MultiCollection, Total, ByLicence) {
+function (require, GraphCollection, Total, ByLicence) {
   
-  var TotalAndByLicence = MultiCollection.extend({
+  var TotalAndByLicence = GraphCollection.extend({
     
     collections: [Total, ByLicence],
     
@@ -18,7 +18,11 @@ function (require, MultiCollection, Total, ByLicence) {
       var byLicenceCollection = this.collectionInstances[1];
       
       var data = byLicenceCollection.clone();
-      data.unshift(totalCollection.first());
+      data.unshift(new this.model({
+        id: 'total',
+        title: 'Total',
+        values: totalCollection.models
+      }, { parse: true }));
       
       return data.models;
     }

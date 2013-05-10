@@ -27,6 +27,9 @@ function (Axis) {
     it("renders a d3 axis component", function() {
       
       var view = new Axis({
+        collection: {
+          on: jasmine.createSpy()
+        },
         wrapper: wrapper,
         classed: 'testclass',
         getScale: function () {
@@ -47,6 +50,9 @@ function (Axis) {
     var view;
     beforeEach(function() {
       view = new Axis({
+        collection: {
+          on: jasmine.createSpy()
+        },
         innerWidth: 555,
         innerHeight: 444
       });

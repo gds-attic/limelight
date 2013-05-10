@@ -3,6 +3,9 @@ define([
 ],
 function (Stack) {
   var ApplicationsStack = Stack.extend({
+    
+    interactive: true,
+    
     x: function (model) {
       var x = this.moment(model.get('_end_at')).subtract(1, 'days');
       return this.scales.x(x.toDate());
