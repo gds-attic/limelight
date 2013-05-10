@@ -77,7 +77,7 @@ function (Backbone, Model, SafeSync, moment) {
         }
       });
 
-      return this.baseUrl + 'performance/' + this.queryUrl + '/api?' + $.param(params, true);
+      return this.baseUrl + 'performance/' + this.serviceName + '/api/' + this.apiName +'?' + $.param(params, true);
     },
     
     /**

@@ -21,7 +21,8 @@ function (require, Collection) {
       return response.data;
     },
     
-    queryUrl: 'licensing',
+    serviceName: 'licensing',
+    apiName: 'application',
     
     queryId: 'applications-detail-lastweek',
 

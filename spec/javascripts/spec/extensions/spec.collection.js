@@ -56,7 +56,8 @@ function (Collection, Model, Backbone) {
       beforeEach(function() {
         TestCollection = Collection.extend({
           baseUrl: '//testdomain/',
-          queryUrl: 'bucketname',
+          serviceName: 'service',
+          apiName: 'apiname'
           queryId: 'testid'
         });
         spyOn(TestCollection.prototype, "sync");
@@ -75,13 +76,14 @@ function (Collection, Model, Backbone) {
       beforeEach(function() {
         TestCollection = Collection.extend({
           baseUrl: '//testdomain/',
-          queryUrl: 'bucketname'
+          serviceName: 'service',
+          apiName: 'apiname'
         });
       });
 
       it("constructs a backdrop query URL without params", function() {
         var collection = new TestCollection();
-        expect(collection.url()).toEqual('//testdomain/performance/bucketname/api?');
+        expect(collection.url()).toEqual('//testdomain/performance/service/api/apiname?');
       });
 
       it("constructs a backdrop query URL with static params", function() {
@@ -90,7 +92,7 @@ function (Collection, Model, Backbone) {
           a: 1,
           b: 'foo bar'
         }
-        expect(collection.url()).toEqual('//testdomain/performance/bucketname/api?a=1&b=foo+bar');
+        expect(collection.url()).toEqual('//testdomain/performance/service/api/apiname?a=1&b=foo+bar');
       });
 
       it("constructs a backdrop query URL with multiple values for a single parameter", function() {
@@ -98,7 +100,7 @@ function (Collection, Model, Backbone) {
         collection.queryParams = {
           a: [1, 'foo']
         }
-        expect(collection.url()).toEqual('//testdomain/performance/bucketname/api?a=1&a=foo');
+        expect(collection.url()).toEqual('//testdomain/performance/service/api/apiname?a=1&a=foo');
       });
 
       it("constructs a backdrop query URL with dynamic params", function() {
@@ -110,7 +112,7 @@ function (Collection, Model, Backbone) {
             b: this.testProp
           };
         };
-        expect(collection.url()).toEqual('//testdomain/performance/bucketname/api?a=1&b=foo+bar');
+        expect(collection.url()).toEqual('//testdomain/performance/service/api/apiname?a=1&b=foo+bar');
       });
 
       it("constructs a backdrop query URL with moment date params", function() {
@@ -122,7 +124,7 @@ function (Collection, Model, Backbone) {
             somedate: this.moment('03/08/2013 14:53:26 +00:00', 'MM/DD/YYYY HH:mm:ss T')
           };
         };
-        expect(collection.url()).toEqual('//testdomain/performance/bucketname/api?a=1&somedate=2013-03-08T14%3A53%3A26%2B00%3A00');
+        expect(collection.url()).toEqual('//testdomain/performance/service/api/apiname?a=1&somedate=2013-03-08T14%3A53%3A26%2B00%3A00');
       });
 
       it("constructs a backdrop query URL with a single filter parameter", function () {
@@ -137,7 +139,7 @@ function (Collection, Model, Backbone) {
           };
         };
         var url = collection.url()
-        expect(url).toMatch('//testdomain/performance/bucketname/api?');
+        expect(url).toMatch('//testdomain/performance/service/api/apiname?');
         expect(url).toMatch('filter_by=foo%3Abar');
         expect(url).toMatch('a=1');
       });
@@ -155,7 +157,7 @@ function (Collection, Model, Backbone) {
           };
         };
         var url = collection.url()
-        expect(url).toMatch('//testdomain/performance/bucketname/api?');
+        expect(url).toMatch('//testdomain/performance/service/api/apiname?');
         expect(url).toMatch('filter_by=foo%3Abar');
         expect(url).toMatch('filter_by=b%3Ac');
         expect(url).toMatch('a=1');
@@ -366,14 +368,15 @@ function (Collection, Model, Backbone) {
     describe("sync", function () {
       it("escapes HTML characters in received response", function () {
         $.mockjax({
-          url: '//testdomain/performance/bucketname/api?',
+          url: '//testdomain/performance/service/api/apiname?',
           contentType: 'application/json',
           responseText: '[{"someProperty": "<b>html content</b>"}]'
         });
 
         var TestCollection = Collection.extend({
           baseUrl: '//testdomain/',
-          queryUrl: 'bucketname'
+          serviceName: 'service',
+          apiName: 'apiname'
         });
         var collection = new TestCollection();
 

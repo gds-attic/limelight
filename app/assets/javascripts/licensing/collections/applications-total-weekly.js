@@ -7,7 +7,8 @@ function (Collection, Group) {
 
     model: Group,
     
-    queryUrl: 'licensing',
+    serviceName: 'licensing',
+    apiName: 'application',
 
     queryId: 'applications-total-weekly',
     

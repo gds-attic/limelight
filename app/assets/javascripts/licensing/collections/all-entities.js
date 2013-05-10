@@ -28,7 +28,8 @@ function (require, Collection, Authority, Licence) {
       return response.data;
     },
     
-    queryUrl: 'licensing',
+    serviceName: 'licensing',
+    apiName: 'application',
     
     queryId: 'all-entities',
 
