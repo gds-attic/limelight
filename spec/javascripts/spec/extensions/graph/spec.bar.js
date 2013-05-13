@@ -198,6 +198,7 @@ define([
           view.text = function(model, i) {
             return 'foo ' + model.get('name')
           };
+          view.offsetText = -20;
           view.render();
 
           var segments = view.componentWrapper.selectAll('g.segment');
@@ -210,15 +211,15 @@ define([
           });
 
           expect(d3.select('g.segment:nth-child(1) text').attr('x')).toEqual('2');
-          expect(d3.select('g.segment:nth-child(1) text').attr('y')).toEqual('-4');
+          expect(d3.select('g.segment:nth-child(1) text').attr('y')).toEqual('-24');
           expect(d3.select('g.segment:nth-child(1) text').text()).toEqual('foo one');
 
           expect(d3.select('g.segment:nth-child(2) text').attr('x')).toEqual('8');
-          expect(d3.select('g.segment:nth-child(2) text').attr('y')).toEqual('-10');
+          expect(d3.select('g.segment:nth-child(2) text').attr('y')).toEqual('-30');
           expect(d3.select('g.segment:nth-child(2) text').text()).toEqual('foo two');
 
           expect(d3.select('g.segment:nth-child(3) text').attr('x')).toEqual('14');
-          expect(d3.select('g.segment:nth-child(3) text').attr('y')).toEqual('-16');
+          expect(d3.select('g.segment:nth-child(3) text').attr('y')).toEqual('-36');
           expect(d3.select('g.segment:nth-child(3) text').text()).toEqual('foo three');
         });
 

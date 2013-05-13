@@ -9,6 +9,8 @@ function(require, StackComponent) {
     
     classed: 'bar',
     
+    offsetText: -8,
+    
     renderContent: function (selection) {
       
       var getY0 = _.bind(this.y0, this);
@@ -67,7 +69,7 @@ function(require, StackComponent) {
         segment.select('text').attr({
           'class': 'text' + groupIndex,
           x: x,
-          y: y
+          y: y + this.offsetText
         }).text(this.text(model, i));
       }
     }

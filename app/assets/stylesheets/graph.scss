@@ -62,7 +62,6 @@
     
     text {
       text-anchor: middle;
-      baseline-shift: 10px;
     }
   }
   
@@ -83,7 +82,8 @@
     top:0;
     right:0;
     bottom:0;
-    background:none;
+    opacity:0;
+    background:white;
   }
   
   .callout {
@@ -104,6 +104,10 @@
       margin:0;
       dt {
         float:left;
+        max-width:100px;
+        white-space:nowrap;
+        text-overflow:ellipsis;
+        overflow:hidden;
       }
       dd {
         margin:0;
@@ -187,11 +191,6 @@
     .x-axis .tick text {
       font-size:1.3em;
     }
-    .x-axis .tick:nth-child(even) text {
-
-      display:none;
-    }
-
     .line {
       fill: none;
       stroke-width: 1.5px;
@@ -211,8 +210,13 @@
       position:static;
       max-width:170px;
       margin:.5em auto;
-//      width:100%;
-      
+    }
+  }
+  
+  .applications-graph {
+    .x-axis .tick:nth-child(even) text {
+
+      display:none;
     }
   }
 }

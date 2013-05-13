@@ -29,7 +29,10 @@ function (Hover) {
       it("listens to touchstart events in touch environments", function () {
         var component = new Hover({
           modernizr: { touch: true },
-          collection: { on: jasmine.createSpy() },
+          collection: {
+            on: jasmine.createSpy(),
+            selectItem: jasmine.createSpy()
+          },
           graph: { on: jasmine.createSpy() }
         });
         component.render();
@@ -64,19 +67,25 @@ function (Hover) {
       
       describe("onMouseMove", function () {
         it("calculates the mouse move position when the graph is not scaled", function () {
+          spyOn(component.$el, "offset").andReturn({
+            left: 200, top: 200
+          });
           component.graph.scaleFactor.andReturn(1);
           component.onMouseMove({
-            offsetX: 100,
-            offsetY: 100
+            pageX: 300,
+            pageY: 300
           });
           expect(component.selectPoint).toHaveBeenCalledWith(90, 80);
         });
 
         it("calculates the mouse move position when the graph is scaled", function () {
+          spyOn(component.$el, "offset").andReturn({
+            left: 100, top: 100
+          });
           component.graph.scaleFactor.andReturn(0.5);
           component.onMouseMove({
-            offsetX: 50,
-            offsetY: 50
+            pageX: 150,
+            pageY: 150
           });
           expect(component.selectPoint).toHaveBeenCalledWith(90, 80);
         });

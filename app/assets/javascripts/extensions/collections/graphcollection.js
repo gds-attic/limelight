@@ -27,6 +27,8 @@ function (require, MultiCollection, Group) {
     parse: function () {
       return _.map(this.collectionInstances, function (collection) {
         return {
+          id: collection.id,
+          title: collection.title,
           values: collection.models
         };
       });

@@ -24,7 +24,9 @@ function (Callout) {
       ].join(''));
       
       var body = $('<dl>').html([
-        '<dt>Applications</dt>',
+        '<dt>',
+        group.get('title'),
+        '</dt>',
         '<dd>',
         Math.floor(model.get('_count')),
         '</dd>'

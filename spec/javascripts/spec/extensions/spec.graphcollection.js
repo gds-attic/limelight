@@ -53,6 +53,25 @@ function (GraphCollection, Collection, Group) {
         expect(collection.at(0).get('values').at(0).get('foo')).toEqual('bar');
         expect(collection.at(1).get('values').at(0).get('foo')).toEqual('baz');
       });
+      
+      it("assigns id and title properties as attributes when available", function () {
+        var subCollection1 = new Collection([ { foo: 'bar' } ]);
+        subCollection1.id = 'id1';
+        subCollection1.title = 'Title 1';
+        var subCollection2 = new Collection([ { foo: 'baz' } ]);
+        subCollection2.id = 'id2';
+        subCollection2.title = 'Title 2';
+        var collection = new GraphCollection([], {});
+        collection.collectionInstances = [
+          subCollection1,
+          subCollection2
+        ];
+        collection.reset(collection.parse(), { parse: true });
+        expect(collection.at(0).get('id')).toEqual('id1');
+        expect(collection.at(0).get('title')).toEqual('Title 1');
+        expect(collection.at(1).get('id')).toEqual('id2');
+        expect(collection.at(1).get('title')).toEqual('Title 2');
+      });
     });
     
     describe("selectItem", function () {
