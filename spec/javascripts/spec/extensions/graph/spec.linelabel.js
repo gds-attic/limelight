@@ -165,7 +165,7 @@ function (LineLabel, Collection) {
       el.remove();
     });
     
-    it("positions labels vertically so they do not collide", function() {
+    it("positions labels vertically so they do not collide and snaps to half pixels to avoid antialiasing", function() {
       wrapper.selectAll('g').each(function (metaModel) {
         spyOn(this, "getBBox").andReturn({
           height: 20
@@ -191,8 +191,8 @@ function (LineLabel, Collection) {
         id: 'b'
       });
       
-      expect(wrapper.select('g:nth-child(1)').attr('transform')).toEqual('translate(0, 20)');
-      expect(wrapper.select('g:nth-child(2)').attr('transform')).toEqual('translate(0, 30)');
+      expect(wrapper.select('g:nth-child(1)').attr('transform')).toEqual('translate(0, 20.5)');
+      expect(wrapper.select('g:nth-child(2)').attr('transform')).toEqual('translate(0, 30.5)');
     });
   });
   

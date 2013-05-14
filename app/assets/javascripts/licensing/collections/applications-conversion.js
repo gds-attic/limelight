@@ -11,14 +11,12 @@ define([
     steps: [
       'licensingUserJourney:downloadFormPage',
       'licensingUserJourney:submitApplicationPage',
-      'licensingUserJourney:feeInfoPage',
       'licensingUserJourney:end'
     ],
     
     stepTitles: {
       'licensingUserJourney:downloadFormPage': 'Download form page',
       'licensingUserJourney:submitApplicationPage': 'Submit application page',
-      'licensingUserJourney:feeInfoPage': 'Fee info page *',
       'licensingUserJourney:end': 'Done page'
     },
     
@@ -32,13 +30,20 @@ define([
 
       return query;
     },
-
+    
     parse: function (response) {
       var titles = this.stepTitles;
-      var data = response.data;
-      _.each(data, function (step) {
+      var order = this.steps;
+      
+      var data = [];
+      _.each(response.data, function (step) {
+        if (!_.contains(order, step.eventCategory)) {
+          return;
+        }
         step.title = titles[step.eventCategory];
+        data.push(step);
       });
+      
       return data;
     },
 

@@ -12,7 +12,7 @@ Feature: Overview page
         And the 1st subtitle should be "Weekly form submissions"
         And the 1st section description should be "Total form submissions per week over the last 9 weeks"
         And the 2nd subtitle should be "Submission drop-offs"
-        And the 2nd section description should be "Drop-offs for the common stages of licensing submissions last week"
+        And the 2nd section description should be "Percentages of unique visitors at common stages of licensing submissions \(last week, sampled data\)"
         And the 3rd subtitle should be "Top licences last week"
         And the 3rd section description should be "Top licences by submission volume last week"
         And the 4th subtitle should be "Top authorities last week"

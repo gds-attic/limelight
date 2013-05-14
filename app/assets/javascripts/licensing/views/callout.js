@@ -28,7 +28,7 @@ function (Callout) {
         group.get('title'),
         '</dt>',
         '<dd>',
-        Math.floor(model.get('_count')),
+        this.formatNumericLabel(Math.floor(model.get('_count'))),
         '</dd>'
       ].join(''));
       

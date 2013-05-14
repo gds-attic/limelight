@@ -11,7 +11,7 @@ function (Collection) {
     
     id: 'total',
     
-    title: 'Total',
+    title: 'Total submissions',
     
     queryParams: function () {
       var at_midnight = this.moment().utc().day(1).startOf('day');

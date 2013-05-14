@@ -157,7 +157,7 @@ function (Component) {
       
       // Selection bias - only switch between groups when new group is
       // significantly closer than currently selected group.
-      var biasThreshold = 10;
+      var biasThreshold = 15;
       if (selectedIndex != null && bestGroupIndex !== selectedIndex
           && selectedDist < biasThreshold) {
         this.selectItem(selectedIndex, selectedModelIndex, e.toggle);

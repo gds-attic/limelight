@@ -43,31 +43,20 @@ define([
         expect(collection.at(2).get('eventCategory')).toEqual("licensingUserJourney:feeInfoPage");
       });
 
-      it("should place unrecognised keys at the end of the collection", function() {
+      it("should not include unrecognised keys", function() {
         var models = [
           {eventCategory: "afly_1", events: 4321},
           {eventCategory: "licensingUserJourney:downloadFormPage", events: 54321},
-          {eventCategory: "licensingUserJourney:feeInfoPage", events: 321}
+          {eventCategory: "licensingUserJourney:submitApplicationPage", events: 321}
         ];
-        var collection = new Collection(models, {});
+        var collection = new Collection();
+        collection.reset(collection.parse({data: models }));
 
+        expect(collection.length).toEqual(2);
         expect(collection.at(0).get('eventCategory')).toEqual("licensingUserJourney:downloadFormPage");
-        expect(collection.at(1).get('eventCategory')).toEqual("licensingUserJourney:feeInfoPage");
-        expect(collection.at(2).get('eventCategory')).toEqual("afly_1");
+        expect(collection.at(1).get('eventCategory')).toEqual("licensingUserJourney:submitApplicationPage");
       });
 
-      it("should sort multiple unrecognised keys alphabetically", function() {
-        var models = [
-          {eventCategory: "afly_2", events: 4321},
-          {eventCategory: "Afly_1", events: 54321},
-          {eventCategory: "licensingUserJourney:feeInfoPage", events: 321}
-        ];
-        var collection = new Collection(models, {});
-
-        expect(collection.at(0).get('eventCategory')).toEqual("licensingUserJourney:feeInfoPage");
-        expect(collection.at(1).get('eventCategory')).toEqual("Afly_1");
-        expect(collection.at(2).get('eventCategory')).toEqual("afly_2");
-      });
     })
   });
 });

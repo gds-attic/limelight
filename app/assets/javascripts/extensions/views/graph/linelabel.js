@@ -84,7 +84,7 @@ function (Component) {
       selection.attr("transform", function (metaModel, index) {
         var value = model.get(metaModel.get('id'));
         var x = 0;
-        var yLabel = positions[index].min;
+        var yLabel = Math.floor(positions[index].min) + .5;
         metaModel.set('yLabel', yLabel);
         return "translate(" + x + ", " + yLabel + ")";
       });
