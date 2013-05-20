@@ -5,6 +5,11 @@ function (Callout) {
   
   var ApplicationsCallout = Callout.extend({
   
+    horizontal: 'right',
+    vertical: 'bottom',
+    xOffset: -7,
+    yOffset: -7,
+    
     y: function (model, index) {
       return this.scales.y(model.get('_count'));
     },

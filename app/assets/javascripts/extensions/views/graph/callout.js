@@ -32,8 +32,8 @@ function (Component) {
       var scaleFactor = this.graph.scaleFactor();
       
       var basePos = {
-        x: (this.margin.left + this.x(model, index)) * scaleFactor,
-        y: (this.margin.top + this.y(model, index)) * scaleFactor
+        x: this.x(model, index) * scaleFactor,
+        y: this.y(model, index) * scaleFactor
       };
       
       var pos = this.applyPivot(basePos, {
@@ -48,8 +48,8 @@ function (Component) {
       });
       
       el.css({
-        left: pos.x,
-        top: pos.y
+        left: pos.x + this.margin.left * scaleFactor,
+        top: pos.y + this.margin.top * scaleFactor
       });
     },
     
