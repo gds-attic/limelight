@@ -16,7 +16,7 @@ function (require, Graph, XAxis, YAxis, Stack, Hover, Callout) {
     margin: {
       top: 20,
       bottom: 40,
-      left: 45,
+      left: 55,
       right: 40
     },
     

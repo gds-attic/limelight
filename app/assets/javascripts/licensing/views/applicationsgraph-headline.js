@@ -16,7 +16,7 @@ function (View) {
         'Total form submissions per',
         period,
         'over the last',
-        this.model.get('duration'),
+        this.model.periods[this.model.get('period')].duration,
         period + 's',
         this.postfix
       ].join(' '));
