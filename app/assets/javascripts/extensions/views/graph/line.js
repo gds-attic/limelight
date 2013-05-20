@@ -20,40 +20,34 @@ function (Component) {
     render: function () {
       Component.prototype.render.apply(this, arguments);
       
-      var models = this.collection.models;
-      for (var i = models.length - 1; i >= 0; i--){
-        this.renderLine(models[i], i);
-      };
-    },
-    
-    /**
-     * Renders an SVG path consisting of line segments between data points.
-     * @param {Model} [group=undefined] Model for timeseries
-     * @param {Number} [groupIndex=undefined] Index of this timeseries
-     */
-    renderLine: function (group, groupIndex) {
+      var selection = this.componentWrapper.selectAll('g.group')
+          .data(this.collection.models);
       
-      var timeseries = group.get('values');
-      
-      var line = d3.svg.line();
+      var enterSelection = selection.enter();
+      var enterGroup = enterSelection.append('g').attr('class', 'group')
+          .append('path');
+        
       var that = this;
-      line.x(function (model, index) {
-        return that.x.call(that, model, index, group, groupIndex);
-      });
-      line.y(function (model, index) {
-        return that.y.call(that, model, index, group, groupIndex);
-      });
-
-      var path = this.componentWrapper.append("path")
-        .attr("d", line(timeseries.models));
+      var line = d3.svg.line();
       
-      if (this.lineClassed) {
-        var classed = this.lineClassed;
-        if (_.isFunction(classed)) {
-          classed = classed(group, groupIndex)
-        }
-        path.attr('class', classed);
-      }
+      var groups = [];
+      selection.each(function (group, groupIndex) {
+        var groupSelection = d3.select(this);
+        groups.push(groupSelection);
+        var path = groupSelection.select('path');
+        line.x(function (model, index) {
+          return that.x.call(that, model, index, group, groupIndex);
+        });
+        line.y(function (model, index) {
+          return that.y.call(that, model, index, group, groupIndex);
+        });
+        path.attr('d', line(group.get('values').models));
+        path.attr('class', 'line line' + groupIndex + ' ' + group.get('id'));
+      });
+      
+      for (var i = groups.length - 1; i >= 0; i--){
+        this.moveToFront(groups[i]);
+      };
     },
     
     lineClassed: function (group, index) {
@@ -67,7 +61,8 @@ function (Component) {
         var line = this.componentWrapper.select('path.line' + groupIndex);
         line.classed('selected', selected);
         if (selected) {
-          line.node().parentNode.appendChild(line.node());
+          var group = line.node().parentNode;
+          group.parentNode.appendChild(group);
         }
       }, this);
       if (modelSelected) {
@@ -86,26 +81,29 @@ function (Component) {
      */
     getDistanceAndClosestModel: function (group, point) {
       var values = group.get('values');
-      var lastIndex, left, right;
+      var leftIndex, rightIndex, left, right;
       
       right = values.find(function (model, index) {
-        lastIndex = index;
-        return this.x(model) >= point.x;
+        rightIndex = index;
+        return this.x(model, index) >= point.x;
       }, this);
       
       if (!right) {
+        leftIndex = rightIndex;
         left = right = values.last();
-      } else if (lastIndex === 0) {
+      } else if (rightIndex === 0) {
+        leftIndex = rightIndex;
         left = right;
       } else {
-        left = values.at(lastIndex - 1);
+        leftIndex = rightIndex - 1;
+        left = values.at(leftIndex);
       }
       
-      var distLeft = Math.abs(point.x - this.x(left));
-      var distRight = Math.abs(this.x(right) - point.x);
+      var distLeft = Math.abs(point.x - this.x(left, leftIndex));
+      var distRight = Math.abs(this.x(right, rightIndex) - point.x);
       var weight = distLeft / (distLeft + distRight);
       
-      var y = this.d3.interpolate(this.y(left), this.y(right))(weight);
+      var y = this.d3.interpolate(this.y(left, leftIndex), this.y(right, rightIndex))(weight);
       var dist = Math.abs(point.y - y);
       
       var bestIndex = values.indexOf(distLeft < distRight ? left : right);

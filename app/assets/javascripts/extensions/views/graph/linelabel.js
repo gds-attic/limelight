@@ -65,11 +65,11 @@ function (Component) {
       selection.each(function (group) {
         var value = group.get('values').last().get('_count');
         var y = yScale(value);
-        group.set('y', y);
+        var size = d3.select(this).select('text').node().getBBox().height;
         
         positions.push({
           ideal: y,
-          size: this.getBBox().height,
+          size: size,
           id: group.get('id')
         });
       });
@@ -81,11 +81,10 @@ function (Component) {
       });
       
       // apply optimised positions
-      selection.attr("transform", function (metaModel, index) {
-        var value = model.get(metaModel.get('id'));
+      selection.attr("transform", function (group, index) {
         var x = 0;
         var yLabel = Math.floor(positions[index].min) + .5;
-        metaModel.set('yLabel', yLabel);
+        group.set('yLabel', yLabel);
         return "translate(" + x + ", " + yLabel + ")";
       });
     },
@@ -135,18 +134,23 @@ function (Component) {
      * @param {Selection} selection d3 selection to operate on
      */
     updateLines: function (selection) {
-      selection.selectAll("line")
-        .attr('x1', -this.offset + this.linePaddingInner)
-        .attr('x2', -this.linePaddingOuter)
-        .attr('y1', function(metaModel) {
-          return metaModel.get('y') - metaModel.get('yLabel');
-        })
-        .attr('y2', function(metaModel) {
-          return 0;
-        })
-        .classed('crisp', function (metaModel) {
-          return metaModel.get('y') - metaModel.get('yLabel') == 0;
-        });
+      var positions = this.positions;
+      var that = this;
+      selection.each(function (group, groupIndex) {
+        var position = positions[groupIndex];
+        d3.select(this).select('line')
+          .attr('x1', -that.offset + that.linePaddingInner)
+          .attr('x2', -that.linePaddingOuter)
+          .attr('y1', function(group, index) {
+            return position.ideal - position.min;
+          })
+          .attr('y2', function(group) {
+            return 0;
+          })
+          .classed('crisp', function () {
+            return position.ideal - position.min == 0;
+          });
+      });
     },
     
     /**

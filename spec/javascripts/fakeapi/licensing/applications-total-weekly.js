@@ -18,8 +18,13 @@ function (require, Response, Random) {
     getData: function (query) {
       var rnd = this.rnd;
       var getValue = function (start, end, query) {
+        if (query.period === 'month') {
+          max = 30e4;
+        } else {
+          max = 6e4;
+        }
         return {
-          _count: rnd(3e4, 6e4)
+          _count: rnd(3e4, max)
         }
       };
       return this.getTimeseries(query, getValue);

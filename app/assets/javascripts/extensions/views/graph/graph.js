@@ -109,6 +109,10 @@ function (View, d3) {
       throw('No y scale defined.');
     },
     
+    getConfigName: function () {
+      return null;
+    },
+    
     /**
      * Calculates current scales, then renders components in defined order.
      */
@@ -118,7 +122,12 @@ function (View, d3) {
       this.scales.x = this.calcXScale();
       this.scales.y = this.calcYScale();
       
+      var configName = this.getConfigName();
+      
       _.each(this.componentInstances, function (component) {
+        if (configName) {
+          component.applyConfig(configName);
+        }
         component.render();
       }, this);
     }

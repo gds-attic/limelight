@@ -2,8 +2,10 @@ define([
   'licensing/collections/applications-totalandtop5licences-weekly',
   'licensing/views/applicationsperlicencegraph',
   'licensing/collections/all-entities-and-applications-lastweek',
-  'licensing/views/applicationstable'
-], function(GraphCollection, GraphView, TableCollection, TableView) {
+  'licensing/views/applicationstable',
+  'extensions/views/tabs',
+  'licensing/views/applicationsgraph-headline'
+], function(GraphCollection, GraphView, TableCollection, TableView, Tabs, HeadlineView) {
   
   var authorityUrlSlug = $('#wrapper').data('authority-url-slug');
   
@@ -18,8 +20,21 @@ define([
       el: $('#applications-by-licence'),
       collection: graphCollection
     });
+    
+    var graphNav = new Tabs({
+        el: $("#applications-nav"), 
+        model: graphCollection.query, 
+        attr: 'period',
+        tabs: [{id:"month", name:"Monthly"}, {id: "week", name: "Weekly"}]
+        });
 
-    graphCollection.fetch();
+    var graphHeadline = new HeadlineView({
+      el: $('#applications-by-licence').siblings('h2'),
+      model: graphCollection.query,
+      postfix: 'and top licences by submission volume in this time'
+    });
+
+    graphCollection.query.set('period', 'week');
   }
   
   var tableCollection = new TableCollection([], {

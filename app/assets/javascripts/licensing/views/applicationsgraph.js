@@ -38,14 +38,29 @@ function (require, Graph, XAxis, YAxis, Stack, Hover, Callout) {
       ];
     },
     
+    getConfigName: function () {
+      return this.collection.query.get('period') || 'week';
+    },
+    
     calcXScale: function () {
-      // scale from first sunday to last sunday
+      var start, end, xScale;
+      
       var total = this.collection.first().get('values');
-      var start = moment(total.first().get('_end_at')).subtract(1, 'days');
-      var end = moment(total.last().get('_end_at')).subtract(1, 'days');
-      var xScale = this.d3.time.scale();
-      xScale.domain([start.toDate(), end.toDate()]);
+      
+      if (this.collection.query.get('period') === 'month') {
+        xScale = this.d3.scale.linear();
+        xScale.domain([0, total.length - 1]);
+      } else {
+        // scale from first sunday to last sunday
+        start = moment(total.first().get('_end_at')).subtract(1, 'days');
+        end = moment(total.last().get('_end_at')).subtract(1, 'days');
+        
+        xScale = this.d3.time.scale();
+        xScale.domain([start.toDate(), end.toDate()]);
+      }
+      
       xScale.range([0, this.innerWidth]);
+      
       return xScale;
     },
     

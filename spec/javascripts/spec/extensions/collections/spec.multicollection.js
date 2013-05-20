@@ -1,7 +1,8 @@
 define([
-  'extensions/collections/multicollection'
+  'extensions/collections/multicollection',
+  'extensions/collections/collection'
 ],
-function (MultiCollection) {
+function (MultiCollection, Collection) {
   
   describe("MultiCollection", function() {
     
@@ -23,16 +24,28 @@ function (MultiCollection) {
       var collection, part1, part2;
       beforeEach(function() {
         collection = new MultiCollection();
-        part1 = {
-          on: jasmine.createSpy(),
-          fetch: jasmine.createSpy()
-        };
-        part2 = {
-          on: jasmine.createSpy(),
-          fetch: jasmine.createSpy()
-        };
+        var Part1Collection = Collection.extend({
+          queryParams: {part: 'one'},
+          fetch: jasmine.createSpy(),
+          on: jasmine.createSpy()
+        });
+        var Part2Collection = Collection.extend({
+          queryParams: {part: 'two'},
+          fetch: jasmine.createSpy(),
+          on: jasmine.createSpy()
+        });
+        part1 = new Part1Collection();
+        part2 = new Part2Collection();
         collection.collectionInstances = [part1, part2];
         spyOn(collection, "parse");
+      });
+      
+      it("propagates shared query parameters to all collections", function () {
+        collection.query.set('foo', 'bar');
+        expect(part1.query.attributes).toEqual({ foo: 'bar', part: 'one' });
+        expect(part2.query.attributes).toEqual({ foo: 'bar', part: 'two' });
+        expect(part1.fetch).toHaveBeenCalled();
+        expect(part2.fetch).toHaveBeenCalled();
       });
       
       it("fetches data for all collections", function() {

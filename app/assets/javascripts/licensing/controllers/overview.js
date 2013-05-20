@@ -5,18 +5,33 @@ define([
   'licensing/views/top5table',
   'extensions/collections/graphcollection',
   'licensing/collections/applications-conversion',
-  'licensing/views/applications-conversion-graph'
-], function(ApplicationsCollection, ApplicationsGraph, Top5Collection, Top5Table, GraphCollection, ConversionCollection, ConversionGraph) {
+  'licensing/views/applications-conversion-graph',
+  'extensions/views/tabs',
+  'licensing/views/applicationsgraph-headline'
+], function(ApplicationsCollection, ApplicationsGraph, Top5Collection, Top5Table, GraphCollection, ConversionCollection, ConversionGraph, Tabs, HeadlineView) {
   
   if (!$('.lte-ie8').length) {
-    var applicationsCollection = window.applicationsCollection = new GraphCollection(null, {
+    var applicationsCollection = new GraphCollection(null, {
       collections: [ApplicationsCollection]
     });
     var graphView = new ApplicationsGraph({
       el: $('#total-applications'),
       collection: applicationsCollection
     });
-    applicationsCollection.fetch();
+                
+    var graphNav = new Tabs({
+        el: $("#applications-nav"), 
+        model: applicationsCollection.query, 
+        attr: 'period',
+        tabs: [{id:"month", name:"Monthly"}, {id: "week", name: "Weekly"}]
+        });
+    
+    var graphHeadline = new HeadlineView({
+      el: $('#total-applications').siblings('h2'),
+      model: applicationsCollection.query
+    });
+        
+    applicationsCollection.query.set('period', 'week');
     
     var conversionCollection = new GraphCollection(null, {
       collections: [ConversionCollection]

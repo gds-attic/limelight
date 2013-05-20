@@ -87,75 +87,84 @@ function (Collection, Model, Backbone) {
       });
 
       it("constructs a backdrop query URL with static params", function() {
-        var collection = new TestCollection();
-        collection.queryParams = {
+        TestCollection.prototype.queryParams = {
           a: 1,
           b: 'foo bar'
-        }
+        };
+
+        var collection = new TestCollection();
+
         expect(collection.url()).toEqual('//testdomain/performance/service/api/apiname?a=1&b=foo+bar');
       });
 
       it("constructs a backdrop query URL with multiple values for a single parameter", function() {
-        var collection = new TestCollection();
-        collection.queryParams = {
+        TestCollection.prototype.queryParams = {
           a: [1, 'foo']
-        }
+        };
+
+        var collection = new TestCollection();
+
         expect(collection.url()).toEqual('//testdomain/performance/service/api/apiname?a=1&a=foo');
       });
 
       it("constructs a backdrop query URL with dynamic params", function() {
-        var collection = new TestCollection();
-        collection.testProp = 'foo bar';
-        collection.queryParams = function () {
+        TestCollection.prototype.queryParams = function () {
           return {
             a: 1,
             b: this.testProp
           };
         };
+        TestCollection.prototype.testProp = 'foo bar';
+
+        var collection = new TestCollection();
+
         expect(collection.url()).toEqual('//testdomain/performance/service/api/apiname?a=1&b=foo+bar');
       });
 
       it("constructs a backdrop query URL with moment date params", function() {
-        var collection = new TestCollection();
-        collection.testProp = 'foo bar';
-        collection.queryParams = function () {
+
+        TestCollection.prototype.testProp = 'foo bar';
+        TestCollection.prototype.queryParams = function () {
           return {
             a: 1,
             somedate: this.moment('03/08/2013 14:53:26 +00:00', 'MM/DD/YYYY HH:mm:ss T')
           };
         };
+
+        var collection = new TestCollection();
         expect(collection.url()).toEqual('//testdomain/performance/service/api/apiname?a=1&somedate=2013-03-08T14%3A53%3A26%2B00%3A00');
       });
 
       it("constructs a backdrop query URL with a single filter parameter", function () {
-        var collection = new TestCollection([], {
-          filterBy: {
-            foo: 'bar'
-          }
-        });
-        collection.queryParams = function () {
+
+        TestCollection.prototype.queryParams = function () {
           return {
             a: 1
           };
         };
+
+        TestCollection.prototype.filterBy = {foo: "bar"};
+
+        var collection = new TestCollection();
+
         var url = collection.url()
+
         expect(url).toMatch('//testdomain/performance/service/api/apiname?');
         expect(url).toMatch('filter_by=foo%3Abar');
         expect(url).toMatch('a=1');
       });
 
       it("constructs a backdrop query URL with multiple filter parameters", function () {
-        var collection = new TestCollection([], {
-          filterBy: {
-            foo: 'bar',
-            b: 'c'
-          }
-        });
-        collection.queryParams = function () {
+        TestCollection.prototype.queryParams = function () {
           return {
             a: 1
           };
         };
+
+        TestCollection.prototype.filterBy = {foo: 'bar', b: 'c'};
+
+        var collection = new TestCollection();
+
         var url = collection.url()
         expect(url).toMatch('//testdomain/performance/service/api/apiname?');
         expect(url).toMatch('filter_by=foo%3Abar');
@@ -439,6 +448,37 @@ function (Collection, Model, Backbone) {
         collection.selectItem(null);
         expect(spy).toHaveBeenCalledWith(null, null);
       });
+    });
+
+    describe("updating the query model", function () {
+
+      var SubclassOfCollection = undefined;
+
+      beforeEach(function () {
+        SubclassOfCollection = Collection.extend({
+          queryParams: {foo: 'bar'},
+          baseUrl: '/',
+          serviceName: 'awesomeService',
+          apiName: 'bob'
+        });
+      });
+
+      it("gets initialized with the query parameters", function () {
+        var subclassOfCollection = new SubclassOfCollection();
+
+        expect(subclassOfCollection.url()).toBe("/performance/awesomeService/api/bob?foo=bar");
+      });
+
+      it("retrieves new data when the query parameters are updated", function () {
+        spyOn(Collection.prototype, "fetch")
+        var subclassOfCollection = new SubclassOfCollection();
+
+        subclassOfCollection.query.set('foo', 'zap');
+
+        expect(subclassOfCollection.fetch).toHaveBeenCalled();
+        expect(subclassOfCollection.url()).toContain("foo=zap");
+      });
+
     });
   });
 });

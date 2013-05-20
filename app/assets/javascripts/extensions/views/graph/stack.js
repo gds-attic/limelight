@@ -40,6 +40,7 @@ function (require, Line, Component) {
       var stack = this.d3.layout.stack()
         .values(this.stackValues)
         .y(_.bind(this.yStack, this));
+        
       var layers = stack(this.collection.models);
       
       var selection = this.componentWrapper.selectAll('g.group')
@@ -63,17 +64,26 @@ function (require, Line, Component) {
       enterSelection.append("path")
           .attr("class", function (group, index) {
             return 'stack stack' + index + ' ' + group.get('id');
-          })
-          .attr("d", function(group) {
-            return area(group.get('values').models);
           });
       enterSelection.append("path")
           .attr("class", function (group, index) {
             return 'line line' + index + ' ' + group.get('id');
-          })
-          .attr("d", function(group) {
+          });
+        
+      selection.each(function (group, groupIndex) {
+        var groupSelection = d3.select(this);
+        
+        groupSelection.select('path.stack')
+          .attr("d", function() {
+            return area(group.get('values').models);
+          });
+        groupSelection.select('path.line')
+          .attr("d", function() {
             return line(group.get('values').models);
-          })
+          });
+      });
+  
+      
     }
   });
 

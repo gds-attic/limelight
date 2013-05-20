@@ -14,12 +14,12 @@ function (require, Applications, AuthorityHelpersMixin, Group) {
     model: Group,
     
     queryParams: function () {
-      return _.extend(Applications.prototype.queryParams.call(this, arguments), {
+      return {
         group_by: 'authorityUrlSlug',
         limit: 5,
         sort_by: '_count:descending',
         collect: ['authorityName', 'licenceName']
-      });
+      };
     },
     
     queryId: 'applications-top5authorities-weekly',

@@ -1,10 +1,11 @@
 define([
   'backbone',
   'extensions/models/model',
+  'extensions/models/query',
   'extensions/mixins/safesync',
   'moment'
 ],
-function (Backbone, Model, SafeSync, moment) {
+function (Backbone, Model, Query, SafeSync, moment) {
   
   // get base URL for Backdrop instance (with trailing slash if missing)
   var baseUrl = $('#wrapper').data('backdrop-url');
@@ -27,8 +28,17 @@ function (Backbone, Model, SafeSync, moment) {
     
     initialize: function (models, options) {
       this.options = options = options || {};
-      this.filterBy = options.filterBy;
+      if (options.filterBy) {
+        this.filterBy = options.filterBy;
+      }
+      this.createQueryModel();
       Backbone.Collection.prototype.initialize.apply(this, arguments);
+    },
+    
+    createQueryModel: function () {
+      var queryParams = _.extend({}, this.prop("defaultQueryParams"), this.prop("queryParams"));
+      this.query = new Query(queryParams);
+      this.query.on("change", function () { this.fetch(); }, this);
     },
 
     /**
@@ -68,7 +78,7 @@ function (Backbone, Model, SafeSync, moment) {
      */
     url: function() {
       // add query parameters
-      var params = _.extend({}, this.prop('defaultQueryParams'), this.prop('queryParams'));
+      var params = _.clone(this.query.attributes);
       
       // convert date parameters
       _.each(params, function (value, key) {
