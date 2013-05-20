@@ -48,7 +48,12 @@ function (Backbone, moment) {
 
         var max = values.reduce(function(a,b) {return a > b ? a : b});
         var magnitude = this.magnitudeFor(max);
-        var decimalPlaces = values.every(isAnExactMultipleOf(magnitude.value))? 0 : 1;
+        var decimalPlaces;
+        if (max === magnitude.value) {
+          decimalPlaces = 1;
+        } else {
+          decimalPlaces = values.every(isAnExactMultipleOf(magnitude.value))? 0 : 1;
+        }
         
         var format = this.format;
         return function(value) {

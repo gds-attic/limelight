@@ -16,7 +16,7 @@ function (View, Backbone) {
           expect(formatter(50)).toBe("50");
         });
       });
-
+      
       describe("when all label are lower than 1,000,000", function() {
         it("should format all labels as thousands", function() {
           var formatter = View.prototype.numberListFormatter([0, 1000, 2000, 3000]);
@@ -28,6 +28,14 @@ function (View, Backbone) {
           expect(formatter(500)).toBe("0.5k");
           expect(formatter(1000)).toBe("1.0k");
           expect(formatter(1500)).toBe("1.5k");
+        });
+        
+        it("should format with decimals when the max value matches the magnitude", function() {
+          var formatter = View.prototype.numberListFormatter([0, 1000]);
+          expect(formatter(200)).toBe("0.2k");
+          expect(formatter(400)).toBe("0.4k");
+          expect(formatter(800)).toBe("0.8k");
+          expect(formatter(1000)).toBe("1.0k");
         });
       });
 
