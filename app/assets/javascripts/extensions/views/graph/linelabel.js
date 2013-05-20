@@ -30,6 +30,7 @@ function (Component) {
       
       var selection = this.componentWrapper.selectAll('g.label')
           .data(this.collection.models);
+      selection.exit().remove();
           
       var enterSelection = selection.enter().append('g').attr('class', 'label');
       enterSelection.append('line');

@@ -22,6 +22,7 @@ function (Component) {
       
       var selection = this.componentWrapper.selectAll('g.group')
           .data(this.collection.models);
+      selection.exit().remove();
       
       var enterSelection = selection.enter();
       var enterGroup = enterSelection.append('g').attr('class', 'group')

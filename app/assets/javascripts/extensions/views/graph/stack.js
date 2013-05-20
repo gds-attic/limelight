@@ -45,6 +45,8 @@ function (require, Line, Component) {
       
       var selection = this.componentWrapper.selectAll('g.group')
           .data(layers);
+      selection.exit().remove();
+
       this.renderContent(selection);
     },
     
