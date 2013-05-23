@@ -1,7 +1,7 @@
 define([
   'require',
   '../response',
-  'fakeapi/random'
+  '../random'
 ],
 function (require, Timeseries, Random) {
   

@@ -1,13 +1,13 @@
 define([
   'lodash',
-  'helpers/jquery.mockjax',
-  'fakeapi/licensing/applications-top5-lastweek',
-  'fakeapi/licensing/applications-detail-lastweek',
-  'fakeapi/licensing/applications-conversion',
-  'fakeapi/licensing/applications-top5authorities-weekly',
-  'fakeapi/licensing/applications-top5licences-weekly',
-  'fakeapi/licensing/applications-total-weekly',
-  'fakeapi/licensing/all-entities'
+  './support/jquery.mockjax',
+  './responses/licensing/applications-top5-lastweek',
+  './responses/licensing/applications-detail-lastweek',
+  './responses/licensing/applications-conversion',
+  './responses/licensing/applications-top5authorities-weekly',
+  './responses/licensing/applications-top5licences-weekly',
+  './responses/licensing/applications-total-weekly',
+  './responses/licensing/all-entities'
 ],
 function (_) {
   // use XMLHttpRequest for cross domain mock calls on IE

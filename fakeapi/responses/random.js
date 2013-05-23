@@ -1,5 +1,5 @@
 define(function () {
-  // http://michalbe.blogspot.co.uk/2011/02/javascript-random-numbers-with-custom_23.html
+  // http://michalbe.blogspot.co.uk/2011/02/javascripts-random-numbers-with-custom_23.html
   var CustomRandom = function(seed) {
     var constant = Math.pow(2, 13)+1,
         prime = 1987,

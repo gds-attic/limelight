@@ -1,7 +1,5 @@
 <% content_for :title do %><%= @authority.name %> - Performance Platform - GOV.UK <% end %>
-<% content_for :js_config do %>
-    data-controller="licensing/controllers/per_authority" data-authority-url-slug="<%= @authority.slug %>"
-<% end %>
+<% @js_config = { "controller" => "licensing/controllers/per_authority", "authority-url-slug" => @authority.slug } %>
 
 <header>
   <p class="category-title"><%= link_to "Authorities", :action => "authorities" %></p>

@@ -8,11 +8,18 @@
 <body>
 
 <%# Configuration variable added to wrapper element because slimmer removes body attributes %>
-<div id="wrapper" data-backdrop-url="<%= Rails.application.config.backdrop_url %>"
-     data-environment="<%= ENV['RAILS_ENV'] %>"
-     data-base-url="<%= requirejs_base_url %>"
-     data-d3-url="<%= requirejs_module_path("vendor/d3.v3.js") %>" <%= yield(:js_config) %> >
-  
+<%
+   data = {
+     "backdrop-url" => controller.backdrop_url,
+     "environment" => ENV['RAILS_ENV'],
+     "base-url" => requirejs_base_url,
+     "d3-url" => requirejs_module_path("vendor/d3.v3.js"),
+   }
+   data["additional-dependencies"] = controller.additional_requirejs_dependencies if controller.additional_requirejs_dependencies
+   data.merge!(@js_config)
+%>
+<%= content_tag :div, id: "wrapper", data: data do %>
+
   <header id="global">
     
     <nav class="performance-nav">
@@ -46,7 +53,7 @@
     <%= yield %>
     <div id="report-a-problem"></div>
   </section>
-</div>
+<% end %>
 
 <%= javascript_include_tag 'vendor/require', data: { main: requirejs_main_path } %>
 

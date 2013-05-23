@@ -8,6 +8,8 @@ $(document).ready(function () {
   requireConfig = {
     baseUrl: baseUrl,
 
+    deps: ($('#wrapper').data('additional-dependencies') || "").split(','),
+
     paths: {
       jquery: 'jqueryloader',
       jqueryxdr: 'vendor/jquery.xdr',
