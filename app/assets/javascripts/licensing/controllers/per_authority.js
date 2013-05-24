@@ -4,8 +4,11 @@ define([
   'licensing/collections/all-entities-and-applications-lastweek',
   'licensing/views/applicationstable',
   'extensions/views/tabs',
-  'licensing/views/applicationsgraph-headline'
-], function(GraphCollection, GraphView, TableCollection, TableView, Tabs, HeadlineView) {
+  'licensing/views/applicationsgraph-headline',
+  'extensions/module-actions'
+], function(GraphCollection, GraphView, TableCollection, TableView, Tabs, HeadlineView, applyModuleActions) {
+
+  applyModuleActions();
   
   var authorityUrlSlug = $('#wrapper').data('authority-url-slug');
   

@@ -8,6 +8,14 @@
 
 <section class="graph">
   <h1>Form submissions</h1>
+  <ul class="module-actions">
+    <li class="info">
+      <div>
+        <p>Data sources: GOV.UK licensing database</p>
+        <p>Top authorities are those with the highest number of form submissions for the licence in the period being shown.</p>
+      </div>
+    </li>
+  </ul>
   <nav id="applications-nav"></nav>
   <h2>Total form submissions per week over the last 9 weeks and top authorities by submission volume in this time</h2>
   
@@ -16,6 +24,14 @@
 
 <section>
   <h1>Submissions per authority</h1>
+  <ul class="module-actions">
+    <li class="info">
+      <div>
+        <p>Data sources: GOV.UK licensing database</p>
+        <p>Table includes all authorities offering the licence that have had at least 1 submission since being offered on GOV.UK</p>
+      </div>
+    </li>
+  </ul>
   <h2>Authorities offering <strong><%= @licence.name %></strong> on GOV.UK</h2>
   
   <article class="table-wrapper" id="applications-table"></article>

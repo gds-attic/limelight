@@ -9,6 +9,13 @@
 
 <section class="graph">
   <h1>Form submissions</h1>
+  <ul class="module-actions">
+    <li class="info">
+      <div>
+        <p>Data sources: GOV.UK licensing database</p>
+      </div>
+    </li>
+  </ul>
   <nav id="applications-nav"></nav>
   <h2>Total form submissions per week over the last 9 weeks</h2>
   <figure class="graph applications-graph" id="total-applications"></figure>
@@ -16,12 +23,29 @@
 
 <section class="graph">
   <h1>Submission drop-offs</h1>
+  <ul class="module-actions">
+    <li class="info">
+      <div>
+        <p>Data sources: Google Analytics (unique visitors numbers based on sampled data)</p>
+        <p>Shows only those stages that are common across all licensing submissions (some licences have additional fee payment stages which are not included).</p>
+        <p>Percentages calculated as percentage of unique visitors who arrived at each stage out of those who started.</p>
+      </div>
+    </li>
+  </ul>
   <h2>Percentages of unique visitors at common stages of licensing submissions (last week, sampled data)</h2>
   <figure class="graph conversion-graph" id="applications-conversion-graph"></figure>
 </section>
 
 <section>
   <h1>Top licences last week</h1>
+  <ul class="module-actions">
+    <li class="info">
+      <div>
+        <p>Data sources: GOV.UK licensing database</p>
+        <p>Top licences sorts submissions per licence in the past week by submission volume. Those with the highest submission volume are included in the table.</p>
+      </div>
+    </li>
+  </ul>
   <h2>Top licences by submission volume last week</h2>
   <article class="top5-table-wrapper" id="top5-licences-table"></article>
   <p><%= link_to "See all licences", :action => "licences" %></p>
@@ -29,6 +53,14 @@
 
 <section>
   <h1>Top authorities last week</h1>
+  <ul class="module-actions">
+    <li class="info">
+      <div>
+        <p>Data sources: GOV.UK licensing database</p>
+        <p>Top authorities sorts submissions per authority in the past week by submission volume. Those with the highest submission volume are included in the table.</p>
+      </div>
+    </li>
+  </ul>
   <h2>Top authorities by submission volume last week</h2>
   <article class="top5-table-wrapper" id="top5-authorities-table"></article>
   <p><%= link_to "See all authorities", :action => "authorities" %></p>

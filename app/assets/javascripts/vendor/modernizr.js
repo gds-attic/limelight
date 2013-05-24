@@ -1,5 +1,5 @@
 /* Modernizr 2.6.2 (Custom Build) | MIT & BSD
- * Build: http://modernizr.com/download/#-inlinesvg-touch-cssclasses-teststyles-prefixes
+ * Build: http://modernizr.com/download/#-inlinesvg-svg-touch-cssclasses-teststyles-prefixes
  */
 ;
 
@@ -179,6 +179,9 @@ window.Modernizr = (function( window, document, undefined ) {
         }
 
         return bool;
+    };
+    tests['svg'] = function() {
+        return !!document.createElementNS && !!document.createElementNS(ns.svg, 'svg').createSVGRect;
     };
 
     tests['inlinesvg'] = function() {
