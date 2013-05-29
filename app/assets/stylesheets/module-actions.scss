@@ -6,6 +6,10 @@ ul.module-actions {
     margin:0;
     top: -0.2em;
 
+    section.half-width & {
+        top: -2em;
+    }
+
     li {
         z-index:0;
         float:right;
@@ -63,6 +67,10 @@ ul.module-actions {
     ul.module-actions {
 
         top:0.2em;
+
+            section.half-width & {
+                top: 0.2em;
+            }
 
         li {
             width:1.5em;

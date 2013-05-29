@@ -34,6 +34,21 @@
       width: 75%  ;
     }
   }
+
+  section {
+    float:left;
+    width:100%;
+    clear:left;
+
+    &.half-width {
+      width:48.5%;
+      margin-left:0%;
+      clear:none;
+      & ~ .half-width {
+        margin-left:3%;
+      }
+    }
+  }
 }
 
 .report-a-problem-toggle {
@@ -41,9 +56,19 @@
 }
 
 
+
 @media (max-width: 640px) {
   #content {
     padding: 1em;
     
+    section {
+      float:none;
+      &.half-width {
+        width: 100%;
+        & ~ .half-width {
+          margin-left:0;
+        }
+      }
+    }
   }
 }

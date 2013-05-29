@@ -8,8 +8,9 @@ define([
   'licensing/views/applications-conversion-graph',
   'extensions/views/tabs',
   'licensing/views/applicationsgraph-headline',
+  'licensing/views/applications-success-rate',
   'extensions/module-actions'
-], function(ApplicationsCollection, ApplicationsGraph, Top5Collection, Top5Table, GraphCollection, ConversionCollection, ConversionGraph, Tabs, HeadlineView, applyModuleActions) {
+], function(ApplicationsCollection, ApplicationsGraph, Top5Collection, Top5Table, GraphCollection, ConversionCollection, ConversionGraph, Tabs, HeadlineView, SuccessRateView, applyModuleActions) {
 
   applyModuleActions();
   
@@ -35,10 +36,17 @@ define([
     });
         
     applicationsCollection.query.set('period', 'week');
-    
+
     var conversionCollection = new GraphCollection(null, {
       collections: [ConversionCollection]
     });
+
+    var successRate = new SuccessRateView({
+      el: $('#applications-success-rate'),
+      collection: conversionCollection.collectionInstances[0]
+    });
+
+
     var conversionGraph = new ConversionGraph({
       el: $('#applications-conversion-graph'),
       collection: conversionCollection

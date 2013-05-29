@@ -180,6 +180,10 @@
 
 }
 
+.half-width .conversion-graph .x-axis text{
+  font-size:.9em;
+}
+
 @media (max-width: 640px) {
   
   .graph {
@@ -188,9 +192,6 @@
       display:none;
     }
     
-    .x-axis .tick text {
-      font-size:1.3em;
-    }
     .line {
       fill: none;
       stroke-width: 1.5px;
@@ -217,6 +218,12 @@
     .x-axis .tick:nth-child(even) text {
 
       display:none;
+    }
+  }
+
+  .conversion-graph .x-axis {
+    text {
+      font-size:1em;
     }
   }
 }
