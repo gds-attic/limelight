@@ -43,8 +43,8 @@ function (Component) {
         yOffset: this.yOffset,
         constrainToBounds: this.constrainToBounds
       }, {
-        width: this.innerWidth * scaleFactor,
-        height: this.innerHeight * scaleFactor
+        width: this.graph.innerWidth * scaleFactor,
+        height: this.graph.innerHeight * scaleFactor
       });
       
       el.css({

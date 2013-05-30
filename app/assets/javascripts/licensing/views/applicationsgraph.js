@@ -10,22 +10,12 @@ define([
 function (require, Graph, XAxis, YAxis, Stack, Hover, Callout) {
   var ApplicationsGraph = Graph.extend({
     
-    width: 954,
-    height: 400,
-    
-    margin: {
-      top: 20,
-      bottom: 40,
-      left: 55,
-      right: 40
-    },
-    
     sharedComponents: {
       xaxis: XAxis,
       yaxis: YAxis,
       stack: Stack,
       callout: Callout,
-      hover: Hover,
+      hover: Hover
     },
     
     components: function () {

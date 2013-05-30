@@ -10,7 +10,6 @@ function (Component) {
     overlapLabelTop: 0,
     overlapLabelBottom: 20,
     
-    maxTextWidth: null,
     showSquare: false,
     squareSize: 11,
     squarePadding: 4,
@@ -23,7 +22,7 @@ function (Component) {
     render: function () {
       Component.prototype.render.apply(this, arguments);
       
-      var left = this.innerWidth + this.offset;
+      var left = this.graph.innerWidth + this.offset;
       this.componentWrapper
         .classed(this.classed, true)
         .attr('transform', 'translate(' + left + ', 0)');
@@ -44,10 +43,6 @@ function (Component) {
       this.updateLines(selection);
       if (this.showSquare) {
         this.updateSquares(selection);
-      }
-      
-      if (this.maxTextWidth) {
-        this.truncateWithEllipsis(selection, this.maxTextWidth);
       }
     },
     
@@ -78,7 +73,7 @@ function (Component) {
       // optimise positions
       positions = this.positions = this.calcPositions(positions, {
         min: this.overlapLabelTop,
-        max: this.innerHeight + this.overlapLabelBottom
+        max: this.graph.innerHeight + this.overlapLabelBottom
       });
       
       // apply optimised positions
@@ -116,6 +111,9 @@ function (Component) {
             .text(_.unescape(model.get('title')))
             .attr('transform', 'translate(' + xOffset + ', 6)');
       });
+
+      var truncateWidth = this.margin.right - this.offset - xOffset;
+      this.truncateWithEllipsis(selection, truncateWidth);
     },
     
     updateSquares: function (selection) {
@@ -188,7 +186,8 @@ function (Component) {
     },
     
     onChangeSelected: function (groupSelected, groupIndexSelected, modelSelected, indexSelected) {
-      this.componentWrapper.selectAll('g.label').classed('selected', function (group, groupIndex) {
+      var labels = this.componentWrapper.selectAll('g.label');
+      labels.classed('selected', function (group, groupIndex) {
         return groupIndexSelected === groupIndex;
       });
     },

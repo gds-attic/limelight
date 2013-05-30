@@ -7,23 +7,6 @@ define([
 function (require, Graph, XAxis, Bar) {
   var ConversionGraph = Graph.extend({
     
-    width: 954,
-    height: 200,
-    
-    margin: {
-      top: 40,
-      bottom: 40,
-      left: 0,
-      right: 0
-    },
-
-    initialize: function () {
-      if (this.$el.parent('.half-width').length) {
-        this.width = 464;
-      }
-      Graph.prototype.initialize.apply(this, arguments);
-    },
-
     components: function () {
       return [
         {

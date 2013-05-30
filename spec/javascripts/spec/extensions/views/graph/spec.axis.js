@@ -34,6 +34,10 @@ function (Axis) {
         classed: 'testclass',
         getScale: function () {
           return view.d3.scale.linear()
+        },
+        graph: {
+          innerWidth: 100,
+          innerHeight: 100
         }
       });
       spyOn(view.d3.svg, "axis").andCallThrough();
@@ -53,8 +57,10 @@ function (Axis) {
         collection: {
           on: jasmine.createSpy()
         },
-        innerWidth: 555,
-        innerHeight: 444
+        graph: {
+          innerWidth: 555,
+          innerHeight: 444
+        }
       });
     });
     

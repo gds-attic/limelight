@@ -24,7 +24,15 @@ function (LineLabel, Collection) {
         lineLabel.offset = 100;
         lineLabel.linePaddingInner = 20;
         lineLabel.linePaddingOuter = 30;
-        lineLabel.innerWidth = 400;
+        lineLabel.graph = {
+          innerWidth: 400
+        };
+        lineLabel.margin = {
+          top: 100,
+          right: 200,
+          bottom: 300,
+          left: 400
+        };
         lineLabel.positions = [
           { ideal: 30, min: 30 },
           { ideal: 80, min: 80 }
@@ -157,7 +165,11 @@ function (LineLabel, Collection) {
           collection: collection,
           offset: 100,
           linePaddingInner: 20,
-          linePaddingOuter: 30
+          linePaddingOuter: 30,
+          graph: {
+            innerWidth: 100,
+            innerHeight: 100
+          }
         });
 
         el = $('<div></div>').appendTo($('body'));

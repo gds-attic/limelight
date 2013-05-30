@@ -130,8 +130,10 @@ function (Hover) {
         beforeEach(function() {
           component = new Hover({
             collection: { on: jasmine.createSpy() },
-            innerWidth: 300,
-            innerHeight: 200
+            graph: {
+              innerWidth: 300,
+              innerHeight: 200
+            }
           })
         });
         

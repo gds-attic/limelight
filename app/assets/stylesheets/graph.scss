@@ -1,7 +1,19 @@
-@import 'colours';
+@import 'typography';
 
 .graph {
   position:relative;
+
+  text {
+    @include core-16;
+  }
+
+  .inner {
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+  }
   
   .line0 { stroke: $data-colour-1; }
   .line1 { stroke: $data-colour-2; }
@@ -127,6 +139,16 @@
 
 .applications-graph {
   
+  max-width: 954px;
+  max-height: 400px;
+
+  .inner {
+    top: 20px;
+    bottom: 40px;
+    left: 55px;
+    right: 40px;
+  }
+
   .labels {
 
     line {
@@ -177,11 +199,42 @@
     stroke-width: 1px;
     shape-rendering: crispEdges;
   }
-
 }
 
-.half-width .conversion-graph .x-axis text{
-  font-size:.9em;
+#applications-by-licence .inner,
+#applications-by-authority .inner {
+  right: 200px
+}
+
+
+.conversion-graph {
+    max-width: 954px;
+    height: 200px;
+
+    .x-axis text {
+      font-size:10px;
+      font-size:1rem;
+    }
+    
+    .inner {
+      top: 40px;
+      bottom: 30px;
+      left: 0px;
+      right: 0px;
+    }
+
+    .half-width & {
+      max-width: 464px;
+    }
+}
+
+@media (max-width: 780px) {
+  #applications-by-licence,
+  #applications-by-authority {
+    .x-axis .tick:nth-child(even) text {
+      display:none;
+    }
+  }
 }
 
 @media (max-width: 640px) {
@@ -200,30 +253,70 @@
         stroke-width: 3px;
       }
     }
-    text {
-      font-size:1.3em;
-    }
-    
     
     .callout {
       font-size:.7em;
       margin-top:.5em;
       position:static;
-      max-width:170px;
+      max-width:180px;
       margin:.5em auto;
     }
   }
   
   .applications-graph {
+
+    .inner {
+      top: 20px;
+      bottom: 40px;
+      left: 40px;
+      right: 25px;
+    }
+
     .x-axis .tick:nth-child(even) text {
 
       display:none;
     }
   }
 
-  .conversion-graph .x-axis {
+  .half-width .conversion-graph {
+    max-width: 954px;
+  }
+
+}
+
+
+@media (max-width: 440px) {
+  
+  #applications-by-licence,
+  #applications-by-authority {
     text {
-      font-size:1em;
+      font-size:9px;
+      font-size:0.9rem;
+    }
+    .inner {
+      left: 30px;
+      bottom: 30px;
+      right: 30%;
+    }
+  }
+}
+
+@media (max-width: 320px) {
+  
+  .applications-graph {
+    text {
+      font-size:9px;
+      font-size:0.9rem;
+    }
+    .inner {
+      bottom: 30px;
+    }
+  }
+
+  .conversion-graph {
+    .x-axis text {
+      font-size:8px;
+      font-size:0.8rem;
     }
   }
 }

@@ -7,13 +7,6 @@ define([
 function (require, ApplicationsGraph, LineLabel, Line) {
   var ApplicationsPerLicenceGraph = ApplicationsGraph.extend({
     
-    margin: {
-      top: 20,
-      bottom: 40,
-      left: 55,
-      right: 200
-    },
-    
     components: function () {
       return [
         { view: this.sharedComponents.xaxis },

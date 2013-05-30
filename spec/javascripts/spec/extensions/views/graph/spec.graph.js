@@ -97,116 +97,219 @@ function (Graph, Collection, d3) {
       });
     });
     
-  });
-  
-  describe("prepareGraphArea", function() {
-    
-    var graph, el;
-    beforeEach(function() {
-      el = $('<div id="jasmine-playground"></div>').appendTo($('body'));
+    describe("prepareGraphArea", function() {
       
-      var TestGraph = Graph.extend({
-        width: 555,
-        height: 444,
-        margin: {
-          top: 11,
-          bottom: 22,
-          left: 33,
-          right: 44
-        }
+      var graph, el;
+      beforeEach(function() {
+        el = $('<div id="jasmine-playground"></div>').appendTo($('body'));
+        
+        var TestGraph = Graph.extend();
+        graph = new TestGraph({
+          el: el,
+          collection: new Collection()
+        });
       });
-      graph = new TestGraph({
-        el: el,
-        collection: new Collection()
+      
+      afterEach(function() {
+        el.remove();
       });
-    });
-    
-    afterEach(function() {
-      el.remove();
-    });
-    
-    it("creates SVG element with auto resize options", function() {
-      var svg = graph.el.find('svg');
-      expect(svg.length).toEqual(1);
-      expect(svg.attr('width')).toEqual('100%');
-      expect(svg.attr('height')).toEqual('100%');
-      expect(svg.prop('viewBox').baseVal.x).toEqual(0);
-      expect(svg.prop('viewBox').baseVal.y).toEqual(0);
-      expect(svg.prop('viewBox').baseVal.width).toEqual(555);
-      expect(svg.prop('viewBox').baseVal.height).toEqual(444);
-      expect(svg.css('max-width')).toEqual('555px');
-      expect(svg.css('max-height')).toEqual('444px');
-      expect(svg.css('display')).toEqual('block');
-    });
-    
-    it("calculates inner width and inner height", function() {
-      expect(graph.innerWidth).toEqual(555 - 33 - 44);
-      expect(graph.innerHeight).toEqual(444 - 11 - 22);
-    });
-    
-    it("creates wrapper element", function() {
-      var wrapper = graph.el.find('svg g.wrapper');
-      expect(wrapper.length).toEqual(1);
-      expect(wrapper.attr('transform')).toEqual('translate(33, 11)');
-    });
-  });
-  
-  describe("render", function() {
 
-    var graph;
-    beforeEach(function() {
-      spyOn(Graph.prototype, 'prepareGraphArea');
-      graph = new Graph({
-        collection: new Collection()
+      it("creates element to measure size of inner graph area", function () {
+        expect(graph.el.find('.inner').length).toEqual(1);
+      });
+
+      it("creates empty SVG element", function () {
+        var svg = graph.el.find('svg');
+        expect(svg.length).toEqual(1);
+      });
+      
+      it("creates wrapper element", function() {
+        var wrapper = graph.el.find('svg g.wrapper');
+        expect(wrapper.length).toEqual(1);
+      });
+    });
+
+    describe("pxToValue", function () {
+      var pxToValue = Graph.prototype.pxToValue;
+
+      it("extracts number from valid CSS px values", function () {
+        expect(pxToValue('1px')).toEqual(1);
+        expect(pxToValue('1.0px')).toEqual(1);
+        expect(pxToValue('0.5px')).toEqual(0.5);
+        expect(pxToValue('100px')).toEqual(100);
+      });
+
+      it("returns null when it is not a valid CSS px value", function () {
+        expect(pxToValue(100)).toEqual(null);
+        expect(pxToValue(1)).toEqual(null);
+        expect(pxToValue('1p')).toEqual(null);
+        expect(pxToValue(null)).toEqual(null);
+        expect(pxToValue(undefined)).toEqual(null);
+        expect(pxToValue(true)).toEqual(null);
+        expect(pxToValue(false)).toEqual(null);
       });
     });
     
-    it("requires an x scale implementation", function() {
-      graph.calcYScale = jasmine.createSpy().andReturn('test y scale');
-      expect(function () {
-        graph.render();
-      }).toThrow();
-    });
-    
-    it("requires a y scale implementation", function() {
-      graph.calcXScale = jasmine.createSpy().andReturn('test x scale');
-      expect(function () {
-        graph.render();
-      }).toThrow();
-    });
-    
-    it("calculates x scale", function() {
-      graph.calcXScale = jasmine.createSpy().andReturn('test x scale');
-      graph.calcYScale = jasmine.createSpy().andReturn('test y scale');
-      graph.render();
-      expect(graph.scales.x).toEqual('test x scale');
-    });
-    
-    it("calculates y scale", function() {
-      graph.calcXScale = jasmine.createSpy().andReturn('test x scale');
-      graph.calcYScale = jasmine.createSpy().andReturn('test y scale');
-      graph.render();
-      expect(graph.scales.y).toEqual('test y scale');
-    });
-    
-    it("renders component instances", function() {
-      graph.calcXScale = jasmine.createSpy().andReturn('test x scale');
-      graph.calcYScale = jasmine.createSpy().andReturn('test y scale');
-      var component1 = {
-        render: jasmine.createSpy()
-      };
-      var component2 = {
-        render: jasmine.createSpy()
-      };
-      graph.componentInstances = [component1, component2];
-      graph.render();
-      expect(component1.render).toHaveBeenCalled();
-      expect(component2.render).toHaveBeenCalled();
-    });
-  });
-  
-  describe("adjustSize", function() {
+    describe("resize", function () {
 
+      var graph, el, wrapper;
+      beforeEach(function() {
+        wrapper = $('<div id="jasmine-playground"></div>').appendTo($('body'));
+        el = $('<div></div>').appendTo(wrapper);
+        graph = new Graph({
+          collection: new Collection(),
+          el: el
+        });
+        spyOn(graph, "render");
+      });
+      
+      afterEach(function() {
+        wrapper.remove();
+      });
+
+      it("re-scales graph according to aspect ratio when both max-width and max-height are defined", function () {
+        wrapper.css({
+          width: '150px'
+        });
+        el.css({
+          'max-width': '200px',
+          'max-height': '100px'
+        });
+
+        graph.resize();
+        expect(graph.width).toEqual(150);
+        expect(graph.height).toEqual(75);
+      });
+
+      it("re-scales graph according to defined height and available width", function () {
+        wrapper.css({
+          width: '150px'
+        });
+        el.css({
+          'max-width': '200px',
+          'height': '100px'
+        });
+
+        graph.resize();
+        expect(graph.width).toEqual(150);
+        expect(graph.height).toEqual(100);
+      });
+
+      it("updates SVG element with auto resize options", function() {
+        wrapper.css({
+          width: '150px'
+        });
+        el.css({
+          'max-width': '200px',
+          'max-height': '100px'
+        });
+        graph.resize();
+
+        var svg = graph.el.find('svg');
+        expect(svg.length).toEqual(1);
+        expect(svg.attr('width')).toEqual('100%');
+        expect(svg.attr('height')).toEqual('100%');
+        expect(svg.prop('viewBox').baseVal.x).toEqual(0);
+        expect(svg.prop('viewBox').baseVal.y).toEqual(0);
+        expect(svg.prop('viewBox').baseVal.width).toEqual(150);
+        expect(svg.prop('viewBox').baseVal.height).toEqual(75);
+        expect(svg.css('max-width')).toEqual('150px');
+        expect(svg.css('max-height')).toEqual('75px');
+        expect(svg.css('display')).toEqual('block');
+      });
+      
+      it("calculates inner dimensions and margin", function() {
+        wrapper.css({
+          width: '150px'
+        });
+        el.css({
+          'position': 'relative',
+          'max-width': '200px',
+          'max-height': '100px'
+        });
+
+        el.find('.inner').css({
+          position: 'absolute',
+          top: '1px',
+          right: '2px',
+          bottom: '3px',
+          left: '4px'
+        });
+        graph.resize();
+
+        expect(graph.innerWidth).toEqual(150 - 2 - 4);
+        expect(graph.innerHeight).toEqual(75 - 1 - 3);
+        expect(graph.margin.top).toEqual(1);
+        expect(graph.margin.right).toEqual(2);
+        expect(graph.margin.bottom).toEqual(3);
+        expect(graph.margin.left).toEqual(4);
+      });
+      
+    });
+    
+    describe("render", function() {
+
+      var graph;
+      beforeEach(function() {
+        spyOn(Graph.prototype, 'prepareGraphArea');
+        graph = new Graph({
+          collection: new Collection()
+        });
+        spyOn(graph, "resize");
+      });
+
+      it("resizes the graph", function () {
+        graph.calcXScale = jasmine.createSpy().andReturn('test x scale');
+        graph.calcYScale = jasmine.createSpy().andReturn('test y scale');
+        graph.render();
+        expect(graph.resize).toHaveBeenCalled();
+      });
+
+      it("requires an x scale implementation", function() {
+        graph.calcYScale = jasmine.createSpy().andReturn('test y scale');
+        expect(function () {
+          graph.render();
+        }).toThrow();
+      });
+      
+      it("requires a y scale implementation", function() {
+        graph.calcXScale = jasmine.createSpy().andReturn('test x scale');
+        expect(function () {
+          graph.render();
+        }).toThrow();
+      });
+      
+      it("calculates x scale", function() {
+        graph.calcXScale = jasmine.createSpy().andReturn('test x scale');
+        graph.calcYScale = jasmine.createSpy().andReturn('test y scale');
+        graph.render();
+        expect(graph.scales.x).toEqual('test x scale');
+      });
+      
+      it("calculates y scale", function() {
+        graph.calcXScale = jasmine.createSpy().andReturn('test x scale');
+        graph.calcYScale = jasmine.createSpy().andReturn('test y scale');
+        graph.render();
+        expect(graph.scales.y).toEqual('test y scale');
+      });
+      
+      it("renders component instances", function() {
+        graph.calcXScale = jasmine.createSpy().andReturn('test x scale');
+        graph.calcYScale = jasmine.createSpy().andReturn('test y scale');
+        var component1 = {
+          render: jasmine.createSpy()
+        };
+        var component2 = {
+          render: jasmine.createSpy()
+        };
+        graph.componentInstances = [component1, component2];
+        graph.render();
+        expect(component1.render).toHaveBeenCalled();
+        expect(component2.render).toHaveBeenCalled();
+      });
+    });
+    
+    describe("scaleFactor", function () {
       var el, TestGraph;
       beforeEach(function() {
           el = $('<div id="jasmine-playground"></div>').appendTo($('body'));
@@ -221,57 +324,24 @@ function (Graph, Collection, d3) {
           el.remove();
       });
       
-      it("does not resize when no resize is needed", function() {
+      it("calculates the scale factor when the graph is not resized", function() {
           el.width(600);
           graph = new TestGraph({
             el: el,
             collection: new Collection()
           });
-          expect(el.height()).toEqual(400);
+          expect(graph.scaleFactor()).toEqual(1);
       });
       
-      it("resizes according to aspect ratio", function() {
+      it("calculates the scale factor when the graph is resized", function() {
           el.width(300);
           graph = new TestGraph({
             el: el,
             collection: new Collection()
           });
-          expect(el.height()).toEqual(200);
+          expect(graph.scaleFactor()).toEqual(0.5);
       });
+    });
+    
   });
-  
-  describe("scaleFactor", function () {
-    var el, TestGraph;
-    beforeEach(function() {
-        el = $('<div id="jasmine-playground"></div>').appendTo($('body'));
-        el.css('display', 'block');
-        TestGraph = Graph.extend({
-          width: 600,
-          height: 400
-        });
-    });
-    
-    afterEach(function() {
-        el.remove();
-    });
-    
-    it("calculates the scale factor when the graph is not resized", function() {
-        el.width(600);
-        graph = new TestGraph({
-          el: el,
-          collection: new Collection()
-        });
-        expect(graph.scaleFactor()).toEqual(1);
-    });
-    
-    it("calculates the scale factor when the graph is resized", function() {
-        el.width(300);
-        graph = new TestGraph({
-          el: el,
-          collection: new Collection()
-        });
-        expect(graph.scaleFactor()).toEqual(0.5);
-    });
-  });
-  
 });

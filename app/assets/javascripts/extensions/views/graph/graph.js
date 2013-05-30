@@ -8,13 +8,6 @@ function (View, d3) {
     
     d3: d3,
     
-    margin: {
-      top: 0,
-      bottom: 0,
-      left: 0,
-      right: 0
-    },
-    
     initialize: function (options) {
       View.prototype.initialize.apply(this, arguments);
       
@@ -24,14 +17,17 @@ function (View, d3) {
       this.prepareGraphArea();
       
       this.scales = {};
-      var componentInstances = this.componentInstances = [];
-      
+      this.margin = {};
+
       // initialize graph components
+      var componentInstances = this.componentInstances = [];
       var defaultComponentOptions = this.getDefaultComponentOptions();
       _.each(this.prop('components'), function (definition) {
         var options = _.extend({}, defaultComponentOptions, definition.options);
         componentInstances.push(new definition.view(options));
       }, this);
+
+      $(window).on('resize', _.bind(this.render, this));
     },
     
     /**
@@ -47,48 +43,18 @@ function (View, d3) {
         svg: this.svg,
         wrapper: this.wrapper,
         margin: this.margin,
-        innerWidth: this.innerWidth,
-        innerHeight: this.innerHeight,
-        width: this.width,
-        height: this.height,
         scales: this.scales
       }
     },
     
-    /**
-     * Creates SVG element and group element inset by defined margin.
-     */
     prepareGraphArea: function () {
-      this.innerWidth = this.width - this.margin.left - this.margin.right;
-      this.innerHeight = this.height - this.margin.top - this.margin.bottom;
+      this.innerEl = $('<div class="inner"></div>');
+      this.innerEl.appendTo(this.$el);
       
       var svg = this.svg = this.d3.select(this.el[0]).append('svg');
       
-      // configure SVG for automatic resize
-      svg.attr({
-        width: '100%',
-        height: '100%',
-        viewBox: '0 0 ' + this.width + ' ' + this.height,
-        style: 'max-width:' + this.width + 'px; max-height:' + this.height + 'px; display:block;'
-      });
-      
-      // ensure that size is calculated correctly in all browsers
-      this.adjustSize();
-      $(window).on('resize', _.bind(this.adjustSize, this));
-      
       this.wrapper = svg.append('g')
-        .classed('wrapper', true)
-        .attr('transform', 'translate(' + this.margin.left + ', ' + this.margin.top +')');
-    },
-    
-    /**
-     * Resizes SVG element to parent container width, taking aspect ratio into
-     * account. This works around bugs in some Webkit builds and IE10.
-     */
-    adjustSize: function () {
-      var aspectRatio = this.width / this.height;
-      var svg = $(this.svg.node());
-      svg.height(this.el.width() / aspectRatio);
+        .classed('wrapper', true);
     },
     
     /**
@@ -112,13 +78,78 @@ function (View, d3) {
     getConfigName: function () {
       return null;
     },
+
+    pxToValue: function (cssVal) {
+      if (!_.isString(cssVal)) {
+        return null;
+      }
+      var matches = cssVal.match(/([0-9\.]+)px/);
+      return matches ? parseFloat(matches[1]) : null;
+    },
+
+    resize: function () {
+      var width = this.width = this.$el.width();
+
+      // when both max-width and max-height are defined, scale graph according
+      // to this aspect ratio
+      var maxWidth = this.pxToValue(this.$el.css('max-width'));
+      var maxHeight = this.pxToValue(this.$el.css('max-height'));
+      var height;
+      if (maxWidth != null && maxHeight != null) {
+        var aspectRatio = maxWidth / maxHeight;
+        height = width / aspectRatio;
+      } else {
+        height = this.$el.height();
+      }
+      this.height = height;
+
+      // configure SVG for automatic resize
+      this.svg.attr({
+        width: '100%',
+        height: '100%',
+        viewBox: '0 0 ' + width + ' ' + height,
+        style: 'max-width:' + width + 'px; max-height:' + height + 'px; display:block;'
+      });
+      $(this.svg.node()).height(height);
+
+      var innerEl = this.innerEl;
+      this.margin.top = innerEl.position().top;
+      this.margin.left = innerEl.position().left;
+
+      this.innerWidth = innerEl.outerWidth();
+      this.innerHeight = innerEl.outerHeight();
+
+      this.margin.bottom = height - this.margin.top - this.innerHeight;
+      this.margin.right = width - this.margin.left - this.innerWidth;
+
+      this.wrapper.attr('transform', [
+        'translate(',
+        this.margin.left,
+        ', ',
+        this.margin.top,
+        ')'
+      ].join(''));
+    },
     
     /**
      * Calculates current scales, then renders components in defined order.
      */
     render: function () {
       View.prototype.render.apply(this, arguments);
-      
+
+      // hide callout during resize if present.
+      // works around bug in Webkit / iOS that incorrectly calculates height
+      // of inner element.
+      var callout = this.$el.find('.callout');
+      var calloutHidden = callout.hasClass('performance-hidden');
+      callout.addClass('performance-hidden');
+
+      this.resize();
+
+      if (!calloutHidden) {
+        callout.removeClass('performance-hidden');
+      }
+
       this.scales.x = this.calcXScale();
       this.scales.y = this.calcYScale();
       

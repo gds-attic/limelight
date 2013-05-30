@@ -102,8 +102,8 @@ function (Component, Modernizr) {
      * The main graph area therefore is slice 4.
      */
     getSlice: function (x, y) {
-      return (y >= this.innerHeight ? 6 : y < 0 ? 0 : 3) + 
-             (x >= this.innerWidth ? 2 : x < 0 ? 0 : 1);
+      return (y >= this.graph.innerHeight ? 6 : y < 0 ? 0 : 3) + 
+             (x >= this.graph.innerWidth ? 2 : x < 0 ? 0 : 1);
     }
     
   });

@@ -39,9 +39,9 @@ function (Component) {
       var offsetY = this.offsetY || 0;
       
       if (this.position == 'right') {
-        offsetX += this.innerWidth;
+        offsetX += this.graph.innerWidth;
       } else if (this.position === 'bottom') {
-        offsetY += this.innerHeight;
+        offsetY += this.graph.innerHeight;
       }
       
       return "translate(" + offsetX + "," + offsetY + ")";
