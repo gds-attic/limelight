@@ -1,27 +1,21 @@
-Given(/^API responds with (.*)$/) do |fixture_file|
-  path = Rails.root.join('spec', 'fixtures', fixture_file)
-  
-  httparty_stub = double("HttpParty")
-  response_stub = double("response")
-  
-  httparty_stub.stub(:get)
-    .and_return(response_stub)
-  
-  response_stub.stub(:data).and_return(JSON.parse(File.read(path)))
-  Songkick::Transport::HttParty.stub(:new)
-    .and_return(httparty_stub)
+Given(/^the flag (.+) is (not )?set$/) do |flag, status|
+  Settings::feature_toggles[flag.to_sym] = !(status == 'not ')
 end
 
 When(/^I go to (.*)$/) do |url|
   visit url
 end
 
-Then(/^I should get back a status of (\d+)$/) do |status_code|
-  page.status_code.should == status_code.to_i
+When(/^I click on "(.*?)"$/) do |name|
+  click_link(name)
 end
 
-Then(/^there should be (\d+) licences$/) do |num_licences|
-  page.all("#licences-list li").count.should == num_licences.to_i
+Then(/^I should be at (.*)$/) do |path|
+  URI.parse(current_url).path.should == path
+end
+
+Then(/^I should get back a status of (\d+)$/) do |status_code|
+  page.status_code.should == status_code.to_i
 end
 
 Then(/^the "(.*?)" count should be (\d+)$/) do |type, count|
@@ -51,7 +45,11 @@ Then(/^the category title should link to "(.*?)"$/) do |href|
 end
 
 Then(/^the page title should be "(.*?)"$/) do |title|
-  page.find("#content header h1").should have_content(title)
+  page.all("#content header h1")[0].should have_content(title)
+end
+
+Then(/^the page subtitle should be "(.*?)"$/) do |title|
+  page.all("#content header h2")[0].should have_content(title)
 end
 
 Then(/^the (\d+)(?:st|nd|rd|th) subtitle should be "(.*?)"$/) do |position, subtitle|
@@ -65,10 +63,6 @@ end
 
 Then(/^the navigation link for "(.*?)" should be active$/) do |link_title|
   page.find("#global nav li.sub-level a.current").should have_content(link_title)
-end
-
-When /^there should be (\d+) authorities$/ do |num_authorities|
-  page.all("#authorities-list li").count.should == num_authorities.to_i
 end
 
 Then(/^I see a link to "(.*?)"$/) do |url|

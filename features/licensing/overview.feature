@@ -7,8 +7,8 @@ Feature: Overview page
        Given the flag show_licensing_overview_success_rate is set
        When I go to /performance/licensing
        Then I should get back a status of 200
-        And the category title should be "Performance Platform"
-        And the category title should link to "/performance"
+        And the category title should be "Services"
+        And the category title should link to "/performance/services"
         And the page title should be "Licensing performance (licences and authorities on GOV.UK only)"
         And the 1st subtitle should be "Form submissions"
         And the 1st section description should be "Total form submissions per week over the last 9 weeks"
@@ -22,13 +22,16 @@ Feature: Overview page
         And the 5th section description should be "Top authorities by submission volume last week"
         And I see a link to "/performance/licensing/licences"
         And I see a link to "/performance/licensing/authorities"
+       When I click on "Services"
+       Then I should get back a status of 200
+        And I should be at /performance/services
 
   Scenario: visiting overview page
        Given the flag show_licensing_overview_success_rate is not set
        When I go to /performance/licensing
        Then I should get back a status of 200
-        And the category title should be "Performance Platform"
-        And the category title should link to "/performance"
+        And the category title should be "Services"
+        And the category title should link to "/performance/services"
         And the page title should be "Licensing performance (licences and authorities on GOV.UK only)"
         And the 1st subtitle should be "Form submissions"
         And the 1st section description should be "Total form submissions per week over the last 9 weeks"
@@ -40,3 +43,6 @@ Feature: Overview page
         And the 4th section description should be "Top authorities by submission volume last week"
         And I see a link to "/performance/licensing/licences"
         And I see a link to "/performance/licensing/authorities"
+       When I click on "Services"
+       Then I should get back a status of 200
+        And I should be at /performance/services

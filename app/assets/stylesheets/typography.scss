@@ -27,6 +27,11 @@ p {
         color: $grey-1;
       }
     }
+    h2 {
+      @include core-16;
+      margin:0;
+      color: $grey-1;
+    }
 
     p.category-title {
       @include core-24;

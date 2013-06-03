@@ -17,37 +17,12 @@
      "preprocessors" => "partial_experience_warning,module_touch_actions"
    }
    data["additional-dependencies"] = controller.additional_requirejs_dependencies if controller.additional_requirejs_dependencies
-   data.merge!(@js_config)
+   data.merge!(@js_config) if (@js_config)
 %>
 <%= content_tag :div, id: "wrapper", data: data do %>
 
   <header id="global">
-    
-    <nav class="performance-nav">
-      <%= link_to({action: 'index'}, class: "top-level") do %>
-          <span class="top-level-link">Licensing performance</span>
-          <span class="alpha-tag">Alpha</span>
-      <% end %>
-      <div class="menu-wrapper">
-        <a id="menu-toggle" href="#" data-hide-or-show="sub-level">menu</a>
-        <div class="inner-nav">
-          <ul id="navigation">
-            <li class="sub-level">
-              <% authoritiesClassName = 'current' if ['authorities', 'per_authority'].include? controller.action_name %>
-              <%= link_to({action: 'authorities'}, class: authoritiesClassName ) do %>
-                Authorities
-              <% end %>
-            </li>
-            <li class="sub-level">
-              <% licencesClassName = 'current' if ['licences', 'per_licence'].include? controller.action_name %>
-              <%= link_to({action: 'licences'}, class: licencesClassName ) do %>
-                Licences
-              <% end %>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+    <%= render :partial => "navigation" rescue nil %>
   </header>
   
   <section id="content" class="group">

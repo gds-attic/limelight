@@ -1,0 +1,30 @@
+<% content_for :title do %>Services - Performance Platform - GOV.UK<% end %>
+<% @js_config = { "controller" => "common/controllers/services" } %>
+
+<header>
+  <p class="category-title"><%= link_to "Performance Platform", '/performance' %></p>
+  <h1>Services</h1>
+  <h2>Services integrated with the Performance Platform</h2>
+</header>
+
+<div id="filter-wrapper" class="services"></div>
+
+<section id="services-list" class="entity-type">
+  <header>
+    <h2>Services</h2>
+    <p class="count"><%= @num_services %></p>
+  </header>
+
+  <dl>
+    <% @services.each do |letter, group| %>
+    <dt><%= letter.upcase %></dt>
+    <dd>
+      <ol>
+        <% group.each do |service| %>
+        <li><%= link_to service[:name], service[:path] %></li>
+        <% end %>
+      </ol>
+    </dd>
+    <% end %>
+  </dl>
+</section>
