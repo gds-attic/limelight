@@ -14,6 +14,7 @@
      "environment" => ENV['RAILS_ENV'],
      "base-url" => requirejs_base_url,
      "d3-url" => requirejs_module_path("vendor/d3.v3.js"),
+     "preprocessors" => "partial_experience_warning,module_touch_actions"
    }
    data["additional-dependencies"] = controller.additional_requirejs_dependencies if controller.additional_requirejs_dependencies
    data.merge!(@js_config)

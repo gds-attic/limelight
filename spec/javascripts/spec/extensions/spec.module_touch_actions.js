@@ -1,27 +1,27 @@
 define([
-  'extensions/module-actions'
+  'licensing/controllers/preprocessors/module_touch_actions'
   ],
-function (applyModuleActions) {
-  describe('Module Actions', function() {
+function (applyModuleTouchActions) {
+  describe('Module touch actions', function() {
 
     describe('touch behaviour', function() {
 
-      var originalModernizr = window.Modernizr;
+      var originalModernizr = applyModuleTouchActions.Modernizr;
 
       beforeEach(function() {
-        window.Modernizr = {
+        applyModuleTouchActions.Modernizr = {
           touch: true
         };
         $('body').append($('<ul id="module1" class="module-actions">').append('<li></li>'));
       });
 
       afterEach(function() {
-        window.Modernizr = originalModernizr;
+        applyModuleTouchActions.Modernizr = originalModernizr;
         $('ul.module-actions').remove();
       });
 
       it('should show a callout on touch', function() {
-        applyModuleActions();
+        applyModuleTouchActions();
         var li = $('ul.module-actions li');
         expect(li).not.toHaveClass('active');
         li.trigger('touchend');
@@ -29,7 +29,7 @@ function (applyModuleActions) {
       });
 
       it('should toggle the callout on repeated touches', function() {
-        applyModuleActions();
+        applyModuleTouchActions();
         var li = $('ul.module-actions li');
         expect(li).not.toHaveClass('active');
         li.trigger('touchend');
@@ -39,7 +39,7 @@ function (applyModuleActions) {
       });
 
       it("should close the callout when the user touches somewhere else on the page", function () {
-        applyModuleActions();
+        applyModuleTouchActions();
         var li = $('ul.module-actions li');
         li.trigger('touchend');
         expect(li).toHaveClass('active');
@@ -49,7 +49,7 @@ function (applyModuleActions) {
 
       it("should close other open callouts on touch", function () {
         $('body').append($('<ul id="module2" class="module-actions">').append('<li></li>'));
-        applyModuleActions();
+        applyModuleTouchActions();
 
         $('#module1 li').trigger('touchend');
         expect($('#module1 li')).toHaveClass('active');
@@ -62,22 +62,22 @@ function (applyModuleActions) {
     });
 
     describe("non-touch behaviour", function () {
-      var originalModernizr = window.Modernizr;
+      var originalModernizr = applyModuleTouchActions.Modernizr;
 
       beforeEach(function() {
-        window.Modernizr = {
+        applyModuleTouchActions.Modernizr = {
           touch: false
         };
         $('body').append($('<ul class="module-actions">').append('<li></li>'));
       });
 
       afterEach(function() {
-        window.Modernizr = originalModernizr;
+        applyModuleTouchActions.Modernizr = originalModernizr;
         $('ul.module-actions').remove();
       });
 
       it("should not react to touches", function () {
-        applyModuleActions();
+        applyModuleTouchActions();
         var li = $('ul.module-actions li');
         li.trigger('touchend');
         expect(li).not.toHaveClass('active');
