@@ -1,7 +1,9 @@
 Limelight::Application.routes.draw do
   match "/_status" => "healthcheck#index", via: :get
 
-  match "/performance/services" => "common#services", via: :get, as: "services"
+  if Settings.feature_toggles[:show_services]
+    match "/performance/services" => "common#services", via: :get, as: "services"
+  end
 
   match "/performance/licensing/licences/:slug" => "licensing#per_licence", via: :get, as: "licence"
   match "/performance/licensing/authorities/:slug" => "licensing#per_authority", via: :get, as: "authority"

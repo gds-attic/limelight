@@ -5,6 +5,7 @@ Feature: Services page
 
 
   Scenario: visiting services page
+      Given the flag show_services is set
        When I go to /performance/services
        Then I should get back a status of 200
         And the category title should be "Performance Platform"
@@ -13,8 +14,8 @@ Feature: Services page
         And the page subtitle should be "Services integrated with the Performance Platform"
         And the "services" count should be 7
 
-
   Scenario Outline: navigating to service
+   Given the flag show_services is set
     When I go to /performance/services
      And I click on "<Title>"
     Then I should get back a status of 200
