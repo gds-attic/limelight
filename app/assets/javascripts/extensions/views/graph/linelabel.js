@@ -226,12 +226,19 @@ function (Component) {
       var sumSize = _.reduce(items, function(memo, item){
         return memo + item.size;
       }, 0);
+
       
       // check if everything fits
-      if (bounds && sumSize > bounds.max - bounds.min) {
-        // no solution possible
-        // TODO: what to do?
-        return items;
+      if (bounds) {
+        var availableSpace = bounds.max - bounds.min;
+        if (sumSize > availableSpace) {
+          // doesn't fit - overlap is necessary
+          var overlapFactor = availableSpace / sumSize;
+          _.each(items, function (item) {
+            item.size *= overlapFactor;
+          });
+          sumSize = availableSpace;
+        }
       }
       
       if (bounds) {

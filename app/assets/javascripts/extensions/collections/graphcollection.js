@@ -58,6 +58,27 @@ function (require, MultiCollection, Group) {
       
       this.trigger('change:selected', selectGroup, selectGroupIndex, selectModel, selectIndex);
     },
+
+    getCurrentSelection: function () {
+      var res = {
+        selectedGroupIndex: this.selectedIndex,
+        selectedGroup: this.selectedItem,
+        selectedModelIndex: null,
+        selectedModel: null
+      };
+
+      if (this.selectedItem) {
+        var groupValues = this.selectedItem.get('values');
+        if (groupValues.selectedItem) {
+          _.extend(res, {
+            selectedModelIndex: groupValues.selectedIndex,
+            selectedModel: groupValues.selectedItem
+          });
+        }
+      }
+
+      return res;
+    },
     
     onGroupChangeSelected: function (group, groupIndex, model, index) {
       if (index === null) {

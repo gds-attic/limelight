@@ -49,6 +49,14 @@ function (Component) {
       for (var i = groups.length - 1; i >= 0; i--){
         this.moveToFront(groups[i]);
       };
+
+      var currentSelection = this.collection.getCurrentSelection();
+      this.onChangeSelected(
+        currentSelection.selectedGroup,
+        currentSelection.selectedGroupIndex,
+        currentSelection.selectedModel,
+        currentSelection.selectedModelIndex
+      );
     },
     
     lineClassed: function (group, index) {

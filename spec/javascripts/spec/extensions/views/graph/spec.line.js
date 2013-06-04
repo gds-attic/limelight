@@ -27,6 +27,13 @@ function (Line, Collection) {
           ])
         }
       ]);
+      collection.getCurrentSelection = jasmine.createSpy().andReturn({
+        selectedGroup: collection.at(0),
+        selectedGroupIndex: 0,
+        selectedModel: { a: 1 },
+        selectedModelIndex: 2,
+      });
+      spyOn(Line.prototype, "onChangeSelected");
     });
 
     afterEach(function() {
@@ -72,6 +79,26 @@ function (Line, Collection) {
         expect(wrapper.select('g.group:nth-child(1) path').attr('d')).toEqual('M1,3L5,7L9,11');
         expect(wrapper.select('g.group:nth-child(2) path').attr('d')).toEqual('M1,2L5,6L9,10');
       });
+
+      it("highlights the current selection", function () {
+        var view = new Line({
+          wrapper: wrapper,
+          collection: collection,
+          x: function (model, index, group, groupIndex) {
+            return model.get('a') + index;
+          },
+          y: function (model, index, group, groupIndex) {
+            var attr = group.get('testAttr');
+            return model.get(attr) + index;
+          }
+        });
+
+        view.render();
+
+        expect(view.onChangeSelected).toHaveBeenCalledWith(
+          collection.at(0), 0, { a: 1 }, 2
+        );
+      });
     });
 
     describe("onChangeSelected", function () {
@@ -89,21 +116,22 @@ function (Line, Collection) {
             return model.get(attr) + index;
           }
         });
+
         view.render();
       });
 
       it("highlights the selected group", function () {
-        view.onChangeSelected(collection.at(1), 1, null, null);
+        view.onChangeSelected.originalValue.call(view, collection.at(1), 1, null, null);
         expect(view.componentWrapper.select('path.line0').attr('class').indexOf('selected')).toBe(-1);
         expect(view.componentWrapper.select('path.line1').attr('class').indexOf('selected')).not.toBe(-1);
         expect(view.componentWrapper.selectAll('.selectedIndicator')[0].length).toEqual(0);
-        view.onChangeSelected(collection.at(0), 0, null, null);
+        view.onChangeSelected.originalValue.call(view, collection.at(0), 0, null, null);
         expect(view.componentWrapper.select('path.line0').attr('class').indexOf('selected')).not.toBe(-1);
         expect(view.componentWrapper.select('path.line1').attr('class').indexOf('selected')).toBe(-1);
       });
 
       it("renders a selection indicator on the selected item", function () {
-        view.onChangeSelected(collection.at(1), 1, collection.at(1).get('values').at(1), 1);
+        view.onChangeSelected.originalValue.call(view, collection.at(1), 1, collection.at(1).get('values').at(1), 1);
         expect(view.componentWrapper.select('path.line1').attr('class').indexOf('selected')).not.toBe(-1);
         expect(view.componentWrapper.selectAll('.selectedIndicator')[0].length).toEqual(1);
         expect(view.componentWrapper.selectAll('.selectedIndicator').attr('cx')).toEqual('5');

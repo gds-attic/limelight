@@ -22,16 +22,22 @@ function (Component) {
       var axis = this.d3.svg.axis()
         .scale(scale)
         .orient(this.orient);
+
       
       _.each(['ticks', 'tickValues', 'tickFormat', 'tickPadding', 'tickSize'], function (id) {
         if (this[id] != null) {
           axis[id](_.isFunction(this[id]) ? this[id]() : this[id]);
         }
       }, this);
-      
+
       this.componentWrapper
         .attr("transform", this.getTransform())
         .call(axis);
+
+      // re-order elements to ensure odd/even CSS logic behaves as expected
+      this.componentWrapper.selectAll('.tick').sort(function (a, b) {
+        return a < b ? -1 : a > b ? 1 : 0;
+      });
     },
     
     getTransform: function () {

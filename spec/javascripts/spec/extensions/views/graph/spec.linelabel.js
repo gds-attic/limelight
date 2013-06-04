@@ -389,6 +389,19 @@ function (LineLabel, Collection) {
         expect(Math.round(result[1].min)).toEqual(0);
         expect(Math.round(result[2].min)).toEqual(20);
       });
+
+      it("overlaps items as necessary if available space is not sufficient", function () {
+        var initial = [
+          { ideal:  5, size: 10 },
+          { ideal: 10, size: 20 },
+          { ideal: 25, size: 20 }
+        ];
+        var bounds = { min: 5, max: 50 };
+        var result = line.calcPositions(initial, bounds);
+        expect(Math.round(result[0].min)).toEqual(5);
+        expect(Math.round(result[1].min)).toEqual(14);
+        expect(Math.round(result[2].min)).toEqual(32);
+      });
     });
   });
   

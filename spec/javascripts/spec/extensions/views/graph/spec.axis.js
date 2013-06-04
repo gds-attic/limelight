@@ -46,6 +46,41 @@ function (Axis) {
       
       expect(wrapper.selectAll('.tick')[0].length).toEqual(11);
     });
+
+    it("re-orders tick elements correctly when re-using tick elements", function () {
+      var view = new Axis({
+        collection: {
+          on: jasmine.createSpy()
+        },
+        wrapper: wrapper,
+        classed: 'testclass',
+        getScale: function () {
+          return view.d3.scale.linear()
+        },
+        graph: {
+          innerWidth: 100,
+          innerHeight: 100
+        },
+        tickValues: [2,4,6]
+      });
+      spyOn(view.d3.svg, "axis").andCallThrough();
+      
+      view.render()
+      
+      var ticks = wrapper.selectAll('.tick')[0];
+      expect(wrapper.selectAll('.tick')[0].length).toEqual(3);
+      expect(d3.select(ticks[0]).text()).toEqual('2.0');
+      expect(d3.select(ticks[1]).text()).toEqual('4.0');
+      expect(d3.select(ticks[2]).text()).toEqual('6.0');
+
+      view.tickValues = [1,2,3];
+      view.render();
+
+      var ticks = wrapper.selectAll('.tick')[0];
+      expect(d3.select(ticks[0]).text()).toEqual('1.0');
+      expect(d3.select(ticks[1]).text()).toEqual('2.0');
+      expect(d3.select(ticks[2]).text()).toEqual('3.0');
+    });
     
   });
   

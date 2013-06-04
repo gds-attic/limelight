@@ -74,7 +74,8 @@ function (GraphCollection, Collection, Group) {
       });
     });
     
-    describe("selectItem", function () {
+
+    describe("selection", function () {
       
       var collection, spy;
       beforeEach(function() {
@@ -96,51 +97,85 @@ function (GraphCollection, Collection, Group) {
         collection.reset([ group0, group1 ]);
       });
       
-      it("selects a group", function () {
-        collection.selectItem(1);
-        expect(collection.selectedItem).toBe(collection.at(1));
-        expect(collection.selectedIndex).toEqual(1);
-        expect(collection.at(0).get('values').selectedItem).toBeFalsy();
-        expect(collection.at(1).get('values').selectedItem).toBeFalsy();
-        expect(spy).toHaveBeenCalledWith(collection.at(1), 1, null, null);
-      });
-      
-      it("selects an item in a group and unselects all other groups", function () {
-        collection.selectItem(1, 1);
-        expect(collection.selectedItem).toBe(collection.at(1));
-        expect(collection.selectedIndex).toEqual(1);
-        expect(collection.at(0).get('values').selectedItem).toBeFalsy();
-        expect(collection.at(1).get('values').selectedItem).toBe(collection.at(1).get('values').at(1))
-        expect(spy).toHaveBeenCalledWith(collection.at(1), 1, collection.at(1).get('values').at(1), 1);
+      describe("selectItem", function () {
         
-        collection.selectItem(0, 0);
-        expect(collection.selectedItem).toBe(collection.at(0));
-        expect(collection.selectedIndex).toEqual(0);
-        expect(collection.at(0).get('values').selectedItem).toBe(collection.at(0).get('values').at(0))
-        expect(collection.at(1).get('values').selectedItem).toBeFalsy();
-        expect(spy).toHaveBeenCalledWith(collection.at(0), 0, collection.at(0).get('values').at(0), 0);
+        it("selects a group", function () {
+          collection.selectItem(1);
+          expect(collection.selectedItem).toBe(collection.at(1));
+          expect(collection.selectedIndex).toEqual(1);
+          expect(collection.at(0).get('values').selectedItem).toBeFalsy();
+          expect(collection.at(1).get('values').selectedItem).toBeFalsy();
+          expect(spy).toHaveBeenCalledWith(collection.at(1), 1, null, null);
+        });
+        
+        it("selects an item in a group and unselects all other groups", function () {
+          collection.selectItem(1, 1);
+          expect(collection.selectedItem).toBe(collection.at(1));
+          expect(collection.selectedIndex).toEqual(1);
+          expect(collection.at(0).get('values').selectedItem).toBeFalsy();
+          expect(collection.at(1).get('values').selectedItem).toBe(collection.at(1).get('values').at(1));
+          expect(spy).toHaveBeenCalledWith(collection.at(1), 1, collection.at(1).get('values').at(1), 1);
+          
+          collection.selectItem(0, 0);
+          expect(collection.selectedItem).toBe(collection.at(0));
+          expect(collection.selectedIndex).toEqual(0);
+          expect(collection.at(0).get('values').selectedItem).toBe(collection.at(0).get('values').at(0));
+          expect(collection.at(1).get('values').selectedItem).toBeFalsy();
+          expect(spy).toHaveBeenCalledWith(collection.at(0), 0, collection.at(0).get('values').at(0), 0);
+        });
+        
+        it("unselects group and item", function () {
+          collection.selectItem(1, 1);
+          collection.selectItem(null);
+          expect(collection.selectedItem).toBe(null);
+          expect(collection.selectedIndex).toBe(null);
+          expect(collection.at(0).get('values').selectedItem).toBeFalsy();
+          expect(collection.at(1).get('values').selectedItem).toBeFalsy();
+          expect(spy).toHaveBeenCalledWith(null, null, null, null);
+        });
+        
+        it("unselects item but keeps group", function () {
+          collection.selectItem(1, 1);
+          collection.selectItem(1, null);
+          expect(collection.selectedItem).toBe(collection.at(1));
+          expect(collection.selectedIndex).toEqual(1);
+          expect(collection.at(0).get('values').selectedItem).toBeFalsy();
+          expect(collection.at(1).get('values').selectedItem).toBeFalsy();
+          expect(spy).toHaveBeenCalledWith(collection.at(1), 1, null, null);
+        });
+        
       });
-      
-      it("unselects group and item", function () {
-        collection.selectItem(1, 1);
-        collection.selectItem(null);
-        expect(collection.selectedItem).toBe(null);
-        expect(collection.selectedIndex).toBe(null);
-        expect(collection.at(0).get('values').selectedItem).toBeFalsy();
-        expect(collection.at(1).get('values').selectedItem).toBeFalsy();
-        expect(spy).toHaveBeenCalledWith(null, null, null, null);
+
+      describe("getCurrentSelection", function () {
+
+        it("retrieves an object with an empty selection when nothing is selected", function () {
+          collection.selectItem(null);
+          var currentSelection = collection.getCurrentSelection();
+          expect(currentSelection.selectedGroup).toBe(null);
+          expect(currentSelection.selectedGroupIndex).toBe(null);
+          expect(currentSelection.selectedModel).toBe(null);
+          expect(currentSelection.selectedModelIndex).toBe(null);
+        });
+
+        it("retrieves an object with the currently selected group", function () {
+          collection.selectItem(1, null);
+          var currentSelection = collection.getCurrentSelection();
+          expect(currentSelection.selectedGroup).toBe(collection.at(1));
+          expect(currentSelection.selectedGroupIndex).toBe(1);
+          expect(currentSelection.selectedModel).toBe(null);
+          expect(currentSelection.selectedModelIndex).toBe(null);
+        });
+
+        it("retrieves an object with the currently selected group and item", function () {
+          collection.selectItem(1, 1);
+          var currentSelection = collection.getCurrentSelection();
+          expect(currentSelection.selectedGroup).toBe(collection.at(1));
+          expect(currentSelection.selectedGroupIndex).toBe(1);
+          expect(currentSelection.selectedModel).toBe(collection.at(1).get('values').at(1));
+          expect(currentSelection.selectedModelIndex).toBe(1);
+        });
       });
-      
-      it("unselects item but keeps group", function () {
-        collection.selectItem(1, 1);
-        collection.selectItem(1, null);
-        expect(collection.selectedItem).toBe(collection.at(1));
-        expect(collection.selectedIndex).toEqual(1);
-        expect(collection.at(0).get('values').selectedItem).toBeFalsy();
-        expect(collection.at(1).get('values').selectedItem).toBeFalsy();
-        expect(spy).toHaveBeenCalledWith(collection.at(1), 1, null, null);
-      });
-      
+
     });
   });
 });

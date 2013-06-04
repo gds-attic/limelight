@@ -76,6 +76,7 @@ function (Graph, Collection, moment) {
           ])
         }
       ]);
+      collection.getCurrentSelection = jasmine.createSpy().andReturn({});
       graph = new Graph({
         el: el,
         collection: collection

@@ -13,10 +13,6 @@ function (Component, Modernizr) {
     
     events: function () {
       if (this.modernizr.touch) {
-        
-        _.bindAll(this, 'onTouchStartBody');
-        $('body').on('touchstart', this.onTouchStartBody);
-        
         return {
           'touchstart .hover': 'onTouchStart'
         }
@@ -39,6 +35,18 @@ function (Component, Modernizr) {
         this.hoverEl = $('<div></div>').addClass('hover').appendTo(this.$el);
       }
     },
+
+    attachBodyListener: function (eventName) {
+      if (this.bodyListener) {
+        return;
+      }
+      this.bodyListener = true;
+      var that = this;
+      $('body').one(eventName, function () {
+        that.bodyListener = false;
+        that.collection.selectItem(null, null);
+      });
+    },
     
     onMouseMove: function (e) {
       var scaleFactor = this.graph.scaleFactor();
@@ -48,25 +56,9 @@ function (Component, Modernizr) {
       var x = (e.pageX - offset.left) / scaleFactor - this.margin.left;
       var y = (e.pageY - offset.top) / scaleFactor - this.margin.top;
       
-      if (!this.bodyListener) {
-        this.bodyListener = true;
-        var that = this;
-        $('body').one('mousemove', function () {
-          that.bodyListener = false;
-          that.collection.selectItem(null, null);
-        });
-      }
-      
+      this.attachBodyListener('mousemove');
       this.selectPoint(x, y);
       return false;
-    },
-    
-    onTouchStartBody: function (e) {
-      if (this.ignoreNextBodyTouchStartEvent) {
-        this.ignoreNextBodyTouchStartEvent = false;
-      } else {
-        this.collection.selectItem(null, null);
-      }
     },
     
     onTouchStart: function (e) {
@@ -76,10 +68,11 @@ function (Component, Modernizr) {
       var x = (touch.pageX - offset.left) / scaleFactor - this.margin.left;
       var y = (touch.pageY - offset.top) / scaleFactor - this.margin.top;
       
-      this.ignoreNextBodyTouchStartEvent = true;
+      this.attachBodyListener('touchstart');
       this.selectPoint(x, y, {
         toggle: true
       });
+      return false;
     },
     
     /**
