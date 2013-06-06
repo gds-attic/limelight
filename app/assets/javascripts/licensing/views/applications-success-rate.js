@@ -33,7 +33,7 @@ function (View) {
         this.$el.html([
           '<strong>',
           Math.round(value * 100),
-          '%</strong> average success rate'
+          '%</strong> average completion rate'
         ].join(''));
       }
 

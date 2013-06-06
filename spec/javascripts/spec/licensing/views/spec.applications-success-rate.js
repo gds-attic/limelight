@@ -70,7 +70,7 @@ function (SuccessRateView, Collection) {
 
         jasmine.renderView(view, function () {
           expect(view.$el.html()).toEqual(
-            '<strong>23%</strong> average success rate'
+            '<strong>23%</strong> average completion rate'
           );
         });
       });

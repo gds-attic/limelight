@@ -1,4 +1,4 @@
 # Add feature toggles with the format:
 # <feature_name>: off|dev|release
-show_licensing_overview_success_rate: dev
+show_licensing_overview_success_rate: release
 show_services: dev
