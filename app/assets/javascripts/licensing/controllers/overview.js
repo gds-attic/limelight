@@ -12,6 +12,10 @@ define([
 ], function (ApplicationsCollection, ApplicationsGraph, Top5Collection, Top5Table, GraphCollection, ConversionCollection, ConversionGraph, Tabs, HeadlineView, SuccessRateView) {
   return function () {
 
+    var conversionCollection = new GraphCollection(null, {
+      collections: [ConversionCollection]
+    });
+
     if (!$('.lte-ie8').length) {
       var applicationsCollection = new GraphCollection(null, {
         collections: [ApplicationsCollection]
@@ -38,23 +42,18 @@ define([
 
       applicationsCollection.query.set('period', 'week');
 
-      var conversionCollection = new GraphCollection(null, {
-        collections: [ConversionCollection]
-      });
-
-      var successRate = new SuccessRateView({
-        el: $('#applications-success-rate'),
-        collection: conversionCollection.collectionInstances[0]
-      });
-
-
       var conversionGraph = new ConversionGraph({
         el: $('#applications-conversion-graph'),
         collection: conversionCollection
       });
-      conversionCollection.fetch();
     }
 
+    var successRate = new SuccessRateView({
+      el: $('#applications-success-rate'),
+      collection: conversionCollection.collectionInstances[0]
+    });
+
+    conversionCollection.fetch();
 
     var top5LicencesCollection = new Top5Collection([], {
       groupBy: 'licenceUrlSlug'

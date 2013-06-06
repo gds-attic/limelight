@@ -47,7 +47,12 @@
       & ~ .half-width {
         margin-left:3%;
       }
+
+      .lte-ie8 & {
+        width: 100%;
+      }
     }
+
   }
 }
 
