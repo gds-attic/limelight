@@ -34,6 +34,10 @@ function(require, StackComponent) {
         }, this);
       });
     },
+
+    getStrokeWidth: function (selection) {
+      return this.graph.pxToValue($(selection.node()).css('stroke-width'));
+    },
     
     updateSegment: function (groupIndex, segment, model, i) {
       var x = this.x(model, i);
@@ -49,12 +53,25 @@ function(require, StackComponent) {
         xLeft -= width / 2;
       }
       
+      var xRect = xLeft;
+      var yRect = y;
+      var yRect0 = y0;
+      var widthRect = width;
+
+      if (this.strokeAlign === 'inner') {
+        var strokeWidth = this.getStrokeWidth(segment.select('rect'));
+        xRect += strokeWidth / 2;
+        yRect += strokeWidth / 2;
+        yRect0 -= strokeWidth / 2;
+        widthRect -= strokeWidth;
+      }
+
       segment.select('rect').attr({
         'class': 'stack' + groupIndex,
-        x: xLeft,
-        y: y,
-        width: width,
-        height: y0 - y
+        x: xRect,
+        y: yRect,
+        width: widthRect,
+        height: yRect0 - yRect
       });
 
       segment.select('line').attr({
@@ -62,7 +79,7 @@ function(require, StackComponent) {
         x1: xLeft,
         y1: y,
         x2: xLeft + width,
-        y2: y,
+        y2: y
       });
 
       if (this.text) {
@@ -72,7 +89,19 @@ function(require, StackComponent) {
           y: y + this.offsetText
         }).text(this.text(model, i));
       }
+    },
+    onChangeSelected: function (groupSelected, groupIndexSelected, modelSelected, indexSelected) {
+      this.componentWrapper.selectAll('g.segment').classed('selected', false);
+
+      if (indexSelected == null) {
+        return;
+      }
+
+      var group = d3.select(this.componentWrapper.selectAll('g.group')[0][groupIndexSelected]);
+      var segment = d3.select(group.selectAll('g.segment')[0][indexSelected]);
+      segment.classed('selected', true);
     }
+
   });
 
   return BarComponent;

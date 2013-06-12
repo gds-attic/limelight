@@ -1,11 +1,11 @@
 define([
   'licensing/collections/applications-total-weekly',
-  'licensing/views/applicationsgraph',
+  'licensing/views/applications-graph/applicationsgraph',
   'licensing/collections/applications-top5-lastweek',
   'licensing/views/top5table',
   'extensions/collections/graphcollection',
   'licensing/collections/applications-conversion',
-  'licensing/views/applications-conversion-graph',
+  'licensing/views/conversion-graph/conversion-graph',
   'extensions/views/tabs',
   'licensing/views/applicationsgraph-headline',
   'licensing/views/applications-success-rate'

@@ -223,6 +223,69 @@ define([
           expect(d3.select('g.segment:nth-child(3) text').text()).toEqual('foo three');
         });
 
+        it("renders with a simulated inner stroke for each model in each series", function () {
+
+          view.strokeAlign = 'inner';
+          spyOn(view, "getStrokeWidth").andReturn(2);
+          view.render();
+
+          var segments = view.componentWrapper.selectAll('g.segment');
+
+          var group1 = d3.select('g.group:nth-child(1)');
+          var segment1 = group1.select('g.segment:nth-child(1)');
+          expect(segment1.select('rect').attr('x')).toEqual('-2');
+          expect(segment1.select('rect').attr('y')).toEqual('-3');
+          expect(segment1.select('rect').attr('width')).toEqual('8');
+          expect(segment1.select('rect').attr('height')).toEqual('2');
+          expect(segment1.select('line').attr('y1')).toEqual('-4');
+          expect(segment1.select('line').attr('y2')).toEqual('-4');
+          expect(segment1.select('line').attr('x1')).toEqual('-3');
+          expect(segment1.select('line').attr('x2')).toEqual('7');
+
+          var segment2 = group1.select('g.segment:nth-child(2)');
+          expect(segment2.select('rect').attr('x')).toEqual('4');
+          expect(segment2.select('rect').attr('y')).toEqual('-9');
+          expect(segment2.select('rect').attr('width')).toEqual('8');
+          expect(segment2.select('rect').attr('height')).toEqual('8');
+          expect(segment2.select('line').attr('y1')).toEqual('-10');
+          expect(segment2.select('line').attr('y2')).toEqual('-10');
+          expect(segment2.select('line').attr('x1')).toEqual('3');
+          expect(segment2.select('line').attr('x2')).toEqual('13');
+
+          var segment3 = group1.select('g.segment:nth-child(3)');
+          expect(segment3.select('rect').attr('x')).toEqual('10');
+          expect(segment3.select('rect').attr('y')).toEqual('-15');
+          expect(segment3.select('rect').attr('width')).toEqual('8');
+          expect(segment3.select('rect').attr('height')).toEqual('14');
+          expect(segment3.select('line').attr('y1')).toEqual('-16');
+          expect(segment3.select('line').attr('y2')).toEqual('-16');
+          expect(segment3.select('line').attr('x1')).toEqual('9');
+          expect(segment3.select('line').attr('x2')).toEqual('19');
+        });
+
+        describe("onChangeSelected", function () {
+          it("marks segment as selected", function () {
+            view.render();
+            var group1 = d3.select('g.group:nth-child(1)');
+            var group2 = d3.select('g.group:nth-child(2)');
+
+            view.onChangeSelected(null, 0, null, 0);
+            expect(group1.select('g.segment:nth-child(1)').attr('class')).toMatch('selected');
+            expect(group1.select('g.segment:nth-child(2)').attr('class')).not.toMatch('selected');
+            expect(group1.select('g.segment:nth-child(3)').attr('class')).not.toMatch('selected');
+            expect(group2.select('g.segment:nth-child(1)').attr('class')).not.toMatch('selected');
+            expect(group2.select('g.segment:nth-child(2)').attr('class')).not.toMatch('selected');
+            expect(group2.select('g.segment:nth-child(3)').attr('class')).not.toMatch('selected');
+
+            view.onChangeSelected(null, 1, null, 2);
+            expect(group1.select('g.segment:nth-child(1)').attr('class')).not.toMatch('selected');
+            expect(group1.select('g.segment:nth-child(2)').attr('class')).not.toMatch('selected');
+            expect(group1.select('g.segment:nth-child(3)').attr('class')).not.toMatch('selected');
+            expect(group2.select('g.segment:nth-child(1)').attr('class')).not.toMatch('selected');
+            expect(group2.select('g.segment:nth-child(2)').attr('class')).not.toMatch('selected');
+            expect(group2.select('g.segment:nth-child(3)').attr('class')).toMatch('selected');
+          });
+        });
       });
     });
   });

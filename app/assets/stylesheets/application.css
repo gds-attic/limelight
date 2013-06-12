@@ -17,6 +17,8 @@
  = require nav
  = require table
  = require graph
+ = require applications-graph
+ = require conversion-graph
  = require applicationstable
  = require top5table
  = require filteredlist

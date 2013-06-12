@@ -1,6 +1,6 @@
 define([
   'licensing/collections/applications-totalandtop5authorities-weekly',
-  'licensing/views/applicationsperlicencegraph',
+  'licensing/views/applications-graph/applicationsperlicencegraph',
   'licensing/collections/all-entities-and-applications-lastweek',
   'licensing/views/applicationstable',
   'extensions/views/tabs',

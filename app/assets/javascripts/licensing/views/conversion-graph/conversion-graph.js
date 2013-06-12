@@ -1,0 +1,47 @@
+define([
+  'require',
+  'extensions/views/graph/graph',
+  './xaxis',
+  './bar',
+  './callout',
+  'extensions/views/graph/hover'
+],
+function (require, Graph, XAxis, Bar, Callout, Hover) {
+  var ConversionGraph = Graph.extend({
+    
+    components: function () {
+      return [
+        { view: XAxis },
+        { view: Bar },
+        { view: Callout },
+        { view: Hover }
+      ];
+    },
+    
+    calcXScale: function () {
+      var xScale = this.d3.scale.linear();
+      var count = this.collection.at(0).get('values').length;
+      var halfBarWidth = this.innerWidth / count / 2;
+      xScale.domain([0, count - 1]);
+      xScale.range([halfBarWidth + 1, this.innerWidth - halfBarWidth - 1]);
+      return xScale;
+    },
+    
+    calcYScale: function () {
+      var collection = this.collection;
+      var d3 = this.d3;
+      var max = d3.max(this.collection.models, function (group) {
+        return d3.max(group.get('values').models, function (value) {
+          return value.get('uniqueEvents');
+        });
+      });
+      
+      var yScale = this.d3.scale.linear();
+      yScale.domain([0, max]);
+      yScale.range([this.innerHeight, 0]);
+      return yScale;
+    }
+  });
+  
+  return ConversionGraph;
+});

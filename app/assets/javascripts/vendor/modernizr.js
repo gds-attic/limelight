@@ -1,5 +1,5 @@
 /* Modernizr 2.6.2 (Custom Build) | MIT & BSD
- * Build: http://modernizr.com/download/#-inlinesvg-svg-touch-cssclasses-teststyles-prefixes
+ * Build: http://modernizr.com/download/#-textshadow-inlinesvg-svg-touch-cssclasses-teststyles-prefixes
  */
 ;
 
@@ -180,7 +180,10 @@ window.Modernizr = (function( window, document, undefined ) {
 
         return bool;
     };
-    tests['svg'] = function() {
+
+    tests['textshadow'] = function() {
+        return document.createElement('div').style.textShadow === '';
+    };    tests['svg'] = function() {
         return !!document.createElementNS && !!document.createElementNS(ns.svg, 'svg').createSVGRect;
     };
 

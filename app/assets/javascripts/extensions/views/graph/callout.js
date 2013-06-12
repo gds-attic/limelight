@@ -19,7 +19,11 @@ function (Component) {
         this.calloutEl = $('<div></div>').addClass('callout performance-hidden').appendTo(this.$el);
       }
     },
-    
+
+    getPivotingElement: function () {
+      return this.calloutEl;
+    },
+
     onChangeSelected: function (group, groupIndex, model, index) {
       var el = this.calloutEl;
       if (!model) {
@@ -36,18 +40,21 @@ function (Component) {
         y: this.y(model, index) * scaleFactor
       };
       
+      var pivotingEl = this.getPivotingElement();
+
       var pos = this.applyPivot(basePos, {
         horizontal: this.horizontal,
         vertical: this.vertical,
         xOffset: this.xOffset,
         yOffset: this.yOffset,
-        constrainToBounds: this.constrainToBounds
+        constrainToBounds: this.constrainToBounds,
+        el: pivotingEl
       }, {
         width: this.graph.innerWidth * scaleFactor,
         height: this.graph.innerHeight * scaleFactor
       });
-      
-      el.css({
+
+      pivotingEl.css({
         left: pos.x + this.margin.left * scaleFactor,
         top: pos.y + this.margin.top * scaleFactor
       });
@@ -80,6 +87,7 @@ function (Component) {
      * 
      * @param {Object} basePos Starting position for the Callout
      * @param {Object} pivot Information for the pivoting process
+     * @param pivot.el Callout element to apply pivot to
      * @param pivot.horizontal Horizontal position of the pivot point on the callout
      * @param pivot.vertical Vertical position of the pivot point on the callout
      * @param [pivot.xOffset=0] Additional horizontal offset to be applied to the pivot point
@@ -89,12 +97,11 @@ function (Component) {
      */
     applyPivot: function (basePos, pivot, bounds) {
     
-      var el = this.calloutEl;
-    
-      pivot.xOffset = pivot.xOffset || 0;
-      pivot.yOffset = pivot.yOffset || 0;
+      var el = pivot.el;
       var horizontal = pivot.horizontal;
       var vertical = pivot.vertical;
+      pivot.xOffset = pivot.xOffset || 0;
+      pivot.yOffset = pivot.yOffset || 0;
     
       // first, move into direction that was requested
       var pivotCorrection = this.offsetFromTopLeft(el, horizontal, vertical);
@@ -172,7 +179,7 @@ function (Component) {
           y: height * this.positionToFraction(vertical)
         };
     }
-    
+
   });
 
   return Callout;

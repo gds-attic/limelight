@@ -102,7 +102,8 @@ function (Callout, Model) {
       it("aligns the callout to the bottom left corner", function() {
         var pivot = {
           horizontal: 'left',
-          vertical: 'bottom'
+          vertical: 'bottom',
+          el: box.calloutEl
         };
         var pos = box.applyPivot(basePos, pivot);
         expect(pos.x).toEqual(400);
@@ -112,7 +113,8 @@ function (Callout, Model) {
       it("aligns the callout to the top right corner", function() {
         var pivot = {
           horizontal: 'right',
-          vertical: 'top'
+          vertical: 'top',
+          el: box.calloutEl
         };
         var pos = box.applyPivot(basePos, pivot);
         expect(pos.x).toEqual(370);
@@ -124,7 +126,8 @@ function (Callout, Model) {
           horizontal: 'left',
           vertical: 'bottom',
           xOffset: 13,
-          yOffset: 12
+          yOffset: 12,
+          el: box.calloutEl
         };
         var pos = box.applyPivot(basePos, pivot);
         expect(pos.x).toEqual(413);
@@ -136,7 +139,8 @@ function (Callout, Model) {
           horizontal: 'right',
           vertical: 'top',
           xOffset: 13,
-          yOffset: 12
+          yOffset: 12,
+          el: box.calloutEl
         };
         var pos = box.applyPivot(basePos, pivot);
         expect(pos.x).toEqual(383);
@@ -151,7 +155,8 @@ function (Callout, Model) {
             vertical: 'bottom',
             xOffset: 13,
             yOffset: 12,
-            constrainToBounds: true
+            constrainToBounds: true,
+            el: box.calloutEl
           };
         });
 

@@ -1,13 +1,9 @@
 define([
-  'extensions/views/graph/axis'
+  'extensions/views/graph/xaxis'
 ],
-function (Axis) {
+function (XAxis) {
   
-  var ApplicationsXAxis = Axis.extend({
-    
-    classed: 'x-axis',
-    position: 'bottom',
-    orient: 'bottom',
+  var ApplicationsXAxis = XAxis.extend({
     
     configs: {
       week: {
@@ -50,10 +46,6 @@ function (Axis) {
           return moment(d).format('D MMM');
         }
       }
-    },
-    offsetY: 8,
-    getScale: function () {
-      return this.scales.x;
     }
   });
   

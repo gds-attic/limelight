@@ -1,5 +1,5 @@
 define([
-  'licensing/views/applicationsgraph',
+  'licensing/views/applications-graph/applicationsgraph',
   'extensions/collections/collection',
   'moment'
 ],
