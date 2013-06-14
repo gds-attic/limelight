@@ -7,16 +7,39 @@ function (MultiCollection, Collection) {
   describe("MultiCollection", function() {
     
     describe("initialize", function() {
-      it("creates instances of constituent collections", function() {
-        var part1 = jasmine.createSpy();
-        var part2 = jasmine.createSpy();
+      it("creates instances of constituent collections with default options", function() {
+        var Part1 = Collection.extend({});
+        var Part2 = Collection.extend({});
         var collection = new MultiCollection([], {
-          collections: [part1, part2]
+          collections: [Part1, Part2]
         });
-        expect(part1).toHaveBeenCalled();
-        expect(part2).toHaveBeenCalled();
-        expect(collection.collectionInstances[0] instanceof part1).toBe(true);
-        expect(collection.collectionInstances[1] instanceof part2).toBe(true);
+        expect(collection.collectionInstances[0] instanceof Part1).toBe(true);
+        expect(collection.collectionInstances[1] instanceof Part2).toBe(true);
+      });
+
+      it("creates instances of constituent collections with custom options", function() {
+        var Part1 = Collection.extend({});
+        var Part2 = Collection.extend({});
+        var collection = new MultiCollection([], {
+          collections: [
+            {
+              collection: Part1,
+              options: {
+                foo: 'bar'
+              }
+            },
+            {
+              collection: Part2,
+              options: {
+                foo: 'baz'
+              }
+            }
+          ]
+        });
+        expect(collection.collectionInstances[0] instanceof Part1).toBe(true);
+        expect(collection.collectionInstances[1] instanceof Part2).toBe(true);
+        expect(collection.collectionInstances[0].options.foo).toEqual('bar');
+        expect(collection.collectionInstances[1].options.foo).toEqual('baz');
       });
     });
     

@@ -69,6 +69,25 @@
 
       .date {
         float:right;
+
+        &:before {
+          display: inline-block;
+          width:0.8em;
+          height:0.8em;
+          padding:0;
+          margin-right: 0.4em;
+          margin-top:-0.2em;
+          vertical-align: middle;
+          text-indent:-999em;
+          content: ".";
+        }
+
+        &.stack0:before { background: $data-colour-1; }
+        &.stack1:before { background: $data-colour-2; }
+        &.stack2:before { background: $data-colour-3; }
+        &.stack3:before { background: $data-colour-4; }
+        &.stack4:before { background: $data-colour-5; }
+        &.stack5:before { background: $data-colour-6; }
       }
 
       dl dt {
@@ -116,10 +135,19 @@
     }
 }
 
+@media (max-width: 800px) {
+  .conversion-graph {
+    .bar text {
+      font-size:0.875em;
+    }
+  }
+}
+
 @media (max-width: 640px) {
   
   .half-width .conversion-graph {
     max-width: 954px;
+    max-height: 300px;
     .arrow {
       display:none;
     }

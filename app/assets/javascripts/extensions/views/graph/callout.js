@@ -36,8 +36,8 @@ function (Component) {
       var scaleFactor = this.graph.scaleFactor();
       
       var basePos = {
-        x: this.x(model, index) * scaleFactor,
-        y: this.y(model, index) * scaleFactor
+        x: this.x(model, index, group, groupIndex) * scaleFactor,
+        y: this.y(model, index, group, groupIndex) * scaleFactor
       };
       
       var pivotingEl = this.getPivotingElement();
@@ -61,12 +61,12 @@ function (Component) {
     },
     
     // Not implemented; override in configuration or subclass
-    x: function (model, index) {
+    x: function (model, index, group, groupIndex) {
       throw('No x calculation defined.');
     },
     
     // Not implemented; override in configuration or subclass
-    y: function (model, index) {
+    y: function (model, index, group, groupIndex) {
       throw('No y calculation defined.');
     },
     

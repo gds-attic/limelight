@@ -3,7 +3,7 @@ define([
   './support/jquery.mockjax',
   './responses/licensing/applications-top5-lastweek',
   './responses/licensing/applications-detail-lastweek',
-  './responses/licensing/applications-conversion',
+  './responses/licensing/conversion-series',
   './responses/licensing/applications-top5authorities-weekly',
   './responses/licensing/applications-top5licences-weekly',
   './responses/licensing/applications-total-weekly',

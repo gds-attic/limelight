@@ -30,14 +30,9 @@ function (require, Graph, XAxis, Bar, Callout, Hover) {
     calcYScale: function () {
       var collection = this.collection;
       var d3 = this.d3;
-      var max = d3.max(this.collection.models, function (group) {
-        return d3.max(group.get('values').models, function (value) {
-          return value.get('uniqueEvents');
-        });
-      });
-      
+
       var yScale = this.d3.scale.linear();
-      yScale.domain([0, max]);
+      yScale.domain([0, 1]);
       yScale.range([this.innerHeight, 0]);
       return yScale;
     }

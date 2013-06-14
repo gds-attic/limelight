@@ -1,12 +1,12 @@
 define([
-  'extensions/views/graph/bar',
+  'extensions/views/graph/stackedbar',
   'extensions/collections/collection'
 ],
-  function (Bar, Collection) {
-    describe("bar component", function () {
+  function (StackedBar, Collection) {
+    describe("StackedBarComponent", function () {
       
       describe("render", function () {
-        var d3 = Bar.prototype.d3;
+        var d3 = StackedBar.prototype.d3;
 
         var el, wrapper, collection, view;
         beforeEach(function () {
@@ -30,7 +30,7 @@ define([
               ])
             }
           ]);
-          view = new Bar({
+          view = new StackedBar({
             wrapper:wrapper,
             collection:collection,
             x: function (model, i) {

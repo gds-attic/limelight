@@ -1,20 +1,17 @@
 define([
   'licensing/collections/applications-total-weekly',
   'licensing/views/applications-graph/applicationsgraph',
+  'licensing/views/applications-graph/headline',
   'licensing/collections/applications-top5-lastweek',
   'licensing/views/top5table',
   'extensions/collections/graphcollection',
-  'licensing/collections/applications-conversion',
+  'licensing/collections/conversion',
   'licensing/views/conversion-graph/conversion-graph',
+  'licensing/views/conversion-graph/headline',
   'extensions/views/tabs',
-  'licensing/views/applicationsgraph-headline',
   'licensing/views/applications-success-rate'
-], function (ApplicationsCollection, ApplicationsGraph, Top5Collection, Top5Table, GraphCollection, ConversionCollection, ConversionGraph, Tabs, HeadlineView, SuccessRateView) {
+], function (ApplicationsCollection, ApplicationsGraph, ApplicationsHeadlineView, Top5Collection, Top5Table, GraphCollection, ConversionCollection, ConversionGraph, ConversionGraphHeadlineView, Tabs, SuccessRateView) {
   return function () {
-
-    var conversionCollection = new GraphCollection(null, {
-      collections: [ConversionCollection]
-    });
 
     if (!$('.lte-ie8').length) {
       var applicationsCollection = new GraphCollection(null, {
@@ -35,25 +32,34 @@ define([
         ]
       });
 
-      var graphHeadline = new HeadlineView({
+      var graphHeadline = new ApplicationsHeadlineView({
         el: $('#total-applications').siblings('h2'),
         model: applicationsCollection.query
       });
 
       applicationsCollection.query.set('period', 'week');
 
+      var conversionCollection = new ConversionCollection();
+
+      var successRate = new SuccessRateView({
+        el: $('#applications-success-rate'),
+        collection: conversionCollection.collectionInstances[1]
+      });
+
+
       var conversionGraph = new ConversionGraph({
         el: $('#applications-conversion-graph'),
         collection: conversionCollection
       });
+
+      var conversionGraphHeadlineView = new ConversionGraphHeadlineView({
+        el: $('#applications-conversion-graph').siblings('h2'),
+        collection: conversionCollection
+      });
+
+      conversionCollection.fetch();
     }
 
-    var successRate = new SuccessRateView({
-      el: $('#applications-success-rate'),
-      collection: conversionCollection.collectionInstances[0]
-    });
-
-    conversionCollection.fetch();
 
     var top5LicencesCollection = new Top5Collection([], {
       groupBy: 'licenceUrlSlug'

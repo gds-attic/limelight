@@ -13,8 +13,6 @@ function(require, StackComponent) {
     
     renderContent: function (selection) {
       
-      var getY0 = _.bind(this.y0, this);
-      
       var enterSelection = selection.enter().append('g').attr('class', 'group');
       
       var that = this;
@@ -40,19 +38,21 @@ function(require, StackComponent) {
     },
     
     updateSegment: function (groupIndex, segment, model, i) {
-      var x = this.x(model, i);
-      var y = this.y(model, i);
-      var y0 = this.y0(model, i);
-      var width = this.barWidth(model, i);
+      var group = this.collection.at(groupIndex);
+      var x = this.x(model, i, group, groupIndex);
+      var y = this.y(model, i, group, groupIndex);
+      var y0 = this.y0(model, i, group, groupIndex);
+      var width = this.barWidth(model, i, group, groupIndex);
+      var blockWidth = _.isFunction(this.blockWidth) ? this.blockWidth(model, i, group, groupIndex) : width;
 
       var xLeft = x;
       var align = this.align;
       if (align === 'right') {
-        xLeft -= width;
+        xLeft -= blockWidth;
       } else if (align !== 'left') {
-        xLeft -= width / 2;
+        xLeft -= blockWidth / 2;
       }
-      
+
       var xRect = xLeft;
       var yRect = y;
       var yRect0 = y0;
@@ -71,7 +71,7 @@ function(require, StackComponent) {
         x: xRect,
         y: yRect,
         width: widthRect,
-        height: yRect0 - yRect
+        height: Math.max(0, yRect0 - yRect)
       });
 
       segment.select('line').attr({
@@ -85,7 +85,7 @@ function(require, StackComponent) {
       if (this.text) {
         segment.select('text').attr({
           'class': 'text' + groupIndex,
-          x: x,
+          x: xLeft + width / 2,
           y: y + this.offsetText
         }).text(this.text(model, i));
       }
