@@ -4,7 +4,7 @@
 
 <header>
   <p class="category-title">
-    <% if Settings.feature_toggles[:show_services] %>
+    <% if Rails.application.config.feature_toggles[:show_services] %>
     <%= link_to "Services", services_path %>
     <% else %>
     <%= link_to "Performance Platform", '/performance' %>
@@ -13,7 +13,7 @@
   <h1>Licensing performance <span class="tagline">(licences and authorities on GOV.UK only)</span></h1>
 </header>
 
-<% if Settings.feature_toggles[:show_licensing_visitors_realtime] %>
+<% if Rails.application.config.feature_toggles[:show_licensing_visitors_realtime] %>
   <section>
     <h1>Live service usage</h1>
     <ul class="module-actions">
@@ -42,7 +42,7 @@
   <figure class="graph applications-graph" id="total-applications"></figure>
 </section>
 
-<% if Settings.feature_toggles[:show_licensing_overview_success_rate] %>
+<% if Rails.application.config.feature_toggles[:show_licensing_overview_success_rate] %>
   <section class="half-width">
     <h1>Completion rate</h1>
     <ul class="module-actions">
@@ -58,7 +58,7 @@
   </section>
 <% end %>
 
-<section class="graph<% if Settings.feature_toggles[:show_licensing_overview_success_rate] %> half-width<% end %>">
+<section class="graph<% if Rails.application.config.feature_toggles[:show_licensing_overview_success_rate] %> half-width<% end %>">
   <h1>Submission drop-offs</h1>
   <ul class="module-actions">
     <li class="info">

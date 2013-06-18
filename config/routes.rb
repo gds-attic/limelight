@@ -1,7 +1,7 @@
 Limelight::Application.routes.draw do
   match "/_status" => "healthcheck#index", via: :get
 
-  if Settings.feature_toggles[:show_services]
+  if Rails.application.config.feature_toggles[:show_services]
     match "/performance/services" => "common#services", via: :get, as: "services"
   end
 

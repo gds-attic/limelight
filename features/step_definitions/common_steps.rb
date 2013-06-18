@@ -1,5 +1,5 @@
 Given(/^the flag (.+) is (not )?set$/) do |flag, status|
-  Settings::feature_toggles[flag.to_sym] = !(status == 'not ')
+  Rails.application.config.feature_toggles[flag.to_sym] = !(status == 'not ')
 end
 
 When(/^I go to (.*)$/) do |url|
