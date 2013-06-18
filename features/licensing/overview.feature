@@ -5,6 +5,7 @@ Feature: Overview page
 
   Scenario: visiting overview page
       Given the flag show_licensing_overview_success_rate is set
+        And the flag show_licensing_visitors_realtime is not set
         And the flag show_services is set
        When I go to /performance/licensing
        Then I should get back a status of 200
@@ -26,6 +27,7 @@ Feature: Overview page
 
   Scenario: visiting overview page
       Given the flag show_licensing_overview_success_rate is not set
+        And the flag show_licensing_visitors_realtime is not set
         And the flag show_services is set
        When I go to /performance/licensing
        Then I should get back a status of 200

@@ -13,6 +13,21 @@
   <h1>Licensing performance <span class="tagline">(licences and authorities on GOV.UK only)</span></h1>
 </header>
 
+<% if Settings.feature_toggles[:show_licensing_visitors_realtime] %>
+  <section>
+    <h1>Live service usage</h1>
+    <ul class="module-actions">
+      <li class="info">
+        <div>
+          <p>Shows estimated number of users currently accessing licensing pages.</p>
+        </div>
+      </li>
+    </ul>
+    <h2>Users actively browsing licensing pages now</h2>
+    <p id="number-of-visitors-realtime" class="impact-number"></p>
+  </section>
+<% end %>
+
 <section class="graph">
   <h1>Form submissions</h1>
   <ul class="module-actions">

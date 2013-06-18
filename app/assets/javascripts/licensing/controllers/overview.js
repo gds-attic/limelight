@@ -9,8 +9,14 @@ define([
   'licensing/views/conversion-graph/conversion-graph',
   'licensing/views/conversion-graph/headline',
   'extensions/views/tabs',
-  'licensing/views/applications-success-rate'
-], function (ApplicationsCollection, ApplicationsGraph, ApplicationsHeadlineView, Top5Collection, Top5Table, GraphCollection, ConversionCollection, ConversionGraph, ConversionGraphHeadlineView, Tabs, SuccessRateView) {
+  'licensing/views/applications-success-rate',
+  'licensing/collections/visitors-realtime',
+  'licensing/views/visitors-realtime'
+], function (ApplicationsCollection, ApplicationsGraph, ApplicationsHeadlineView,
+             Top5Collection, Top5Table, GraphCollection,
+             ConversionCollection, ConversionGraph, ConversionGraphHeadlineView,
+             Tabs, SuccessRateView,
+             VisitorsRealtimeCollection, VisitorsRealtimeView) {
   return function () {
 
     if (!$('.lte-ie8').length) {
@@ -85,5 +91,22 @@ define([
     });
 
     top5AuthoritiesCollection.fetch();
+
+    if ($('#number-of-visitors-realtime').length) {
+      var updateInterval = 120 * 1000;
+      var visitorsRealtimeCollection = new VisitorsRealtimeCollection();
+
+      var visitorsRealtimeView = new VisitorsRealtimeView({
+        el: $('#number-of-visitors-realtime'),
+        collection: visitorsRealtimeCollection,
+        collectionUpdateInterval: updateInterval
+      });
+
+      visitorsRealtimeCollection.fetch();
+
+      setInterval(function () {
+        visitorsRealtimeCollection.fetch();
+      }, updateInterval);
+    }
   };
 });
