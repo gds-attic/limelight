@@ -9,11 +9,11 @@ function (require, ConversionSeriesCollection, GraphCollection) {
     collections: [
       {
         collection: ConversionSeriesCollection,
-        options: { monthsAgo: 1 }
+        options: { weeksAgo: 1 }
       },
       {
         collection: ConversionSeriesCollection,
-        options: { monthsAgo: 0 }
+        options: { weeksAgo: 0 }
       }
     ]
   });

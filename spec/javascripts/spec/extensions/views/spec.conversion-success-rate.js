@@ -1,5 +1,5 @@
 define([
-  'licensing/views/applications-success-rate',
+  'extensions/views/conversion-success-rate',
   'extensions/collections/collection'
 ],
 function (SuccessRateView, Collection) {
@@ -38,7 +38,9 @@ function (SuccessRateView, Collection) {
           }
         ]);
         var view = new SuccessRateView({
-          collection: collection
+          collection: collection,
+          startStep: 'licensingUserJourney:downloadFormPage',
+          endStep: 'licensingUserJourney:end'
         });
         expect(view.getValue()).toEqual(0.5);
       });

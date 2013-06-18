@@ -6,14 +6,15 @@ function (View) {
 
       initialize: function () {
         this.collection.on('reset', this.render, this);
+        View.prototype.initialize.apply(this, arguments);
       },
 
       getValue: function () {
         var start = this.collection.where({
-          eventCategory: 'licensingUserJourney:downloadFormPage'
+          eventCategory: this.startStep
         });
         var end = this.collection.where({
-          eventCategory: 'licensingUserJourney:end'
+          eventCategory: this.endStep
         });
 
         var value = null;

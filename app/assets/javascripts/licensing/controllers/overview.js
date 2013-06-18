@@ -6,15 +6,14 @@ define([
   'licensing/views/top5table',
   'extensions/collections/graphcollection',
   'licensing/collections/conversion',
-  'licensing/views/conversion-graph/conversion-graph',
-  'licensing/views/conversion-graph/headline',
+  'extensions/views/conversion-graph/conversion-graph',
   'extensions/views/tabs',
-  'licensing/views/applications-success-rate',
+  'extensions/views/conversion-success-rate',
   'licensing/collections/visitors-realtime',
   'licensing/views/visitors-realtime'
 ], function (ApplicationsCollection, ApplicationsGraph, ApplicationsHeadlineView,
              Top5Collection, Top5Table, GraphCollection,
-             ConversionCollection, ConversionGraph, ConversionGraphHeadlineView,
+             ConversionCollection, ConversionGraph,
              Tabs, SuccessRateView,
              VisitorsRealtimeCollection, VisitorsRealtimeView) {
   return function () {
@@ -49,17 +48,14 @@ define([
 
       var successRate = new SuccessRateView({
         el: $('#applications-success-rate'),
-        collection: conversionCollection.collectionInstances[1]
+        collection: conversionCollection.collectionInstances[1],
+        startStep: "licensingUserJourney:downloadFormPage",
+        endStep: "licensingUserJourney:end"
       });
 
 
       var conversionGraph = new ConversionGraph({
         el: $('#applications-conversion-graph'),
-        collection: conversionCollection
-      });
-
-      var conversionGraphHeadlineView = new ConversionGraphHeadlineView({
-        el: $('#applications-conversion-graph').siblings('h2'),
         collection: conversionCollection
       });
 
