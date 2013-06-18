@@ -9,8 +9,8 @@ define([
   'extensions/views/conversion-graph/conversion-graph',
   'extensions/views/tabs',
   'extensions/views/conversion-success-rate',
-  'licensing/collections/visitors-realtime',
-  'licensing/views/visitors-realtime'
+  'extensions/collections/visitors-realtime',
+  'extensions/views/visitors-realtime'
 ], function (ApplicationsCollection, ApplicationsGraph, ApplicationsHeadlineView,
              Top5Collection, Top5Table, GraphCollection,
              ConversionCollection, ConversionGraph,
@@ -90,7 +90,9 @@ define([
 
     if ($('#number-of-visitors-realtime').length) {
       var updateInterval = 120 * 1000;
-      var visitorsRealtimeCollection = new VisitorsRealtimeCollection();
+      var visitorsRealtimeCollection = new VisitorsRealtimeCollection([],{
+        serviceName: "licensing"
+      });
 
       var visitorsRealtimeView = new VisitorsRealtimeView({
         el: $('#number-of-visitors-realtime'),

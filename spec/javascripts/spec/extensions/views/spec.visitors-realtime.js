@@ -1,5 +1,5 @@
 define([
-  'licensing/views/visitors-realtime',
+  'extensions/views/visitors-realtime',
   'extensions/collections/collection'
 ],
 function (VisitorsRealtimeView, Collection) {
@@ -14,6 +14,20 @@ function (VisitorsRealtimeView, Collection) {
       jasmine.renderView(view, function () {
         expect(view.$el.html()).toEqual(
           '<strong>10</strong> Users online now'
+        )
+      })
+    });
+
+    it("renders singular if one user", function () {
+      var view = new VisitorsRealtimeView({
+        collection: new Collection([{
+          "unique_visitors": 1
+        }])
+      });
+
+      jasmine.renderView(view, function () {
+        expect(view.$el.html()).toEqual(
+          '<strong>1</strong> User online now'
         )
       })
     });

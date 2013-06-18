@@ -3,7 +3,11 @@ define([
 ],
 function (Collection) {
   var VisitorsRealtimeCollection = Collection.extend({
-    serviceName: "licensing",
+    initialize: function (models, options) {
+      Collection.prototype.initialize.apply(this, arguments);
+
+      this.serviceName = options.serviceName;
+    },
     apiName: "realtime",
     parse: function (response) {
       return response.data;

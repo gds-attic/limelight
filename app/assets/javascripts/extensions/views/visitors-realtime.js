@@ -47,9 +47,10 @@ function (View) {
       if (!this.collection.length) {
         return;
       }
-      var numberOfVisitors = this.currentNumberOfVisitors || parseFloat(this.collection.at(0).get("unique_visitors"));
+      var numberOfVisitors =
+        Math.round(this.currentNumberOfVisitors || parseFloat(this.collection.at(0).get("unique_visitors")));
 
-      this.$el.html("<strong>" + Math.round(numberOfVisitors) + "</strong> Users online now");
+      this.$el.html("<strong>" + numberOfVisitors + "</strong> User" + ( numberOfVisitors == 1 ? "" : "s") + " online now");
     }
   });
   return VisitorsRealtimeView;
