@@ -34,4 +34,26 @@ module ApplicationHelper
     asset_path.gsub(requirejs_base_url, '')
   end
 
+
+  def main_navigation_link_to(name, path, html_options = {}, &block)
+    classes = (html_options[:class] || "").split
+    if current_main_navigation_path(params) == path
+      classes << "active"
+    end
+    link_to(name, path, html_options.merge(class: classes.join(" ")), &block)
+  end
+
+  def current_main_navigation_path(parameters)
+    case parameters[:controller]
+    when "common"
+      if parameters[:action] == 'services'
+        services_path
+      end
+    when "fco"
+      services_path
+    when "licensing"
+      services_path
+    end
+  end
+
 end

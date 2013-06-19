@@ -9,8 +9,6 @@ Feature: Listing authorities
     Then I should get back a status of 200
     And the navigation link for "Authorities" should be active
     And there should be 4 authorities
-    And the category title should be "Licensing"
-    And the category title should link to "/performance/licensing"
     And the page title should be "Authorities (authorities on GOV.UK only)"
     And the "authorities" count should be 4
     And the 1st group title should be "C"

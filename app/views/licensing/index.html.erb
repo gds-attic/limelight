@@ -3,13 +3,6 @@
 <% @js_config = { "controller" => "licensing/controllers/overview" } %>
 
 <header>
-  <p class="category-title">
-    <% if Rails.application.config.feature_toggles[:show_services] %>
-    <%= link_to "Services", services_path %>
-    <% else %>
-    <%= link_to "Performance Platform", '/performance' %>
-    <% end %>
-  </p>
   <h1>Licensing performance <span class="tagline">(licences and authorities on GOV.UK only)</span></h1>
 </header>
 
@@ -53,7 +46,7 @@
         </div>
       </li>
     </ul>
-    <h2>Completion rate for all submissions last month</h2>
+    <h2>Completion rate for all submissions for last week</h2>
     <p id="applications-success-rate" class="impact-number"></p>
   </section>
 <% end %>

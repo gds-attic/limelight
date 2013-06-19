@@ -62,9 +62,9 @@ Then(/^the (\d+)(?:st|nd|rd|th) section description should be "(.*?)"$/) do |pos
 end
 
 Then(/^the navigation link for "(.*?)" should be active$/) do |link_title|
-  page.find("#global nav li.sub-level a.current").should have_content(link_title)
+  page.find("nav.performance-nav li a.active").should have_content(link_title)
 end
 
 Then(/^I see a link to "(.*?)"$/) do |url|
-  page.all("#content a[href=\"#{url}\"]").count.should == 1
+  page.all("#content a[href=\"#{url}\"]").count.should >= 1
 end

@@ -5,25 +5,18 @@ Feature: Services page
 
 
   Scenario: visiting services page
-      Given the flag show_services is set
        When I go to /performance/services
        Then I should get back a status of 200
-        And the category title should be "Performance Platform"
-        And the category title should link to "/performance"
         And the page title should be "Services"
         And the page subtitle should be "Services integrated with the Performance Platform"
         And the "services" count should be 7
 
   Scenario Outline: navigating to service
-   Given the flag show_services is set
     When I go to /performance/services
      And I click on "<Title>"
     Then I should get back a status of 200
      And I should be at <Path>
      And the page title should be "<Title>"
-    When I click on "Services"
-    Then I should get back a status of 200
-     And I should be at /performance/services
     
     Examples:
       | Title                                                      | Path                                           |  

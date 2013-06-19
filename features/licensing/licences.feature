@@ -9,8 +9,6 @@ Feature: Listing licences
        Then I should get back a status of 200
         And the navigation link for "Licences" should be active
         And there should be 2 licences
-        And the category title should be "Licensing"
-        And the category title should link to "/performance/licensing"
         And the page title should be "Licences (licences on GOV.UK only)"
         And the "licences" count should be 2
         And the 1st group title should be "A"

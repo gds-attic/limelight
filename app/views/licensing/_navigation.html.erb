@@ -1,25 +1,22 @@
 <nav class="performance-nav">
-  <%= link_to({action: 'index'}, class: "top-level") do %>
-      <span class="top-level-link">Licensing performance</span>
-      <span class="alpha-tag">Alpha</span>
-  <% end %>
-  <div class="menu-wrapper">
-    <a id="menu-toggle" href="#" data-hide-or-show="sub-level">menu</a>
-    <div class="inner-nav">
-      <ul id="navigation">
-        <li class="sub-level">
-          <% authoritiesClassName = 'current' if ['authorities', 'per_authority'].include? controller.action_name %>
-          <%= link_to({action: 'authorities'}, class: authoritiesClassName ) do %>
-            Authorities
-          <% end %>
-        </li>
-        <li class="sub-level">
-          <% licencesClassName = 'current' if ['licences', 'per_licence'].include? controller.action_name %>
-          <%= link_to({action: 'licences'}, class: licencesClassName ) do %>
-            Licences
-          <% end %>
-        </li>
-      </ul>
-    </div>
-  </div>
+  <ul>
+    <li>
+      <% overviewClassName = 'active' if controller.action_name == 'index' %>
+      <%= link_to({action: 'index'}, class: overviewClassName ) do %>
+        Licensing overview
+    <% end %>
+    </li>
+    <li>
+      <% authoritiesClassName = 'active' if ['authorities', 'per_authority'].include? controller.action_name %>
+      <%= link_to({action: 'authorities'}, class: authoritiesClassName ) do %>
+        Authorities
+      <% end %>
+    </li>
+    <li>
+      <% licencesClassName = 'active' if ['licences', 'per_licence'].include? controller.action_name %>
+      <%= link_to({action: 'licences'}, class: licencesClassName ) do %>
+        Licences
+      <% end %>
+    </li>
+  </ul>
 </nav>
