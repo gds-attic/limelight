@@ -15,6 +15,12 @@ function (Collection) {
     queryParams: {
       sort_by: "_timestamp:descending",
       limit: 2
+    },
+    fetch: function (options) {
+      options = _.extend({
+        cache: false
+      }, options);
+      Collection.prototype.fetch.call(this, options);
     }
   });
   return VisitorsRealtimeCollection;
