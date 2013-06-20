@@ -99,10 +99,14 @@ define([
         collectionUpdateInterval: updateInterval
       });
 
-      visitorsRealtimeCollection.fetch();
+      visitorsRealtimeCollection.fetch({
+        cache: false
+      });
 
       setInterval(function () {
-        visitorsRealtimeCollection.fetch();
+        visitorsRealtimeCollection.fetch({
+          cache: false
+        });
       }, updateInterval);
     }
   };
