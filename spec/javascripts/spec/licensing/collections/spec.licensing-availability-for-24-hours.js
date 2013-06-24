@@ -8,12 +8,14 @@ define([
         {
           "uptime": 8,
           "downtime": 1,
-          "unmonitored": 1
+          "unmonitored": 1,
+          "avgresponse": 321
         },
         {
           "uptime": 9,
           "downtime": 0,
-          "unmonitored": 1
+          "unmonitored": 1,
+          "avgresponse": 345
         }
       ]};
 
@@ -86,11 +88,33 @@ define([
 
       it("should provide total time for all models", function () {
         var collection =
-          new LicensingAvailabilityFor24HoursCollection(availabilityData)
+          new LicensingAvailabilityFor24HoursCollection(availabilityData);
 
         var totalTime = collection._getTotalTime();
 
         expect(totalTime).toEqual(20);
+      });
+
+      it("should provide average response time", function () {
+        var collection =
+          new LicensingAvailabilityFor24HoursCollection(availabilityData);
+
+        var averageResponseTime = collection.getAverageResponseTime();
+
+        expect(averageResponseTime).toEqual(333);
+      });
+
+      it("should round response time to nearest integer", function () {
+        var collection =
+          new LicensingAvailabilityFor24HoursCollection({"data": [
+            {"avgresponse": 47},
+            {"avgresponse": 43},
+            {"avgresponse": 56}
+          ]});
+
+        var averageResponseTime = collection.getAverageResponseTime();
+
+        expect(averageResponseTime).toEqual(49);
       });
     });
   });

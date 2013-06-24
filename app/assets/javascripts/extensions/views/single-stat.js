@@ -2,15 +2,15 @@ define([
   'extensions/views/view'
 ],
 function (View) {
-  var UptimeView = View.extend({
+  var SingleStatView = View.extend({
 
     initialize: function () {
       View.prototype.initialize.apply(this, arguments);
       this.collection.on('reset', this.render, this);
     },
     render: function () {
-      this.$el.html("<strong>" + this.collection.getPercentageOfUptime() + "%</strong>");
+      this.$el.html("<strong>" + this.options.getStatFunction(this.collection) + "</strong>");
     }
   });
-  return UptimeView;
+  return SingleStatView;
 });

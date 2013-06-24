@@ -34,6 +34,15 @@ function (Collection) {
     },
     getPercentageOfUptime: function () {
       return 100 * (this._getTotalUptime() / this._getTotalTime());
+    },
+    getAverageResponseTime: function () {
+      var data = this.pluck('data')[0];
+      var length = data.length;
+      var total = 0;
+      for (var i = 0; i < length; i++) {
+        total += data[i]['avgresponse'];
+      }
+      return Math.round(total / length);
     }
   });
   return LicensingAvailabilityFor24HoursCollection;

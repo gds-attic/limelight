@@ -9,11 +9,10 @@ Feature: Pingdom data for licensing
      When I go to /performance/licensing
      Then the uptime module for licensing should display 100%
 
-  @wip
-  Scenario: visiting the licensing overview page to check licensing availability
+  Scenario: looking up response time on the licensing overview page
     Given Limelight is running
      When I go to /performance/licensing
-     Then the response time module for licensing should display 377ms
+     Then the response time module for licensing should display 423ms
 
   @wip
   Scenario: visiting the licensing overview page to check licence finder availability
