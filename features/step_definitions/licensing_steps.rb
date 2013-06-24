@@ -20,3 +20,26 @@ Then(/^there should be (\d+) authorities$/) do |num_authorities|
   page.all("#authorities-list li").count.should == num_authorities.to_i
 end
 
+Given(/^Limelight is running$/) do
+  #empty
+end
+
+Then(/^the uptime module for licensing should display (.*)$/) do |uptime|
+  page.all("#licensing-uptime-module").count.should == 1
+  page.find("#licensing-uptime strong").should have_content(uptime)
+end
+
+Then(/^the response time module for licensing should display (.*)$/) do |response_time|
+  page.all("#licensing-response-time-module").count.should == 1
+  page.find("#licensing-response-time-module p.impact-number").text.should = response_time
+end
+
+Then(/^the uptime module for licence finder should display (.*)$/) do |uptime|
+  page.all("#licence-finder-uptime-module").count.should == 1
+  page.find("#licence-finder-uptime-module p.impact-number").text.should = uptime
+end
+
+Then(/^the response time module for licence finder should display (.*)$/) do |response_time|
+  page.all("#licence-finder-response-time-module").count.should == 1
+  page.find("#licence-finder-response-time-module p.impact-number").text.should = response_time
+end

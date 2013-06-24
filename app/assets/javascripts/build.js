@@ -50,4 +50,4 @@
   },
 
   excludeShallow: [ 'd3' ]
-})
+});

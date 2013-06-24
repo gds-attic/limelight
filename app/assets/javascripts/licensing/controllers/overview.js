@@ -10,12 +10,15 @@ define([
   'extensions/views/tabs',
   'extensions/views/conversion-success-rate',
   'extensions/collections/visitors-realtime',
-  'extensions/views/visitors-realtime'
+  'extensions/views/visitors-realtime',
+  'licensing/collections/licensing-availability-for-24-hours',
+  'licensing/views/uptime'
 ], function (ApplicationsCollection, ApplicationsGraph, ApplicationsHeadlineView,
              Top5Collection, Top5Table, GraphCollection,
              ConversionCollection, ConversionGraph,
              Tabs, SuccessRateView,
-             VisitorsRealtimeCollection, VisitorsRealtimeView) {
+             VisitorsRealtimeCollection, VisitorsRealtimeView,
+             LicensingAvailabilityFor24Hours, UptimeView) {
   return function () {
 
     var conversionCollection = new ConversionCollection();
@@ -105,5 +108,12 @@ define([
         visitorsRealtimeCollection.fetch();
       }, updateInterval);
     }
+
+    var licensingAvailabilityCollection = new LicensingAvailabilityFor24Hours();
+    var licensingAvailabilityView = new UptimeView({
+      collection: licensingAvailabilityCollection,
+      el: $('#licensing-uptime')
+    });
+    licensingAvailabilityCollection.fetch();
   };
 });
