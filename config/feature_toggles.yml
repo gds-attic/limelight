@@ -3,3 +3,4 @@
 show_licensing_overview_success_rate: release
 show_licensing_visitors_realtime: dev
 show_fco_visitors_realtime: dev
+lpa_dashboard: dev

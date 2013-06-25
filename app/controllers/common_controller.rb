@@ -31,7 +31,16 @@ class CommonController < ApplicationController
         name: 'Deposit foreign marriage or civil partnership certificates',
         path: deposit_foreign_marriage_path
       }
-    ].sort_by { |k| k[:name] }
+    ]
+
+    if Rails.application.config.feature_toggles[:lpa_dashboard]
+      all_services << {
+        name: 'Lasting Power of Attorney',
+        path: lpa_path
+      }
+    end
+
+    all_services.sort_by! { |k| k[:name] }
 
     @services = all_services.group_by{ |service| service[:name][0].downcase }
     @num_services = all_services.length
