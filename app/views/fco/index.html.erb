@@ -11,7 +11,7 @@
 
 <% if Rails.application.config.feature_toggles[:show_fco_visitors_realtime] %>
   <section>
-    <h1>Live service usage</h1>
+    <h1>Live digital service usage</h1>
     <ul class="module-actions">
       <li class="info">
         <div>
@@ -25,7 +25,7 @@
 <% end %>
 
 <section class="half-width row-start">
-<h1>Completion rate</h1>
+<h1>Digital completion rate</h1>
 <ul class="module-actions">
   <li class="info">
     <div>
@@ -34,7 +34,7 @@
     </div>
   </li>
 </ul>
-<h2>Completion rate for all submissions for last week</h2>
+<h2>Completion rate for all digital submissions last week</h2>
 <p id="applications-success-rate" class="impact-number"></p>
 </section>
 
@@ -48,6 +48,6 @@
       </div>
     </li>
   </ul>
-  <h2>Percentages of unique visitors at each stage <span class="group0">two weeks ago</span> compared with <span class="group1">last week</span></h2>
+  <h2>Percentages of unique visitors at each stage of the digital transaction <span class="group0">two weeks ago</span> compared with <span class="group1">last week</span></h2>
   <figure class="graph conversion-graph" id="applications-conversion-graph"></figure>
 </section>
