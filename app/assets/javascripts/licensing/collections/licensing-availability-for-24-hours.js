@@ -42,7 +42,7 @@ function (Collection) {
       for (var i = 0; i < length; i++) {
         total += data[i]['avgresponse'];
       }
-      return Math.round(total / length);
+      return (total / length);
     }
   });
   return LicensingAvailabilityFor24HoursCollection;

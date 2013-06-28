@@ -113,12 +113,12 @@ define([
     var licensingAvailabilityUptimeView = new SingleStatView({
       collection: licensingAvailabilityCollection,
       el: $('#licensing-uptime'),
-      getStatFunction: function (collection) { return collection.getPercentageOfUptime() + '%'; }
+      getStatFunction: function (collection) { return Math.round(collection.getPercentageOfUptime()) + '%'; }
     });
     var licensingAvailabilityResponseTimeView = new SingleStatView({
       collection: licensingAvailabilityCollection,
       el: $('#licensing-response-time'),
-      getStatFunction: function (collection) { return collection.getAverageResponseTime() + 'ms'; }
+      getStatFunction: function (collection) { return Math.round(collection.getAverageResponseTime()) + 'ms'; }
     });
     licensingAvailabilityCollection.fetch();
   };

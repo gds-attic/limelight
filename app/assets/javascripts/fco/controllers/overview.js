@@ -4,11 +4,14 @@ define([
   'extensions/views/conversion-graph/conversion-graph',
   'extensions/views/conversion-success-rate',
   'extensions/collections/visitors-realtime',
-  'extensions/views/visitors-realtime'
+  'extensions/views/visitors-realtime',
+  'fco/collections/fco-availability-for-24-hours',
+  'extensions/views/single-stat'
 ], function (GraphCollection,
              ConversionCollection, ConversionGraph,
              SuccessRateView,
-             VisitorsRealtimeCollection, VisitorsRealtimeView) {
+             VisitorsRealtimeCollection, VisitorsRealtimeView,
+             FCO24HourAvailabilityCollection, SingleStatView) {
   return function () {
 
     var serviceName = $("#wrapper").data("service-name");
@@ -54,6 +57,21 @@ define([
       setInterval(function () {
         visitorsRealtimeCollection.fetch();
       }, updateInterval);
+    }
+
+    if ($('#uptime').length) {
+      var availabilityCollection = new FCO24HourAvailabilityCollection(null, {
+        service: serviceName,
+        checkName: serviceName
+      });
+
+      new SingleStatView({
+        $el: $('#uptime'),
+        collection: availabilityCollection,
+        getStatFunction: function (c) { return Math.round(c.getPercentageOfUptime()) + '%'; }
+      });
+
+      availabilityCollection.fetch();
     }
   };
 });

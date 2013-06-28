@@ -103,18 +103,5 @@ define([
 
         expect(averageResponseTime).toEqual(333);
       });
-
-      it("should round response time to nearest integer", function () {
-        var collection =
-          new LicensingAvailabilityFor24HoursCollection({"data": [
-            {"avgresponse": 47},
-            {"avgresponse": 43},
-            {"avgresponse": 56}
-          ]});
-
-        var averageResponseTime = collection.getAverageResponseTime();
-
-        expect(averageResponseTime).toEqual(49);
-      });
     });
   });

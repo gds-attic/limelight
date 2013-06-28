@@ -13,7 +13,8 @@ class BackdropStubController < ApplicationController
           FixtureLoader.new('features/backdrop_stub_responses/'),
           [
             StubConfig.new({'filter_by' => 'check:licensing'}, 'licensing_availability_response.json'),
-            StubConfig.new({'filter_by' => 'dataType:licensing_overview_journey'}, 'licensing_overview_journey.json')
+            StubConfig.new({'filter_by' => 'dataType:licensing_overview_journey'}, 'licensing_overview_journey.json'),
+            StubConfig.new({'filter_by' => 'check:pay-foreign-marriage-certificates'}, 'pay_foreign_marriage_availability.json')
           ]
       )
     end
