@@ -11,7 +11,7 @@ define([
   'extensions/views/conversion-success-rate',
   'extensions/collections/visitors-realtime',
   'extensions/views/visitors-realtime',
-  'licensing/collections/licensing-availability-for-24-hours',
+  'extensions/collections/availability-for-24-hours',
   'extensions/views/single-stat'
 ], function (ApplicationsCollection, ApplicationsGraph, ApplicationsHeadlineView,
              Top5Collection, Top5Table, GraphCollection,
@@ -109,7 +109,10 @@ define([
       }, updateInterval);
     }
 
-    var licensingAvailabilityCollection = new LicensingAvailabilityFor24Hours();
+    var licensingAvailabilityCollection = new LicensingAvailabilityFor24Hours(null, {
+      service: "licensing",
+      checkName: "licensing"
+    });
     var licensingAvailabilityUptimeView = new SingleStatView({
       collection: licensingAvailabilityCollection,
       el: $('#licensing-uptime'),

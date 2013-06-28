@@ -2,18 +2,26 @@ define([
   'extensions/collections/collection'
 ],
 function (Collection) {
-  var LicensingAvailabilityFor24HoursCollection = Collection.extend({
+  var AvailabilityFor24HoursCollection = Collection.extend({
 
-    serviceName: 'licensing',
+    initialize: function (models, options) {
+      this.serviceName = options.serviceName;
+      this.checkName = options.checkName;
+      Collection.prototype.initialize.apply(this, arguments);
+    },
+
+    serviceName: undefined,
+    checkName: undefined,
     apiName: 'monitoring',
 
     queryParams: function () {
       return {
-        filter_by: "check:licensing",
+        filter_by: "check:" + this.checkName,
         sort_by: "_timestamp:descending",
         limit: 24
       };
     },
+
     _getTotalUptime: function () {
       var data = this.pluck('data')[0];
       var total = 0;
@@ -22,6 +30,7 @@ function (Collection) {
       }
       return total;
     },
+
     _getTotalTime: function () {
       var data = this.pluck('data')[0];
       var total = 0;
@@ -32,9 +41,11 @@ function (Collection) {
       }
       return total;
     },
+
     getPercentageOfUptime: function () {
       return 100 * (this._getTotalUptime() / this._getTotalTime());
     },
+
     getAverageResponseTime: function () {
       var data = this.pluck('data')[0];
       var length = data.length;
@@ -44,6 +55,8 @@ function (Collection) {
       }
       return (total / length);
     }
+
   });
-  return LicensingAvailabilityFor24HoursCollection;
+
+  return AvailabilityFor24HoursCollection;
 });

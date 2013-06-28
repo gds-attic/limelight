@@ -5,7 +5,7 @@ define([
   'extensions/views/conversion-success-rate',
   'extensions/collections/visitors-realtime',
   'extensions/views/visitors-realtime',
-  'fco/collections/fco-availability-for-24-hours',
+  'extensions/collections/availability-for-24-hours',
   'extensions/views/single-stat'
 ], function (GraphCollection,
              ConversionCollection, ConversionGraph,

@@ -1,8 +1,13 @@
 define([
   'extensions/views/single-stat',
-  'licensing/collections/licensing-availability-for-24-hours'
-], function (SingleStatView, LicensingAvailabilityFor24HoursCollection) {
+  'extensions/collections/availability-for-24-hours'
+], function (SingleStatView, AvailabilityFor24HoursCollection) {
   describe("SingleStatView", function () {
+
+    var collectionOptions = {
+      checkName: "anything",
+      serviceName: "anything"
+    };
 
     describe("extracting the stat from the collection", function () {
 
@@ -24,13 +29,13 @@ define([
       });
     });
 
-    it("Should display uptime percentage", function () {
-      var collection = new LicensingAvailabilityFor24HoursCollection(
+    it("should display uptime percentage", function () {
+      var collection = new AvailabilityFor24HoursCollection(
         {"data": [{
           "uptime": 3,
           "downtime": 1,
           "unmonitored": 6
-        }]});
+        }]}, collectionOptions);
 
       var view = new SingleStatView({
         collection: collection,
@@ -42,11 +47,11 @@ define([
       });
     });
 
-    it("Should display response time", function () {
-      var collection = new LicensingAvailabilityFor24HoursCollection(
+    it("should display response time", function () {
+      var collection = new AvailabilityFor24HoursCollection(
         {"data": [{
           "avgresponse": 377
-        }]});
+        }]}, collectionOptions);
 
       var view = new SingleStatView({
         collection: collection,
