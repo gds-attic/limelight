@@ -28,11 +28,32 @@ function (Backbone, Model, Query, SafeSync, moment) {
     
     initialize: function (models, options) {
       this.options = options = options || {};
-      if (options.filterBy) {
-        this.filterBy = options.filterBy;
+
+      _.each(['filterBy', 'collections'], function (prop) {
+        if (options[prop]) {
+          this[prop] = options[prop];
+        }
+      }, this);
+
+      if (this.collections) {
+        // does not request data itself but depends on other collections
+        this.instantiateParts(models, options);
       }
       this.createQueryModel();
       Backbone.Collection.prototype.initialize.apply(this, arguments);
+    },
+
+    instantiateParts: function (models, options) {
+      delete options.collections;
+      this.collectionInstances = _.map(this.collections, function (classRef) {
+        if (classRef.collection) {
+          return new classRef.collection(
+            models, _.extend({}, classRef.options, options)
+          );
+        } else {
+          return new classRef(models, options);
+        }
+      });
     },
     
     createQueryModel: function () {
@@ -56,9 +77,62 @@ function (Backbone, Model, Query, SafeSync, moment) {
       options = _.extend({
         queryId: this.queryId
       }, options);
-      Backbone.Collection.prototype.fetch.call(this, options);
+
+      if (this.collectionInstances) {
+        this.fetchParts(options);
+      } else {
+        Backbone.Collection.prototype.fetch.call(this, options);
+      }
     },
     
+    /**
+     * Fetches data for all constituent collections. Parses data when all
+     * requests have returned successfully. Fails if any of the requests fail.
+     */
+    fetchParts: function (options) {
+      options = options || {};
+
+      _.each(this.collectionInstances, function (collection) {
+        collection.query.set(this.query.attributes, {silent: true})
+      }, this);
+
+      var numRequests = this.collectionInstances.length;
+      var openRequests = numRequests;
+      var successfulRequests = 0;
+      var that = this;
+      
+      var onResponse = function () {
+        if (--openRequests > 0) {
+          // wait for other requests to return
+          return;
+        }
+        
+        if (successfulRequests === numRequests) {
+          // all constituent collections returned successfully
+          that.reset.call(that, that.parse.call(that, options), { parse: true });
+        }
+      };
+      var onSuccess = function () {
+        successfulRequests++;
+        onResponse();
+      };
+      
+      _.each(this.collectionInstances, function (collection) {
+        collection.on('error', function () {
+          // escalate error status
+          if (options.error) {
+            options.error.apply(collection, arguments)
+          }
+          var args = ['error'].concat(Array.prototype.slice.call(arguments));
+          this.trigger.apply(this, args);
+        }, this),
+        collection.fetch({
+          success: onSuccess,
+          error: onResponse
+        });
+      }, this);
+    },
+
     defaultQueryParams: function () {
       var params = {};
       if (this.filterBy) {

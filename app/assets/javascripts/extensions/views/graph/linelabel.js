@@ -45,6 +45,16 @@ function (Component) {
         this.updateSquares(selection);
       }
     },
+
+    /**
+     * Defines ideal y position of a label. Labels will be rearranged so all
+     * labels are as close to their ideal position as possible.
+     * @returns By default, y position of '_count' attribute of last value
+     */
+    y: function (group, groupIndex) {
+      var value = group.get('values').last().get('_count');
+      return this.scales.y(value);
+    },
     
     /**
      * Positions labels as close as possible to y position of last data point
@@ -56,11 +66,10 @@ function (Component) {
       var model = this.collection.last();
       
       // prepare 'positions' array
-      var yScale = this.scales.y;
       var positions = [];
-      selection.each(function (group) {
-        var value = group.get('values').last().get('_count');
-        var y = yScale(value);
+      var that = this;
+      selection.each(function (group, groupIndex) {
+        var y = that.y.call(that, group, groupIndex);
         var size = d3.select(this).select('text').node().getBBox().height;
         
         positions.push({

@@ -1,11 +1,11 @@
 define([
   'require',
-  './applicationsgraph',
+  './timeseries-graph',
   './linelabel',
   './line'
 ],
-function (require, ApplicationsGraph, LineLabel, Line) {
-  var ApplicationsPerLicenceGraph = ApplicationsGraph.extend({
+function (require, TimeseriesGraph, LineLabel, Line) {
+  var MultiTimeseriesGraph = TimeseriesGraph.extend({
     
     components: function () {
       return [
@@ -20,5 +20,5 @@ function (require, ApplicationsGraph, LineLabel, Line) {
     
   });
   
-  return ApplicationsPerLicenceGraph;
+  return MultiTimeseriesGraph;
 });

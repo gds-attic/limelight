@@ -1,19 +1,19 @@
 define([
   'require',
-  './multicollection',
+  './collection',
   'extensions/models/group'
 ],
-function (require, MultiCollection, Group) {
+function (require, Collection, Group) {
   /**
    * Helper class. Graphs expect a collection of `Group` models, each of which
    * containing a data series. This collection combines one or more single
    * data series into a Graph-compatible collection of collections.
    */
-  var GraphCollection = MultiCollection.extend({
+  var GraphCollection = Collection.extend({
     model: Group,
     
     initialize: function () {
-      MultiCollection.prototype.initialize.apply(this, arguments);
+      Collection.prototype.initialize.apply(this, arguments);
       
       this.on('reset', function () {
         this.each(function (group, groupIndex) {
@@ -54,7 +54,7 @@ function (require, MultiCollection, Group) {
         selectModel = selectGroup.get('values').at(selectIndex);
       }
       
-      MultiCollection.prototype.selectItem.call(this, selectGroupIndex, { silent: true });
+      Collection.prototype.selectItem.call(this, selectGroupIndex, { silent: true });
       
       this.trigger('change:selected', selectGroup, selectGroupIndex, selectModel, selectIndex);
     },

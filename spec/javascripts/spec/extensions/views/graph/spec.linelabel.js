@@ -131,7 +131,6 @@ function (LineLabel, Collection) {
 
     });
 
-
     describe("setLabelPositions", function() {
       var el, wrapper, lineLabel;
       beforeEach(function() {
@@ -139,17 +138,17 @@ function (LineLabel, Collection) {
           {
             id: 'a',
             values: new Collection([
-              { _count: 1 },
-              { _count: 4 },
-              { _count: 7 }
+              { _count: 1, alternative: 8 },
+              { _count: 4, alternative: 5 },
+              { _count: 7, alternative: 2 }
             ])
           },
           {
             id: 'b',
             values: new Collection([
-              { _count: 2 },
-              { _count: 5 },
-              { _count: 8 }
+              { _count: 2, alternative: 9 },
+              { _count: 5, alternative: 6 },
+              { _count: 8, alternative: 3 }
             ])
           }
         ]);
@@ -197,19 +196,50 @@ function (LineLabel, Collection) {
         var startPositions = lineLabel.calcPositions.argsForCall[0][0];
         expect(lineLabel.scales.y).toHaveBeenCalledWith(7);
         expect(startPositions[0]).toEqual({
-          ideal: 49, // yScale was applied to last element in line 'a'
+          ideal: 49, // yScale was applied to '_count' attribute of last element in line 'a'
           size: 20,
           id: 'a'
         });
         expect(lineLabel.scales.y).toHaveBeenCalledWith(8);
         expect(startPositions[1]).toEqual({
-          ideal: 64, // yScale was applied to last element in line 'b'
+          ideal: 64, // yScale was applied to '_count' attribute of last element in line 'b'
           size: 20,
           id: 'b'
         });
 
         expect(wrapper.select('g:nth-child(1)').attr('transform')).toEqual('translate(0, 20.5)');
         expect(wrapper.select('g:nth-child(2)').attr('transform')).toEqual('translate(0, 30.5)');
+      });
+
+      it("positions labels using a custom calculation", function() {
+        wrapper.selectAll('text').each(function (metaModel) {
+          spyOn(this, "getBBox").andReturn({
+            height: 20
+          });
+        });
+        spyOn(lineLabel, "calcPositions").andReturn([
+          { min: 20 },
+          { min: 30 }
+        ]);
+        lineLabel.y = function (group, groupIndex) {
+          var value = group.get('values').first().get('alternative');
+          return this.scales.y(value);
+        }
+        lineLabel.setLabelPositions(wrapper.selectAll('g'));
+        expect(lineLabel.calcPositions).toHaveBeenCalled();
+        var startPositions = lineLabel.calcPositions.argsForCall[0][0];
+        expect(lineLabel.scales.y).toHaveBeenCalledWith(8);
+        expect(startPositions[0]).toEqual({
+          ideal: 64, // yScale was applied to 'alternative' attribute of first element in line 'a'
+          size: 20,
+          id: 'a'
+        });
+        expect(lineLabel.scales.y).toHaveBeenCalledWith(9);
+        expect(startPositions[1]).toEqual({
+          ideal: 81, // yScale was applied to 'alternative' attribute of first element in line 'b'
+          size: 20,
+          id: 'b'
+        });
       });
     });
 

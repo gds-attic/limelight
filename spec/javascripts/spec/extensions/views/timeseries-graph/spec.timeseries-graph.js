@@ -1,11 +1,11 @@
 define([
-  'licensing/views/applications-graph/applicationsgraph',
+  'extensions/views/timeseries-graph/timeseries-graph',
   'extensions/collections/collection',
   'moment'
 ],
 function (Graph, Collection, moment) {
   
-  describe("Total Applications Graph", function() {
+  describe("TimeseriesGraph", function() {
     
     var collection, graph;
     beforeEach(function() {
@@ -17,17 +17,20 @@ function (Graph, Collection, moment) {
             {
               _start_at: moment('2013-01-14').startOf('day'),
               _end_at: moment('2013-01-21').startOf('day'),
-              _count: 123
+              _count: 123,
+              alternativeValue: 444
             },
             {
               _start_at: moment('2013-01-21').startOf('day'),
               _end_at: moment('2013-01-28').startOf('day'),
-              _count: 569
+              _count: 569,
+              alternativeValue: 333
             },
             {
               _start_at: moment('2013-01-28').startOf('day'),
               _end_at: moment('2013-02-04').startOf('day'),
-              _count: 1024
+              _count: 1024,
+              alternativeValue: 222
             }
           ])
         }
@@ -67,6 +70,11 @@ function (Graph, Collection, moment) {
       it("scales domain from 0 to nice value above max value", function() {
         expect(graph.calcYScale().domain()).toEqual([0, 1200]);
       });
+
+      it("scales domain from 0 to nice value above max value when an alternative value attribute is used", function () {
+        graph.valueAttr = 'alternativeValue';
+        expect(graph.calcYScale().domain()).toEqual([0, 500]);
+      });
       
       it("scales range to inner height", function() {
         expect(graph.calcYScale().range()).toEqual([333, 0]);
@@ -76,6 +84,7 @@ function (Graph, Collection, moment) {
         expect(graph.calcYScale().tickValues)
             .toEqual([0, 200, 400, 600, 800, 1000, 1200])
       })
+
     });
 
   });

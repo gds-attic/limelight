@@ -55,6 +55,13 @@
     stroke-linecap: round;
     stroke-linejoin: round;
   }
+
+  .selectedIndicator.cursorLine {
+    stroke: black;
+    stroke-linecap: square;
+    stroke-width: 1px;
+    shape-rendering: crispEdges;
+  }
   
   .line {
     fill: none;

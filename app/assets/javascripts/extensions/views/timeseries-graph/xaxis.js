@@ -3,7 +3,7 @@ define([
 ],
 function (XAxis) {
   
-  var ApplicationsXAxis = XAxis.extend({
+  var TimeseriesXAxis = XAxis.extend({
     
     configs: {
       week: {
@@ -49,5 +49,5 @@ function (XAxis) {
     }
   });
   
-  return ApplicationsXAxis;
+  return TimeseriesXAxis;
 });

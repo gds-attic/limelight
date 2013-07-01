@@ -1,11 +1,11 @@
 define([
   'require',
-  'extensions/collections/multicollection',
+  'extensions/collections/collection',
   './all-entities',
   './applications-detail-lastweek'
 ],
-function (require, MultiCollection, AllEntities, ApplicationsLastWeek) {
-  var AllEntitiesAndApplicationsLastWeek = MultiCollection.extend({
+function (require, Collection, AllEntities, ApplicationsLastWeek) {
+  var AllEntitiesAndApplicationsLastWeek = Collection.extend({
     
     collections: [
       AllEntities,
@@ -17,7 +17,7 @@ function (require, MultiCollection, AllEntities, ApplicationsLastWeek) {
         throw "groupBy option is mandatory";
       }
       this.groupBy = options.groupBy;
-      MultiCollection.prototype.initialize.apply(this, arguments);
+      Collection.prototype.initialize.apply(this, arguments);
     },
     
     /**

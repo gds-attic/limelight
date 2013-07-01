@@ -17,4 +17,8 @@ class BackdropStub
 
     response
   end
+
+  def register(config)
+    @stub_configs << config
+  end
 end

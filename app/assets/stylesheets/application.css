@@ -17,8 +17,9 @@
  = require nav
  = require table
  = require graph
- = require applications-graph
+ = require timeseries-graph
  = require conversion-graph
+ = require volumetrics
  = require applicationstable
  = require top5table
  = require filteredlist

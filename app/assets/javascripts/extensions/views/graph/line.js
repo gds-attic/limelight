@@ -3,6 +3,8 @@ define([
 ],
 function (Component) {
   var Line = Component.extend({
+
+    drawCursorLine: false,
     
     // Not implemented; override in configuration or subclass
     x: function (model) {
@@ -75,6 +77,22 @@ function (Component) {
         }
       }, this);
       if (modelSelected) {
+        if (this.drawCursorLine) {
+          this.componentWrapper.append('line').attr({
+            'class': 'selectedIndicator cursorLine',
+            x1: this.x(modelSelected, indexSelected, groupSelected, groupIndexSelected),
+            y1: -this.margin.top,
+            x2: this.x(modelSelected, indexSelected, groupSelected, groupIndexSelected),
+            y2: this.graph.innerHeight
+          });
+          this.componentWrapper.append('line').attr({
+            'class': 'selectedIndicator cursorLine descender',
+            x1: this.x(modelSelected, indexSelected, groupSelected, groupIndexSelected),
+            y1: this.graph.innerHeight,
+            x2: this.x(modelSelected, indexSelected, groupSelected, groupIndexSelected),
+            y2: this.graph.innerHeight + this.margin.bottom
+          });
+        }
         this.componentWrapper.append('circle').attr({
           'class': 'selectedIndicator line' + groupIndexSelected,
           cx: this.x(modelSelected, indexSelected, groupSelected, groupIndexSelected),

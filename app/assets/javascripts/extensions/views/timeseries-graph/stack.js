@@ -1,13 +1,10 @@
 define([
-  'extensions/views/graph/line'
+  'extensions/views/graph/stack'
 ],
-function (Line) {
-  
-  var ApplicationsLine = Line.extend({
+function (Stack) {
+  var TimeseriesStack = Stack.extend({
     
-    interactive: function (e) {
-      return e.slice % 3 !== 2;
-    },
+    interactive: true,
     
     configs: {
       week: {
@@ -24,10 +21,10 @@ function (Line) {
       }
     },
     
-    y: function (model, index) {
-      return this.scales.y(model.get('_count'));
+    yStack: function (model) {
+      return model.get(this.graph.valueAttr);
     }
   });
   
-  return ApplicationsLine;
+  return TimeseriesStack;
 });

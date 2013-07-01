@@ -1,11 +1,11 @@
 define([
-  'licensing/views/applications-graph/applicationsperlicencegraph',
+  'extensions/views/timeseries-graph/multi-timeseries-graph',
   'extensions/collections/collection',
   'moment'
 ],
 function (Graph, Collection, moment) {
   
-  describe("Per Licence Applications Graph", function() {
+  describe("MultiTimeseriesGraph", function() {
     
     var collection, graph, el;
     beforeEach(function() {
@@ -19,17 +19,20 @@ function (Graph, Collection, moment) {
             {
               _start_at: moment('2013-01-14').startOf('day'),
               _end_at: moment('2013-01-21').startOf('day'),
-              _count: 90
+              _count: 90,
+              alternativeValue: 444
             },
             {
               _start_at: moment('2013-01-21').startOf('day'),
               _end_at: moment('2013-01-28').startOf('day'),
-              _count: 100
+              _count: 100,
+              alternativeValue: 333
             },
             {
               _start_at: moment('2013-01-28').startOf('day'),
               _end_at: moment('2013-02-04').startOf('day'),
-              _count: 114
+              _count: 114,
+              alternativeValue: 222
             }
           ])
         },
@@ -40,17 +43,20 @@ function (Graph, Collection, moment) {
             {
               _start_at: moment('2013-01-14').startOf('day'),
               _end_at: moment('2013-01-21').startOf('day'),
-              _count: 1
+              _count: 1,
+              alternativeValue: 100
             },
             {
               _start_at: moment('2013-01-21').startOf('day'),
               _end_at: moment('2013-01-28').startOf('day'),
-              _count: 6
+              _count: 6,
+              alternativeValue: 99
             },
             {
               _start_at: moment('2013-01-28').startOf('day'),
               _end_at: moment('2013-02-04').startOf('day'),
-              _count: 11
+              _count: 11,
+              alternativeValue: 98
             }
           ])
         },
@@ -61,17 +67,20 @@ function (Graph, Collection, moment) {
             {
               _start_at: moment('2013-01-14').startOf('day'),
               _end_at: moment('2013-01-21').startOf('day'),
-              _count: 2
+              _count: 2,
+              alternativeValue: 80
             },
             {
               _start_at: moment('2013-01-21').startOf('day'),
               _end_at: moment('2013-01-28').startOf('day'),
-              _count: 7
+              _count: 7,
+              alternativeValue: 87
             },
             {
               _start_at: moment('2013-01-28').startOf('day'),
               _end_at: moment('2013-02-04').startOf('day'),
-              _count: 12
+              _count: 12,
+              alternativeValue: 23
             }
           ])
         }
@@ -104,6 +113,11 @@ function (Graph, Collection, moment) {
     describe("calcYScale", function() {
       it("scales domain from 0 to nice value above max value", function() {
         expect(graph.calcYScale().domain()).toEqual([0, 120]);
+      });
+      
+      it("scales domain from 0 to nice value above max value when an alternative value attribute is used", function () {
+        graph.valueAttr = 'alternativeValue';
+        expect(graph.calcYScale().domain()).toEqual([0, 500]);
       });
       
       it("scales range to inner height", function() {

@@ -1,10 +1,10 @@
 define([
   'licensing/collections/applications-totalandtop5licences-weekly',
-  'licensing/views/applications-graph/applicationsperlicencegraph',
+  'extensions/views/timeseries-graph/multi-timeseries-graph',
   'licensing/collections/all-entities-and-applications-lastweek',
   'licensing/views/applicationstable',
   'extensions/views/tabs',
-  'licensing/views/applications-graph/headline'
+  'licensing/views/applications-graph-headline'
 ], function (GraphCollection, GraphView, TableCollection, TableView, Tabs, HeadlineView) {
   return function () {
 

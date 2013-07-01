@@ -3,7 +3,7 @@ define([
 ],
 function (Axis) {
   
-  var ApplicationsYAxis = Axis.extend({
+  var TimeseriesYAxis = Axis.extend({
     position: 'left',
     classed: 'y-axis',
     ticks: 7,
@@ -12,9 +12,9 @@ function (Axis) {
       return this.scales.y;
     },
     tickFormat: function () {
-      return this.numberListFormatter([this.scales.y.domain()[1]]);
+      return this.numberListFormatter(this.scales.y.tickValues);
     }
   });
   
-  return ApplicationsYAxis;
+  return TimeseriesYAxis;
 });

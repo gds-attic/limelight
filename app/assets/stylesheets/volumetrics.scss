@@ -1,0 +1,69 @@
+@import 'typography';
+
+.volumetrics {
+  .impact-number {
+    padding-top:1em;
+    width: 10em;
+    float:left;
+    @include core-16;
+    color: $black;
+    strong {
+      @include bold-48;
+      font-family: nta, Arial, sans-serif;
+      margin-bottom:-.1em;
+      display:block
+
+    }
+  }
+
+  ul.module-actions {
+    position:absolute;
+    right:0;
+  }
+
+  h3 {
+    height:0;
+    margin:0;
+    @include bold-19;
+  }
+
+  h1 {
+    margin-bottom:.5em;
+  }
+
+  .graph {
+    margin-left: 11em;
+    min-height: 120px;
+    max-height: 200px;
+  }
+
+  @media(max-width: 640px) {
+    .graph {
+      min-height: 90px;
+    }
+  }
+}
+
+#volumetrics-submissions {
+  .x-axis text {
+    display: none;
+  }
+}
+
+#volumetrics-completion {
+  .line0 { stroke: $data-colour-4; }
+  .stack0 { fill: mix($data-colour-4, $white, 25%); }
+  .cursorLine.descender { stroke: none; }
+}
+
+#volumetrics-submissions-selected {
+  strong {
+    color: $data-colour-1;
+  }
+}
+
+#volumetrics-completion-selected {
+  strong {
+    color: $data-colour-4;
+  }
+}

@@ -1,13 +1,13 @@
 @import 'typography';
 
-.applications-graph {
+.timeseries-graph {
   
   max-width: 954px;
   max-height: 400px;
 
   .inner {
     top: 20px;
-    bottom: 40px;
+    bottom: 45px;
     left: 55px;
     right: 40px;
   }
@@ -80,7 +80,7 @@
 
 @media (max-width: 640px) {
   
-  .applications-graph {
+  .timeseries-graph {
 
     .inner {
       top: 20px;
@@ -115,7 +115,7 @@
 
 @media (max-width: 320px) {
   
-  .applications-graph {
+  .timeseries-graph {
     text {
       font-size:9px;
       font-size:0.9rem;

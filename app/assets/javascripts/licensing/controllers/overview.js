@@ -1,7 +1,7 @@
 define([
   'licensing/collections/applications-total-weekly',
-  'licensing/views/applications-graph/applicationsgraph',
-  'licensing/views/applications-graph/headline',
+  'extensions/views/timeseries-graph/timeseries-graph',
+  'licensing/views/applications-graph-headline',
   'licensing/collections/applications-top5-lastweek',
   'licensing/views/top5table',
   'extensions/collections/graphcollection',
@@ -55,6 +55,7 @@ define([
       });
 
       applicationsCollection.query.set('period', 'week');
+      applicationsCollection.fetch();
 
       var conversionGraph = new ConversionGraph({
         el: $('#applications-conversion-graph'),

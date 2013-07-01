@@ -89,6 +89,35 @@ function (Query) {
       });
       
     });
+
+    describe("timezone handling", function() {
+
+      beforeEach(function() {
+        setupMoment('2013-05-15 06:15:45 +0100', Query.prototype);
+      });
+
+      it("should generate start_at and end_at as UTC", function() {
+        var query = new Query();
+        var attributes = {
+          period: 'week'
+        };
+        query.set(attributes);
+        expect(query.get('end_at')).toBeMoment(moment('2013-05-13T00:00:00+00:00'));
+        expect(query.get('start_at')).toBeMoment(moment('2013-03-11T00:00:00+00:00'));
+      });
+
+      it("should generate start_at and end_at as GB timezone when configured to do so", function() {
+        var query = new Query();
+        var attributes = {
+            period: 'week'
+        };
+        var options = { utc: false }
+        query.set(attributes, options);
+        expect(query.get('end_at')).toBeMoment(moment('2013-05-13T00:00:00+01:00'));
+        expect(query.get('start_at')).toBeMoment(moment('2013-03-11T00:00:00+00:00')); // no DST on this date
+      });
+
+    });
     
   });
 });
