@@ -111,7 +111,7 @@ define([
     }
 
     var licensingAvailabilityCollection = new LicensingAvailabilityFor24Hours(null, {
-      service: "licensing",
+      serviceName: "licensing",
       checkName: "licensing"
     });
     var licensingAvailabilityUptimeView = new SingleStatView({

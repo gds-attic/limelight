@@ -124,5 +124,17 @@ define([
 
         expect(averageResponseTime).toEqual(333);
       });
+
+      it("should throw an exception if created with no serviceName", function() {
+        expect(function() {
+          new AvailabilityFor24HoursCollection([], { checkName: "anything" });
+        }).toThrow()
+      });
+
+      it("should throw an exception if created with no checkName", function() {
+        expect(function() {
+          new AvailabilityFor24HoursCollection([], { serviceName: "anything" });
+        }).toThrow()
+      });
     });
   });

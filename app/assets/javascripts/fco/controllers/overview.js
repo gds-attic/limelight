@@ -125,7 +125,7 @@ define([
 
     if ($('#uptime').length && $('#response-time').length) {
       var availabilityCollection = new FCO24HourAvailabilityCollection(null, {
-        service:serviceName,
+        serviceName:serviceName,
         checkName:serviceName
       });
 

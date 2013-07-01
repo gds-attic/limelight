@@ -5,6 +5,12 @@ function (Collection) {
   var AvailabilityFor24HoursCollection = Collection.extend({
 
     initialize: function (models, options) {
+      if (!_.isString(options.serviceName)) {
+        throw "options argument has no serviceName property";
+      }
+      if (!_.isString(options.checkName)) {
+        throw "options argument has no checkName property";
+      }
       this.serviceName = options.serviceName;
       this.checkName = options.checkName;
       Collection.prototype.initialize.apply(this, arguments);
