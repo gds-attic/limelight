@@ -8,3 +8,8 @@ Feature: uptime and response time for fco transactions
     Given Limelight is running
      When I go to /performance/pay-foreign-marriage-certificates
      Then the uptime module for the fco transaction should display 50%
+
+  Scenario: looking up the response time on an fco dashboard
+    Given Limelight is running
+    When I go to /performance/pay-foreign-marriage-certificates
+    Then the response time module for the fco transaction should display 404ms

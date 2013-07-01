@@ -59,7 +59,7 @@ define([
       }, updateInterval);
     }
 
-    if ($('#uptime').length) {
+    if ($('#uptime').length && $('#response-time').length) {
       var availabilityCollection = new FCO24HourAvailabilityCollection(null, {
         service: serviceName,
         checkName: serviceName
@@ -71,7 +71,14 @@ define([
         getStatFunction: function (c) { return Math.round(c.getPercentageOfUptime()) + '%'; }
       });
 
+      new SingleStatView({
+        $el: $('#response-time'),
+        collection: availabilityCollection,
+        getStatFunction: function (c) { return Math.round(c.getAverageResponseTime()) + 'ms'; }
+      });
+
       availabilityCollection.fetch();
     }
+
   };
 });
