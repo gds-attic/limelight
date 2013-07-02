@@ -39,13 +39,6 @@ define([
       });
     }
 
-    var successRate = new SuccessRateView({
-      el:$('#applications-success-rate'),
-      collection:conversionCollection.collectionInstances[1],
-      startStep:serviceName + ':start',
-      endStep:serviceName + ':done'
-    });
-
     conversionCollection.fetch();
 
     if ($('#number-of-visitors-realtime').length) {
