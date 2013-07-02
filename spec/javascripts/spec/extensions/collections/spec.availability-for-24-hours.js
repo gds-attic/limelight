@@ -43,7 +43,6 @@ define([
             serviceName: "anything"
           });
         var params = collection.queryParams();
-        expect(params.filter_by).toEqual("check:mycheck");
         expect(params.sort_by).toEqual("_timestamp:descending");
         expect(params.limit).toEqual(24);
       });
@@ -128,12 +127,6 @@ define([
       it("should throw an exception if created with no serviceName", function() {
         expect(function() {
           new AvailabilityFor24HoursCollection([], { checkName: "anything" });
-        }).toThrow()
-      });
-
-      it("should throw an exception if created with no checkName", function() {
-        expect(function() {
-          new AvailabilityFor24HoursCollection([], { serviceName: "anything" });
         }).toThrow()
       });
     });

@@ -8,21 +8,15 @@ function (Collection) {
       if (!_.isString(options.serviceName)) {
         throw "options argument has no serviceName property";
       }
-      if (!_.isString(options.checkName)) {
-        throw "options argument has no checkName property";
-      }
       this.serviceName = options.serviceName;
-      this.checkName = options.checkName;
       Collection.prototype.initialize.apply(this, arguments);
     },
 
     serviceName: undefined,
-    checkName: undefined,
     apiName: 'monitoring',
 
     queryParams: function () {
       return {
-        filter_by: "check:" + this.checkName,
         sort_by: "_timestamp:descending",
         limit: 24
       };
