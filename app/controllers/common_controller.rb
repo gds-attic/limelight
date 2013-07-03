@@ -6,32 +6,36 @@ class CommonController < ApplicationController
       {
         name: 'Licensing',
         path: licensing_path
-      },
-      {
-        name: 'Pay to get documents legalised by post',
-        path: pay_legalisation_post_path
-      },
-      {
-        name: 'Pay to legalise documents using the premium service',
-        path: pay_legalisation_drop_off_path
-      },
-      {
-        name: 'Payment to register a birth abroad in the UK',
-        path: pay_register_birth_abroad_path
-      },
-      {
-        name: 'Payment to register a death abroad',
-        path: pay_register_death_abroad_path
-      },
-      {
-        name: 'Payment for certificates to get married abroad',
-        path: pay_foreign_marriage_certificates_path
-      },
-      {
-        name: 'Deposit foreign marriage or civil partnership certificates',
-        path: deposit_foreign_marriage_path
       }
     ]
+    if Rails.application.config.feature_toggles[:fco_dashboards]
+      all_services += [
+        {
+          name: 'Pay to get documents legalised by post',
+          path: pay_legalisation_post_path
+        },
+        {
+          name: 'Pay to legalise documents using the premium service',
+          path: pay_legalisation_drop_off_path
+        },
+        {
+          name: 'Payment to register a birth abroad in the UK',
+          path: pay_register_birth_abroad_path
+        },
+        {
+          name: 'Payment to register a death abroad',
+          path: pay_register_death_abroad_path
+        },
+        {
+          name: 'Payment for certificates to get married abroad',
+          path: pay_foreign_marriage_certificates_path
+        },
+        {
+          name: 'Deposit foreign marriage or civil partnership certificates',
+          path: deposit_foreign_marriage_path
+        }
+      ]
+    end
 
     if Rails.application.config.feature_toggles[:lpa_dashboard]
       all_services << {
