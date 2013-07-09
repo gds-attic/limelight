@@ -27,6 +27,13 @@ p {
         @include core-16;
         color: $grey-1;
       }
+
+      span.strapline {
+        display: block;
+        @include core-27;
+        color: $grey-1;
+        margin-bottom: 5px;
+      }
     }
     h2 {
       @include core-16;

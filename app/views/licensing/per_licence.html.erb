@@ -1,8 +1,12 @@
-<% content_for :title do %><%= @licence.name %> - Performance Platform - GOV.UK<% end %>
+<% content_for :title do %><%= @licence.name %> - Licensing performance - GOV.UK<% end %>
 <% @js_config = { "controller" => "licensing/controllers/per_licence", "licence-url-slug" => @licence.slug } %>
 
 <header>
-  <h1><%= @licence.name %> <span class="tagline">(submissions made through GOV.UK only)</span></h1>
+  <h1>
+      <span class="strapline">Licensing performance</span>
+      <%= @licence.name %>
+      <span class="tagline">(submissions made through GOV.UK only)</span>
+  </h1>
 </header>
 
 <section class="graph">

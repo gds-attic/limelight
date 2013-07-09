@@ -1,9 +1,13 @@
-<% content_for :title do %>Licensing - Performance Platform - GOV.UK<% end %>
+<% content_for :title do %>Licensing - Service performance - GOV.UK<% end %>
 
 <% @js_config = { "controller" => "licensing/controllers/overview" } %>
 
 <header>
-  <h1>Licensing performance <span class="tagline">(licences and authorities on GOV.UK only)</span></h1>
+  <h1>
+      <span class="strapline">Service performance</span>
+      Licensing
+      <span class="tagline">(licences and authorities on GOV.UK only)</span>
+  </h1>
 </header>
 
 <% if Rails.application.config.feature_toggles[:show_licensing_visitors_realtime] %>
