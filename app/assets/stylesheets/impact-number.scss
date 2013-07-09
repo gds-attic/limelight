@@ -1,14 +1,9 @@
 @import 'typography';
 
-p.impact-number {
-  @include core-19;
-  color:$primary-colour;
-  & strong {
-    @include bold-80;
-    font-size:120px;
-    font-size:12rem;
-    font-family: nta, Arial, sans-serif;
-    margin-bottom:-.1em;
-    display:block
-  }
+p.impact-number strong {
+  color: $primary-colour;
+  @include bold-80;
+  font-family: nta, Arial, sans-serif;
+  margin-bottom: -.1em;
+  display: block;
 }

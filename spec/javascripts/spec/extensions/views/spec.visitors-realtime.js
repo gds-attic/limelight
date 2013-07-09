@@ -13,7 +13,7 @@ function (VisitorsRealtimeView, Collection) {
 
       jasmine.renderView(view, function () {
         expect(view.$el.html()).toEqual(
-          '<strong>10</strong> Users online now'
+          '<p class="impact-number"><strong>10</strong></p> <p>Users online now</p>'
         )
       })
     });
@@ -27,7 +27,7 @@ function (VisitorsRealtimeView, Collection) {
 
       jasmine.renderView(view, function () {
         expect(view.$el.html()).toEqual(
-          '<strong>1</strong> User online now'
+          '<p class="impact-number"><strong>1</strong></p> <p>User online now</p>'
         )
       })
     });
