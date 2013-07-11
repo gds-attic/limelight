@@ -1,8 +1,12 @@
 <% content_for :title do %>Lasting Power of Attorney - Service performance - GOV.UK<% end %>
 
+<% @js_config = { "controller" => "lpa/controllers/overview" } %>
+
 <header>
   <h1>
       <span class="strapline">Service performance</span>
       Lasting Power of Attorney
   </h1>
 </header>
+
+<%= render(partial: "common/modules/monitoring") if Rails.application.config.feature_toggles[:show_lpa_availability] %>

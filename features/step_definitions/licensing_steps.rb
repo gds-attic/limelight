@@ -23,23 +23,3 @@ end
 Given(/^Limelight is running$/) do
   #empty
 end
-
-Then(/^the uptime module for licensing should display (.*)$/) do |uptime|
-  page.all("#licensing-uptime-module").count.should == 1
-  page.find("#licensing-uptime strong").should have_content(uptime)
-end
-
-Then(/^the response time module for licensing should display (.*)$/) do |response_time|
-  page.all("#licensing-response-time-module").count.should == 1
-  page.find("#licensing-response-time strong").should have_content(response_time)
-end
-
-Then(/^the uptime module for licence finder should display (.*)$/) do |uptime|
-  page.all("#licence-finder-uptime-module").count.should == 1
-  page.find("#licence-finder-response-time strong").should have_content(uptime)
-end
-
-Then(/^the response time module for licence finder should display (.*)$/) do |response_time|
-  page.all("#licence-finder-response-time-module").count.should == 1
-  page.find("#licence-finder-response-time strong").should have_content(response_time)
-end

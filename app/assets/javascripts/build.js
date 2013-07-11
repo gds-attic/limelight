@@ -2,15 +2,16 @@
   name: "main",
 
   deps: [
-    "licensing/controllers/preprocessors/module_touch_actions",
-    "licensing/controllers/preprocessors/partial_experience_warning",
+    "common/controllers/services",
+    "fco/controllers/overview",
     "licensing/controllers/authorities",
     "licensing/controllers/licences",
     "licensing/controllers/overview",
     "licensing/controllers/per_authority",
     "licensing/controllers/per_licence",
-    "common/controllers/services",
-    "fco/controllers/overview"
+    "licensing/controllers/preprocessors/module_touch_actions",
+    "licensing/controllers/preprocessors/partial_experience_warning",
+    "lpa/controllers/overview"
   ],
 
   out: "production.js",
