@@ -10,11 +10,15 @@ function (Component) {
     overlapLabelTop: 0,
     overlapLabelBottom: 20,
     
-    showSquare: false,
+    showSquare: true,
     squareSize: 11,
     squarePadding: 4,
     
     classed: 'labels',
+
+    interactive: function (e) {
+      return e.slice % 3 === 2;
+    },
     
     /**
      * Renders labels for current collection.
@@ -52,7 +56,7 @@ function (Component) {
      * @returns By default, y position of '_count' attribute of last value
      */
     y: function (group, groupIndex) {
-      var value = group.get('values').last().get('_count');
+      var value = group.get('values').last().get(this.graph.valueAttr);
       return this.scales.y(value);
     },
     

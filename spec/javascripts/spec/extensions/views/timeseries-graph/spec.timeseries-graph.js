@@ -33,6 +33,30 @@ function (Graph, Collection, moment) {
               alternativeValue: 222
             }
           ])
+        },
+        {
+          id: 'other',
+          title: 'Stuff',
+          values: new Collection([
+            {
+              _start_at: moment('2013-01-14').startOf('day'),
+              _end_at: moment('2013-01-21').startOf('day'),
+              _count: 213,
+              alternativeValue: 201
+            },
+            {
+              _start_at: moment('2013-01-21').startOf('day'),
+              _end_at: moment('2013-01-28').startOf('day'),
+              _count: 391,
+              alternativeValue: 129
+            },
+            {
+              _start_at: moment('2013-01-28').startOf('day'),
+              _end_at: moment('2013-02-04').startOf('day'),
+              _count: 943,
+              alternativeValue: 22
+            }
+          ])
         }
       ]);
       spyOn(Graph.prototype, "prepareGraphArea");
@@ -58,22 +82,36 @@ function (Graph, Collection, moment) {
     describe("calcYScale", function() {
       it("scales domain to a minimum value of 6 to avoid extreme line jumps on graph and duplicate y axis values", function () {
         collection.at(0).get('values').each(function (model) { model.set('_count', 1); });
+        collection.at(1).get('values').each(function (model) { model.set('_count', 1); });
         expect(graph.calcYScale().domain()).toEqual([0, 6]);
         
         collection.at(0).get('values').each(function (model) { model.set('_count', 2); });
+        collection.at(1).get('values').each(function (model) { model.set('_count', 2); });
         expect(graph.calcYScale().domain()).toEqual([0, 6]);
         
         collection.at(0).get('values').each(function (model) { model.set('_count', 5); });
+        collection.at(1).get('values').each(function (model) { model.set('_count', 5); });
         expect(graph.calcYScale().domain()).toEqual([0, 6]);
       });
       
-      it("scales domain from 0 to nice value above max value", function() {
+      it("scales domain from 0 to nice value above max value by default", function() {
         expect(graph.calcYScale().domain()).toEqual([0, 1200]);
       });
 
-      it("scales domain from 0 to nice value above max value when an alternative value attribute is used", function () {
+      it("scales domain from 0 to nice value above max value by default when an alternative value attribute is used", function () {
         graph.valueAttr = 'alternativeValue';
         expect(graph.calcYScale().domain()).toEqual([0, 500]);
+      });
+      
+      it("scales domain from 0 to nice value above maximum sum of point in time", function() {
+        graph.YScaleFunction = 'calcYSeriesSum';
+        expect(graph.calcYScale().domain()).toEqual([0, 2000]);
+      });
+
+      it("scales domain from 0 to nice value above maximum sum of point in time when an alternative value attribute is used", function () {
+        graph.valueAttr = 'alternativeValue';
+        graph.YScaleFunction = 'calcYSeriesSum';
+        expect(graph.calcYScale().domain()).toEqual([0, 700]);
       });
       
       it("scales range to inner height", function() {

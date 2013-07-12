@@ -36,8 +36,6 @@ function (require, Graph, XAxis, YAxis, Stack, Hover, Callout) {
       return this.collection.query.get('period') || 'week';
     },
 
-    valueAttr: '_count',
-    
     calcXScale: function () {
       var start, end, xScale;
       
@@ -61,16 +59,12 @@ function (require, Graph, XAxis, YAxis, Stack, Hover, Callout) {
     },
 
     minYDomainExtent: 6,
+
+    YScaleFunction: "calcYSeriesMax",
     
     calcYScale: function () {
       var d3 = this.d3;
-      var valueAttr = this.valueAttr;
-      var max = d3.max(this.collection.models, function (group) {
-        return d3.max(group.get('values').models, function (value) {
-          return value.get(valueAttr);
-        });
-      });
-      
+      var max = this[this.YScaleFunction](this.valueAttr);
       var yScale = this.d3.scale.linear();
       var minimumTickCount = this.yAxisInstance().ticks;
       var tickValues = this.calculateLinearTicks([0, Math.max(max, this.minYDomainExtent)], minimumTickCount);
@@ -78,6 +72,24 @@ function (require, Graph, XAxis, YAxis, Stack, Hover, Callout) {
       yScale.rangeRound([this.innerHeight, 0]);
       yScale.tickValues = tickValues.values;
       return yScale;
+    },
+
+    calcYSeriesMax: function (valueAttr) {
+      return d3.max(this.collection.models, function (group) {
+        return d3.max(group.get('values').models, function (value) {
+          return value.get(valueAttr);
+        });
+      });
+    },
+
+    calcYSeriesSum: function (valueAttr) {
+      var sums = [];
+      for (var i = 0; i < this.collection.at(0).get('values').length; i++) {
+        sums.push(this.collection.reduce(function (memo, group) {
+          return memo + group.get('values').at(i).get(valueAttr);
+        }, 0));
+      }
+      return d3.max(sums);
     }
   });
   

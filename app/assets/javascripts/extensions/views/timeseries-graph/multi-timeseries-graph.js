@@ -1,7 +1,7 @@
 define([
   'require',
   './timeseries-graph',
-  './linelabel',
+  'extensions/views/graph/linelabel',
   './line'
 ],
 function (require, TimeseriesGraph, LineLabel, Line) {

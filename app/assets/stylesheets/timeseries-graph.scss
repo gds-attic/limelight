@@ -40,7 +40,7 @@
       line {
         stroke-width: 2px;
       }
-      
+
       rect {
         stroke-width:2px;
         
@@ -65,8 +65,16 @@
 }
 
 #applications-by-licence .inner,
-#applications-by-authority .inner {
+#applications-by-authority .inner,
+#application-method-over-time .inner {
   right: 200px
+}
+
+#application-method-over-time {
+  .selected {
+    &.stack0 { fill: mix($data-colour-1, $white, 40%); }
+    &.stack1 { fill: mix($data-colour-2, $white, 40%); }
+  }
 }
 
 @media (max-width: 780px) {

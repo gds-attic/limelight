@@ -8,6 +8,8 @@ function (View, d3) {
     
     d3: d3,
     
+    valueAttr: '_count',
+    
     initialize: function (options) {
       View.prototype.initialize.apply(this, arguments);
       

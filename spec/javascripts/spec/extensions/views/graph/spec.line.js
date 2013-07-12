@@ -157,9 +157,10 @@ function (Line, Collection) {
       it("calculates distance to an interpolated position between points and picks closest model", function () {
         var res = view.getDistanceAndClosestModel(collection.at(0), {
           x: 2.5,
-          y: 10
+          y: -3
         });
         expect(res.dist).toEqual(6.5);
+        expect(res.diff).toEqual(-6.5);
         expect(res.index).toEqual(1);
 
         var res = view.getDistanceAndClosestModel(collection.at(0), {
@@ -167,6 +168,7 @@ function (Line, Collection) {
           y: 8
         });
         expect(res.dist).toEqual(0);
+        expect(res.diff).toEqual(0);
         expect(res.index).toEqual(2);
       });
     });

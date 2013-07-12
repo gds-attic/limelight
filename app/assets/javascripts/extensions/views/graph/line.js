@@ -64,7 +64,7 @@ function (Component) {
     lineClassed: function (group, index) {
       return 'line line' + index + ' ' + group.get('id');
     },
-    
+
     onChangeSelected: function (groupSelected, groupIndexSelected, modelSelected, indexSelected) {
       this.componentWrapper.selectAll('.selectedIndicator').remove();
       this.collection.each(function (group, groupIndex) {
@@ -77,25 +77,26 @@ function (Component) {
         }
       }, this);
       if (modelSelected) {
+        var x = this.x(modelSelected, indexSelected, groupSelected, groupIndexSelected);
         if (this.drawCursorLine) {
           this.componentWrapper.append('line').attr({
             'class': 'selectedIndicator cursorLine',
-            x1: this.x(modelSelected, indexSelected, groupSelected, groupIndexSelected),
+            x1: x,
             y1: -this.margin.top,
-            x2: this.x(modelSelected, indexSelected, groupSelected, groupIndexSelected),
+            x2: x,
             y2: this.graph.innerHeight
           });
           this.componentWrapper.append('line').attr({
             'class': 'selectedIndicator cursorLine descender',
-            x1: this.x(modelSelected, indexSelected, groupSelected, groupIndexSelected),
+            x1: x,
             y1: this.graph.innerHeight,
-            x2: this.x(modelSelected, indexSelected, groupSelected, groupIndexSelected),
+            x2: x,
             y2: this.graph.innerHeight + this.margin.bottom
           });
         }
         this.componentWrapper.append('circle').attr({
           'class': 'selectedIndicator line' + groupIndexSelected,
-          cx: this.x(modelSelected, indexSelected, groupSelected, groupIndexSelected),
+          cx: x,
           cy: this.y(modelSelected, indexSelected, groupSelected, groupIndexSelected),
           r: 4
         });
@@ -128,15 +129,16 @@ function (Component) {
       
       var distLeft = Math.abs(point.x - this.x(left, leftIndex));
       var distRight = Math.abs(this.x(right, rightIndex) - point.x);
-      var weight = distLeft / (distLeft + distRight);
+      var weight = distLeft / (distLeft + distRight) || 0;
+      var bestIndex = values.indexOf(distLeft < distRight ? left : right);
       
       var y = this.d3.interpolate(this.y(left, leftIndex), this.y(right, rightIndex))(weight);
-      var dist = Math.abs(point.y - y);
-      
-      var bestIndex = values.indexOf(distLeft < distRight ? left : right);
+      var diff = point.y - y;
+      var dist = Math.abs(diff);
       
       return {
         dist: dist,
+        diff: diff,
         index: bestIndex
       };
     },

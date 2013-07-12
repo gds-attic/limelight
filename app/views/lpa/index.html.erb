@@ -2,11 +2,30 @@
 
 <% @js_config = { "controller" => "lpa/controllers/overview" } %>
 
+<% @js_config = {
+  "controller" => "lpa/controllers/overview"
+} %>
+
 <header>
   <h1>
       <span class="strapline">Service performance</span>
       Lasting Power of Attorney
   </h1>
 </header>
+
+<% if Rails.application.config.feature_toggles[:lpa_dashboard_application_method] %>
+<section class="graph">
+  <h1>Application method over time</h1>
+  <ul class="module-actions">
+    <li class="info">
+      <div>
+        <p>Data sources: Office of the Public Guardian</p>
+      </div>
+    </li>
+  </ul>
+  <h2>Number of <span class="group0">non-digital</span> and <span class="group1">digital</span> applications over time</h2>
+  <figure class="graph timeseries-graph" id="application-method-over-time"></figure>
+</section>
+<% end %>
 
 <%= render(partial: "common/modules/monitoring") if Rails.application.config.feature_toggles[:show_lpa_availability] %>

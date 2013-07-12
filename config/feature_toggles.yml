@@ -5,5 +5,6 @@ show_licensing_visitors_realtime: release
 show_fco_visitors_realtime: dev
 fco_dashboards: dev
 lpa_dashboard: dev
+lpa_dashboard_application_method: dev
 show_fco_availability: dev
 show_lpa_availability: release

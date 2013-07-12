@@ -18,6 +18,8 @@ function (LineLabel, Collection) {
         wrapper = LineLabel.prototype.d3.select(el[0]).append('svg').append('g');
 
         lineLabel = new LineLabel({
+          interactive: false,
+          showSquare: false,
           collection: collection
         });
         lineLabel.wrapper = wrapper;
@@ -161,11 +163,13 @@ function (LineLabel, Collection) {
           scales: {
             y: yScale
           },
+          interactive: false,
           collection: collection,
           offset: 100,
           linePaddingInner: 20,
           linePaddingOuter: 30,
           graph: {
+            valueAttr: '_count',
             innerWidth: 100,
             innerHeight: 100
           }
@@ -247,6 +251,7 @@ function (LineLabel, Collection) {
       var el, wrapper, lineLabel;
       beforeEach(function() {
         lineLabel = new LineLabel({
+          interactive: false,
           collection: {
             on: jasmine.createSpy()
           }
@@ -338,6 +343,7 @@ function (LineLabel, Collection) {
       var line;
       beforeEach(function() {
         line = new LineLabel({
+          interactive: false,
           collection: {
             on: jasmine.createSpy()
           }
