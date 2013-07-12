@@ -18,7 +18,7 @@ define([
       listEl: $('#licences-list dl'),
       countEl: $('#licences-list .count'),
       label: 'Find an application, licence, notice or registration named:',
-      placeholder: 'Example: Temporary Event Notice',
+      placeholder: 'Example: Temporary event notice',
       collection: collection
     });
     view.render();

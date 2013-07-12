@@ -45,7 +45,7 @@ function (View) {
 
         var startLabel = start.format(start.month() === end.month() ? 'D' : 'D MMM');
         var endLabel = end.format('D MMM YYYY');
-        return contentString(percentage, startLabel + '-' + endLabel);
+        return contentString(percentage, startLabel + ' - ' + endLabel);
 
       } else {
         var values = this.collection.at(0).get('values');
@@ -53,7 +53,7 @@ function (View) {
         var total = availableWeeks.map(get('completion')).reduce(sum);
         var percentage = Math.round(100 * total / availableWeeks.length);
 
-        return contentString(percentage, ' mean per week over the last ' + availableWeeks.length + ' weeks');
+        return contentString(percentage, ' mean over the last ' + availableWeeks.length + ' weeks');
       }
     }
   });
