@@ -10,6 +10,8 @@ function(require, StackComponent) {
     classed: 'bar',
     
     offsetText: -8,
+
+    reverseRenderOrder: false,
     
     renderContent: function (selection) {
       

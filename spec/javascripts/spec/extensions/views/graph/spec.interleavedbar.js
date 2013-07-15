@@ -13,19 +13,19 @@ function (InterleavedBar, Collection) {
       wrapper = d3.select(el[0]).append('svg').append('g');
       collection = new Collection([
         {
-          testAttr:'c',
-          values: new Collection([
-            { b:12, name: "four"},
-            { b:15, name: "five"},
-            { b:18, name: "six"}
-          ])
-        },
-        {
           testAttr:'b',
           values: new Collection([
             { b:2, name: "one"},
             { b:5, name: "two"},
             { b:8, name: "three"}
+          ])
+        },
+        {
+          testAttr:'c',
+          values: new Collection([
+            { b:12, name: "four"},
+            { b:15, name: "five"},
+            { b:18, name: "six"}
           ])
         }
       ]);

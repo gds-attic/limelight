@@ -42,8 +42,10 @@ function (GraphCollection, Group) {
 
           values.push(_.extend({
             uniqueEvents: 0,
-            _start_at: moment(date),
-            _end_at: moment(date).add(1, 'weeks')
+            // FIXME: Adding one hour to start and end to work around timezone 
+            // issues. Revert once Backdrop handles timezones correctly.
+            _start_at: moment(date).add(1, 'hours'),
+            _end_at: moment(date).add(1, 'weeks').add(1, 'hours')
           }, entry));
         }
         return {

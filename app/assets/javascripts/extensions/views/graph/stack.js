@@ -5,6 +5,8 @@ define([
 ],
 function (require, Line, Component) {
   var Stack = Line.extend({
+
+    reverseRenderOrder: true,
     
     stackValues: function (group) {
       return group.get('values').models;
@@ -40,8 +42,13 @@ function (require, Line, Component) {
       var stack = this.d3.layout.stack()
         .values(this.stackValues)
         .y(_.bind(this.yStack, this));
-        
-      var layers = stack(this.collection.models.slice().reverse());
+
+      var layers;
+      if (this.reverseRenderOrder) {
+        layers = stack(this.collection.models.slice().reverse());
+      } else {
+        layers = stack(this.collection.models);
+      }
       
       var groupStacks = this.componentWrapper.selectAll('g.stacks').data([0]);
       groupStacks.enter().append('g').attr('class', 'stacks');

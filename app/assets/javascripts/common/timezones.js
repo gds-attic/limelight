@@ -1,4 +1,6 @@
 define(
+  // FIXME: This is used by the Query model to work around timezone issues.
+  // Replace with timezone support in Moment.
   function () {
     var OCTOBER = 9;
     var MARCH = 2;

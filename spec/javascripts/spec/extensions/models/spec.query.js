@@ -16,8 +16,8 @@ function (Query) {
         });
         expect(query.get('foo')).toEqual('bar');
         expect(query.get('period')).toEqual('month');
-        expect(query.get('end_at').format('YYYY-MM-DD')).toEqual('2013-05-01');
-        expect(query.get('start_at').format('YYYY-MM-DD')).toEqual('2012-05-01');
+        expect(query.get('end_at').format()).toEqual('2013-05-01T00:00:00+00:00');
+        expect(query.get('start_at').format()).toEqual('2012-05-01T00:00:00+00:00');
       });
       
       it("sets start and end date for 'month' period using object syntax", function () {
@@ -31,8 +31,8 @@ function (Query) {
         expect(query.get('a')).toEqual('b');
         expect(query.get('foo')).toEqual('bar');
         expect(query.get('period')).toEqual('month');
-        expect(query.get('end_at').format('YYYY-MM-DD')).toEqual('2013-05-01');
-        expect(query.get('start_at').format('YYYY-MM-DD')).toEqual('2012-05-01');
+        expect(query.get('end_at').format()).toEqual('2013-05-01T00:00:00+00:00');
+        expect(query.get('start_at').format()).toEqual('2012-05-01T00:00:00+00:00');
       });
       
       it("sets start and end date for 'month' period using key, value syntax", function () {
@@ -42,15 +42,15 @@ function (Query) {
         query.set('period', 'month');
         expect(query.get('foo')).toEqual('bar');
         expect(query.get('period')).toEqual('month');
-        expect(query.get('end_at').format('YYYY-MM-DD')).toEqual('2013-05-01');
-        expect(query.get('start_at').format('YYYY-MM-DD')).toEqual('2012-05-01');
+        expect(query.get('end_at').format()).toEqual('2013-05-01T00:00:00+00:00');
+        expect(query.get('start_at').format()).toEqual('2012-05-01T00:00:00+00:00');
       });
       
       it("sets start and end date for 'week' period", function () {
         var query = new Query({ period: 'week' });
         expect(query.get('period')).toEqual('week');
-        expect(query.get('end_at').format('YYYY-MM-DD')).toEqual('2013-05-13');
-        expect(query.get('start_at').format('YYYY-MM-DD')).toEqual('2013-03-11');
+        expect(query.get('end_at').format()).toEqual('2013-05-13T00:00:00+00:00');
+        expect(query.get('start_at').format()).toEqual('2013-03-11T00:00:00+00:00');
       });
       
       it("ignores unknown periods using constructor", function () {

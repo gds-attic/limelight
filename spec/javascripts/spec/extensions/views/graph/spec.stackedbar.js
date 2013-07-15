@@ -14,19 +14,19 @@ define([
           wrapper = d3.select(el[0]).append('svg').append('g');
           collection = new Collection([
             {
-              testAttr:'c',
-              values: new Collection([
-                { a:11, b:12, name: "four"},
-                { a:14, b:15, name: "five"},
-                { a:17, b:18, name: "six"}
-              ])
-            },
-            {
               testAttr:'b',
               values: new Collection([
                 { a:1, b:2, name: "one"},
                 { a:4, b:5, name: "two"},
                 { a:7, b:8, name: "three"}
+              ])
+            },
+            {
+              testAttr:'c',
+              values: new Collection([
+                { a:11, b:12, name: "four"},
+                { a:14, b:15, name: "five"},
+                { a:17, b:18, name: "six"}
               ])
             }
           ]);
