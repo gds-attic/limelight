@@ -181,6 +181,21 @@ function (Graph, Collection, d3) {
         expect(graph.height).toEqual(75);
       });
 
+      it("re-scales graph according to min-height when defined", function () {
+        wrapper.css({
+          width: '150px'
+        });
+        el.css({
+          'max-width': '200px',
+          'max-height': '100px',
+          'min-height': '80px'
+        });
+
+        graph.resize();
+        expect(graph.width).toEqual(150);
+        expect(graph.height).toEqual(80);
+      });
+
       it("re-scales graph according to defined height and available width", function () {
         wrapper.css({
           width: '150px'

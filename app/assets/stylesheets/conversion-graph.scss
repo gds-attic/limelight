@@ -3,6 +3,7 @@
 .conversion-graph {
     max-width: 954px;
     max-height: 200px;
+    min-height: 100px;
 
     &:hover {
       max-height: 300px;

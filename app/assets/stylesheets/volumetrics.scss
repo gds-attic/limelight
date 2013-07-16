@@ -17,8 +17,7 @@
   }
 
   ul.module-actions {
-    position:absolute;
-    right:0;
+    top:-36px;
   }
 
   h3 {
@@ -29,6 +28,7 @@
 
   h1 {
     margin-bottom:.5em;
+    margin-right:2em;
   }
 
   .graph {
@@ -37,11 +37,41 @@
     max-height: 200px;
   }
 
+  @media (max-width: 880px) {
+    
+    .graph {
+      .x-axis .tick:nth-child(even) text {
+        display:none;
+      }
+    }
+  }
+  
   @media(max-width: 640px) {
     .graph {
       min-height: 110px;
     }
   }
+
+  @media(max-width: 500px) {
+    height:400px;
+    .graph {
+      margin-left:0;
+      position:absolute;
+      left:0;
+      right:0;
+    }
+    #volumetrics-submissions {
+      top: 140px;
+    }
+    #volumetrics-completion {
+      top: 250px;
+    }
+
+    .impact-number {
+      max-width: 40%;
+    }
+  }
+
 }
 
 #volumetrics-submissions {

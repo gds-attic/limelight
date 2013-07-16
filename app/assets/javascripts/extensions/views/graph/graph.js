@@ -93,13 +93,18 @@ function (View, d3) {
       var width = this.width = this.$el.width();
 
       // when both max-width and max-height are defined, scale graph according
-      // to this aspect ratio
+      // to this aspect ratio. A defined min-height still takes precedence
+      // over aspect ratio scaling.
       var maxWidth = this.pxToValue(this.$el.css('max-width'));
       var maxHeight = this.pxToValue(this.$el.css('max-height'));
+      var minHeight = this.pxToValue(this.$el.css('min-height'));
       var height;
       if (maxWidth != null && maxHeight != null) {
         var aspectRatio = maxWidth / maxHeight;
         height = width / aspectRatio;
+        if (minHeight != null) {
+          height = Math.max(height, minHeight);
+        }
       } else {
         height = this.$el.height();
       }
