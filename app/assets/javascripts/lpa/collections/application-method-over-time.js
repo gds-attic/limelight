@@ -24,8 +24,8 @@ function (GraphCollection) {
         } else {
           items[applicationMethod][d.start_at] = {
             _count: parseFloat(d.value),
-            _start_at: this.moment(d.start_at),
-            _end_at: this.moment(d.end_at)
+            _start_at: this.moment(d.start_at, "DD/MM/YYYY"),
+            _end_at: this.moment(d.end_at, "DD/MM/YYYY")
           };
         }
       }, this);

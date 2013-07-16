@@ -13,6 +13,7 @@ class BackdropStub
   end
 
   def register(config)
+    @stub_configs.reject! { |c| c.matches_parameters?(config.query) }
     @stub_configs << config
   end
 end

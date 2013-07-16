@@ -1,0 +1,130 @@
+{"data": [
+  {
+    "_updated_at": "2013-07-05T11:31:40.845000",
+    "start_at": "04/07/2013",
+    "value": "252",
+    "end_at": "11/07/2013",
+    "key": "property_and_financial_paper_applications",
+    "_id": "cHJvcGVydHlfYW5kX2ZpbmFuY2lhbF9wYXBlcl9hcHBsaWNhdGlvbnMuMDQvMDcvMjAxMy4wNC8wNy8yMDEz"
+  },
+  {
+    "_updated_at": "2013-07-05T11:31:40.846000",
+    "start_at": "04/07/2013",
+    "value": "656",
+    "end_at": "11/07/2013",
+    "key": "health_and_welfare_paper_applications",
+    "_id": "aGVhbHRoX2FuZF93ZWxmYXJlX3BhcGVyX2FwcGxpY2F0aW9ucy4wNC8wNy8yMDEzLjA0LzA3LzIwMTM="
+  },
+  {
+    "_updated_at": "2013-07-05T11:31:40.846000",
+    "start_at": "04/07/2013",
+    "value": "1",
+    "end_at": "11/07/2013",
+    "key": "property_and_financial_digital_applications",
+    "_id": "cHJvcGVydHlfYW5kX2ZpbmFuY2lhbF9kaWdpdGFsX2FwcGxpY2F0aW9ucy4wNC8wNy8yMDEzLjA0LzA3LzIwMTM="
+  },
+  {
+    "_updated_at": "2013-07-05T11:31:40.847000",
+    "start_at": "04/07/2013",
+    "value": "0",
+    "end_at": "11/07/2013",
+    "key": "health_and_welfare_digital_applications",
+    "_id": "aGVhbHRoX2FuZF93ZWxmYXJlX2RpZ2l0YWxfYXBwbGljYXRpb25zLjA0LzA3LzIwMTMuMDQvMDcvMjAxMw=="
+  },
+  {
+    "_updated_at": "2013-07-05T11:31:40.847000",
+    "start_at": "04/07/2013",
+    "value": "1",
+    "end_at": "11/07/2013",
+    "key": "property_and_financial_digital_applications_perfect",
+    "_id": "cHJvcGVydHlfYW5kX2ZpbmFuY2lhbF9kaWdpdGFsX2FwcGxpY2F0aW9uc19wZXJmZWN0LjA0LzA3LzIwMTMuMDQvMDcvMjAxMw=="
+  },
+  {
+    "_updated_at": "2013-07-05T11:31:40.848000",
+    "start_at": "04/07/2013",
+    "value": "0",
+    "end_at": "11/07/2013",
+    "key": "property_and_financial_digital_applications_imperfect",
+    "_id": "cHJvcGVydHlfYW5kX2ZpbmFuY2lhbF9kaWdpdGFsX2FwcGxpY2F0aW9uc19pbXBlcmZlY3QuMDQvMDcvMjAxMy4wNC8wNy8yMDEz"
+  },
+  {
+    "_updated_at": "2013-07-05T11:31:40.848000",
+    "start_at": "04/07/2013",
+    "value": "0",
+    "end_at": "11/07/2013",
+    "key": "property_and_financial_digital_applications_invalid",
+    "_id": "cHJvcGVydHlfYW5kX2ZpbmFuY2lhbF9kaWdpdGFsX2FwcGxpY2F0aW9uc19pbnZhbGlkLjA0LzA3LzIwMTMuMDQvMDcvMjAxMw=="
+  },
+  {
+    "_updated_at": "2013-07-05T11:31:40.849000",
+    "start_at": "04/07/2013",
+    "value": "556",
+    "end_at": "11/07/2013",
+    "key": "property_and_financial_paper_applications_perfect",
+    "_id": "cHJvcGVydHlfYW5kX2ZpbmFuY2lhbF9wYXBlcl9hcHBsaWNhdGlvbnNfcGVyZmVjdC4wNC8wNy8yMDEzLjA0LzA3LzIwMTM="
+  },
+  {
+    "_updated_at": "2013-07-05T11:31:40.849000",
+    "start_at": "04/07/2013",
+    "value": "89",
+    "end_at": "11/07/2013",
+    "key": "property_and_financial_paper_applications_imperfect",
+    "_id": "cHJvcGVydHlfYW5kX2ZpbmFuY2lhbF9wYXBlcl9hcHBsaWNhdGlvbnNfaW1wZXJmZWN0LjA0LzA3LzIwMTMuMDQvMDcvMjAxMw=="
+  },
+  {
+    "_updated_at": "2013-07-05T11:31:40.850000",
+    "start_at": "04/07/2013",
+    "value": "11",
+    "end_at": "11/07/2013",
+    "key": "property_and_financial_paper_applications_invalid",
+    "_id": "cHJvcGVydHlfYW5kX2ZpbmFuY2lhbF9wYXBlcl9hcHBsaWNhdGlvbnNfaW52YWxpZC4wNC8wNy8yMDEzLjA0LzA3LzIwMTM="
+  },
+  {
+    "_updated_at": "2013-07-05T11:31:40.850000",
+    "start_at": "04/07/2013",
+    "value": "0",
+    "end_at": "11/07/2013",
+    "key": "health_and_welfare_digital_applications_perfect",
+    "_id": "aGVhbHRoX2FuZF93ZWxmYXJlX2RpZ2l0YWxfYXBwbGljYXRpb25zX3BlcmZlY3QuMDQvMDcvMjAxMy4wNC8wNy8yMDEz"
+  },
+  {
+    "_updated_at": "2013-07-05T11:31:40.851000",
+    "start_at": "04/07/2013",
+    "value": "0",
+    "end_at": "11/07/2013",
+    "key": "health_and_welfare_digital_applications_imperfect",
+    "_id": "aGVhbHRoX2FuZF93ZWxmYXJlX2RpZ2l0YWxfYXBwbGljYXRpb25zX2ltcGVyZmVjdC4wNC8wNy8yMDEzLjA0LzA3LzIwMTM="
+  },
+  {
+    "_updated_at": "2013-07-05T11:31:40.851000",
+    "start_at": "04/07/2013",
+    "value": "0",
+    "end_at": "11/07/2013",
+    "key": "health_and_welfare_digital_applications_invalid",
+    "_id": "aGVhbHRoX2FuZF93ZWxmYXJlX2RpZ2l0YWxfYXBwbGljYXRpb25zX2ludmFsaWQuMDQvMDcvMjAxMy4wNC8wNy8yMDEz"
+  },
+  {
+    "_updated_at": "2013-07-05T11:31:40.852000",
+    "start_at": "04/07/2013",
+    "value": "196",
+    "end_at": "11/07/2013",
+    "key": "health_and_welfare_paper_applications_perfect",
+    "_id": "aGVhbHRoX2FuZF93ZWxmYXJlX3BhcGVyX2FwcGxpY2F0aW9uc19wZXJmZWN0LjA0LzA3LzIwMTMuMDQvMDcvMjAxMw=="
+  },
+  {
+    "_updated_at": "2013-07-05T11:31:40.852000",
+    "start_at": "04/07/2013",
+    "value": "50",
+    "end_at": "11/07/2013",
+    "key": "health_and_welfare_paper_applications_invalid",
+    "_id": "aGVhbHRoX2FuZF93ZWxmYXJlX3BhcGVyX2FwcGxpY2F0aW9uc19pbnZhbGlkLjA0LzA3LzIwMTMuMDQvMDcvMjAxMw=="
+  },
+  {
+    "_updated_at": "2013-07-05T11:31:40.852000",
+    "start_at": "04/07/2013",
+    "value": "6",
+    "end_at": "11/07/2013",
+    "key": "health_and_welfare_paper_applications_imperfect",
+    "_id": "aGVhbHRoX2FuZF93ZWxmYXJlX3BhcGVyX2FwcGxpY2F0aW9uc19pbXBlcmZlY3QuMDQvMDcvMjAxMy4wNC8wNy8yMDEz"
+  }
+]}

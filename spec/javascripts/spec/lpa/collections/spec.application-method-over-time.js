@@ -8,33 +8,33 @@ function (ApplicationMethod) {
       var exampleJson = {
         "data": [
           {
-            "start_at": "2013-01-01", 
+            "start_at": "01/01/2013",
             "value": "631", 
-            "end_at": "2013-01-08", 
+            "end_at": "08/01/2013",
             "key": "property_and_financial_paper_applications", 
           },
           {
-            "start_at": "2013-01-01", 
-            "value": "247", 
-            "end_at": "2013-01-08", 
+            "start_at": "01/01/2013",
+            "value": "247",
+            "end_at": "08/01/2013",
             "key": "health_and_welfare_paper_applications", 
           },
           {
-            "start_at": "2013-01-01", 
-            "value": "28", 
-            "end_at": "2013-01-08", 
+            "start_at": "01/01/2013",
+            "value": "28",
+            "end_at": "08/01/2013",
             "key": "property_and_financial_digital_applications", 
           },
           {
-            "start_at": "2013-01-01", 
+            "start_at": "01/01/2013",
             "value": "94", 
-            "end_at": "2013-01-08", 
+            "end_at": "08/01/2013",
             "key": "health_and_welfare_digital_applications", 
           },
           {
-            "start_at": "2013-01-01", 
+            "start_at": "01/01/2013",
             "value": "77", 
-            "end_at": "2013-01-08", 
+            "end_at": "08/01/2013",
             "key": "property_and_financial_digital_applications_perfect", 
           }
         ]
