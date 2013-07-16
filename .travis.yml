@@ -6,4 +6,4 @@ rvm:
 matrix:
   allow_failures:
     - rvm: 2.0.0
-env: CAPYBARA_WAIT_TIME=20
+env: CAPYBARA_WAIT_TIME=30
