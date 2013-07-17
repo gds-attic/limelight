@@ -16,4 +16,8 @@ class BackdropStub
     @stub_configs.reject! { |c| c.matches_parameters?(config.query) }
     @stub_configs << config
   end
+
+  def clear
+    @stub_configs.clear
+  end
 end

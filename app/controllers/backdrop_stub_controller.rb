@@ -20,4 +20,8 @@ class BackdropStubController < ApplicationController
   def self.register(service, bucket, fixture_file)
     @@backdrop_stub.register(StubConfig.new({'service' => service, 'api_name' => bucket}, fixture_file))
   end
+
+  def self.reset
+    @@backdrop_stub.clear
+  end
 end
