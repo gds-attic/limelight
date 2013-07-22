@@ -10,7 +10,7 @@ class FcoController < ApplicationController
   def pay_legalisation_drop_off
     @transaction_title = 'Pay to legalise documents using the premium service'
     @transaction_slug = 'pay-legalisation-drop-off'
-    @explanatory_copy = "Service to pay the Foreign & Commonwealth Office (FCO) to get a UK public document 'legalised' - this means a signature, seal or stamp made by a UK public official on the document is confirmed as genuine by the UK government. This premium service is only available for businesses. Figures on this page include only applications processed on GOV.UK."
+    @explanatory_copy = "Service to pay the Foreign & Commonwealth Office (FCO) to get a UK public document 'legalised' - this means a signature, seal or stamp made by a UK public official on the document is confirmed as genuine by the UK government. This premium service is only available for registered businesses. Figures on this page include only applications processed on GOV.UK."
     render_index
   end
   
