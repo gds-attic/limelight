@@ -21,7 +21,11 @@ Limelight::Application.routes.draw do
     match "/performance/pay-foreign-marriage-certificates" => "fco#pay_foreign_marriage_certificates", via: :get, as: "pay_foreign_marriage_certificates"
     match "/performance/deposit-foreign-marriage" => "fco#deposit_foreign_marriage", via: :get, as: "deposit_foreign_marriage"
   end
-  
+
+  if Rails.application.config.feature_toggles[:hmrc_dashboards]
+    match "/performance/hmrc" => "hmrc#index", via: :get, as: "hmrc"
+  end
+
   if Rails.application.config.feature_toggles[:lpa_dashboard]
     match "/performance/lasting-power-of-attorney" => "lpa#index", via: :get, as: "lpa"
   end

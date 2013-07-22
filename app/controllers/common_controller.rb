@@ -8,6 +8,7 @@ class CommonController < ApplicationController
         path: licensing_path
       }
     ]
+
     if Rails.application.config.feature_toggles[:fco_dashboards]
       all_services += [
         {

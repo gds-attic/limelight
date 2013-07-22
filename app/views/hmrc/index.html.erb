@@ -1,0 +1,25 @@
+<% content_for :title do %>HMRC - Service performance - GOV.UK<% end %>
+
+<% @js_config = {
+  "controller" => "hmrc/controllers/overview"
+} %>
+
+<header>
+  <h1>
+    <span class="strapline">Service performance</span>
+    HMRC (preview)
+  </h1>
+</header>
+
+<section class="graph">
+  <h1>Digital uptake</h1>
+  <ul class="module-actions">
+    <li class="info">
+      <div>
+        <p>Data Sources: HMRC</p>
+      </div>
+    </li>
+  </ul>
+  <h2>Change over time showing <span class="group0">historical</span>, <span class="group1">digital</span> and <span class="group2">non-digital</span> contact from customers</h2>
+  <figure class="graph timeseries-graph" id="application-method-over-time"></figure>
+</section>
