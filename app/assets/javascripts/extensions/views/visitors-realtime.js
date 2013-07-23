@@ -50,8 +50,8 @@ function (View) {
       var numberOfVisitors =
         Math.round(this.currentNumberOfVisitors || parseFloat(this.collection.at(0).get("unique_visitors")));
 
-      this.$el.html('<p class="impact-number"><strong>' + numberOfVisitors + "</strong></p> <p>User" + ( numberOfVisitors == 1 ? "" : "s") + " online now</p>");
+      this.$el.html('<p class="impact-number"><strong>' + numberOfVisitors + '</strong></p> <p class="stat-description">user' + ( numberOfVisitors == 1 ? "" : "s") + " online now</p>");
     }
   });
   return VisitorsRealtimeView;
-})
+});

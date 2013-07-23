@@ -34,9 +34,11 @@
 <%= content_tag :div, id: "wrapper", data: data do %>
 
   <section id="content" class="group">
-    <%= render :partial => "navigation" rescue nil %>
-    
-    <%= yield %>
+    <div class="performance-platform-outer">
+        <%= render :partial => "navigation" rescue nil %>
+      <%= yield %>
+    </div>
+
     <div id="report-a-problem"></div>
   </section>
 <% end %>

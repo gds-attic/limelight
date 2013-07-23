@@ -9,9 +9,14 @@
   display:none;
 }
 
+.performance-platform-outer {
+  border-top: 10px solid $primary-colour;
+  padding-top: 2em;
+}
+
 #wrapper {
-  max-width: 1020px;
   margin: 0 auto;
+  border-bottom-color: $primary-colour;
 }
 
 #wrapper * {
@@ -21,9 +26,8 @@
 }
 
 #content {
-  border-top: 10px solid $primary-colour;
   background-color: #FFFFFF;
-  padding: 2em 2em 1em 2em;
+  padding: 0 2em 1em 2em;
   
   header {
     border-bottom: 5px solid $primary-colour;
@@ -69,8 +73,12 @@
 
 
 @media (max-width: 640px) {
+  .performance-platform-outer {
+    padding-top: 1em;
+  }
+
   #content {
-    padding: 1em;
+    padding: 0 1em;
     
     section {
       float:none;

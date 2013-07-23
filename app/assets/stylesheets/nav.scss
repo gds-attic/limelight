@@ -37,7 +37,7 @@ a:hover span.alpha-tag {
 }
 
 nav.performance-nav {
-  margin: -1.5em -2em 2em -2em;
+  margin: -1.5em 0em 2em 0em;
 
   border-bottom: 1px solid $border-colour;
   padding:0 15px;
@@ -45,7 +45,7 @@ nav.performance-nav {
   ul {
     list-style:none;
     padding: 0 0 0 33.33%;
-    margin: 0 0 0.5em 1em;
+    margin: 0 0 0.5em 0;
 
     li {
       display:inline-block;

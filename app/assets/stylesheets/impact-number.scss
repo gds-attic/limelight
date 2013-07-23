@@ -1,9 +1,17 @@
 @import 'typography';
 
-p.impact-number strong {
-  color: $primary-colour;
-  @include bold-80;
-  font-family: nta, Arial, sans-serif;
-  margin-bottom: -.1em;
-  display: block;
+p.impact-number {
+  margin-bottom: 4px;
+
+  strong {
+    color: $primary-colour;
+    @include bold-80;
+    font-family: nta, Arial, sans-serif;
+    margin-bottom: -.1em;
+    display: block;
+  }
+}
+
+p.stat-description {
+  margin-top: 0.1em;
 }
