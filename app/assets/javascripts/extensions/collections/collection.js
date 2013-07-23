@@ -3,9 +3,10 @@ define([
   'extensions/models/model',
   'extensions/models/query',
   'extensions/mixins/safesync',
+  'common/date-range',
   'moment'
 ],
-function (Backbone, Model, Query, SafeSync, moment) {
+function (Backbone, Model, Query, SafeSync, DateRange, moment) {
   
   // get base URL for Backdrop instance (with trailing slash if missing)
   var baseUrl = $('#wrapper').data('backdrop-url');
@@ -146,6 +147,8 @@ function (Backbone, Model, Query, SafeSync, moment) {
       }
       return params;
     },
+
+    lastWeekDateRangeParams: DateRange.lastWeekDateRange,
     
     /**
      * Constructs a Backdrop query for the current environment

@@ -13,6 +13,13 @@ define([
           'example:submitApplicationPage': 'B',
           'example:end': 'C'
         }});
+
+      this.addMatchers({
+        toHaveStartAndEndDatesMatching: function(startDate, endDate) {
+          return this.actual.start_at.format('YYYY-MM-DDTHH:mm:ss') === startDate &&
+            this.actual.end_at.format('YYYY-MM-DDTHH:mm:ss') === endDate;
+        }
+      });
     });
     describe("queryParams", function() {
       
@@ -22,8 +29,7 @@ define([
         setupMoment('2013-03-13', collection);
       
         var params = collection.queryParams();
-        expect(params.start_at.format('YYYY-MM-DDTHH:mm:ss')).toEqual('2013-03-04T00:00:00');
-        expect(params.end_at.format('YYYY-MM-DDTHH:mm:ss')).toEqual('2013-03-11T00:00:00');
+        expect(params).toHaveStartAndEndDatesMatching('2013-03-04T00:00:00', '2013-03-11T00:00:00');
       });
       
       it("requests data for an earlier week", function() { 
@@ -34,8 +40,7 @@ define([
         setupMoment('2013-03-13', collection);
       
         var params = collection.queryParams();
-        expect(params.start_at.format('YYYY-MM-DDTHH:mm:ss')).toEqual('2013-02-25T00:00:00');
-        expect(params.end_at.format('YYYY-MM-DDTHH:mm:ss')).toEqual('2013-03-04T00:00:00');
+        expect(params).toHaveStartAndEndDatesMatching('2013-02-25T00:00:00', '2013-03-04T00:00:00');
       });
 
       describe("Monday to Sunday week boundaries", function () {
@@ -45,8 +50,7 @@ define([
             setupMoment('2013-07-14', conversionCollection);
 
             var params = conversionCollection.queryParams();
-            expect(params.start_at.format('YYYY-MM-DDTHH:mm:ss')).toEqual('2013-07-01T00:00:00');
-            expect(params.end_at.format('YYYY-MM-DDTHH:mm:ss')).toEqual('2013-07-08T00:00:00');
+            expect(params).toHaveStartAndEndDatesMatching('2013-07-01T00:00:00', '2013-07-08T00:00:00');
           });
 
           it("should start the query 20 days before and finish 13 days before - for 1 week ago", function () {
@@ -56,8 +60,7 @@ define([
             setupMoment('2013-07-14', conversionCollection);
 
             var params = conversionCollection.queryParams();
-            expect(params.start_at.format('YYYY-MM-DDTHH:mm:ss')).toEqual('2013-06-24T00:00:00');
-            expect(params.end_at.format('YYYY-MM-DDTHH:mm:ss')).toEqual('2013-07-01T00:00:00');
+            expect(params).toHaveStartAndEndDatesMatching('2013-06-24T00:00:00', '2013-07-01T00:00:00');
           });
         });
 
@@ -67,8 +70,7 @@ define([
             setupMoment('2013-07-15', conversionCollection);
 
             var params = conversionCollection.queryParams();
-            expect(params.start_at.format('YYYY-MM-DDTHH:mm:ss')).toEqual('2013-07-08T00:00:00');
-            expect(params.end_at.format('YYYY-MM-DDTHH:mm:ss')).toEqual('2013-07-15T00:00:00');
+            expect(params).toHaveStartAndEndDatesMatching('2013-07-08T00:00:00', '2013-07-15T00:00:00');
           });
 
           it("should start the query 14 days before and finish 7 days before - for 1 week ago", function () {
@@ -78,8 +80,7 @@ define([
             setupMoment('2013-07-15', conversionCollection);
 
             var params = conversionCollection.queryParams();
-            expect(params.start_at.format('YYYY-MM-DDTHH:mm:ss')).toEqual('2013-07-01T00:00:00');
-            expect(params.end_at.format('YYYY-MM-DDTHH:mm:ss')).toEqual('2013-07-08T00:00:00');
+            expect(params).toHaveStartAndEndDatesMatching('2013-07-01T00:00:00', '2013-07-08T00:00:00');
           });
         });
 
@@ -89,8 +90,7 @@ define([
             setupMoment('2013-07-13', conversionCollection);
 
             var params = conversionCollection.queryParams();
-            expect(params.start_at.format('YYYY-MM-DDTHH:mm:ss')).toEqual('2013-07-01T00:00:00');
-            expect(params.end_at.format('YYYY-MM-DDTHH:mm:ss')).toEqual('2013-07-08T00:00:00');
+            expect(params).toHaveStartAndEndDatesMatching('2013-07-01T00:00:00', '2013-07-08T00:00:00');
           });
 
           it("should start the query 19 days before and finish 12 days before - for 1 week ago", function () {
@@ -100,8 +100,7 @@ define([
             setupMoment('2013-07-13', conversionCollection);
 
             var params = conversionCollection.queryParams();
-            expect(params.start_at.format('YYYY-MM-DDTHH:mm:ss')).toEqual('2013-06-24T00:00:00');
-            expect(params.end_at.format('YYYY-MM-DDTHH:mm:ss')).toEqual('2013-07-01T00:00:00');
+            expect(params).toHaveStartAndEndDatesMatching('2013-06-24T00:00:00', '2013-07-01T00:00:00');
           });
         });
       });
