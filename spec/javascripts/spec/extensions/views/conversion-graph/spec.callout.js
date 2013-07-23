@@ -68,27 +68,27 @@ function (ConversionCallout, Collection, Model, moment) {
         view.render();
         
         view.onChangeSelected(collection.at(0), 0, collection.at(0).get('values').at(0), 0);
-        expect(view.$el.find('h3')).toHaveHtml('<span class="date stack0">27 May – 2 Jun 2013</span> Stage 1');
+        expect(view.$el.find('h3')).toHaveHtml('<span class="date stack0">27 May to 2 Jun 2013</span> Stage 1');
         expect(view.$el.find('dl')).toHaveHtml('<dt>Unique visitors to stage:</dt><dd>12</dd>');
         
         view.onChangeSelected(collection.at(0), 0, collection.at(0).get('values').at(1), 1);
-        expect(view.$el.find('h3')).toHaveHtml('<span class="date stack0">27 May – 2 Jun 2013</span> Stage 2');
+        expect(view.$el.find('h3')).toHaveHtml('<span class="date stack0">27 May to 2 Jun 2013</span> Stage 2');
         expect(view.$el.find('dl')).toHaveHtml('<dt>Unique visitors to stage:</dt><dd>15</dd>');
 
         view.onChangeSelected(collection.at(0), 0, collection.at(0).get('values').at(2), 2);
-        expect(view.$el.find('h3')).toHaveHtml('<span class="date stack0">27 May – 2 Jun 2013</span> Stage 3');
+        expect(view.$el.find('h3')).toHaveHtml('<span class="date stack0">27 May to 2 Jun 2013</span> Stage 3');
         expect(view.$el.find('dl')).toHaveHtml('<dt>Unique visitors to stage:</dt><dd>18</dd>');
         
         view.onChangeSelected(collection.at(1), 1, collection.at(1).get('values').at(0), 0);
-        expect(view.$el.find('h3')).toHaveHtml('<span class="date stack1">3 – 9 Jun 2013</span> Stage 1');
+        expect(view.$el.find('h3')).toHaveHtml('<span class="date stack1">3 to 9 Jun 2013</span> Stage 1');
         expect(view.$el.find('dl')).toHaveHtml('<dt>Unique visitors to stage:</dt><dd>21</dd>');
         
         view.onChangeSelected(collection.at(1), 1, collection.at(1).get('values').at(1), 1);
-        expect(view.$el.find('h3')).toHaveHtml('<span class="date stack1">3 – 9 Jun 2013</span> Stage 2');
+        expect(view.$el.find('h3')).toHaveHtml('<span class="date stack1">3 to 9 Jun 2013</span> Stage 2');
         expect(view.$el.find('dl')).toHaveHtml('<dt>Unique visitors to stage:</dt><dd>24</dd>');
 
         view.onChangeSelected(collection.at(1), 1, collection.at(1).get('values').at(2), 2);
-        expect(view.$el.find('h3')).toHaveHtml('<span class="date stack1">3 – 9 Jun 2013</span> Stage 3');
+        expect(view.$el.find('h3')).toHaveHtml('<span class="date stack1">3 to 9 Jun 2013</span> Stage 3');
         expect(view.$el.find('dl')).toHaveHtml('<dt>Unique visitors to stage:</dt><dd>27</dd>');
       });
 

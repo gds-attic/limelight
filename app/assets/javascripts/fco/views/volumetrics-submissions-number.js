@@ -22,7 +22,7 @@ function (View) {
           this.formatNumericLabel(selection.selectedModel.get('uniqueEvents')),
           '</strong> ',
           start.format(start.month() === end.month() ? 'D' : 'D MMM'),
-          ' – ',
+          ' to ',
           end.format('D MMM YYYY')
         ].join('');
       } else {

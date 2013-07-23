@@ -53,7 +53,7 @@ function (Callout) {
       var header = $('<h3>').html([
         '<span class="date stack' + groupIndex + '">',
         start.format(start.month() === end.month() ? 'D' : 'D MMM'),
-        ' – ',
+        ' to ',
         end.format('D MMM YYYY'),
         '</span> ',
         model.get('title')

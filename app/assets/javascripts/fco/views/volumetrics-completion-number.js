@@ -45,7 +45,7 @@ function (View) {
 
         var startLabel = start.format(start.month() === end.month() ? 'D' : 'D MMM');
         var endLabel = end.format('D MMM YYYY');
-        return contentString(percentage, startLabel + ' – ' + endLabel);
+        return contentString(percentage, startLabel + ' to ' + endLabel);
       } else {
         var values = this.collection.at(0).get('values');
         var availableWeeks = values.filter(modelsWith('_id'));
