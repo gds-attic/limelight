@@ -8,16 +8,6 @@ function (View) {
     }
   };
 
-  var get = function(property) {
-    return function(model) {
-      return model.get(property);
-    }
-  };
-
-  var sum = function(a, b) {
-    return a + b;
-  };
-
   var contentString = function(value, caption) {
     return [ '<strong>', value, '%</strong>', caption ].join('');
   };
@@ -49,10 +39,9 @@ function (View) {
       } else {
         var values = this.collection.at(0).get('values');
         var availableWeeks = values.filter(modelsWith('_id'));
-        var total = availableWeeks.map(get('completion')).reduce(sum);
-        var percentage = Math.round(100 * total / availableWeeks.length);
+        var totalCompletion = this.collection.at(0).get('totalCompletion');
 
-        return contentString(percentage, ' mean over the last ' + availableWeeks.length + ' weeks');
+        return contentString(Math.round(totalCompletion), ' total for the last ' + availableWeeks.length + ' weeks');
       }
     }
   });

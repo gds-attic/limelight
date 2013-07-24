@@ -16,6 +16,30 @@ function (GraphCollection, Group) {
       delete this.query.attributes.period;
     },
 
+    numberOfJourneyStarts: function (response) {
+      var endsWithStartMatcher = /start$/,
+          starts = _.map(response.data, function (d) {
+            return (d.eventCategory.match(endsWithStartMatcher) !== null) ?
+              d.uniqueEvents : 0;
+          });
+
+      return _.reduce(starts, function (mem, c) { return mem + c});
+    },
+
+    numberOfJourneyCompletions: function (response) {
+      var endsWithDoneMatcher = /done$/,
+        dones = _.map(response.data, function (d) {
+          return (d.eventCategory.match(endsWithDoneMatcher) !== null) ?
+            d.uniqueEvents : 0;
+        });
+
+      return _.reduce(dones, function (mem, c) { return mem + c});
+    },
+
+    completionRate: function (response) {
+      return (this.numberOfJourneyCompletions(response) / this.numberOfJourneyStarts(response) * 100);
+    },
+
     parse: function (response) {
       var dataByEvent = {};
       _.each(response.data, function (d) {
@@ -70,6 +94,7 @@ function (GraphCollection, Group) {
       data.push({
         id: 'completion',
         title: 'Completion rate',
+        totalCompletion: this.completionRate(response),
         values: completionValues
       });
       return data;
