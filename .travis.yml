@@ -7,3 +7,5 @@ matrix:
   allow_failures:
     - rvm: 2.0.0
 env: CAPYBARA_WAIT_TIME=30
+notifications:
+  email: false
