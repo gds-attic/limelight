@@ -1,103 +1,110 @@
 define([
-  'extensions/collections/graphcollection',
-  'extensions/models/group'
+  'extensions/collections/collection',
+  'extensions/models/group',
+  'extensions/mixins/date-functions'
 ],
-function (GraphCollection, Group) {
+function (Collection, Group, dateFunctions) {
+  var START_STAGE_MATCHER = /start$/;
+  var DONE_STAGE_MATCHER = /done$/;
 
-  var VolumetricsCollection = GraphCollection.extend({
+  function filterByEventCategory(data, matcher) {
+    return _.filter(data, function (d) {
+      return d.eventCategory.match(matcher) !== null;
+    });
+  }
+
+  function findCompletion(existingStartedEvent, existingCompletedEvent) {
+    var completion = 0;
+    if (_.isObject(existingStartedEvent) && _.isObject(existingCompletedEvent)) {
+      completion = existingCompletedEvent.uniqueEvents / existingStartedEvent.uniqueEvents;
+    }
+    return completion;
+  }
+
+  function getEventForTimestamp(events, timestamp) {
+    return _.find(events, function (d) {
+      return moment(d._timestamp).isSame(timestamp);
+    });
+  }
+
+  var VolumetricsCollection = Collection.extend({
     model: Group,
 
     apiName: 'journey',
 
     initialize: function (models, options) {
       this.serviceName = options.serviceName;
-      GraphCollection.prototype.initialize.apply(this, arguments);
+      Collection.prototype.initialize.apply(this, arguments);
       this.query.set('period', 'week', {silent: true, utc: false});
       delete this.query.attributes.period;
     },
 
-    numberOfJourneyStarts: function (response) {
-      var endsWithStartMatcher = /start$/,
-          starts = _.map(response.data, function (d) {
-            return (d.eventCategory.match(endsWithStartMatcher) !== null) ?
-              d.uniqueEvents : 0;
-          });
-
-      return _.reduce(starts, function (mem, c) { return mem + c});
+    numberOfJourneyStarts: function () {
+      var data = this.pluck('data')[0];
+      var startedEvents = filterByEventCategory(data, START_STAGE_MATCHER);
+      return _.reduce(startedEvents, function (mem, d) { return mem + d.uniqueEvents; }, 0);
     },
 
-    numberOfJourneyCompletions: function (response) {
-      var endsWithDoneMatcher = /done$/,
-        dones = _.map(response.data, function (d) {
-          return (d.eventCategory.match(endsWithDoneMatcher) !== null) ?
-            d.uniqueEvents : 0;
-        });
-
-      return _.reduce(dones, function (mem, c) { return mem + c});
+    numberOfJourneyCompletions: function () {
+      var data = this.pluck('data')[0];
+      var completionEvents = filterByEventCategory(data, DONE_STAGE_MATCHER);
+      return _.reduce(completionEvents, function (mem, d) { return mem + d.uniqueEvents; }, 0);
     },
 
-    completionRate: function (response) {
-      return (this.numberOfJourneyCompletions(response) / this.numberOfJourneyStarts(response) * 100);
+    completionRate: function () {
+      return (this.numberOfJourneyCompletions() / this.numberOfJourneyStarts() * 100);
     },
 
-    parse: function (response) {
-      var dataByEvent = {};
-      _.each(response.data, function (d) {
-        d['_timestamp'] = moment(d['_timestamp']);
-        var stage = d.eventCategory.split(':')[1];
-        if (!dataByEvent[stage]) {
-          dataByEvent[stage] = [];
-        }
-        dataByEvent[stage].push(d);
-      });
+    applicationsSeries: function () {
+      var data = this.pluck('data')[0];
+      var applicationEvents = filterByEventCategory(data, DONE_STAGE_MATCHER);
 
-      var start = this.query.get('start_at');
-      var end = this.query.get('end_at');
-      
-      var parseSeries = function (stageId, stageTitle) {
-        var series = dataByEvent[stageId];
+      var latestEventTimestamp = dateFunctions.latest(data, function (d) { return moment(d._timestamp); });
+      var weekDates = dateFunctions.weeksFrom(latestEventTimestamp, 9);
 
-        var date = moment(start);
-        var values = [];
-        for (; +date < +end; date.add(1, 'weeks')) {
-          var entry = _.find(series, function (d) {
-            return +d['_timestamp'] === +date;
-          });
-
-          values.push(_.extend({
-            uniqueEvents: 0,
-            // FIXME: Adding one hour to start and end to work around timezone 
-            // issues. Revert once Backdrop handles timezones correctly.
-            _start_at: moment(date).add(1, 'hours'),
-            _end_at: moment(date).add(1, 'weeks').add(1, 'hours')
-          }, entry));
-        }
+      var values = _.map(weekDates, function (timestamp) {
+        var existingEvent = getEventForTimestamp(applicationEvents, timestamp);
         return {
-          id: stageId,
-          title: stageTitle,
-          values: values
+          _start_at: timestamp.clone().add(1, 'hours'),
+          _end_at: timestamp.clone().add(1, 'hours').add(1, 'weeks'),
+          uniqueEvents: _.isUndefined(existingEvent) ? 0 : existingEvent.uniqueEvents
         };
+      });
+
+      return {
+        id: "done",
+        title: "Done",
+        weeksWithData: applicationEvents.length,
+        mean: this.numberOfJourneyCompletions() / applicationEvents.length,
+        values: new Collection(values)
       };
+    },
 
-      var data = [
-        parseSeries('start', 'Start'),
-        parseSeries('done', 'Done')
-      ];
+    completionSeries: function () {
+      var data = this.pluck('data')[0];
+      var startedApplicationEvents = filterByEventCategory(data, START_STAGE_MATCHER);
+      var completedApplicationEvents = filterByEventCategory(data, DONE_STAGE_MATCHER);
 
-      var completionValues = _.map(data[1].values, function (entry, index) {
-        var completion = entry.uniqueEvents / data[0].values[index].uniqueEvents || 0;
-        return _.extend({}, entry, {
-          completion: completion
-        });
+      var latestEventTimestamp = dateFunctions.latest(data, function (d) { return moment(d._timestamp); });
+      var weekDates = dateFunctions.weeksFrom(latestEventTimestamp, 9);
+
+      var values = _.map(weekDates, function (timestamp) {
+        var existingStartEvent = getEventForTimestamp(startedApplicationEvents, timestamp);
+        var existingCompletionEvent = getEventForTimestamp(completedApplicationEvents, timestamp);
+        return {
+          _start_at: timestamp.clone().add(1, 'hours'),
+          _end_at: timestamp.clone().add(1, 'hours').add(1, 'weeks'),
+          completion: findCompletion(existingStartEvent, existingCompletionEvent)
+        };
       });
 
-      data.push({
-        id: 'completion',
-        title: 'Completion rate',
-        totalCompletion: this.completionRate(response),
-        values: completionValues
-      });
-      return data;
+      return {
+        id: "completion",
+        title: "Completion rate",
+        weeksWithData: completedApplicationEvents.length,
+        totalCompletion: this.completionRate(),
+        values: new Collection(values)
+      };
     }
   });
 

@@ -10,10 +10,10 @@ class BackdropStubController < ApplicationController
           StubConfig.new({'filter_by' => 'dataType:licensing_overview_journey'}, 'licensing_overview_journey.json'),
           StubConfig.new({'service' => 'pay-legalisation-post', 'api_name' => 'journey'}, 'fco_overview_journey.json'),
           StubConfig.new({'service' => 'pay-foreign-marriage', 'api_name' => 'monitoring'}, 'pay_foreign_marriage_availability.json'),
+          StubConfig.new({'service' => 'pay-register-death-abroad', 'api_name' => 'journey'}, 'pay-register-death-abroad-journey.json'),
           StubConfig.new({'service' => 'lasting-power-of-attorney', 'api_name' => 'journey'}, 'lpa_journey.json'),
           StubConfig.new({'service' => 'lasting-power-of-attorney'}, 'lpa_volumes.json')
-      ]
-  )
+      ])
 
   def serve_fixture
     render :json => @@backdrop_stub.response_for_params(params)

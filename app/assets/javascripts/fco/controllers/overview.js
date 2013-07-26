@@ -65,12 +65,12 @@ define([
 
     var volumetricsSubmissions = new GraphCollection();
     volumetricsCollection.on('reset', function () {
-      volumetricsSubmissions.reset([volumetricsCollection.at(1)]);
+      volumetricsSubmissions.reset([volumetricsCollection.applicationsSeries()]);
     });
 
     var volumetricsCompletion = new GraphCollection();
     volumetricsCollection.on('reset', function () {
-      volumetricsCompletion.reset([volumetricsCollection.at(2)]);
+      volumetricsCompletion.reset([volumetricsCollection.completionSeries()]);
     });
 
     var relayed = false;

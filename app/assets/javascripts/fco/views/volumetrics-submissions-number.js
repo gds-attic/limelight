@@ -26,19 +26,12 @@ function (View) {
           end.format('D MMM YYYY')
         ].join('');
       } else {
-        var values = this.collection.at(0).get('values');
-        var total = values.reduce(function (memo, model) {
-          return memo + model.get('uniqueEvents');
-        }, 0);
-        var count = values.filter(function (model) {
-          return model.get('_id');
-        }).length;
         content = [
           '<strong>',
-          this.formatNumericLabel(total / count),
+          this.formatNumericLabel(this.collection.at(0).get('mean')),
           '</strong>',
           'mean per week over the last ',
-          count,
+          this.collection.at(0).get('weeksWithData'),
           ' weeks'
         ].join('');
       }

@@ -2,12 +2,6 @@ define([
   'extensions/views/view'
 ],
 function (View) {
-  var modelsWith = function(property) {
-    return function(model) {
-      return !_.isUndefined(model.get(property));
-    }
-  };
-
   var contentString = function(value, caption) {
     return [ '<strong>', value, '%</strong>', caption ].join('');
   };
@@ -37,11 +31,10 @@ function (View) {
         var endLabel = end.format('D MMM YYYY');
         return contentString(percentage, startLabel + ' to ' + endLabel);
       } else {
-        var values = this.collection.at(0).get('values');
-        var availableWeeks = values.filter(modelsWith('_id'));
+        var availableWeeks = this.collection.at(0).get('weeksWithData');
         var totalCompletion = this.collection.at(0).get('totalCompletion');
 
-        return contentString(Math.round(totalCompletion), ' total for the last ' + availableWeeks.length + ' weeks');
+        return contentString(Math.round(totalCompletion), ' total for the last ' + availableWeeks + ' weeks');
       }
     }
   });
