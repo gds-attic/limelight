@@ -5,7 +5,8 @@ define([
   'licensing/collections/applications-top5-lastweek',
   'licensing/views/top5table',
   'extensions/collections/graphcollection',
-  'licensing/collections/conversion',
+  'extensions/collections/multiconversioncollection',
+  'licensing/collections/conversion-series',
   'extensions/views/conversion-graph/conversion-graph',
   'extensions/views/tabs',
   'extensions/views/conversion-success-rate',
@@ -15,13 +16,15 @@ define([
   'extensions/views/single-stat'
 ], function (ApplicationsCollection, ApplicationsGraph, ApplicationsHeadlineView,
              Top5Collection, Top5Table, GraphCollection,
-             ConversionCollection, ConversionGraph,
+             MultiConversionCollection, ConversionSeriesCollection, ConversionGraph,
              Tabs, SuccessRateView,
              VisitorsRealtimeCollection, VisitorsRealtimeView,
              LicensingAvailabilityFor24Hours, SingleStatView) {
   return function () {
 
-    var conversionCollection = new ConversionCollection();
+    var conversionCollection = new MultiConversionCollection(null, {
+      conversionCollection: ConversionSeriesCollection
+    });
 
     var successRate = new SuccessRateView({
       el: $('#applications-success-rate'),

@@ -3,6 +3,14 @@ define([
 ], function(Collection) {
   var ConversionCollection = Collection.extend({
 
+    initialize: function (models, options) {
+      options = options || {};
+      if (options.getStep) {
+        this.getStep = options.getStep;
+      }
+      Collection.prototype.initialize.apply(this, arguments);
+    },
+
     queryParams: function() {
       var weeksAgo = this.options.weeksAgo || 0;
       return this.lastWeekDateRangeParams(this.moment(), weeksAgo);
@@ -10,17 +18,17 @@ define([
     
     parse: function (response) {
       var titles = this.stepTitles;
-      
-      var data = _.map(this.steps, function (eventCategory) {
+
+      var data = _.map(this.steps, function (stepName) {
         return _.extend({
-          title: titles[eventCategory],
-          eventCategory: eventCategory,
+          title: titles[stepName],
+          step: stepName,
           uniqueEvents: 0,
           uniqueEventsNormalised: 0
         }, _.find(response.data, function (responseStep) {
-          return responseStep.eventCategory === eventCategory;
-        }));
-      });
+          return this.getStep(responseStep) === stepName;
+        }, this));
+      }, this);
 
       var maxVal = _.reduce(data, function (memo, step) {
         return Math.max(memo, step. uniqueEvents);
@@ -35,14 +43,18 @@ define([
       return data;
     },
 
+    getStep: function(d) {
+      return d.eventCategory;
+    },
+
     comparator: function(step1, step2) {
-      var index1 = _.indexOf(this.steps, step1.get('eventCategory'));
-      var index2 = _.indexOf(this.steps, step2.get('eventCategory'));
+      var index1 = _.indexOf(this.steps, step1.get('step'));
+      var index2 = _.indexOf(this.steps, step2.get('step'));
 
       if (index1 == -1 && index2 == -1) {
         return this.compare(
-          step1.get('eventCategory').toLowerCase(),
-          step2.get('eventCategory').toLowerCase()
+          step1.get('step').toLowerCase(),
+          step2.get('step').toLowerCase()
         );
       } else if (index1 == -1) {
         return 1;

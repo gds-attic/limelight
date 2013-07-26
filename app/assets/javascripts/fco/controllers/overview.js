@@ -1,5 +1,6 @@
 define([
   'extensions/collections/graphcollection',
+  'extensions/collections/multiconversioncollection',
   'fco/collections/conversion-series',
   'extensions/views/conversion-graph/conversion-graph',
   'extensions/views/conversion-success-rate',
@@ -13,6 +14,7 @@ define([
   'extensions/collections/availability-for-24-hours',
   'extensions/views/single-stat'
 ], function (GraphCollection,
+             MultiConversionCollection,
              ConversionCollection, ConversionGraph,
              SuccessRateView,
              VisitorsRealtimeCollection, VisitorsRealtimeView,
@@ -24,12 +26,9 @@ define([
 
     var serviceName = $("#wrapper").data("service-name");
 
-    var conversionCollection = new GraphCollection(null, {
-      collections:[
-        {collection:ConversionCollection, options:{weeksAgo:1}},
-        {collection:ConversionCollection, options:{weeksAgo:0}}
-      ],
-      serviceName:serviceName
+    var conversionCollection = new MultiConversionCollection(null, {
+      conversionCollection: ConversionCollection,
+      serviceName: serviceName
     });
 
     if (!$('.lte-ie8').length) {

@@ -11,10 +11,10 @@ function (View) {
 
       getValue: function () {
         var start = this.collection.where({
-          eventCategory: this.startStep
+          step: this.startStep
         });
         var end = this.collection.where({
-          eventCategory: this.endStep
+          step: this.endStep
         });
 
         var value = null;

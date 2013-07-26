@@ -25,15 +25,15 @@ function (SuccessRateView, Collection) {
       it("returns a success rate fraction when both start and end values are available", function () {
         collection.reset([
           {
-            eventCategory: 'licensingUserJourney:end',
+            step: 'licensingUserJourney:end',
             uniqueEvents: 100
           },
           {
-            eventCategory: 'licensingUserJourney:downloadFormPage',
+            step: 'licensingUserJourney:downloadFormPage',
             uniqueEvents: 200
           },
           {
-            eventCategory: 'ignored',
+            step: 'ignored',
             uniqueEvents: 23
           }
         ]);
@@ -48,15 +48,15 @@ function (SuccessRateView, Collection) {
       it("returns 0 when end value is 0", function () {
         collection.reset([
           {
-            eventCategory: 'licensingUserJourney:end',
+            step: 'licensingUserJourney:end',
             uniqueEvents: 0
           },
           {
-            eventCategory: 'licensingUserJourney:downloadFormPage',
+            step: 'licensingUserJourney:downloadFormPage',
             uniqueEvents: 200
           },
           {
-            eventCategory: 'ignored',
+            step: 'ignored',
             uniqueEvents: 23
           }
         ]);
@@ -71,11 +71,11 @@ function (SuccessRateView, Collection) {
       it("returns null when either start or end value are not available", function () {
         collection.reset([
           {
-            eventCategory: 'licensingUserJourney:end',
+            step: 'licensingUserJourney:end',
             uniqueEvents: 100
           },
           {
-            eventCategory: 'ignored',
+            step: 'ignored',
             uniqueEvents: 23
           }
         ]);

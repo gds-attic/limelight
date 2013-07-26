@@ -1,22 +1,42 @@
 define([
   'lpa/collections/application-method-over-time',
   'lpa/views/timeseries-graph/timeseries-graph',
+  'extensions/collections/multiconversioncollection',
+  'lpa/collections/conversion-series',
+  'extensions/views/conversion-graph/conversion-graph',
   'extensions/collections/availability-for-24-hours',
   'extensions/views/single-stat'
 ],
 function (ApplicationsCollection, ApplicationsGraph,
+          MultiConversionCollection, ConversionSeries, ConversionGraph,
           AvailabilityFor24Hours, SingleStatView) {
   return function () {
 
-    if (!$('.lte-ie8').length && $('#application-method-over-time').length) {
-      var applicationsCollection = new ApplicationsCollection();
+    if (!$('.lte-ie8').length) {
 
-      var graphView = new ApplicationsGraph({
-        el: $('#application-method-over-time'),
-        collection: applicationsCollection
-      });
+      if ($('#application-method-over-time').length) {
+        var applicationsCollection = new ApplicationsCollection();
 
-      applicationsCollection.fetch();
+        var graphView = new ApplicationsGraph({
+          el: $('#application-method-over-time'),
+          collection: applicationsCollection
+        });
+
+        applicationsCollection.fetch();
+      }
+
+      if ($('#lpa-conversion-graph').length) {
+        var conversionCollection = new MultiConversionCollection(null, {
+          conversionCollection: ConversionSeries
+        });
+
+        var conversionGraph = new ConversionGraph({
+          el: $('#lpa-conversion-graph'),
+          collection: conversionCollection
+        });
+
+        conversionCollection.fetch();
+      }
     }
 
     var availabilityCollection = new AvailabilityFor24Hours(null, {

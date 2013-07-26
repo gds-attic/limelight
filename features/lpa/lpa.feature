@@ -13,3 +13,9 @@ Feature: uptime and response time for lpa dashboard
     Given The lasting-power-of-attorney monitoring bucket returns the response in "availability.json"
     When I go to /performance/lasting-power-of-attorney
     Then the response time module should display 150ms
+
+  Scenario: conversion funnel
+    Given The lpa journey bucket returns the response in "lpa_journey.json"
+    When I go to /performance/lasting-power-of-attorney
+    Then I should see the module "Submission drop-offs"
+    And the module should contain a graph
