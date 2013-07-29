@@ -9,30 +9,30 @@ define([
     queryId:'lpa-conversion',
 
     steps:[
-      'step1',
-      'step2',
-      'step3',
-      'step4',
-      'step5',
-      'step6',
-      'step7',
-      'step8',
-      'step9',
-      'step10'
+      'user/register',
+      'user/login',
+      'user/dashboard',
+      'create/lpa-type',
+      'create/donor',
+      'create/attorneys',
+      'create/people-to-be-told',
+      'create/review',
+      'create/complete',
+      'register'
 
     ],
 
     stepTitles:{
-      'step1':'Step 1',
-      'step2':'Step 2',
-      'step3':'Step 3',
-      'step4':'Step 4',
-      'step5':'Step 5',
-      'step6':'Step 6',
-      'step7':'Step 7',
-      'step8':'Step 8',
-      'step9':'Step 9',
-      'step10':'Step 10'
+      'user/register':'Register user',
+      'user/login':'Login',
+      'user/dashboard':'Dashboard',
+      'create/lpa-type':'Choose LPA Type',
+      'create/donor':'Add donor details',
+      'create/attorneys':'Create attorneys',
+      'create/people-to-be-told':'People to be told',
+      'create/review':'Review',
+      'create/complete':'Complete',
+      'register':'Register LPA'
     },
 
     getStep: function(d) {
