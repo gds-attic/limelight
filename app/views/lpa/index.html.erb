@@ -7,19 +7,23 @@
       <span class="strapline">Service performance</span>
       Lasting Power of Attorney
   </h1>
+  <p class="explanatory">A lasting power of attorney is a legal document that lets you appoint someone (known as an ‘attorney’) to make decisions on your behalf. The service is offered in both digital and non-digital formats.</p>
 </header>
 
 <% if Rails.application.config.feature_toggles[:lpa_dashboard_application_method] %>
 <section class="graph">
-  <h1>Application method over time</h1>
+  <h1>Applications</h1>
   <ul class="module-actions">
     <li class="info">
       <div>
         <p>Data source: Office of the Public Guardian (test data)</p>
+        <p>Non digital applications include all applications made using the traditional paper based forms.</p>
+        <p>Digital applications include applications created using the Lasting Power of Attorney digital service.</p>
+        <p>Applications are counted at point of receipt.</p>
       </div>
     </li>
   </ul>
-  <h2>Number of <span class="group0">non-digital</span> and <span class="group1">digital</span> applications over time</h2>
+  <h2><span class="group0">Non-digital</span> and <span class="group1">digital</span> applications over time</h2>
   <figure class="graph timeseries-graph" id="application-method-over-time"></figure>
 </section>
 <% end %>
