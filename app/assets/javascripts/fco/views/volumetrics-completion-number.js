@@ -34,7 +34,7 @@ function (View) {
         var availableWeeks = this.collection.at(0).get('weeksWithData');
         var totalCompletion = this.collection.at(0).get('totalCompletion');
 
-        return contentString(Math.round(totalCompletion), ' total for the last ' + availableWeeks + ' weeks');
+        return contentString(Math.round(totalCompletion), ' last ' + availableWeeks + ' weeks');
       }
     }
   });
