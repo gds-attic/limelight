@@ -29,5 +29,9 @@ Limelight::Application.routes.draw do
   if Rails.application.config.feature_toggles[:lpa_dashboard]
     match "/performance/lasting-power-of-attorney" => "lpa#index", via: :get, as: "lpa"
   end
-  
+
+  if Rails.application.config.feature_toggles[:evl_dashboard]
+    match "/performance/electronic-vehicle-licensing" => "evl#index", via: :get, as: "evl"
+  end
+
 end

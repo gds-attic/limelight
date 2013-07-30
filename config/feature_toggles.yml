@@ -10,3 +10,4 @@ lpa_dashboard_application_method: dev
 show_fco_availability: dev
 show_lpa_availability: release
 lpa_conversion_funnel: dev
+evl_dashboard: dev

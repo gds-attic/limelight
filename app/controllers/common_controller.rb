@@ -45,6 +45,13 @@ class CommonController < ApplicationController
       }
     end
 
+    if Rails.application.config.feature_toggles[:evl_dashboard]
+      all_services << {
+          name: 'Electronic Vehicle Licensing',
+          path: evl_path
+      }
+    end
+
     all_services.sort_by! { |k| k[:name] }
 
     @services = all_services.group_by{ |service| service[:name][0].downcase }
