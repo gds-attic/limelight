@@ -12,14 +12,13 @@ define([
   'extensions/views/conversion-success-rate',
   'extensions/collections/visitors-realtime',
   'extensions/views/visitors-realtime',
-  'extensions/collections/availability-for-24-hours',
-  'extensions/views/single-stat'
+  'common/controllers/availability-module'
 ], function (ApplicationsCollection, ApplicationsGraph, ApplicationsHeadlineView,
              Top5Collection, Top5Table, GraphCollection,
              MultiConversionCollection, ConversionSeriesCollection, ConversionGraph,
              Tabs, SuccessRateView,
              VisitorsRealtimeCollection, VisitorsRealtimeView,
-             LicensingAvailabilityFor24Hours, SingleStatView) {
+             availabilityModule) {
   return function () {
 
     var conversionCollection = new MultiConversionCollection(null, {
@@ -113,20 +112,6 @@ define([
       }, updateInterval);
     }
 
-    var licensingAvailabilityCollection = new LicensingAvailabilityFor24Hours(null, {
-      serviceName: "licensing",
-      checkName: "licensing"
-    });
-    var licensingAvailabilityUptimeView = new SingleStatView({
-      collection: licensingAvailabilityCollection,
-      el: $('#uptime'),
-      getStatFunction: function (collection) { return Math.round(collection.getPercentageOfUptime()) + '%'; }
-    });
-    var licensingAvailabilityResponseTimeView = new SingleStatView({
-      collection: licensingAvailabilityCollection,
-      el: $('#response-time'),
-      getStatFunction: function (collection) { return Math.round(collection.getAverageResponseTime()) + 'ms'; }
-    });
-    licensingAvailabilityCollection.fetch();
+    availabilityModule('licensing', 'licensing');
   };
 });

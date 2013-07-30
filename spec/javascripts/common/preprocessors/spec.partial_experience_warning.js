@@ -1,4 +1,4 @@
-define(['licensing/controllers/preprocessors/partial_experience_warning'],
+define(['common/preprocessors/partial_experience_warning'],
 function (preprocessor) {
   describe("Browser message pre-processor", function () {
     afterEach(function () {

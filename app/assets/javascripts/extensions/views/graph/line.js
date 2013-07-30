@@ -79,21 +79,9 @@ function (Component) {
       if (modelSelected) {
         var x = this.x(modelSelected, indexSelected, groupSelected, groupIndexSelected);
         if (this.drawCursorLine) {
-          this.componentWrapper.append('line').attr({
-            'class': 'selectedIndicator cursorLine',
-            x1: x,
-            y1: -this.margin.top,
-            x2: x,
-            y2: this.graph.innerHeight
-          });
-          this.componentWrapper.append('line').attr({
-            'class': 'selectedIndicator cursorLine descender',
-            x1: x,
-            y1: this.graph.innerHeight,
-            x2: x,
-            y2: this.graph.innerHeight + this.margin.bottom
-          });
+          this.renderCursorLine(x);
         }
+        
         this.componentWrapper.append('circle').attr({
           'class': 'selectedIndicator line' + groupIndexSelected,
           cx: x,
@@ -102,7 +90,31 @@ function (Component) {
         });
       }
     },
-    
+
+    renderCursorLine: function (x) {
+      this.componentWrapper.append('line').attr({
+        'class': 'selectedIndicator cursorLine',
+        x1: x,
+        y1: 0,
+        x2: x,
+        y2: this.graph.innerHeight
+      });
+      this.componentWrapper.append('line').attr({
+        'class': 'selectedIndicator cursorLine ascender',
+        x1: x,
+        y1: -this.margin.top,
+        x2: x,
+        y2: 0
+      });
+      this.componentWrapper.append('line').attr({
+        'class': 'selectedIndicator cursorLine descender',
+        x1: x,
+        y1: this.graph.innerHeight,
+        x2: x,
+        y2: this.graph.innerHeight + this.margin.bottom
+      });
+    },
+
     /**
      * Calculates the `distance` of a group to a given point, then picks the
      * closest point in the group.

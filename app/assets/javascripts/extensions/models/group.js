@@ -5,9 +5,11 @@ define([
 function (Model, Timeseries) {
   
   var Group = Model.extend({
-    
+
     parse: function (data) {
-      data.values = new Timeseries(data.values, { parse: true });
+      data.values = new Timeseries(data.values, {
+        parse: true
+      });
       return data;
     }
   });

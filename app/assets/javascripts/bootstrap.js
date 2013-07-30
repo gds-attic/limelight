@@ -5,7 +5,7 @@ define([ 'require', 'jquery' ], function (require, $) {
 
   if (preProcessors) {
     $.each(preProcessors.split(','), function (i, preProcessor) {
-      modules.push("licensing/controllers/preprocessors/" + preProcessor);
+      modules.push("common/preprocessors/" + preProcessor);
     })
   }
 

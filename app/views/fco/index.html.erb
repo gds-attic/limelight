@@ -64,4 +64,4 @@
   <figure class="graph conversion-graph" id="applications-conversion-graph"></figure>
 </section>
 
-<%= render(partial: "common/modules/monitoring") if Rails.application.config.feature_toggles[:show_fco_availability] %>
+<%= render(partial: "common/modules/availability") if Rails.application.config.feature_toggles[:show_fco_availability] %>

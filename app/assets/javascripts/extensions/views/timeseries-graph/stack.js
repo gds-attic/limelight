@@ -7,6 +7,12 @@ function (Stack) {
     interactive: true,
     
     configs: {
+      hour: {
+        x: function (model, index) {
+          var x = this.moment(model.get('_end_at'));
+          return Math.floor(this.scales.x(x.toDate())) + 0.5;
+        }
+      },
       week: {
         x: function (model, index) {
           // display data points on sundays

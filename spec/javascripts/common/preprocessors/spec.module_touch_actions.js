@@ -1,5 +1,5 @@
 define([
-  'licensing/controllers/preprocessors/module_touch_actions'
+  'common/preprocessors/module_touch_actions'
   ],
 function (applyModuleTouchActions) {
   describe('Module touch actions', function() {

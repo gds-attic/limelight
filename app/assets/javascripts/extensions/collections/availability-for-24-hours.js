@@ -1,15 +1,15 @@
 define([
-  'extensions/collections/collection'
+  'extensions/collections/graphcollection'
 ],
-function (Collection) {
-  var AvailabilityFor24HoursCollection = Collection.extend({
+function (GraphCollection) {
+  var AvailabilityFor24HoursCollection = GraphCollection.extend({
 
     initialize: function (models, options) {
       if (!_.isString(options.serviceName)) {
         throw "options argument has no serviceName property";
       }
       this.serviceName = options.serviceName;
-      Collection.prototype.initialize.apply(this, arguments);
+      GraphCollection.prototype.initialize.apply(this, arguments);
     },
 
     serviceName: undefined,
@@ -22,24 +22,31 @@ function (Collection) {
       };
     },
 
+    parse: function (response) {
+      var data = response.data;
+      _.each(data, function (d) {
+        d.total = d.downtime + d.unmonitored + d.uptime;
+        d.uptimeFraction = d.uptime / d.total;
+        d._end_at = this.moment(d._timestamp);
+        d._start_at = this.moment(d._timestamp).subtract(1, "hours");
+      });
+      return {
+        id: 'availability',
+        title: 'Availability',
+        values: data
+      };
+    },
+
     _getTotalUptime: function () {
-      var data = this.pluck('data')[0];
-      var total = 0;
-      for (var i = 0, len = data.length; i < len; i++) {
-        total += data[i]['uptime'];
-      }
-      return total;
+      return this.at(0).get('values').reduce(function (memo, model) {
+        return memo + model.get('uptime');
+      }, 0)
     },
 
     _getTotalTime: function () {
-      var data = this.pluck('data')[0];
-      var total = 0;
-      for (var i = 0, len = data.length; i < len; i++) {
-        total += data[i]['downtime'];
-        total += data[i]['unmonitored'];
-        total += data[i]['uptime'];
-      }
-      return total;
+      return this.at(0).get('values').reduce(function (memo, model) {
+        return memo + model.get('total');
+      }, 0)
     },
 
     getPercentageOfUptime: function () {
@@ -47,13 +54,11 @@ function (Collection) {
     },
 
     getAverageResponseTime: function () {
-      var data = this.pluck('data')[0];
-      var length = data.length;
-      var total = 0;
-      for (var i = 0; i < length; i++) {
-        total += data[i]['avgresponse'];
-      }
-      return (total / length);
+      var values = this.at(0).get('values');
+      var total = values.reduce(function (memo, model) {
+        return memo + model.get('avgresponse');
+      }, 0);
+      return total / values.length;
     }
 
   });

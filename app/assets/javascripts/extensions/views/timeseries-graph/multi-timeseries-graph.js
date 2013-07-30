@@ -1,10 +1,9 @@
 define([
   'require',
   './timeseries-graph',
-  'extensions/views/graph/linelabel',
-  './line'
+  'extensions/views/graph/linelabel'
 ],
-function (require, TimeseriesGraph, LineLabel, Line) {
+function (require, TimeseriesGraph, LineLabel) {
   var MultiTimeseriesGraph = TimeseriesGraph.extend({
     
     components: function () {
@@ -12,7 +11,7 @@ function (require, TimeseriesGraph, LineLabel, Line) {
         { view: this.sharedComponents.xaxis },
         { view: this.sharedComponents.yaxis },
         { view: LineLabel },
-        { view: Line },
+        { view: this.sharedComponents.line },
         { view: this.sharedComponents.callout },
         { view: this.sharedComponents.hover }
       ];

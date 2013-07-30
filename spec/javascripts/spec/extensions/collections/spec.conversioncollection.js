@@ -104,6 +104,74 @@ define([
           });
         });
       });
+
+      describe("Monday to Sunday week boundaries", function () {
+        describe("Sundays", function () {
+          it("should start the query 13 days before and finish 6 days before - by default", function () {
+            var conversionCollection = new TestCollection();
+            setupMoment('2013-07-14', conversionCollection);
+
+            var params = conversionCollection.queryParams();
+            expect(params.start_at.format('YYYY-MM-DDTHH:mm:ss')).toEqual('2013-07-01T00:00:00');
+            expect(params.end_at.format('YYYY-MM-DDTHH:mm:ss')).toEqual('2013-07-08T00:00:00');
+          });
+
+          it("should start the query 20 days before and finish 13 days before - for 1 week ago", function () {
+            var conversionCollection = new TestCollection(null, {
+              weeksAgo: 1
+            });
+            setupMoment('2013-07-14', conversionCollection);
+
+            var params = conversionCollection.queryParams();
+            expect(params.start_at.format('YYYY-MM-DDTHH:mm:ss')).toEqual('2013-06-24T00:00:00');
+            expect(params.end_at.format('YYYY-MM-DDTHH:mm:ss')).toEqual('2013-07-01T00:00:00');
+          });
+        });
+
+        describe("Mondays", function () {
+          it("should start the query 7 days before and finish 0 days before - by default", function () {
+            var conversionCollection = new TestCollection();
+            setupMoment('2013-07-15', conversionCollection);
+
+            var params = conversionCollection.queryParams();
+            expect(params.start_at.format('YYYY-MM-DDTHH:mm:ss')).toEqual('2013-07-08T00:00:00');
+            expect(params.end_at.format('YYYY-MM-DDTHH:mm:ss')).toEqual('2013-07-15T00:00:00');
+          });
+
+          it("should start the query 14 days before and finish 7 days before - for 1 week ago", function () {
+            var conversionCollection = new TestCollection(null, {
+              weeksAgo: 1
+            });
+            setupMoment('2013-07-15', conversionCollection);
+
+            var params = conversionCollection.queryParams();
+            expect(params.start_at.format('YYYY-MM-DDTHH:mm:ss')).toEqual('2013-07-01T00:00:00');
+            expect(params.end_at.format('YYYY-MM-DDTHH:mm:ss')).toEqual('2013-07-08T00:00:00');
+          });
+        });
+
+        describe("Saturdays", function () {
+          it("should start the query 12 days before and finish 5 days before - by default", function () {
+            var conversionCollection = new TestCollection();
+            setupMoment('2013-07-13', conversionCollection);
+
+            var params = conversionCollection.queryParams();
+            expect(params.start_at.format('YYYY-MM-DDTHH:mm:ss')).toEqual('2013-07-01T00:00:00');
+            expect(params.end_at.format('YYYY-MM-DDTHH:mm:ss')).toEqual('2013-07-08T00:00:00');
+          });
+
+          it("should start the query 19 days before and finish 12 days before - for 1 week ago", function () {
+            var conversionCollection = new TestCollection(null, {
+              weeksAgo: 1
+            });
+            setupMoment('2013-07-13', conversionCollection);
+
+            var params = conversionCollection.queryParams();
+            expect(params.start_at.format('YYYY-MM-DDTHH:mm:ss')).toEqual('2013-06-24T00:00:00');
+            expect(params.end_at.format('YYYY-MM-DDTHH:mm:ss')).toEqual('2013-07-01T00:00:00');
+          });
+        });
+      });
     });
     
     describe("Sorting", function() {

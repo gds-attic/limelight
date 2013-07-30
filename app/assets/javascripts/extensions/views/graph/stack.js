@@ -35,13 +35,17 @@ function (require, Line, Component) {
     y: function(model) {
       return this.scales.y(model.y0 + model.y);
     },
-    
+
     render: function () {
       Component.prototype.render.apply(this, arguments);
 
       var stack = this.d3.layout.stack()
         .values(this.stackValues)
         .y(_.bind(this.yStack, this));
+
+      if (this.outStack) {
+        stack.out(_.bind(this.outStack, this));
+      }
 
       var layers;
       if (this.reverseRenderOrder) {

@@ -47,4 +47,4 @@
 </section>
 <% end %>
 
-<%= render(partial: "common/modules/monitoring") if Rails.application.config.feature_toggles[:show_lpa_availability] %>
+<%= render(partial: "common/modules/availability") if Rails.application.config.feature_toggles[:show_lpa_availability] %>

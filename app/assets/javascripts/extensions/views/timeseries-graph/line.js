@@ -10,6 +10,12 @@ function (Line) {
     },
     
     configs: {
+      hour: {
+        x: function (model, index) {
+          var x = this.moment(model.get('_end_at'));
+          return this.scales.x(x.toDate());
+        }
+      },
       week: {
         x: function (model, index) {
           // display data points on sundays

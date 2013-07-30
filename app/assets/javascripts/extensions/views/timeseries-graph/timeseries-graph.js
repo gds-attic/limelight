@@ -3,16 +3,18 @@ define([
   'extensions/views/graph/graph',
   './xaxis',
   './yaxis',
+  './line',
   './stack',
   'extensions/views/graph/hover',
   './callout'
 ],
-function (require, Graph, XAxis, YAxis, Stack, Hover, Callout) {
+function (require, Graph, XAxis, YAxis, Line, Stack, Hover, Callout) {
   var TimeseriesGraph = Graph.extend({
     
     sharedComponents: {
       xaxis: XAxis,
       yaxis: YAxis,
+      line: Line,
       stack: Stack,
       callout: Callout,
       hover: Hover
@@ -71,6 +73,7 @@ function (require, Graph, XAxis, YAxis, Stack, Hover, Callout) {
       yScale.domain(tickValues.extent);
       yScale.rangeRound([this.innerHeight, 0]);
       yScale.tickValues = tickValues.values;
+
       return yScale;
     },
 

@@ -184,6 +184,9 @@
       position:static;
       max-width:240px;
       margin:.5em auto;
+      .arrow {
+        display:none;
+      }
     }
   }
 }

@@ -4,12 +4,11 @@ define([
   'extensions/collections/multiconversioncollection',
   'lpa/collections/conversion-series',
   'extensions/views/conversion-graph/conversion-graph',
-  'extensions/collections/availability-for-24-hours',
-  'extensions/views/single-stat'
+  'common/controllers/availability-module'
 ],
 function (ApplicationsCollection, ApplicationsGraph,
           MultiConversionCollection, ConversionSeries, ConversionGraph,
-          AvailabilityFor24Hours, SingleStatView) {
+          availabilityModule) {
   return function () {
 
     if (!$('.lte-ie8').length) {
@@ -39,24 +38,6 @@ function (ApplicationsCollection, ApplicationsGraph,
       }
     }
 
-    var availabilityCollection = new AvailabilityFor24Hours(null, {
-      serviceName:"lasting-power-of-attorney",
-      checkName:"lpa"
-    });
-    var uptimeView = new SingleStatView({
-      collection:availabilityCollection,
-      el:$('#uptime'),
-      getStatFunction:function (collection) {
-        return Math.round(collection.getPercentageOfUptime()) + '%';
-      }
-    });
-    var responseTimeView = new SingleStatView({
-      collection:availabilityCollection,
-      el:$('#response-time'),
-      getStatFunction:function (collection) {
-        return Math.round(collection.getAverageResponseTime()) + 'ms';
-      }
-    });
-    availabilityCollection.fetch();
+    availabilityModule('lasting-power-of-attorney', 'lpa');
   }
 });

@@ -53,7 +53,7 @@ function (View, d3) {
       this.innerEl = $('<div class="inner"></div>');
       this.innerEl.appendTo(this.$el);
       
-      var svg = this.svg = this.d3.select(this.el[0]).append('svg');
+      var svg = this.svg = this.d3.select(this.$el[0]).append('svg');
       
       this.wrapper = svg.append('g')
         .classed('wrapper', true);
@@ -166,6 +166,7 @@ function (View, d3) {
         if (configName) {
           component.applyConfig(configName);
         }
+
         component.render();
       }, this);
     }

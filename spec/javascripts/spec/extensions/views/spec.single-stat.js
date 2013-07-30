@@ -6,7 +6,8 @@ define([
 
     var collectionOptions = {
       checkName: "anything",
-      serviceName: "anything"
+      serviceName: "anything",
+      parse: true
     };
 
     describe("extracting the stat from the collection", function () {

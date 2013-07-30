@@ -7,7 +7,7 @@ Feature: uptime and response time for lpa dashboard
   Scenario: looking up the uptime
     Given The lasting-power-of-attorney monitoring bucket returns the response in "availability.json"
     When I go to /performance/lasting-power-of-attorney
-    Then the uptime module should display 85%
+    Then the uptime module should display 85.0%
 
   Scenario: looking up the response time
     Given The lasting-power-of-attorney monitoring bucket returns the response in "availability.json"
