@@ -113,8 +113,8 @@
 
 
 #volumetrics-completion {
-  .line0 { stroke: $data-colour-4; }
-  .stack0 { fill: mix($data-colour-4, $white, 25%); }
+  .line0 { stroke: $data-colour-2; }
+  .stack0 { fill: mix($data-colour-2, $white, 25%); }
 }
 
 #volumetrics-submissions-selected {
@@ -125,7 +125,7 @@
 
 #volumetrics-completion-selected {
   strong {
-    color: $data-colour-4;
+    color: $data-colour-2;
   }
 }
 
