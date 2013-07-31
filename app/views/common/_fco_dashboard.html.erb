@@ -1,17 +1,17 @@
-<% content_for :title do %><%= @transaction_title %> - FCO - Service performance - GOV.UK<% end %>
+<% content_for :title do %><%= transaction_title %> - FCO - Service performance - GOV.UK<% end %>
 
 <% @js_config = {
 	"controller"   => "fco/controllers/overview",
-	"service-name" => @transaction_slug,
+	"service-name" => params[:slug],
 } %>
 
 <header>
   <h1>
       <span class="strapline">Service performance</span>
-      <%= @transaction_title %>
+      <%= transaction_title %>
   </h1>
-  <% if @explanatory_copy %>
-    <p class="explanatory"><%= @explanatory_copy %></p>
+  <% if explanatory_copy %>
+    <p class="explanatory"><%= explanatory_copy %></p>
   <% end %>
 </header>
 

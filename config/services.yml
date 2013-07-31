@@ -1,0 +1,31 @@
+dashboards:
+  - slug: licensing
+    name: Licensing
+  - slug: electronic-vehicle-licensing
+    name: Electronic Vehicle Licensing
+    feature_toggle: evl_dashboard
+  - slug: hmrc
+    name: HMRC
+    feature_toggle: hmrc_dashboards
+    excluded_from_list: true
+  - slug: lasting-power-of-attorney
+    name: Lasting Power of Attorney
+    feature_toggle: lpa_dashboard
+  - slug: pay-legalisation-post
+    name: Pay to get documents legalised by post
+    feature_toggle: fco_dashboards
+  - slug: pay-legalisation-drop-off
+    name: Pay to legalise documents using the premium service
+    feature_toggle: fco_dashboards
+  - slug: pay-register-birth-abroad
+    name: Payment to register a birth abroad in the UK
+    feature_toggle: fco_dashboards
+  - slug: pay-register-death-abroad
+    name: Payment to register a death abroad
+    feature_toggle: fco_dashboards
+  - slug: pay-foreign-marriage-certificates
+    name: Payment for certificates to get married abroad
+    feature_toggle: fco_dashboards
+  - slug: deposit-foreign-marriage
+    name: Deposit foreign marriage or civil partnership certificates
+    feature_toggle: fco_dashboards
