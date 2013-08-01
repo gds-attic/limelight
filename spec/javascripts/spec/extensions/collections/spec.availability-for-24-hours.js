@@ -6,13 +6,13 @@ define([
     describe('AvailabilityFor24HoursCollection', function () {
       var availabilityData = {"data":[
         {
-          "uptime": 8,
+          "uptime": 9,
           "downtime": 1,
           "unmonitored": 1,
           "avgresponse": 321
         },
         {
-          "uptime": 9,
+          "uptime": 10,
           "downtime": 0,
           "unmonitored": 1,
           "avgresponse": 345
@@ -54,10 +54,10 @@ define([
 
           var percentageOfUptime = collection.getPercentageOfUptime();
 
-          expect(percentageOfUptime).toEqual(85);
+          expect(percentageOfUptime).toEqual(95);
       });
 
-      it("should provide percentage of uptime", function () {
+      xit("should provide percentage uptime + unmonitored", function () {
         var collection =
           new AvailabilityFor24HoursCollection({"data": [{
             "uptime": 8,
@@ -67,34 +67,20 @@ define([
 
         var percentageOfUptime = collection.getPercentageOfUptime();
 
-        expect(percentageOfUptime).toEqual(80);
+        expect(percentageOfUptime).toEqual(90);
       });
 
       it("should provide total uptime", function () {
+
         var collection =
-          new AvailabilityFor24HoursCollection({"data": [{
-            "uptime": 5
-          }]}, options);
+          new AvailabilityFor24HoursCollection(availabilityData, options);
 
         var totalUptime = collection._getTotalUptime();
 
-        expect(totalUptime).toEqual(5);
+        expect(totalUptime).toEqual(19);
       });
 
-      it("should provide total uptime for all models", function () {
-        var collection =
-          new AvailabilityFor24HoursCollection({"data": [{
-            "uptime": 5
-          },{
-            "uptime": 7
-          }]}, options);
-
-        var totalUptime = collection._getTotalUptime();
-
-        expect(totalUptime).toEqual(12);
-      });
-
-      it("should provide total time", function () {
+      it("should provide total (monitored) time", function () {
         var collection =
           new AvailabilityFor24HoursCollection({"data": [{
             "uptime": 1,
@@ -103,6 +89,19 @@ define([
           }]}, options);
 
         var totalTime = collection._getTotalTime();
+
+        expect(totalTime).toEqual(3);
+      });
+      
+      it("should provide total monitored AND unmonitored time", function () {
+        var collection =
+          new AvailabilityFor24HoursCollection({"data": [{
+            "uptime": 1,
+            "downtime": 2,
+            "unmonitored": 3
+          }]}, options);
+
+        var totalTime = collection._getTotalTime(true);
 
         expect(totalTime).toEqual(6);
       });

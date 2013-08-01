@@ -25,7 +25,7 @@ function (GraphCollection) {
     parse: function (response) {
       var data = response.data;
       _.each(data, function (d) {
-        d.total = d.downtime + d.unmonitored + d.uptime;
+        d.total = d.downtime + d.uptime;
         d.uptimeFraction = d.uptime / d.total;
         d._end_at = this.moment(d._timestamp);
         d._start_at = this.moment(d._timestamp).subtract(1, "hours");
@@ -43,9 +43,13 @@ function (GraphCollection) {
       }, 0)
     },
 
-    _getTotalTime: function () {
+    _getTotalTime: function ( includeUnmonitored ) {
       return this.at(0).get('values').reduce(function (memo, model) {
-        return memo + model.get('total');
+        var res = memo + model.get('total');
+        if (includeUnmonitored) {
+          res += model.get('unmonitored');
+        }
+        return res;
       }, 0)
     },
 

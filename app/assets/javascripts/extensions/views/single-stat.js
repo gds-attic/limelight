@@ -9,7 +9,7 @@ function (View) {
       this.collection.on('reset', this.render, this);
     },
     render: function () {
-      this.$el.html("<strong>" + this.options.getStatFunction(this.collection) + "</strong>");
+      this.$el.html("<strong>" + this.getStatFunction(this.collection) + "</strong>");
     }
   });
   return SingleStatView;
