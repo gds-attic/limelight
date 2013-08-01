@@ -30,18 +30,18 @@
 
 <% if Rails.application.config.feature_toggles[:lpa_conversion_funnel] %>
 <section class="graph">
-  <h1>Submission drop-offs</h1>
+  <h1>Journey stages</h1>
   <ul class="module-actions">
     <li class="info">
       <div>
-        <p>Data sources: Google Analytics (unique visitors numbers based on sampled data)</p>
-        <p>Calculated as percentage of unique visitors who arrived at each stage out of those who started the transaction.</p>
+        <p>Data source: Google Analytics (unique visitors numbers based on sampled data)</p>
+        <p>Compares the visitors to different key stages of the transaction relative to the number that started.</p>
+        <p>Stages are in the order a user would see them as they progress through the transaction. Some stages may be repeated or returned to, as indicated by higher visitor numbers.</p>
       </div>
     </li>
   </ul>
   <h2>
-    Percentages of unique visitors at each stage of the digital transaction
-    <span class="group0">two weeks ago</span> compared with <span class="group1">last week</span>
+    Percentages of unique visitors who visited key stages of the transaction <span class="group1">last week</span> compared with <span class="group0">two weeks ago</span> 
   </h2>
   <figure class="graph conversion-graph" id="lpa-conversion-graph"></figure>
 </section>

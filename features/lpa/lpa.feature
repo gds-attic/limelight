@@ -17,5 +17,5 @@ Feature: uptime and response time for lpa dashboard
   Scenario: conversion funnel
     Given The lpa journey bucket returns the response in "lpa_journey.json"
     When I go to /performance/lasting-power-of-attorney
-    Then I should see the module "Submission drop-offs"
+    Then I should see the module "Journey stages"
     And the module should contain a graph
