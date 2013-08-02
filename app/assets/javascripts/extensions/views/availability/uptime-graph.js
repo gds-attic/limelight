@@ -1,16 +1,27 @@
 define([
   'require',
-  'extensions/views/timeseries-graph/timeseries-graph',
+  'extensions/views/graph/graph',
   './tooltip'
 ],
-function (require, TimeseriesGraph, Tooltip) {
-  var UptimeGraph = TimeseriesGraph.extend({
+function (require, Graph, Tooltip) {
+  var UptimeGraph = Graph.extend({
 
-    getConfigName: function () {
-      return 'hour';
+    getConfigNames: function () {
+      return ['stack', 'hour'];
     },
 
     minYDomainExtent: 1,
+    numYTicks: 3,
+
+    // use custom properties for stack calculation because
+    // ResponseTimeGraph and UptimeGraph are sharing the same
+    // Collection
+    stackYProperty: 'yUptime',
+    stackY0Property: 'yUptime0',
+    outStack: function (model, y0, y) {
+      model.yUptime0 = y0;
+      model.yUptime = y;
+    },
 
     components: function () {
       return [
@@ -18,7 +29,6 @@ function (require, TimeseriesGraph, Tooltip) {
         {
           view: this.sharedComponents.yaxis,
           options: {
-            ticks: 3,
             tickFormat: function () {
               return function (d) {
                 return Math.round(100 * d) + '%';
@@ -29,20 +39,7 @@ function (require, TimeseriesGraph, Tooltip) {
         {
           view: this.sharedComponents.stack,
           options: {
-            drawCursorLine: true,
-            // use custom properties for stack calculation because
-            // ResponseTimeGraph and UptimeGraph are sharing the same
-            // Collection
-            y: function(model) {
-              return this.scales.y(model.yUptime0 + model.yUptime);
-            },
-            y0: function (model) {
-              return this.scales.y(model.yUptime0);
-            },
-            outStack: function (model, y0, y) {
-              model.yUptime0 = y0;
-              model.yUptime = y;
-            }
+            drawCursorLine: true
           }
         },
         {
@@ -59,21 +56,6 @@ function (require, TimeseriesGraph, Tooltip) {
         },
         { view: this.sharedComponents.hover }
       ];
-    },
-
-    calcXScale: function () {
-      var start, end, xScale;
-      
-      var total = this.collection.first().get('values');
-      
-      start = moment(total.first().get('_timestamp'));
-      end = moment(total.last().get('_timestamp'));
-      
-      xScale = this.d3.time.scale();
-      xScale.domain([start.toDate(), end.toDate()]);
-      xScale.range([0, this.innerWidth]);
-
-      return xScale;
     },
 
     valueAttr: 'uptimeFraction'

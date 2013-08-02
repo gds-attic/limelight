@@ -1,24 +1,22 @@
 define([
   'require',
-  'extensions/views/timeseries-graph/timeseries-graph',
+  'extensions/views/graph/graph',
   './tooltip'
 ],
-function (require, TimeseriesGraph, Tooltip) {
-  var ResponseTimeGraph = TimeseriesGraph.extend({
+function (require, Graph, Tooltip) {
+  var ResponseTimeGraph = Graph.extend({
 
     valueAttr: 'avgresponse',
+    numYTicks: 3,
 
-    getConfigName: function () {
-      return 'hour';
+    getConfigNames: function () {
+      return ['stack', 'hour'];
     },
 
     components: function () {
       return [
         { view: this.sharedComponents.xaxis },
-        {
-          view: this.sharedComponents.yaxis,
-          options: {
-            ticks: 3,
+        { view: this.sharedComponents.yaxis,options: {
             tickFormat: function () {
               return function (d) {
                 return d + 'ms';
@@ -40,21 +38,6 @@ function (require, TimeseriesGraph, Tooltip) {
         },
         { view: this.sharedComponents.hover }
       ];
-    },
-
-    calcXScale: function () {
-      var start, end, xScale;
-      
-      var total = this.collection.first().get('values');
-      
-      start = moment(total.first().get('_timestamp'));
-      end = moment(total.last().get('_timestamp'));
-      
-      xScale = this.d3.time.scale();
-      xScale.domain([start.toDate(), end.toDate()]);
-      xScale.range([0, this.innerWidth]);
-
-      return xScale;
     }
 
   });

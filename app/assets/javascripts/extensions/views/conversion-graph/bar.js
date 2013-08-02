@@ -6,11 +6,10 @@ function (InterleavedBar) {
     interactive: true,
     strokeAlign: 'inner',
 
-    yStack: function (model) {
-      return model.get('uniqueEventsNormalised');
-    },
-    blockWidth: function (model, i) {
-      return this.scales.x(1) - this.scales.x(0);
+    blockWidth: function (group, groupIndex, model, index) {
+      var x0 = this.scales.x(this.graph.getXPos(0, 0));
+      var x1 = this.scales.x(this.graph.getXPos(0, 1));
+      return x1 - x0;
     },
     text: function (model, i) {
       return Math.round(100 * model.get('uniqueEventsNormalised')) + '%';

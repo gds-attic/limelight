@@ -5,10 +5,6 @@ function (TimeseriesCallout) {
   
   var LPATimeseriesCallout = TimeseriesCallout.extend({
 
-    y: function (model, index) {
-      return this.scales.y(model.y0 + model.y);
-    },
-    
     renderContent: function (el, group, groupIndex, model, index) {
       
       var header = $('<h3>').html(this.getHeader.apply(this, arguments));

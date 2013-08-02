@@ -38,6 +38,12 @@ function (InterleavedBar, Collection) {
         blockWidth: function (model, index) {
           return this.scales.x(1) - this.scales.x(0);
         },
+        graph: {
+          getYPos: function (groupIndex, modelIndex) {
+            var model = collection.at(groupIndex).get('values').at(modelIndex);
+            return model.get('b');
+          }
+        },
         scales:{
           x: function (v) {
             return v * 20;

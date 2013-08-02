@@ -1,15 +1,36 @@
 define([
+  'require',
   'extensions/views/view',
-  'd3loader!'
+  'd3loader!',
+  './xaxis',
+  './yaxis',
+  './line',
+  './stack',
+  './linelabel',
+  './hover',
+  './callout'
 ],
-function (View, d3) {
+function (require, View, d3, XAxis, YAxis, Line, Stack, LineLabel, Hover, Callout) {
   
   var Graph = View.extend({
     
     d3: d3,
     
     valueAttr: '_count',
+
+    minYDomainExtent: 6,
+    numYTicks: 7,
     
+    sharedComponents: {
+      xaxis: XAxis,
+      yaxis: YAxis,
+      line: Line,
+      stack: Stack,
+      linelabel: LineLabel,
+      callout: Callout,
+      hover: Hover
+    },
+
     initialize: function (options) {
       View.prototype.initialize.apply(this, arguments);
       
@@ -76,9 +97,9 @@ function (View, d3) {
     calcYScale: function () {
       throw('No y scale defined.');
     },
-    
-    getConfigName: function () {
-      return null;
+
+    getConfigNames: function () {
+      return ['overlay'];
     },
 
     pxToValue: function (cssVal) {
@@ -93,12 +114,10 @@ function (View, d3) {
       var width = this.width = this.$el.width();
 
       // when both max-width and max-height are defined, scale graph according
-      // to this aspect ratio. A defined min-height still takes precedence
-      // over aspect ratio scaling.
+      // to this aspect ratio
       var maxWidth = this.pxToValue(this.$el.css('max-width'));
       var maxHeight = this.pxToValue(this.$el.css('max-height'));
       var minHeight = this.pxToValue(this.$el.css('min-height'));
-      var height;
       if (maxWidth != null && maxHeight != null) {
         var aspectRatio = maxWidth / maxHeight;
         height = width / aspectRatio;
@@ -137,16 +156,30 @@ function (View, d3) {
         ')'
       ].join(''));
     },
-    
-    /**
-     * Calculates current scales, then renders components in defined order.
-     */
-    render: function () {
-      View.prototype.render.apply(this, arguments);
 
-      // hide callout during resize if present.
-      // works around bug in Webkit / iOS that incorrectly calculates height
-      // of inner element.
+    applyConfig: function (name) {
+      var config = this.configs[name];
+      if (!config) {
+        return;
+      }
+
+      if (config.initialize) {
+        config.initialize.call(this);
+      }
+
+      _.each(config, function (value, key) {
+        if (key === 'initialize') {
+          return;
+        }
+        this[key] = value;
+      }, this);
+    },
+
+    /**
+     * Hide callout during resize if present. Works around bug in iOS Webkit
+     * that incorrectly calculates height of inner element.
+     */
+    resizeWithCalloutHidden: function () {
       var callout = this.$el.find('.callout');
       var calloutHidden = callout.hasClass('performance-hidden');
       callout.addClass('performance-hidden');
@@ -156,19 +189,156 @@ function (View, d3) {
       if (!calloutHidden) {
         callout.removeClass('performance-hidden');
       }
+    },
+    
+    /**
+     * Applies current configuration, then renders components in defined order
+     */
+    render: function () {
+      View.prototype.render.apply(this, arguments);
+
+      this.resizeWithCalloutHidden();
+
+      var configNames = this.getConfigNames();
+      if (_.isString(configNames)) {
+        configNames = [configNames];
+      }
+
+      _.each(configNames, function(configName) {
+        this.applyConfig(configName);
+      }, this);
 
       this.scales.x = this.calcXScale();
       this.scales.y = this.calcYScale();
       
-      var configName = this.getConfigName();
-      
       _.each(this.componentInstances, function (component) {
-        if (configName) {
+        _.each(configNames, function(configName) {
           component.applyConfig(configName);
-        }
-
+        });
         component.render();
       }, this);
+    },
+
+    configs: {
+      hour: {
+        getXPos: function (groupIndex, modelIndex) {
+          var group = this.collection.at(groupIndex);
+          var model = group.get('values').at(modelIndex);
+          return this.moment(model.get('_timestamp'));
+        },
+        calcXScale: function () {
+          var values = this.collection.first().get('values');
+          var start = moment(values.first().get('_timestamp'));
+          var end = moment(values.last().get('_timestamp'));
+          
+          var xScale = this.d3.time.scale();
+          xScale.domain([start.toDate(), end.toDate()]);
+          xScale.range([0, this.innerWidth]);
+          return xScale;
+        }
+      },
+      week: {
+        getXPos: function(groupIndex, modelIndex) {
+          var group = this.collection.at(groupIndex);
+          var model = group.get('values').at(modelIndex);
+          return this.moment(model.get('_end_at')).subtract(1, 'days');
+        },
+        calcXScale: function () {
+          var start, end, xScale;
+          var total = this.collection.first().get('values');
+          // scale from first sunday to last sunday
+          start = moment(total.first().get('_end_at')).subtract(1, 'days');
+          end = moment(total.last().get('_end_at')).subtract(1, 'days');
+          xScale = this.d3.time.scale();
+          xScale.domain([start.toDate(), end.toDate()]);
+          xScale.range([0, this.innerWidth]);
+          return xScale;
+        }
+      },
+      month: {
+        getXPos: function(groupIndex, modelIndex) {
+          return modelIndex;
+        },
+        calcXScale: function () {
+          var start, end, xScale;
+          var total = this.collection.first().get('values');
+          xScale = this.d3.scale.linear();
+          xScale.domain([0, total.length - 1]);
+          xScale.range([0, this.innerWidth]);
+          return xScale;
+        },
+      },
+
+
+      overlay: {
+        getYPos: function (groupIndex, modelIndex) {
+          var group = this.collection.at(groupIndex);
+          var model = group.get('values').at(modelIndex);
+          return model.get(this.valueAttr);
+        },
+        calcYScale: function () {
+          var d3 = this.d3;
+          var valueAttr = this.valueAttr;
+          var max = d3.max(this.collection.models, function (group) {
+            return d3.max(group.get('values').models, function (value) {
+              return value.get(valueAttr);
+            });
+          });
+
+          var yScale = this.d3.scale.linear();
+          var tickValues = this.calculateLinearTicks([0, Math.max(max, this.minYDomainExtent)], this.numYTicks);
+          yScale.domain(tickValues.extent);
+          yScale.rangeRound([this.innerHeight, 0]);
+          yScale.tickValues = tickValues.values;
+          return yScale;
+        }
+      },
+
+      stack: {
+        initialize: function() {
+          var valueAttr = this.valueAttr;
+          var stack = this.d3.layout.stack()
+            .values(function (group) {
+              return group.get('values').models;
+            })
+            .y(function (model, index) {
+              return model.get(valueAttr);
+            });
+          if (this.outStack) {
+            stack.out(_.bind(this.outStack, this));
+          }
+            
+          this.layers = stack(this.collection.models.slice().reverse());
+        },
+        getYPos: function (groupIndex, modelIndex) {
+          var model = this.collection.at(groupIndex).get('values').at(modelIndex);
+          var y0Property = this.stackY0Property || 'y0';
+          var yProperty = this.stackYProperty || 'y';
+          return model[y0Property] + model[yProperty];
+        },
+        getY0Pos: function (groupIndex, modelIndex) {
+          var y0Property = this.stackY0Property || 'y0';
+          var model = this.collection.at(groupIndex).get('values').at(modelIndex);
+          return model[y0Property];
+        },
+        calcYScale: function () {
+          var d3 = this.d3;
+          var valueAttr = this.valueAttr;
+          var sums = [];
+          for (var i = 0; i < this.collection.at(0).get('values').length; i++) {
+            sums.push(this.collection.reduce(function (memo, group) {
+              return memo + group.get('values').at(i).get(valueAttr);
+            }, 0));
+          }
+          var max = d3.max(sums);
+          var yScale = this.d3.scale.linear();
+          var tickValues = this.calculateLinearTicks([0, Math.max(max, this.minYDomainExtent)], this.numYTicks);
+          yScale.domain(tickValues.extent);
+          yScale.rangeRound([this.innerHeight, 0]);
+          yScale.tickValues = tickValues.values;
+          return yScale;
+        }
+      }
     }
   });
 

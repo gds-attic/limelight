@@ -30,14 +30,31 @@ define([
               ])
             }
           ]);
+          var stack = StackedBar.prototype.d3.layout.stack()
+            .values(function (group) {
+              return group.get('values').models;
+            })
+            .y(function (model, index) {
+              return model.get('b');
+            });
+          layers = stack(collection.models.slice());
           view = new StackedBar({
             wrapper:wrapper,
             collection:collection,
-            x: function (model, i) {
-              return this.scales.x(model.get('a'));
-            },
-            yStack: function (model, i) {
-              return model.get('b');
+            graph: {
+              layers: layers,
+              getXPos: function (groupIndex, modelIndex) {
+                var model = collection.at(groupIndex).get('values').at(modelIndex);
+                return model.get('a');
+              },
+              getYPos: function (groupIndex, modelIndex) {
+                var model = collection.at(groupIndex).get('values').at(modelIndex);
+                return model.y0 + model.y;
+              },
+              getY0Pos: function (groupIndex, modelIndex) {
+                var model = collection.at(groupIndex).get('values').at(modelIndex);
+                return model.y0;
+              }
             },
             barWidth: function(model, i) {
               return 10;

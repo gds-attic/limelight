@@ -5,64 +5,26 @@ define([
 ],
 function (require, Line, Component) {
   var Stack = Line.extend({
-
-    reverseRenderOrder: true,
     
-    stackValues: function (group) {
-      return group.get('values').models;
-    },
-    
-    /**
-     * Calculates x position for model.
-     * Not implemented; override in configuration or subclass
-     */
-    x: function (model) {
-      throw('No x calculation defined.');
-    },
-    
-    /**
-     * Accessor to retrieve value for y dimension from model.
-     * Not implemented; override in configuration or subclass
-     */
-    yStack: function (model) {
-      throw('No yStack calculation defined.');
-    },
-    
-    y0: function (model) {
-      return this.scales.y(model.y0);
-    },
-    
-    y: function(model) {
-      return this.scales.y(model.y0 + model.y);
+    y0: function (group, groupIndex, model, index) {
+      var yPos = this.graph.getY0Pos(groupIndex, index);
+      return this.scales.y(yPos);
     },
 
     render: function () {
       Component.prototype.render.apply(this, arguments);
 
-      var stack = this.d3.layout.stack()
-        .values(this.stackValues)
-        .y(_.bind(this.yStack, this));
-
-      if (this.outStack) {
-        stack.out(_.bind(this.outStack, this));
-      }
-
-      var layers;
-      if (this.reverseRenderOrder) {
-        layers = stack(this.collection.models.slice().reverse());
-      } else {
-        layers = stack(this.collection.models);
-      }
+      var layers = this.graph.layers;
       
       var groupStacks = this.componentWrapper.selectAll('g.stacks').data([0]);
       groupStacks.enter().append('g').attr('class', 'stacks');
 
-      var groupLines = this.componentWrapper.selectAll('g.lines').data([0]);
-      groupLines.enter().append('g').attr('class', 'lines');
-      
       var selectionStacks = groupStacks.selectAll('g.group')
           .data(layers);
       selectionStacks.exit().remove();
+
+      var groupLines = this.componentWrapper.selectAll('g.lines').data([0]);
+      groupLines.enter().append('g').attr('class', 'lines');
 
       var selectionLines = groupLines.selectAll('g.group')
           .data(layers);
@@ -72,19 +34,35 @@ function (require, Line, Component) {
     },
     
     renderContent: function (selectionStacks, selectionLines) {
-      var getX = _.bind(this.x, this);
-      var getY = _.bind(this.y, this);
+      var that = this;
+      var getX = function (model, index) {
+        return that.x.call(that, null, 0, model, index)
+      };
+
+      var yProperty = this.graph.stackYProperty || 'y';
+      var y0Property = this.graph.stackY0Property || 'y0';
+
+      var yScale = this.scales.y;
+      var getY = function (model, index) {
+        return yScale(model[yProperty] + model[y0Property]);
+      };
+
+      var getY0 = function (model, index) {
+        return yScale(model[y0Property]);
+      };
+
       var area = d3.svg.area()
         .x(getX)
-        .y0(_.bind(this.y0, this))
+        .y0(getY0)
         .y1(getY);
         
       var line = d3.svg.line()
         .x(getX)
         .y(getY);
 
+      var graph = this.graph;
       var maxGroupIndex = this.collection.length - 1;
-      
+
       selectionStacks.enter().append("g").attr('class', 'group').append('path')
           .attr("class", function (group, index) {
             return 'stack stack' + (maxGroupIndex-index) + ' ' + group.get('id');
@@ -126,11 +104,13 @@ function (require, Line, Component) {
         x: e.x,
         y: e.y
       };
-      
+
       var selectedGroupIndex, selectedItemIndex;
       for (var i = this.collection.models.length - 1; i >= 0; i--) {
         var group = this.collection.models[i];
-        var distanceAndClosestModel = this.getDistanceAndClosestModel(group, point);
+        var distanceAndClosestModel = this.getDistanceAndClosestModel(
+          group, i, point
+        );
 
         if (distanceAndClosestModel.diff > 0 || i === 0) {
           selectedGroupIndex = i;

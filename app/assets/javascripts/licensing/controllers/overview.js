@@ -38,7 +38,10 @@ define([
       });
       var graphView = new ApplicationsGraph({
         el: $('#total-applications'),
-        collection: applicationsCollection
+        collection: applicationsCollection,
+        getConfigNames: function () {
+          return ['stack', this.collection.query.get('period') || 'week'];
+        }
       });
 
       var graphNav = new Tabs({

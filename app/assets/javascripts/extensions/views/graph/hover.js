@@ -67,7 +67,7 @@ function (Component, Modernizr) {
       var scaleFactor = this.graph.scaleFactor();
       var x = (touch.pageX - offset.left) / scaleFactor - this.margin.left;
       var y = (touch.pageY - offset.top) / scaleFactor - this.margin.top;
-      
+
       this.attachBodyListener('touchstart');
       this.selectPoint(x, y, {
         toggle: true
@@ -89,7 +89,7 @@ function (Component, Modernizr) {
     
     /**
      * Finds 'slice' of the graph for a specific coordinate.
-     * The graph area is divided in 9 slices counted in reading direction:
+     * The graph area is divided into 9 slices counted in reading direction:
      * 0-2: top; 3-5: middle; 6-8: bottom.
      * 0,3,6: left; 1,4,7: centre; 2,5,8: right.
      * The main graph area therefore is slice 4.

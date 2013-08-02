@@ -54,6 +54,15 @@ function (View, d3) {
       }
     },
     
+    selectItem: function (groupIndex, index, toggle) {
+      if (toggle && groupIndex === this.collection.selectedIndex
+          && index === this.collection.selectedItem.get('values').selectedIndex) {
+        this.collection.selectItem(null, null);
+      } else {
+        this.collection.selectItem(groupIndex, index);
+      }
+    },
+    
     onChangeSelected: function (group, groupIndex, model, index) {},
     
     onHover: function (e) {}

@@ -12,17 +12,15 @@ function (require, TimeseriesGraph, LineLabel, Callout) {
         { view: this.sharedComponents.xaxis },
         { view: this.sharedComponents.yaxis },
         { view: this.sharedComponents.stack },
-        { view: LineLabel, options: {
-          y: function (group, groupIndex) {
-            return this.scales.y(group.get('values').last().y0 + group.get('values').last().y);
-          }
-        } },
+        { view: LineLabel },
         { view: Callout },
         { view: this.sharedComponents.hover }
       ];
     },
 
-    YScaleFunction: "calcYSeriesSum"
+    getConfigNames: function () {
+      return ['stack', 'week'];
+    }
     
   });
   

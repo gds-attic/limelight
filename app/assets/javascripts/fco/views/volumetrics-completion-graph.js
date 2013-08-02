@@ -1,17 +1,22 @@
 define([
-  'require',
-  './volumetrics-submissions-graph'
+  'extensions/views/graph/graph'
 ],
-function (require, VolumetricsSubmissionsGraph) {
-  var VolumetricsCompletionGraph = VolumetricsSubmissionsGraph.extend({
+function (Graph) {
+  var VolumetricsCompletionGraph = Graph.extend({
+
     minYDomainExtent: 1,
+    numYTicks: 3,
+
+    getConfigNames: function () {
+      return ['stack', 'week'];
+    },
+    
     components: function () {
       return [
         { view: this.sharedComponents.xaxis },
         {
           view: this.sharedComponents.yaxis,
           options: {
-            ticks: 3,
             tickFormat: function () {
               return function (d) {
                 return Math.round(100 * d) + '%';

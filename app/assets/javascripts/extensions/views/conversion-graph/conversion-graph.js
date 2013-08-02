@@ -8,6 +8,8 @@ define([
 ],
 function (require, Graph, XAxis, Bar, Callout, Hover) {
   var ConversionGraph = Graph.extend({
+
+    valueAttr: 'uniqueEventsNormalised',
     
     components: function () {
       return [
@@ -16,6 +18,18 @@ function (require, Graph, XAxis, Bar, Callout, Hover) {
         { view: Callout },
         { view: Hover }
       ];
+    },
+
+    getConfigNames: function () {
+      return [];
+    },
+
+    getXPos: function (groupIndex, modelIndex) {
+      return modelIndex;
+    },
+
+    getYPos: function (groupIndex, modelIndex) {
+      return this.configs.overlay.getYPos.apply(this, arguments);
     },
     
     calcXScale: function () {

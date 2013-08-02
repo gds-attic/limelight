@@ -4,7 +4,7 @@ define([
 ],
 function (Stack, Collection) {
   describe("Stack component", function () {
-    var el, wrapper, collection;
+    var el, wrapper, collection, layers;
     beforeEach(function() {
       el = $('<div></div>').appendTo($('body'));
       wrapper = Stack.prototype.d3.select(el[0]).append('svg').append('g');
@@ -26,6 +26,16 @@ function (Stack, Collection) {
           ])
         }
       ]);
+
+
+      var stack = Stack.prototype.d3.layout.stack()
+        .values(function (group) {
+          return group.get('values').models;
+        })
+        .y(function (model, index) {
+          return model.get('b') + index;
+        });
+      layers = stack(collection.models.slice().reverse());
     });
     
     afterEach(function() {
@@ -37,6 +47,7 @@ function (Stack, Collection) {
       it("renders a stack consisting of a stroked path and a filled path for each item in the collection", function() {
         
         var view = new Stack({
+          interactive: false,
           wrapper: wrapper,
           collection: collection,
           scales: {
@@ -44,11 +55,17 @@ function (Stack, Collection) {
               return x * 2;
             }
           },
-          x: function (model, index) {
+          graph: {
+            layers: layers
+          },
+          x: function (group, groupIndex, model, index) {
             return model.get('a') + index;
           },
-          yStack: function (model, index) {
-            return model.get('b') + index;
+          y: function (group, groupIndex, model, index) {
+            return model.y + model.y0;
+          },
+          y0: function (group, groupIndex, model, index) {
+            return model.y0;
           }
         });
         view.render();
@@ -61,45 +78,6 @@ function (Stack, Collection) {
         expect(group2.selectAll('path.stack').attr('d')).toEqual('M1,10L5,26L9,42L9,22L5,14L1,6Z');
       });
 
-      it("renders a stack using custom calculations to allow multiple stacks operating on the same Collection", function () {
-        var view = new Stack({
-          wrapper: wrapper,
-          collection: collection,
-          scales: {
-            y: function (x) {
-              return x * 2;
-            }
-          },
-          x: function (model, index) {
-            return model.get('a') + index;
-          },
-          yStack: function (model, index) {
-            return model.get('b') + index;
-          },
-          y: function(model) {
-            return this.scales.y(model.yCustom0 + model.yCustom);
-          },
-          y0: function (model) {
-            return this.scales.y(model.yCustom0);
-          },
-          outStack: function (model, y0, y) {
-            model.yCustom0 = y0;
-            model.yCustom = y;
-          }
-        });
-        view.render();
-
-        expect(collection.first().get('values').first().y).not.toBeDefined();
-        expect(collection.first().get('values').first().y0).not.toBeDefined();
-        
-        var group1 = wrapper.selectAll('g.group:nth-child(1)');
-        expect(group1.selectAll('path.line').attr('d')).toEqual('M1,6L5,14L9,22');
-        expect(group1.selectAll('path.stack').attr('d')).toEqual('M1,6L5,14L9,22L9,0L5,0L1,0Z');
-        var group2 = wrapper.selectAll('g.group:nth-child(2)');
-        expect(group2.selectAll('path.line').attr('d')).toEqual('M1,10L5,26L9,42');
-        expect(group2.selectAll('path.stack').attr('d')).toEqual('M1,10L5,26L9,42L9,22L5,14L1,6Z');
-      });
-      
     });
 
     describe("onHover", function () {
@@ -107,6 +85,7 @@ function (Stack, Collection) {
       var view;
       beforeEach(function() {
         view = new Stack({
+          interactive: false,
           wrapper: wrapper,
           collection: collection,
           scales: {
@@ -114,11 +93,17 @@ function (Stack, Collection) {
               return x * 2;
             }
           },
-          x: function (model, index) {
+          graph: {
+            layers: layers
+          },
+          x: function (group, groupIndex, model, index) {
             return model.get('a') + index;
           },
-          yStack: function (model, index) {
-            return model.get('b') + index;
+          y: function (group, groupIndex, model, index) {
+            return model.y + model.y0;
+          },
+          y0: function (group, groupIndex, model, index) {
+            return model.y0;
           }
         });
         view.render();
@@ -127,9 +112,9 @@ function (Stack, Collection) {
       });
 
       it("selects the group the user is hovering over and the closest model in that group", function () {
-        view.onHover({ x: 1, y: 6 });
+        view.onHover({ x: 1, y: 3 });
         expect(collection.selectItem.mostRecentCall.args).toEqual([0, 0]);
-        view.onHover({ x: 1, y: 7 });
+        view.onHover({ x: 1, y: 4 });
         expect(collection.selectItem.mostRecentCall.args).toEqual([1, 0]);
       });
 

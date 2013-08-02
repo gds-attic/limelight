@@ -14,7 +14,7 @@ function (Callout) {
     blockMarginFraction: 0.2,
     barMarginFraction: 0.05,
 
-    x: function (model, index, group, groupIndex) {
+    x: function (group, groupIndex, model, index) {
       // TODO: This calculation is repeated from InterleavedBar component
       // What is the cleanest way to share this calculation?
       var blockWidth = this.scales.x(1) - this.scales.x(0);
@@ -34,7 +34,7 @@ function (Callout) {
       return x;
     },
     
-    y: function (model, index) {
+    y: function (group, groupIndex, model, index) {
       return 0;
     },
     

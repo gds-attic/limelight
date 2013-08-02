@@ -134,7 +134,7 @@ function (LineLabel, Collection) {
     });
 
     describe("setLabelPositions", function() {
-      var el, wrapper, lineLabel;
+      var el, wrapper, lineLabel, graph;
       beforeEach(function() {
         var collection = new Collection([
           {
@@ -159,6 +159,14 @@ function (LineLabel, Collection) {
         yScale.plan = function (val) {
           return val * val;
         };
+        graph = {
+          valueAttr: '_count',
+          innerWidth: 100,
+          innerHeight: 100,
+          getYPos: function (groupIndex, modelIndex) {
+            return collection.at(groupIndex).get('values').at(modelIndex).get(graph.valueAttr);
+          }
+        };
         lineLabel = new LineLabel({
           scales: {
             y: yScale
@@ -168,11 +176,7 @@ function (LineLabel, Collection) {
           offset: 100,
           linePaddingInner: 20,
           linePaddingOuter: 30,
-          graph: {
-            valueAttr: '_count',
-            innerWidth: 100,
-            innerHeight: 100
-          }
+          graph: graph
         });
 
         el = $('<div></div>').appendTo($('body'));
@@ -213,37 +217,6 @@ function (LineLabel, Collection) {
 
         expect(wrapper.select('g:nth-child(1)').attr('transform')).toEqual('translate(0, 20.5)');
         expect(wrapper.select('g:nth-child(2)').attr('transform')).toEqual('translate(0, 30.5)');
-      });
-
-      it("positions labels using a custom calculation", function() {
-        wrapper.selectAll('text').each(function (metaModel) {
-          spyOn(this, "getBBox").andReturn({
-            height: 20
-          });
-        });
-        spyOn(lineLabel, "calcPositions").andReturn([
-          { min: 20 },
-          { min: 30 }
-        ]);
-        lineLabel.y = function (group, groupIndex) {
-          var value = group.get('values').first().get('alternative');
-          return this.scales.y(value);
-        }
-        lineLabel.setLabelPositions(wrapper.selectAll('g'));
-        expect(lineLabel.calcPositions).toHaveBeenCalled();
-        var startPositions = lineLabel.calcPositions.argsForCall[0][0];
-        expect(lineLabel.scales.y).toHaveBeenCalledWith(8);
-        expect(startPositions[0]).toEqual({
-          ideal: 64, // yScale was applied to 'alternative' attribute of first element in line 'a'
-          size: 20,
-          id: 'a'
-        });
-        expect(lineLabel.scales.y).toHaveBeenCalledWith(9);
-        expect(startPositions[1]).toEqual({
-          ideal: 81, // yScale was applied to 'alternative' attribute of first element in line 'b'
-          size: 20,
-          id: 'b'
-        });
       });
     });
 
