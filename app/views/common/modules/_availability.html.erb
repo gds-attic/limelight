@@ -1,5 +1,7 @@
-<section class="graph availability">
-  <h1>Service availability</h1>
+<% id ||= "availability" %>
+<% title ||= "Service availability" %>
+<section id="<%= id %>" class="graph availability">
+  <h1><%= title %></h1>
   <ul class="module-actions">
     <li class="info">
       <div>
@@ -11,9 +13,9 @@
     </li>
   </ul>
   <h3>Response time</h3>
-  <p id="response-time" class="impact-number"></p>
-  <figure class="graph timeseries-graph" id="response-time-graph"></figure>
+  <p class="impact-number response-time"></p>
+  <figure class="graph timeseries-graph response-time-graph"></figure>
   <h3>Uptime</h3>
-  <p id="uptime" class="impact-number"></p>
-  <figure class="graph timeseries-graph" id="uptime-graph"></figure>
+  <p class="impact-number uptime"></p>
+  <figure class="graph timeseries-graph uptime-graph"></figure>
 </section>

@@ -3,10 +3,10 @@ require 'spec_helper'
 describe DashboardController do
 
   it 'should render existing dashboard template' do
-    get :index, :slug => "electronic-vehicle-licensing"
+    get :index, :slug => "vehicle-excise-duty"
 
     assert_response :ok
-    response.should render_template("electronic-vehicle-licensing/index")
+    response.should render_template("vehicle-excise-duty/index")
   end
 
   it 'should return 404 for non existent dashboard' do

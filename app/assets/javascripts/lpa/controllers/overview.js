@@ -38,6 +38,6 @@ function (ApplicationsCollection, ApplicationsGraph,
       }
     }
 
-    availabilityModule('lasting-power-of-attorney', 'lpa');
+    availabilityModule('lasting-power-of-attorney');
   }
 });

@@ -1,0 +1,19 @@
+<% content_for :title do %>Vehicle excise duty - Service performance - GOV.UK<% end %>
+
+<% @js_config = {
+        "controller"   => "vehicle-excise-duty/controllers/overview"
+} %>
+
+<header>
+  <h1>
+    <span class="strapline">Service performance</span>
+      Vehicle excise duty
+  </h1>
+  <p class="explanatory">Service to buy or renew your tax disc (vehicle licence) online, for your car, motorbike, lorry, bus or other vehicle that needs a tax disc.</p>
+</header>
+
+<% if Rails.application.config.feature_toggles[:evl_availability_modules] %>
+<%= render(partial: "common/modules/availability", locals: {title: "Tax disc service availability", id: "tax-disc-availability"}) %>
+
+<%= render(partial: "common/modules/availability", locals: {title: "SORN service availability", id: "sorn-availability"}) %>
+<% end %>

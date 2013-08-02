@@ -115,6 +115,6 @@ define([
       }, updateInterval);
     }
 
-    availabilityModule('licensing', 'licensing');
+    availabilityModule('licensing');
   };
 });

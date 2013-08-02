@@ -11,3 +11,4 @@ show_fco_availability: dev
 show_lpa_availability: release
 lpa_conversion_funnel: dev
 evl_dashboard: dev
+evl_availability_modules: dev

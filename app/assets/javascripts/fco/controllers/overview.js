@@ -12,6 +12,6 @@ define([
     conversionModule(serviceName);
     realtimeModule(serviceName);
     volumetricsModule(serviceName);
-    availabilityModule(serviceName, serviceName);
+    availabilityModule(serviceName);
   };
 });

@@ -7,38 +7,39 @@ define([
   'extensions/views/availability/response-time-number',
   'extensions/views/availability/response-time-graph'
 ],
-function (GraphCollection, FCO24HourAvailabilityCollection,
+function (GraphCollection, AvailabilityCollection,
           SingleStatView, UptimeNumber, UptimeGraph,
           ResponseTimeNumber, ResponseTimeGraph) {
 
-  return function (serviceName, checkName) {
-    if (!$('#uptime').length || !$('#response-time').length) {
+  return function (serviceName, locator) {
+    locator = locator || '#availability'
+    var moduleEl = $(locator);
+    if (!moduleEl.length) {
       return;
     }
 
-    var availabilityCollection = new FCO24HourAvailabilityCollection(null, {
-      serviceName: serviceName,
-      checkName: checkName
+    var availabilityCollection = new AvailabilityCollection(null, {
+      serviceName: serviceName
     });
 
     new UptimeNumber({
-      el: $('#uptime'),
+      el: moduleEl.find('.uptime'),
       collection: availabilityCollection
     });
 
     new UptimeGraph({
-      el: $('#uptime-graph'),
+      el: moduleEl.find('.uptime-graph'),
       collection: availabilityCollection
     });
 
     new ResponseTimeNumber({
-      el: $('#response-time'),
+      el: moduleEl.find('.response-time'),
       collection: availabilityCollection,
       getStatFunction: function (c) { return Math.round(c.getAverageResponseTime()) + 'ms'; }
     });
 
     new ResponseTimeGraph({
-      el: $('#response-time-graph'),
+      el: moduleEl.find('.response-time-graph'),
       collection: availabilityCollection
     });
 

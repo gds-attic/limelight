@@ -7,16 +7,14 @@ Feature: Pingdom data for licensing
   Scenario: looking up uptime on the licensing overview page
     Given The licensing monitoring bucket returns the response in "licensing_availability_response.json"
      When I go to /performance/licensing
-     Then the uptime module should display 100%
-
-  Scenario: looking up response time on the licensing overview page
-    Given The licensing monitoring bucket returns the response in "licensing_availability_response.json"
-     When I go to /performance/licensing
-     Then the response time module should display 423ms
+    Then I should see the module "Service availability"
+     And the module should display an uptime of 100%
+     And the module should display a response time of 423ms
 
   @wip
   Scenario: visiting the licensing overview page to check licence finder availability
     Given The licence-finder monitoring bucket returns the response in "licence_finder_monitoring.json"
      When I go to /performance/licensing
-     Then the uptime module for licence finder should display 100%
-      And the response time module for licence finder should display 259ms
+     Then I should see the module "Licence finder service availability"
+      And the module should display an uptime of 100%
+      And the module should display a response time of 259ms
