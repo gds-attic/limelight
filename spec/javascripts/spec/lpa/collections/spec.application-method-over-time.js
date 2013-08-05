@@ -8,34 +8,29 @@ function (ApplicationMethod) {
       var exampleJson = {
         "data": [
           {
-            "start_at": "01/01/2013",
-            "value": "631", 
-            "end_at": "08/01/2013",
-            "key": "property_and_financial_paper_applications", 
+            "_timestamp": "2013-01-01T00:00:00+00:00",
+            "value": "631",
+            "key": "property_and_financial_paper_applications",
           },
           {
-            "start_at": "01/01/2013",
+            "_timestamp": "2013-01-01T00:00:00+00:00",
             "value": "247",
-            "end_at": "08/01/2013",
-            "key": "health_and_welfare_paper_applications", 
+            "key": "health_and_welfare_paper_applications",
           },
           {
-            "start_at": "01/01/2013",
+            "_timestamp": "2013-01-01T00:00:00+00:00",
             "value": "28",
-            "end_at": "08/01/2013",
-            "key": "property_and_financial_digital_applications", 
+            "key": "property_and_financial_digital_applications",
           },
           {
-            "start_at": "01/01/2013",
-            "value": "94", 
-            "end_at": "08/01/2013",
-            "key": "health_and_welfare_digital_applications", 
+            "_timestamp": "2013-01-01T00:00:00+00:00",
+            "value": "94",
+            "key": "health_and_welfare_digital_applications",
           },
           {
-            "start_at": "01/01/2013",
-            "value": "77", 
-            "end_at": "08/01/2013",
-            "key": "property_and_financial_digital_applications_perfect", 
+            "_timestamp": "2013-01-01T00:00:00+00:00",
+            "value": "77",
+            "key": "property_and_financial_digital_applications_perfect",
           }
         ]
       };
@@ -46,7 +41,7 @@ function (ApplicationMethod) {
           "title": "Non-digital",
           "values": [{
             "_start_at": "2013-01-01T00:00:00+00:00",
-            "_end_at": "2013-01-08T00:00:00+00:00",
+            "_end_at": "2013-01-02T00:00:00+00:00",
             "_count": 878,
             "fraction": 0.878
           }]
@@ -56,7 +51,7 @@ function (ApplicationMethod) {
           "title": "Digital",
           "values": [{
             "_start_at": "2013-01-01T00:00:00+00:00",
-            "_end_at": "2013-01-08T00:00:00+00:00",
+            "_end_at": "2013-01-02T00:00:00+00:00",
             "_count": 122,
             "fraction": 0.122
           }]
