@@ -8,6 +8,11 @@ function (GraphCollection) {
     serviceName: 'lasting-power-of-attorney',
     apiName: 'volumes',
 
+    initialize: function () {
+      GraphCollection.prototype.initialize.apply(this, arguments);
+      delete this.query.attributes.period;
+    },
+
     parse: function (response) {
       var items = {
         "non_digital": {},
@@ -19,14 +24,13 @@ function (GraphCollection) {
         if (!applicationMethod) {
           return;
         }
-        if (items[applicationMethod][d.start_at]) {
-          items[applicationMethod][d.start_at]._count += parseFloat(d.value);
+        if (items[applicationMethod][d._week_start_at]) {
+          items[applicationMethod][d._week_start_at]._count += parseFloat(d.value);
         } else {
-          var timestamp = this.moment(d._timestamp);
-          items[applicationMethod][d.start_at] = {
+          items[applicationMethod][d._week_start_at] = {
             _count: parseFloat(d.value),
-            _start_at: timestamp.clone(),
-            _end_at: timestamp.clone().add(1, 'days')
+            _start_at: this.moment(d._week_start_at),
+            _end_at: this.moment(d._week_start_at).add(1, 'weeks')
           };
         }
       }, this);
@@ -56,13 +60,12 @@ function (GraphCollection) {
     },
 
     getApplicationMethod: function (applicationMethod) {
-      if (applicationMethod === "property_and_financial_digital_applications"
-        || applicationMethod === "health_and_welfare_digital_applications") {
-        return "digital";
-      } else if (applicationMethod === "property_and_financial_paper_applications"
-        || applicationMethod === "health_and_welfare_paper_applications") {
-        return "non_digital";
-      }
+      return {
+        property_and_financial_digital_applications: 'digital',
+        health_and_welfare_digital_applications: 'digital',
+        property_and_financial_paper_applications: 'non_digital',
+        health_and_welfare_paper_applications: 'non_digital'
+      }[applicationMethod];
     }
 
   });
