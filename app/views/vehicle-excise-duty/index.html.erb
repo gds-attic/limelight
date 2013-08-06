@@ -12,8 +12,14 @@
   <p class="explanatory">Service to buy or renew your tax disc (vehicle licence) online, for your car, motorbike, lorry, bus or other vehicle that needs a tax disc.</p>
 </header>
 
+<%= render(partial: "vehicle-excise-duty/failures", locals: {title: "Tax disc application failures", id: "tax-disc-failures"}) %>
+
 <% if Rails.application.config.feature_toggles[:evl_availability_modules] %>
 <%= render(partial: "common/modules/availability", locals: {title: "Tax disc service availability", id: "tax-disc-availability"}) %>
+<% end %>
 
+<%= render(partial: "vehicle-excise-duty/failures", locals: {title: "SORN application failures", id: "sorn-failures"}) %>
+
+<% if Rails.application.config.feature_toggles[:evl_availability_modules] %>
 <%= render(partial: "common/modules/availability", locals: {title: "SORN service availability", id: "sorn-availability"}) %>
 <% end %>

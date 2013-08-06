@@ -29,7 +29,10 @@ function (timezones, Model) {
       var period = periodName ? this.periods[periodName] : null;
       if (period) {
         var endAt = period.boundary(this.moment().utc());
-        var startAt = endAt.clone().subtract(period.duration, periodName + 's');
+        var duration = getAndDelete(attrs, 'duration', null) || period.duration;
+        var startAt = endAt.clone().subtract(
+          duration, periodName + 's'
+        );
         _.extend(attrs, {
           end_at: timezone.applyOffset(endAt),
           start_at: timezone.applyOffset(startAt)

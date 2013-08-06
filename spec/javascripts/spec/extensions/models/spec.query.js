@@ -3,6 +3,7 @@ define([
 ],
 function (Query) {
   describe("Query", function () {
+
     describe("set", function () {
       
       beforeEach(function() {
@@ -18,6 +19,19 @@ function (Query) {
         expect(query.get('period')).toEqual('month');
         expect(query.get('end_at').format()).toEqual('2013-05-01T00:00:00+00:00');
         expect(query.get('start_at').format()).toEqual('2012-05-01T00:00:00+00:00');
+      });
+      
+      it("sets start and end date for 'month' period with a custom duration", function () {
+        var query = new Query({
+          foo: 'bar',
+          period: 'month',
+          duration: 2
+        });
+        expect(query.get('foo')).toEqual('bar');
+        expect(query.get('period')).toEqual('month');
+        expect(query.get('end_at').format()).toEqual('2013-05-01T00:00:00+00:00');
+        expect(query.get('start_at').format()).toEqual('2013-03-01T00:00:00+00:00');
+        expect(query.get('duration')).not.toBeDefined();
       });
       
       it("sets start and end date for 'month' period using object syntax", function () {
