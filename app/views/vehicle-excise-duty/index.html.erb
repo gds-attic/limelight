@@ -12,6 +12,33 @@
   <p class="explanatory">Service to buy or renew your tax disc (vehicle licence) online, for your car, motorbike, lorry, bus or other vehicle that needs a tax disc.</p>
 </header>
 
+<section class="graph">
+  <h1>Applications by service</h1>
+  <ul class="module-actions">
+    <li class="info">
+      <div>
+        <p>Data source: TBD</p>
+      </div>
+    </li>
+  </ul>
+  <h2>Applications per week broken down by service over the last 9 weeks</h2>
+  <figure class="graph timeseries-graph" id="vehicle-excise-duty-services"></figure>
+</section>
+
+<section class="graph">
+  <h1>Application channels</h1>
+  <ul class="module-actions">
+    <li class="info">
+      <div>
+        <p>Data source: TBD</p>
+      </div>
+    </li>
+  </ul>
+  <h2>Applications per week broken down by channel over the last 9 weeks</h2>
+  <figure class="graph timeseries-graph" id="vehicle-excise-duty-channels"></figure>
+</section>
+
+
 <%= render(partial: "vehicle-excise-duty/failures", locals: {title: "Tax disc application failures", id: "tax-disc-failures"}) %>
 
 <% if Rails.application.config.feature_toggles[:evl_availability_modules] %>

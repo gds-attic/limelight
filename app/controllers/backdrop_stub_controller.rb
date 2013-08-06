@@ -13,7 +13,9 @@ class BackdropStubController < ApplicationController
           StubConfig.new({'service' => 'pay-register-death-abroad', 'api_name' => 'journey'}, 'pay-register-death-abroad-journey.json'),
           StubConfig.new({'service' => 'lasting-power-of-attorney', 'api_name' => 'journey'}, 'lpa_journey.json'),
           StubConfig.new({'service' => 'lasting-power-of-attorney'}, 'lpa_volumes.json'),
-          StubConfig.new({'service' => 'vehicle-excise-duty', 'api_name' => 'failures'}, 'vehicle_excise_duty_failures.json')
+          StubConfig.new({'service' => 'vehicle-excise-duty', 'api_name' => 'failures'}, 'vehicle_excise_duty_failures.json'),
+          StubConfig.new({'service' => 'vehicle-excise-duty', 'api_name' => 'services'}, 'vehicle_excise_duty_services.json'),
+          StubConfig.new({'service' => 'vehicle-excise-duty', 'api_name' => 'channels'}, 'vehicle_excise_duty_channels.json')
       ])
 
   def serve_fixture
