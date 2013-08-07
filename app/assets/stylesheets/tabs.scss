@@ -8,7 +8,7 @@
     padding-left: 0;
     
     li {
-      @include core-16;
+      @include core-16($tabular-numbers: true) ;
       border: 4px solid $white;
       background-color: $grey-3;
       list-style: none;

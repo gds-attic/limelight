@@ -9,7 +9,7 @@
     }
 
     label {
-      @include core-36;
+      @include core-36($tabular-numbers: true) ;
       margin-right:.5em;
     }
 
@@ -35,10 +35,10 @@
       float:left;
       
       h2 {
-        @include core-24;
+        @include core-24($tabular-numbers: true) ;
       }
       p.count {
-        @include bold-80;
+        @include bold-80($tabular-numbers: true) ;
         color:$grey-1;
         margin:0;
       }
@@ -50,7 +50,7 @@
       list-style:none;
       
       dt {
-        @include core-19;
+        @include core-19($tabular-numbers: true) ;
         color:$grey-1;
       }
       
@@ -86,7 +86,7 @@
         float:none;
         
         p.count {
-          @include bold-48;
+          @include bold-48($tabular-numbers: true) ;
           color:$grey-1;
           margin:0;
         }

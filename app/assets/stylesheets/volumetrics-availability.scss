@@ -5,13 +5,11 @@
     padding-top:1em;
     width: 12.5em;
     float:left;
-    @include core-16;
-    font-family: ntatabularnumbers, nta, Arial, sans-serif;
+    @include core-16($tabular-numbers: true);
     color: $black;
 
     strong {
-      @include bold-48;
-      font-family: nta, Arial, sans-serif;
+      @include bold-48($tabular-numbers: true);
       margin-bottom:-.1em;
       display:block
 
@@ -27,7 +25,7 @@
     clear:both;
     height:0;
     margin:0;
-    @include bold-19;
+    @include bold-19($tabular-numbers: true) ;
   }
 
   h1 {

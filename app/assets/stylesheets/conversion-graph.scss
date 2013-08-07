@@ -33,7 +33,7 @@
 
     .bar {
       text {
-        @include core-19;
+        @include core-19($tabular-numbers: true) ;
       }
 
       rect {

@@ -2,17 +2,12 @@
 @import '_typography';
 @import 'colours';
 
-body {
-    font-family: ntatabularnumbers, nta, Arial, sans-serif;
-}
-
-
 h2 {
-  @include core-19;
+  @include core-19($tabular-numbers: true) ;
 }
 
 p {
-  @include core-16;
+  @include core-16($tabular-numbers: true) ;
 }
 
 
@@ -20,29 +15,29 @@ p {
   
   header {
     h1 {
-      @include bold-48;
+      @include bold-48($tabular-numbers: true) ;
 
       span.tagline {
         display:block;
-        @include core-16;
+        @include core-16($tabular-numbers: true) ;
         color: $grey-1;
       }
 
       span.strapline {
         display: block;
-        @include core-27;
+        @include core-27($tabular-numbers: true) ;
         color: $grey-1;
         margin-bottom: 5px;
       }
     }
     h2 {
-      @include core-16;
+      @include core-16($tabular-numbers: true) ;
       margin:0;
       color: $grey-1;
     }
 
     p.category-title {
-      @include core-24;
+      @include core-24($tabular-numbers: true) ;
       color: $grey-1;
       margin-bottom:.5em;
 
@@ -57,7 +52,7 @@ p {
     }
 
     p.explanatory {
-      @include core-16;
+      @include core-16($tabular-numbers: true) ;
       color: $black;
       margin-bottom: -1em;
       padding: 0.6em 0 0 0;
@@ -69,12 +64,12 @@ p {
     margin-bottom:1.5em;
 
     h1 {
-      @include bold-24;
+      @include bold-24($tabular-numbers: true) ;
     }
 
     h2 {
       margin-top:0;
-      @include core-16;
+      @include core-16($tabular-numbers: true) ;
     }
   }
 }

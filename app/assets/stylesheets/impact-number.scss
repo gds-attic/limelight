@@ -5,8 +5,7 @@ p.impact-number {
 
   strong {
     color: $primary-colour;
-    @include bold-80;
-    font-family: nta, Arial, sans-serif;
+    @include bold-80($tabular-numbers: true) ;
     margin-bottom: -.1em;
     display: block;
   }
