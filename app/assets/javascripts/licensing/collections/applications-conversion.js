@@ -24,7 +24,7 @@ define([
       var query = ConversionCollection.prototype.queryParams.apply(this, arguments);
       query.filter_by = "dataType:licensing_overview_journey";
       return query;
-    },
+    }
     
   });
 

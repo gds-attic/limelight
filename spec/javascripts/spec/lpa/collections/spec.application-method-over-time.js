@@ -11,61 +11,61 @@ function (ApplicationMethod) {
             "_timestamp": "2013-01-01T00:00:00+00:00",
             "_week_start_at": "2013-01-01T00:00:00+00:00",
             "value": "631", 
-            "key": "property_and_financial_paper_applications", 
+            "key": "property_and_financial_paper_applications"
           },
           {
             "_timestamp": "2013-01-01T00:00:00+00:00",
             "_week_start_at": "2013-01-01T00:00:00+00:00",
             "value": "247",
-            "key": "health_and_welfare_paper_applications", 
+            "key": "health_and_welfare_paper_applications"
           },
           {
             "_timestamp": "2013-01-01T00:00:00+00:00",
             "_week_start_at": "2013-01-01T00:00:00+00:00",
             "value": "28",
-            "key": "property_and_financial_digital_applications", 
+            "key": "property_and_financial_digital_applications"
           },
           {
             "_timestamp": "2013-01-01T00:00:00+00:00",
             "_week_start_at": "2013-01-01T00:00:00+00:00",
             "value": "94", 
-            "key": "health_and_welfare_digital_applications", 
+            "key": "health_and_welfare_digital_applications"
           },
           {
             "_timestamp": "2013-01-01T00:00:00+00:00",
             "_week_start_at": "2013-01-01T00:00:00+00:00",
             "value": "77", 
-            "key": "property_and_financial_digital_applications_perfect", 
+            "key": "property_and_financial_digital_applications_perfect"
           },
           {
             "_timestamp": "2013-01-02T00:00:00+00:00",
             "_week_start_at": "2013-01-01T00:00:00+00:00",
             "value": "631", 
-            "key": "property_and_financial_paper_applications", 
+            "key": "property_and_financial_paper_applications"
           },
           {
             "_timestamp": "2013-01-02T00:00:00+00:00",
             "_week_start_at": "2013-01-01T00:00:00+00:00",
             "value": "247",
-            "key": "health_and_welfare_paper_applications", 
+            "key": "health_and_welfare_paper_applications"
           },
           {
             "_timestamp": "2013-01-02T00:00:00+00:00",
             "_week_start_at": "2013-01-01T00:00:00+00:00",
             "value": "28",
-            "key": "property_and_financial_digital_applications", 
+            "key": "property_and_financial_digital_applications"
           },
           {
             "_timestamp": "2013-01-02T00:00:00+00:00",
             "_week_start_at": "2013-01-01T00:00:00+00:00",
             "value": "94", 
-            "key": "health_and_welfare_digital_applications", 
+            "key": "health_and_welfare_digital_applications"
           },
           {
             "_timestamp": "2013-01-02T00:00:00+00:00",
             "_week_start_at": "2013-01-01T00:00:00+00:00",
             "value": "77", 
-            "key": "property_and_financial_digital_applications_perfect", 
+            "key": "property_and_financial_digital_applications_perfect"
           }
         ]
       };

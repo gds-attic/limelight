@@ -2,7 +2,7 @@ define([
   'fco/controllers/conversion-module',
   'fco/controllers/realtime-module',
   'fco/controllers/volumetrics-module',
-  'common/controllers/availability-module',
+  'common/controllers/availability-module'
 ], function (conversionModule, realtimeModule,
              volumetricsModule, availabilityModule) {
   return function () {

@@ -122,7 +122,7 @@ function (Table, Collection, Model) {
           columns: [
             {
               id: 'foo',
-              title: 'Foo Title',
+              title: 'Foo Title'
             },
             {
               id: 'bar',
@@ -174,7 +174,7 @@ function (Table, Collection, Model) {
           columns: [
             {
               id: 'foo',
-              title: 'Foo Title',
+              title: 'Foo Title'
             },
             {
               id: 'bar',

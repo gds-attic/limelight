@@ -110,7 +110,7 @@ function (Component, Pivot) {
       ].join(''));
       
       el.empty().append(header, body);
-    },
+    }
   });
 
   _.extend(Callout.prototype, Pivot);

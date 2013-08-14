@@ -120,7 +120,7 @@ function (require, Line, Component) {
       };
 
       this.selectItem(selectedGroupIndex, selectedItemIndex, e.toggle);
-    },
+    }
   });
 
   return Stack;

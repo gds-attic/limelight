@@ -31,7 +31,7 @@ function (Line, Collection) {
         selectedGroup: collection.at(0),
         selectedGroupIndex: 0,
         selectedModel: { a: 1 },
-        selectedModelIndex: 2,
+        selectedModelIndex: 2
       });
       spyOn(Line.prototype, "onChangeSelected");
     });

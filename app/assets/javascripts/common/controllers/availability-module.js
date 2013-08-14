@@ -12,6 +12,12 @@ function (GraphCollection, AvailabilityCollection,
           ResponseTimeNumber, ResponseTimeGraph) {
 
   return function (serviceName, locator) {
+
+    if ($('.lte-ie8').length) {
+      // do not attempt to show graphs in legacy IE
+      return;
+    }
+
     locator = locator || '#availability'
     var moduleEl = $(locator);
     if (!moduleEl.length) {

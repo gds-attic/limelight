@@ -33,14 +33,14 @@
 %>
 <%= content_tag :div, id: "wrapper", data: data do %>
 
-  <section id="content" class="group">
+  <main id="content" class="group">
     <div class="performance-platform-outer">
         <%= render :partial => "navigation" rescue nil %>
       <%= yield %>
     </div>
 
     <div id="report-a-problem"></div>
-  </section>
+  </main>
 <% end %>
 
 <%= javascript_include_tag 'vendor/require', data: { main: requirejs_main_path } %>

@@ -266,7 +266,7 @@ function (require, View, d3, XAxis, YAxis, Line, Stack, LineLabel, Hover, Callou
           xScale.domain([0, total.length - 1]);
           xScale.range([0, this.innerWidth]);
           return xScale;
-        },
+        }
       },
 
 
