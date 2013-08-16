@@ -19,7 +19,7 @@
     {
       "_count": 7,
       "_end_at": "2013-07-22T00:00:00+00:00",
-      "_start_at": "2013-07-15T00:00:00+00:00"
+      "_start_at": "2013-07-15T00:00:00+00:00",
       "successful_agent:sum": 9388,
       "successful_ivr:sum": 174422,
       "successful_web:sum": 818559

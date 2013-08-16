@@ -13,7 +13,8 @@
     "common/preprocessors/module_touch_actions",
     "common/preprocessors/partial_experience_warning",
     "lpa/controllers/overview",
-    "vehicle-excise-duty/controllers/overview"
+    "vehicle-licensing/controllers/overview",
+    "vehicle-licensing/controllers/vehicle-licensing-service"
   ],
 
   out: "production.js",

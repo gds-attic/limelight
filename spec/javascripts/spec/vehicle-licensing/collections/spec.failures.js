@@ -1,9 +1,9 @@
 define([
-  'vehicle-excise-duty/collections/failures',
+  'vehicle-licensing/collections/failures',
   'extensions/models/query'
 ],
 function (Collection, Query) {
-  describe("Vehicle Excise Duty Failures Collection", function () {
+  describe("Vehicle Licensing Failures Collection", function () {
 
     describe("queryParams", function () {
 

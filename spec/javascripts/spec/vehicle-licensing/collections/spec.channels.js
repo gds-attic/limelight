@@ -1,8 +1,8 @@
 define([
-  'vehicle-excise-duty/collections/channels'
+  'vehicle-licensing/collections/channels'
 ],
 function (Channels) {
-  describe("Vehicle Excise Duty Channels Collection", function () {
+  describe("Vehicle Licensing Channels Collection", function () {
     describe("parse", function () {
       it("parses response into three separate series", function () {
         var response = {

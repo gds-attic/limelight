@@ -5,8 +5,8 @@ class FixtureLoader
 
   def load(file_name)
     begin
-      JSON.parse(File.read(dir_path() + file_name))
-    rescue
+      JSON.parse(File.read(File.join(dir_path, file_name)))
+    rescue Errno::ENOENT => e
       p "Unable to find file #{file_name}"
       nil
     end

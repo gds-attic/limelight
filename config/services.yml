@@ -1,8 +1,8 @@
 dashboards:
   - slug: licensing
     name: Licensing
-  - slug: vehicle-excise-duty
-    name: Vehicle excise duty
+  - slug: vehicle-licensing
+    name: Vehicle licensing
     feature_toggle: evl_dashboard
   - slug: hmrc
     name: HMRC
@@ -29,3 +29,9 @@ dashboards:
   - slug: deposit-foreign-marriage
     name: Deposit foreign marriage or civil partnership certificates
     feature_toggle: fco_dashboards
+  - slug: sorn
+    name: SORN
+    feature-toggle: evl_dashboard
+  - slug: tax-disc
+    name: Tax Disc
+    feature_toggle: evl_dashboard

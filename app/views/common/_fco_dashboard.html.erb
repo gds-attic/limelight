@@ -5,15 +5,7 @@
 	"service-name" => params[:slug],
 } %>
 
-<header>
-  <h1>
-      <span class="strapline">Service performance</span>
-      <%= transaction_title %>
-  </h1>
-  <% if explanatory_copy %>
-    <p class="explanatory"><%= explanatory_copy %></p>
-  <% end %>
-</header>
+<%= render(partial: "common/copy/dashboard_header", locals: {title: transaction_title, copy: explanatory_copy}) %>
 
 <% if Rails.application.config.feature_toggles[:show_fco_visitors_realtime] %>
   <section>

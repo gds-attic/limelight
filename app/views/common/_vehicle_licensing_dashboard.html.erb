@@ -1,0 +1,14 @@
+<% content_for :title do %><%= transaction_title %> - Vehicle licensing - Service performance - GOV.UK<% end %>
+
+<% @js_config = {
+    "controller" => "vehicle-licensing/controllers/vehicle-licensing-service",
+    "service-name" => params[:slug],
+} %>
+
+<%= render(partial: "common/copy/dashboard_header", locals: {title: transaction_title, copy: explanatory_copy}) %>
+
+<%= render(partial: "vehicle-licensing/failures", locals: {title: "#{transaction_title} application failures", id: "#{params[:slug]}-failures"}) %>
+
+<% if Rails.application.config.feature_toggles[:evl_availability_modules] %>
+    <%= render(partial: "common/modules/availability", locals: {title: "#{transaction_title} service availability", id: "#{params[:slug]}-availability"}) %>
+<% end %>

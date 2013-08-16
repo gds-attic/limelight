@@ -4,7 +4,7 @@ define([
 function (GraphCollection) {
   var Services = GraphCollection.extend({
 
-    serviceName: 'vehicle-excise-duty',
+    serviceName: 'vehicle-licensing',
     apiName: 'services',
 
     seriesList: [
