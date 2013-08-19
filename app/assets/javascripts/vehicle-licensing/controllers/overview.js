@@ -8,14 +8,14 @@ define([
 
   return function () {
 
-    var servicesCollection = new ServicesCollection();
+    var servicesCollection = new ServicesCollection([], {});
     var servicesGraph = new TimeseriesGraph({
       el: $('#vehicle-licensing-services'),
       collection: servicesCollection
     });
     servicesCollection.fetch();
     
-    var channelsCollection = new ChannelsCollection();
+    var channelsCollection = new ChannelsCollection([], {});
     var channelsGraph = new TimeseriesGraph({
       el: $('#vehicle-licensing-channels'),
       collection: channelsCollection

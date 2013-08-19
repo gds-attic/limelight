@@ -6,15 +6,21 @@ function (GraphCollection) {
 
     serviceName: 'vehicle-licensing',
     apiName: 'services',
+    defaultPeriod: 'week',
 
-    seriesList: [
+    baseSeriesList: [
       { id: 'successful_sorn', title: 'SORN' },
       { id: 'successful_tax_disc', title: 'Tax-disc' }
     ],
 
+    initialize: function (model, options) {
+      this.seriesList = options.seriesList || this.baseSeriesList;
+      GraphCollection.prototype.initialize.apply(this, arguments);
+    },
+
     queryParams: function () {
       return {
-        period: 'week',
+        period: this.defaultPeriod,
         collect: _.map(this.seriesList, function (s) {
           return s.id + ':sum';
         })

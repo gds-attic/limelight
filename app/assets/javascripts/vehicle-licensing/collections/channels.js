@@ -7,7 +7,7 @@ function (require, Services) {
 
     apiName: 'channels',
 
-    seriesList: [
+    baseSeriesList: [
       { id: 'successful_agent', title: 'Agent' },
       { id: 'successful_ivr', title: 'IVR' },
       { id: 'successful_web', title: 'Web' }
