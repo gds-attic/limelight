@@ -33,5 +33,5 @@ dashboards:
     name: SORN
     feature-toggle: evl_dashboard
   - slug: tax-disc
-    name: Tax Disc
+    name: Tax disc
     feature_toggle: evl_dashboard

@@ -6,8 +6,13 @@ define([
 ],
   function (ServicesCollection, TimeseriesGraph, Tabs, Headline) {
     return function (selector, id, type) {
+      var serviceName = {
+        'sorn': 'SORN',
+        'tax-disc': 'Tax disc'
+      };
+
       var serviceCollection = new ServicesCollection([], {
-        seriesList: [{ id: id, title: type }]
+        seriesList: [{ id: id, title: serviceName[type] }]
       });
       serviceCollection.query.set('period', 'week');
       serviceCollection.fetch();
@@ -31,7 +36,7 @@ define([
       var headline = new Headline({
         el: $(selector + '-headline'),
         model: serviceCollection.query,
-        prefix: 'Applications submissions'
+        prefix: 'Applications'
       });
       headline.render();
     };

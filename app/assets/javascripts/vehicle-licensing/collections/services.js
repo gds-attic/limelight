@@ -10,7 +10,7 @@ function (GraphCollection) {
 
     baseSeriesList: [
       { id: 'successful_sorn', title: 'SORN' },
-      { id: 'successful_tax_disc', title: 'Tax-disc' }
+      { id: 'successful_tax_disc', title: 'Tax disc' }
     ],
 
     initialize: function (model, options) {
