@@ -240,6 +240,27 @@ function (View, Backbone) {
       });
     });
 
+    describe("formatPercentage", function () {
+      var format = View.prototype.formatPercentage;
+
+      it("formats a number as percentage string with no decimals", function () {
+        expect(format(0.011)).toEqual('1%');
+        expect(format(1)).toEqual('100%');
+      });
+
+      it("formats a number as percentage string with set number of decimals", function () {
+        expect(format(0.011, 2)).toEqual('1.10%');
+        expect(format(1, 2)).toEqual('100.00%');
+      });
+
+      it("does not try to format invalid inputs", function () {
+        expect(format(null)).toBe(null);
+        expect(format(undefined)).toBe(undefined);
+        expect(isNaN(format(NaN))).toBe(true);
+        expect(format('foo')).toBe('foo');
+      });
+    });
+
     describe("prop", function() {
       it("retrieves an object property", function() {
         var view = new View();

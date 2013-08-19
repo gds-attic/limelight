@@ -34,6 +34,20 @@ function (Query) {
         expect(query.get('duration')).not.toBeDefined();
       });
       
+      it("sets start and end date for 'month' period a number of periods ago", function () {
+        var query = new Query({
+          foo: 'bar',
+          period: 'month',
+          duration: 1,
+          ago: 1
+        });
+        expect(query.get('foo')).toEqual('bar');
+        expect(query.get('period')).toEqual('month');
+        expect(query.get('end_at').format()).toEqual('2013-04-01T00:00:00+00:00');
+        expect(query.get('start_at').format()).toEqual('2013-03-01T00:00:00+00:00');
+        expect(query.get('duration')).not.toBeDefined();
+      });
+      
       it("sets start and end date for 'month' period using object syntax", function () {
         var query = new Query({
           a: 'b'

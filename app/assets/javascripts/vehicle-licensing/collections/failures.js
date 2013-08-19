@@ -1,37 +1,49 @@
 define([
-  'extensions/collections/collection'
+  'require',
+  'extensions/collections/collection',
+  './failures-week'
 ],
-function (Collection) {
+function (require, Collection, FailuresWeek) {
   var Failures = Collection.extend({
-
-    serviceName: 'vehicle-licensing',
-    apiName: 'failures',
-
-    queryParams: function () {
-      var params = {
-        period: 'week',
-        duration: 1,
-        group_by: 'reason',
-        collect: [
-          'count:sum',
-          'description'
-        ]
-      };
-      if (this.options.type) {
-        _.extend(params, {
-          filter_by: 'type:' + this.options.type
-        });
-      }
-      return params;
-    },
-
-    parse: function (response) {
-      return _.map(response.data, function (d) {
-        return {
-          count: d['count:sum'],
-          description: d.description[0]
+    collections: [
+      {
+        collection: FailuresWeek,
+        options: {
+          ago: 0
         }
+      },
+      {
+        collection: FailuresWeek,
+        options: {
+          ago: 1
+        }
+      }
+    ],
+
+    parse: function () {
+      var last = this.collectionInstances[0];
+      var previous = this.collectionInstances[1];
+
+      var previousByReason = {};
+      previous.each(function (model) {
+        previousByReason[model.get('reason')] = model;
       });
+
+      var totalCount = last.reduce(function (memo, model) {
+        return memo + (model.get('count') || 0);
+      }, 0);
+
+      var res = last.map(function (model) {
+        var modelPrevious = previousByReason[model.get('reason')]
+        model.set({
+          change: modelPrevious ? model.get('count') - modelPrevious.get('count') : null,
+          fraction: model.get('count') / totalCount
+        });
+
+        return model.attributes;
+      });
+
+      return res;
     }
   });
 

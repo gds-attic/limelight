@@ -1,4 +1,4 @@
-  define([
+define([
     'backbone',
     'moment'
 ],
@@ -130,6 +130,14 @@ function (Backbone, moment) {
           }
         }
         return roundedValue.toString();
+      },
+
+      formatPercentage: function (fraction, numDecimals) {
+        if (isNaN(fraction) || !_.isNumber(fraction)) {
+          return fraction;
+        }
+        numDecimals = numDecimals || 0;
+        return (100 * fraction).toFixed(numDecimals) + '%';
       },
       
       /**

@@ -13,9 +13,24 @@
   }
   
   .failures-table {
-      th.count,
-      td.count {
-          width: 13em;
-      }
+
+    th, td {
+      white-space: normal;
+    }
+    
+    th.count,
+    td.count {
+      width: 9em;
+    }
+
+    th.fraction,
+    td.fraction {
+      width: 9em;
+    }
+
+    th.change,
+    td.change {
+      width: 10em;
+    }
   }
 }
