@@ -8,8 +8,7 @@
 
 
 
-<%= render(partial: "common/modules/volumetrics", locals: {title: "#{transaction_title} applications",
-                                                           description: "#{transaction_title} applications per week broken down by service over the last 9 weeks",
+<%= render(partial: "common/modules/volumetrics", locals: {title: "#{transaction_title} applications", description: "",
                                                            id: "#{params[:slug]}-volumes"}) %>
 
 <%= render(partial: "vehicle-licensing/failures", locals: {title: "#{transaction_title} application failures", id: "#{params[:slug]}-failures"}) %>
