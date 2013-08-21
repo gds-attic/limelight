@@ -10,17 +10,20 @@ function (GraphCollection, MultiConversionCollection,
 
   return function (serviceName) {
 
+    if ($('.lte-ie8').length) {
+      // do not attempt to show graphs in legacy IE
+      return;
+    }
+
     var conversionCollection = new MultiConversionCollection(null, {
       conversionCollection: ConversionCollection,
       serviceName: serviceName
     });
 
-    if (!$('.lte-ie8').length) {
-      var conversionGraph = new ConversionGraph({
-        el:$('#applications-conversion-graph'),
-        collection:conversionCollection
-      });
-    }
+    var conversionGraph = new ConversionGraph({
+      el:$('#applications-conversion-graph'),
+      collection:conversionCollection
+    });
 
     conversionCollection.fetch();
   };

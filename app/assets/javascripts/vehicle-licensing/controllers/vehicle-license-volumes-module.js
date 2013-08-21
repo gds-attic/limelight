@@ -6,6 +6,11 @@ define([
 ],
   function (ServicesCollection, TimeseriesGraph, Tabs, Headline) {
     return function (selector, id, type) {
+      if ($('.lte-ie8').length) {
+        // do not attempt to show graphs in legacy IE
+        return;
+      }
+
       var serviceName = {
         'sorn': 'SORN',
         'tax-disc': 'Tax disc'

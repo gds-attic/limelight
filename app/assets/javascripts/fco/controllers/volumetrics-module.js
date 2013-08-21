@@ -11,6 +11,11 @@ function (GraphCollection, VolumetricsCollection,
   VolumetricsCompletionGraph, VolumetricsCompletionNumberView) {
 
   return function (serviceName) {
+    if ($('.lte-ie8').length) {
+      // do not attempt to show graphs in legacy IE
+      return;
+    }
+
     var volumetricsCollection = new VolumetricsCollection([], {
       serviceName: serviceName
     });
