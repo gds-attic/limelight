@@ -1,3 +1,5 @@
+@import 'colours';
+
 article {
     th, td {
         font-family: ntatabularnumbers, nta, Arial, sans-serif;
@@ -110,20 +112,20 @@ article table {
 
     td {
 
-        .increase:before,
-        .decrease:before {
+        .increase:after,
+        .decrease:after {
             display: inline-block;
-            padding-right:0.2em;
+            padding-left: 0.2em;
         }
 
-        .increase:before {
+        .increase:after {
             content: "\25B2";
-            color: rgb(226, 44, 57);
+            color: $negative-colour;
         }
 
-        .decrease:before {
+        .decrease:after {
             content: "\25BC";
-            color: rgb(114, 185, 80);
+            color: $positive-colour;
         }
 
         &:last-child {

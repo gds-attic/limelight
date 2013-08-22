@@ -44,16 +44,10 @@ module ApplicationHelper
   end
 
   def current_main_navigation_path(parameters)
-    case parameters[:controller]
-    when "common"
-      if parameters[:action] == 'services'
-        services_path
-      end
-    when "fco"
-      services_path
-    when "licensing"
-      services_path
-    end
+    # Currently, everything in Limelight lives under the "Services" main nav
+    # item. As we add datainsight-frontend in, this method will need to get
+    # smarter.
+    services_path
   end
 
 end

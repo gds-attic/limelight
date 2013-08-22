@@ -19,7 +19,7 @@ define([
       var serviceCollection = new ServicesCollection([], {
         seriesList: [{ id: id, title: serviceName[type] }]
       });
-      serviceCollection.query.set('period', 'week');
+      serviceCollection.query.set('period', 'month');
       serviceCollection.fetch();
 
       new TimeseriesGraph({
