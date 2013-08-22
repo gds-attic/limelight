@@ -22,3 +22,9 @@ Feature: Tax disc dashboard
     Then I should see the module "Service availability"
      And the module should display an uptime of 85.0%
      And the module should display a response time of 150ms
+
+  Scenario: looking for live users
+    Given The tax-disc realtime bucket returns the response in "licensing_realtime.json"
+    When I go to /performance/tax-disc
+    Then I should see the module "Live service usage"
+    And the tax-disc realtime module should display a user count of 11

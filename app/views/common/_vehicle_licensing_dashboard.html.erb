@@ -6,6 +6,21 @@
 } %>
 <%= render(partial: "common/copy/dashboard_header", locals: {title: transaction_title, copy: explanatory_copy}) %>
 
+<section>
+  <h1>Live service usage</h1>
+  <ul class="module-actions">
+    <li class="info">
+      <div>
+        <p>Data source: Google Analytics</p>
+        <p>Shows estimated number of users currently accessing licensing pages.</p>
+      </div>
+    </li>
+  </ul>
+  <h2>Users actively browsing licensing pages now</h2>
+  <div id="<%= "#{params[:slug]}-realtime" %>"></div>
+</section>
+
+
 <%= render(partial: "common/modules/volumetrics", locals: {title: "Applications", description: "",
                                                            id: "#{params[:slug]}-volumes"}) %>
 

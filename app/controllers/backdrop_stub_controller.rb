@@ -16,7 +16,9 @@ class BackdropStubController < ApplicationController
           StubConfig.new({'service' => 'lasting-power-of-attorney'}, 'lpa_volumes.json'),
           StubConfig.new({'service' => 'vehicle-licensing', 'api_name' => 'failures'}, 'vehicle_licensing_failures.json'),
           StubConfig.new({'service' => 'vehicle-licensing', 'api_name' => 'services'}, 'vehicle_licensing_services.json'),
-          StubConfig.new({'service' => 'vehicle-licensing', 'api_name' => 'channels'}, 'vehicle_licensing_channels.json')
+          StubConfig.new({'service' => 'vehicle-licensing', 'api_name' => 'channels'}, 'vehicle_licensing_channels.json'),
+          StubConfig.new({'service' => 'register-sorn-statutory-off-road-notification', 'api_name' => 'realtime'}, 'licensing_realtime.json'),
+          StubConfig.new({'service' => 'tax-disc', 'api_name' => 'realtime'}, 'licensing_realtime.json')
       ])
 
   def serve_fixture
