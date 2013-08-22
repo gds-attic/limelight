@@ -30,7 +30,7 @@ dashboards:
     name: Deposit foreign marriage or civil partnership certificates
     feature_toggle: fco_dashboards
   - slug: sorn
-    name: SORN
+    name: SORN (Statutory Off Road Notification)
     feature-toggle: evl_dashboard
   - slug: tax-disc
     name: Tax disc

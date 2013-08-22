@@ -6,13 +6,11 @@
 } %>
 <%= render(partial: "common/copy/dashboard_header", locals: {title: transaction_title, copy: explanatory_copy}) %>
 
-
-
-<%= render(partial: "common/modules/volumetrics", locals: {title: "#{transaction_title} applications", description: "",
+<%= render(partial: "common/modules/volumetrics", locals: {title: "Applications", description: "",
                                                            id: "#{params[:slug]}-volumes"}) %>
 
-<%= render(partial: "vehicle-licensing/failures", locals: {title: "#{transaction_title} application failures", id: "#{params[:slug]}-failures"}) %>
+<%= render(partial: "vehicle-licensing/failures", locals: {title: "Application failures", id: "#{params[:slug]}-failures"}) %>
 
 <% if Rails.application.config.feature_toggles[:evl_availability_modules] %>
-    <%= render(partial: "common/modules/availability", locals: {title: "#{transaction_title} service availability", id: "#{params[:slug]}-availability"}) %>
+    <%= render(partial: "common/modules/availability", locals: {title: "Service availability", id: "#{params[:slug]}-availability"}) %>
 <% end %>
