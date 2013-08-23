@@ -16,6 +16,14 @@ module ApplicationHelper
     trim_leading_slash(trim_extension(remove_requirejs_base_url(asset_path(asset))))
   end
 
+  def service_name
+    if Limelight::Application.config.available_services.key? params[:slug]
+      params[:slug]
+    else
+      nil
+    end
+  end
+
   private
 
   def folder_name(path)
@@ -33,7 +41,6 @@ module ApplicationHelper
   def remove_requirejs_base_url(asset_path)
     asset_path.gsub(requirejs_base_url, '')
   end
-
 
   def main_navigation_link_to(name, path, html_options = {}, &block)
     classes = (html_options[:class] || "").split

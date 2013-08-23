@@ -32,7 +32,7 @@ dashboards:
     feature_toggle: fco_dashboards
   - slug: sorn
     name: SORN (Statutory Off Road Notification)
-    feature-toggle: evl_dashboard
+    feature_toggle: evl_dashboard
   - slug: tax-disc
     name: Tax disc
     feature_toggle: evl_dashboard

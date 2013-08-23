@@ -11,9 +11,8 @@ class LicensingController < ApplicationController
   end
 
   def per_licence
-    slug = params[:slug]
     begin
-      @licence = Licence.from_backdrop_response(backdrop_api.get_licence(slug))
+      @licence = Licence.from_backdrop_response(backdrop_api.get_licence(service_name))
     rescue Exception => e
       raise ActionController::RoutingError.new('Licence not found.')
     end
@@ -26,9 +25,8 @@ class LicensingController < ApplicationController
   end
 
   def per_authority
-    slug = params[:slug]
     begin
-      @authority = Authority.from_backdrop_response(backdrop_api.get_authority(slug))
+      @authority = Authority.from_backdrop_response(backdrop_api.get_authority(service_name))
     rescue Exception => e
       raise ActionController::RoutingError.new('Authority not found')
     end

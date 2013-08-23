@@ -2,7 +2,7 @@
 
 <% @js_config = {
 	"controller"   => "fco/controllers/overview",
-	"service-name" => params[:slug],
+	"service-name" => service_name,
 } %>
 
 <%= render(partial: "common/copy/dashboard_header", locals: {title: transaction_title, copy: explanatory_copy}) %>

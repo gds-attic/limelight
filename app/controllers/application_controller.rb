@@ -33,4 +33,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def service_name
+    if Limelight::Application.config.available_services.key? params[:slug]
+      params[:slug]
+    else
+      nil
+    end
+  end
+
 end
