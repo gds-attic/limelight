@@ -51,9 +51,13 @@
         &.square4 { stroke: darken($data-colour-5, 10%); }
         &.square5 { stroke: darken($data-colour-6, 10%); }
       }
-      
     }
-    
+  }
+
+  .label-link {
+    position: absolute;
+    z-index:100;
+    cursor:pointer;
   }
 
   .x-axis line {

@@ -1,0 +1,13 @@
+<nav class="performance-nav">
+  <ul>
+    <li>
+      <%= link_to("vehicle-licensing", class: ('active' if params[:slug] == 'vehicle-licensing')) do %>Vehicle licensing<% end %>
+    </li>
+    <li>
+      <%= link_to('tax-disc', class: ('active' if params[:slug] == 'tax-disc')) do %>Tax disc<% end %>
+    </li>
+    <li>
+      <%= link_to('sorn', class: ('active' if params[:slug] == 'sorn')) do %>SORN<% end %>
+    </li>
+  </ul>
+</nav>

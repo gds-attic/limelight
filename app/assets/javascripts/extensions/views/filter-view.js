@@ -8,36 +8,11 @@ function (View) {
       options = options || {};
       View.prototype.initialize.apply(this, arguments);
       this.id = options.id || 'filter';
-      this.collection.filtered.on('reset', this.hideShowElements, this);
     },
     
     events: {
       'keydown input': 'onKeyDown',
       'keyup input': 'onKeyUp'
-    },
-    
-    hideShowElements: function () {
-      this.collection.each(function (model) {
-        model.get('el').addClass('performance-hidden');
-      });
-      this.collection.filtered.each(function (model) {
-        model.get('el').removeClass('performance-hidden');
-      });
-      
-      // hide groups that have no visible children
-      this.listEl.find('dd, dt').removeClass('performance-hidden');
-      this.listEl.find('dd').each(function (i, dd) {
-        var $dd = $(dd);
-        if (!$dd.find('li:not(.performance-hidden)').length) {
-          // no children visible, hide group too
-          $dd.addClass('performance-hidden');
-          $dd.prev('dt').addClass('performance-hidden');
-        }
-      });
-      
-      if (this.countEl) {
-        this.countEl.text(this.collection.filtered.length);
-      }
     },
     
     onKeyDown: function (e) {
@@ -57,7 +32,7 @@ function (View) {
         term = '';
       }
       
-      this.collection.applyFilter(term);
+      this.model.set('term', term);
     },
     
     render: function () {

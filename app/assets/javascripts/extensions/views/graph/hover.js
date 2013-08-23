@@ -1,15 +1,12 @@
 define([
-  'extensions/views/graph/component',
-  'modernizr'
+  'extensions/views/graph/component'
 ],
-function (Component, Modernizr) {
+function (Component) {
   
   /**
    * Graph component that intercepts and normalises user interaction events
    */
   var Hover = Component.extend({
-    
-    modernizr: Modernizr,
     
     events: function () {
       if (this.modernizr.touch) {

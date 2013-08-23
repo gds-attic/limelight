@@ -2,21 +2,15 @@
   <ul>
     <li>
       <% overviewClassName = 'active' if controller.action_name == 'index' %>
-      <%= link_to({action: 'index'}, class: overviewClassName ) do %>
-        Licensing overview
-    <% end %>
+      <%= link_to({action: 'index'}, class: overviewClassName ) do %>Licensing overview<% end %>
     </li>
     <li>
       <% authoritiesClassName = 'active' if ['authorities', 'per_authority'].include? controller.action_name %>
-      <%= link_to({action: 'authorities'}, class: authoritiesClassName ) do %>
-        Authorities
-      <% end %>
+      <%= link_to({action: 'authorities'}, class: authoritiesClassName ) do %>Authorities<% end %>
     </li>
     <li>
       <% licencesClassName = 'active' if ['licences', 'per_licence'].include? controller.action_name %>
-      <%= link_to({action: 'licences'}, class: licencesClassName ) do %>
-        Licences
-      <% end %>
+      <%= link_to({action: 'licences'}, class: licencesClassName ) do %>Licences<% end %>
     </li>
   </ul>
 </nav>

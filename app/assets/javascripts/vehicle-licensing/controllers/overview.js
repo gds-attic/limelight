@@ -12,7 +12,8 @@ define([
       var servicesCollection = new ServicesCollection([], {});
       var servicesGraph = new TimeseriesGraph({
         el: $('#vehicle-licensing-services'),
-        collection: servicesCollection
+        collection: servicesCollection,
+        lineLabelLinks: true
       });
       servicesCollection.fetch();
       
@@ -23,5 +24,6 @@ define([
       });
       channelsCollection.fetch();
     }
+
   };
 });

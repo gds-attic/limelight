@@ -19,3 +19,6 @@ public/*
 
 .idea
 app/assets/javascripts/production.js
+
+*.swp
+*.swo

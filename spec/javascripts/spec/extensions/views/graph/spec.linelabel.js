@@ -10,8 +10,8 @@ function (LineLabel, Collection) {
       var el, wrapper, lineLabel, collection;
       beforeEach(function() {
         collection = new Collection([
-          { y: 30, yLabel: 30, title: 'Title 1', id: 'id1' },
-          { y: 80, yLabel: 80, title: 'Title 2', id: 'id2' }
+          { y: 30, yLabel: 30, title: 'Title 1', id: 'id1', href: '/link1' },
+          { y: 80, yLabel: 80, title: 'Title 2', id: 'id2', href: '/link2' }
         ]);
 
         el = $('<div></div>').appendTo($('body'));
@@ -36,8 +36,8 @@ function (LineLabel, Collection) {
           left: 400
         };
         lineLabel.positions = [
-          { ideal: 30, min: 30 },
-          { ideal: 80, min: 80 }
+          { ideal: 30, min: 30, size: 20 },
+          { ideal: 80, min: 80, size: 30 }
         ];
         spyOn(lineLabel, "setLabelPositions");
       });
@@ -86,11 +86,97 @@ function (LineLabel, Collection) {
           expect(label2.select('text').text()).toEqual('Title 2');
           expect(label2.select('rect').attr('class')).toMatch('id2');
           expect(label2.select('rect').attr('class')).toMatch('square1');
-          expect(label1.select('rect').attr('x')).toEqual('0');
-          expect(label1.select('rect').attr('y')).toEqual('-10');
-          expect(label1.select('rect').attr('width')).toEqual('20');
-          expect(label1.select('rect').attr('height')).toEqual('20');
+          expect(label2.select('rect').attr('x')).toEqual('0');
+          expect(label2.select('rect').attr('y')).toEqual('-10');
+          expect(label2.select('rect').attr('width')).toEqual('20');
+          expect(label2.select('rect').attr('height')).toEqual('20');
         });
+
+        it("does not render links by default", function () {
+          lineLabel.render();
+          expect(lineLabel.$el.find('.label-link').length).toEqual(0);
+        });
+
+        it("renders links at the correct position when enabled", function () {
+          lineLabel.attachLinks = true;
+          lineLabel.render();
+          var links = lineLabel.$el.find('.label-link');
+          expect(links.length).toEqual(2);
+
+          expect(links.eq(0).prop('style').top).toEqual('130px');
+          expect(links.eq(0).prop('style').height).toEqual('20px');
+          expect(links.eq(0).prop('style').left).toEqual('800px');
+          expect(links.eq(0).prop('style').width).toEqual('200px');
+          expect(links.eq(0).attr('href')).toEqual('/link1');
+
+          expect(links.eq(1).prop('style').top).toEqual('180px');
+          expect(links.eq(1).prop('style').height).toEqual('30px');
+          expect(links.eq(1).prop('style').left).toEqual('800px');
+          expect(links.eq(1).prop('style').width).toEqual('200px');
+          expect(links.eq(1).attr('href')).toEqual('/link2');
+        });
+      });
+
+      describe("event handling", function () {
+        var el, wrapper, lineLabel, collection, options;
+        beforeEach(function() {
+          collection = new Collection([
+            { y: 30, yLabel: 30, title: 'Title 1', id: 'id1', href: '/link1' },
+            { y: 80, yLabel: 80, title: 'Title 2', id: 'id2', href: '/link2' }
+          ]);
+
+          el = $('<div></div>').appendTo($('body'));
+          wrapper = LineLabel.prototype.d3.select(el[0]).append('svg').append('g');
+          options = {
+            wrapper: wrapper,
+            collection: collection,
+            interactive: false,
+            attachLinks: true,
+            graph: {
+              innerWidth: 400
+            },
+            margin: {
+              top: 100,
+              right: 200,
+              bottom: 300,
+              left: 400
+            },
+            positions: [
+              { ideal: 30, min: 30, size: 20 },
+              { ideal: 80, min: 80, size: 30 }
+            ]
+          }
+          spyOn(LineLabel.prototype, "setLabelPositions");
+        });
+
+        afterEach(function() {
+          el.remove();
+        });
+
+        describe("events", function () {
+          it("listens for mousemove events for links on non-touch devices", function () {
+            LineLabel.prototype.modernizr = { touch: false };
+            lineLabel = new LineLabel(options);
+            lineLabel.render();
+            lineLabel.$el.find('.label-link').eq(0).trigger('mousemove');
+            expect(collection.selectedIndex).toBe(0);
+
+            $('body').trigger('mousemove');
+            expect(collection.selectedIndex).toBe(null);
+          });
+
+          it("listens for touchstart events for links on touch devices", function () {
+            LineLabel.prototype.modernizr = { touch: true };
+            lineLabel = new LineLabel(options);
+            lineLabel.render();
+            lineLabel.$el.find('.label-link').eq(1).trigger('touchstart');
+            expect(collection.selectedIndex).toBe(1);
+
+            $('body').trigger('touchstart');
+            expect(collection.selectedIndex).toBe(null);
+          });
+        });
+
       });
 
       describe("onChangeSelected", function () {

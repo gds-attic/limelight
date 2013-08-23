@@ -1,12 +1,14 @@
 define([
     'backbone',
-    'moment'
+    'moment',
+    'modernizr'
 ],
-function (Backbone, moment) {
+function (Backbone, moment, Modernizr) {
     var View = Backbone.View.extend({
       
       moment: moment,
-      
+      modernizr: Modernizr,
+    
       initialize: function (options) {
         _.extend(this, options);
         Backbone.View.prototype.initialize.apply(this, arguments);

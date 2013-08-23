@@ -15,6 +15,12 @@ function (Collection) {
       this.filterAttr = options.filterAttr || 'title';
       this.filtered = new Collection();
       this.on('reset', this.resetFilter, this);
+      if (options.filterTerm){
+        this.filterTerm = options.filterTerm;
+        this.filterTerm.on('change:term', function () {
+          this.applyFilter(this.filterTerm.get('term'));
+        }, this);
+      }
     },
     
     resetFilter: function () {

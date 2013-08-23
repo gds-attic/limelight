@@ -1,11 +1,12 @@
 class Service
-  attr_reader :name, :slug, :excluded_from_list, :toggle
+  attr_reader :name, :slug, :excluded_from_list, :toggle, :is_group
 
   def initialize(service_config)
     @name = service_config["name"]
     @slug = service_config["slug"]
     @excluded_from_list = service_config["excluded_from_list"] || false
     @toggle = service_config["feature_toggle"]
+    @is_group = service_config["is_group"]
   end
 end
 

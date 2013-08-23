@@ -4,6 +4,7 @@ dashboards:
   - slug: vehicle-licensing
     name: Vehicle licensing
     feature_toggle: evl_dashboard
+    is_group: true
   - slug: hmrc
     name: HMRC
     feature_toggle: hmrc_dashboards

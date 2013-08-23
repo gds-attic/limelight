@@ -2,6 +2,7 @@ define([
   'extensions/views/graph/component'
 ],
 function (Component) {
+
   var LineLabel = Component.extend({
     
     offset: 20,
@@ -48,6 +49,65 @@ function (Component) {
       if (this.showSquare) {
         this.updateSquares(selection);
       }
+
+      this.renderLinks();
+    },
+
+    /**
+     * Links are displayed above hover element and intercept events.
+     * Replicates hover functionality for link areas.
+     */
+    events: function () {
+      if (!this.attachLinks) {
+        return;
+      }
+
+      var eventName = this.modernizr.touch ? 'touchstart' : 'mousemove';
+      var events = {};
+      events[eventName + ' .label-link'] = function (e) {
+        var target = $(e.target);
+        var index = target.parent().find('.label-link').index(target);
+        this.collection.selectItem(index);
+
+        if (!this.bodyListener) {
+          this.bodyListener = true;
+          var that = this;
+          $('body').one(eventName, function () {
+            that.bodyListener = false;
+            that.collection.selectItem(null, null);
+          });
+        }
+
+        return false;
+      };
+
+      return events;
+    },
+
+    renderLinks: function () {
+      if (!this.attachLinks) {
+        return;
+      }
+      var wrapper = this.d3.select(this.$el[0]);
+      var selection = wrapper.selectAll('a.label-link')
+        .data(this.collection.models);
+      selection.enter().append('a')
+        .attr('class', 'label-link')
+
+      var positions = this.positions;
+      var that = this;
+      selection
+        .attr('href', function (model, index) {
+          return model.get('href');
+        })
+        .attr('style', function (model, index) {
+          return [
+            'left: ', that.margin.left + that.graph.innerWidth, 'px; ',
+            'width: ', that.margin.right, 'px; ',
+            'top: ', that.margin.top + positions[index].min, 'px; ',
+            'height: ', positions[index].size, 'px; '
+          ].join('')
+        });
     },
 
     /**

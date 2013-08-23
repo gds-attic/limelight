@@ -427,7 +427,7 @@ var requirejs, require, define, xpcUtil;
                 //Defaults. Do not set a default for map
                 //config to speed up normalize(), which
                 //will run faster if there is no default.
-                waitSeconds: 7,
+                waitSeconds: 20,
                 baseUrl: './',
                 paths: {},
                 pkgs: {},

@@ -1,8 +1,9 @@
 define([
   'extensions/collections/filteredcollection',
-  'extensions/collections/collection'
+  'extensions/collections/collection',
+  'extensions/models/model'
 ],
-function (FilteredCollection, Collection) {
+function (FilteredCollection, Collection, Model) {
   describe("initialize", function () {
     it("creates an internal collection for filtered elements", function () {
       var collection = new FilteredCollection([
@@ -24,6 +25,19 @@ function (FilteredCollection, Collection) {
         filterAttr: 'foo'
       });
       expect(collection.filterAttr).toEqual('foo');
+    });
+
+    it("applies filter on change of a passed in term", function() {
+      var model = new Model();
+      var collection = new FilteredCollection([
+        { title: 'AAaa', foo: 'C' },
+        { title: 'BBbb', foo: 'D' },
+        { title: 'aabb', foo: 'E' }
+      ], {filterTerm: model});
+      model.set('term', 'Aa');
+      expect(collection.filtered.length).toEqual(2);
+      expect(collection.filtered.at(0).get('title')).toEqual('AAaa');
+      expect(collection.filtered.at(1).get('title')).toEqual('aabb');
     });
   });
   
