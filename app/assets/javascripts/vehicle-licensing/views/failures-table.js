@@ -44,9 +44,9 @@ function (Table) {
 
           var displayValue = this.formatNumericLabel(Math.abs(change));
           if (change > 0) {
-            return '<span class="increase">+' + displayValue + '</span>';
+            return '<span class="increase decline">+' + displayValue + '</span>';
           } else if (change < 0) {
-            return '<span class="decrease">&minus;' + displayValue + '</span>';
+            return '<span class="decrease improvement">&minus;' + displayValue + '</span>';
           } else {
             return '0';
           }

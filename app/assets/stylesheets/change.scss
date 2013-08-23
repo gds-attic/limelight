@@ -1,0 +1,27 @@
+.increase:before,
+.decrease:before {
+  display: inline-block;
+  padding-right:0.2em;
+}
+
+.increase:before {
+  content: "\25B2";
+}
+
+.decrease:before {
+  content: "\25BC";
+}
+
+.improvement:before {
+  color: rgb(114, 185, 80);
+}
+
+.decline:before {
+  color: rgb(226, 44, 57);
+}
+
+.no-change:before {
+  content: "\25CF";
+  color: silver;
+  margin-right: 5px;
+}

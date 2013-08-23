@@ -4,9 +4,9 @@ define([
   'common/controllers/availability-module',
   './vehicle-license-volumes-module',
   'extensions/collections/visitors-realtime',
-  'extensions/views/visitors-realtime'
-], function (require, failuresModule, availabilityModule, volumesModule, RealtimeCollection, RealtimeView) {
-
+  'extensions/views/visitors-realtime',
+  './customer-satisfaction-module'
+], function (require, failuresModule, availabilityModule, volumesModule, RealtimeCollection, RealtimeView, consumerSatisfactionModule) {
   return function () {
     var service = $('#wrapper').data('service-name'),
         serviceNames = {
@@ -20,6 +20,8 @@ define([
     failuresModule('#' + service + '-failures', service);
 
     availabilityModule(serviceName, '#' + service + '-availability');
+
+    consumerSatisfactionModule("#customer-satisfaction", service);
 
     var updateInterval = 120*1000;
 
@@ -38,6 +40,5 @@ define([
     setInterval(function () {
       realtimeCollection.fetch();
     }, updateInterval);
-
   };
 });

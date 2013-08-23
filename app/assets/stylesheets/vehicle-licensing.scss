@@ -37,3 +37,19 @@
     }
   }
 }
+
+#customer-satisfaction {
+
+  position: relative;
+
+  .previous-month {
+    position: absolute;
+    bottom: 0;
+    left: 16em;
+  }
+
+  .change {
+    font-size: 24px;
+  }
+
+}

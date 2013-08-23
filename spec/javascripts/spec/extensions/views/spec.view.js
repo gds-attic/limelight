@@ -157,6 +157,20 @@ function (View, Backbone) {
         expect(formatNumericLabel(499)).toBe('499');
       });
 
+      it("should display real numbers from 0 to 9.99 with two decimal digits", function() {
+        expect(formatNumericLabel(0.00123)).toBe('0');
+        expect(formatNumericLabel(0.123)).toBe('0.12');
+        expect(formatNumericLabel(1.234)).toBe('1.23');
+        expect(formatNumericLabel(9.994)).toBe('9.99');
+        expect(formatNumericLabel(9.996)).toBe('10');
+      });
+
+      it("should display real numbers from 10 to 99.9 with one decimal digits", function() {
+        expect(formatNumericLabel(12.34)).toBe('12.3');
+        expect(formatNumericLabel(99.94)).toBe('99.9');
+        expect(formatNumericLabel(99.96)).toBe('100');
+      });
+
       it("should display numbers from 500 to 499499 as fractions of 1k", function() {
         expect(formatNumericLabel(500)).toBe('0.50k');
         expect(formatNumericLabel(777)).toBe('0.78k');
@@ -187,6 +201,15 @@ function (View, Backbone) {
         expect(formatNumericLabel(100000000)).toBe('100m');
         expect(formatNumericLabel(234568234)).toBe('235m');
         expect(formatNumericLabel(499499499)).toBe('499m');
+      });
+
+      it("should format negative numbers", function() {
+        expect(formatNumericLabel(-0.001)).toBe('0');
+        expect(formatNumericLabel(-0.123)).toBe('-0.12');
+        expect(formatNumericLabel(-1.234)).toBe('-1.23');
+        expect(formatNumericLabel(-12.34)).toBe('-12.3');
+        expect(formatNumericLabel(-123.4)).toBe('-123');
+        expect(formatNumericLabel(-1234)).toBe('-1.23k');
       });
 
       describe("generative tests", function() {
