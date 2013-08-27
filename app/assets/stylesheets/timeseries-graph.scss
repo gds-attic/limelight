@@ -58,6 +58,9 @@
     position: absolute;
     z-index:100;
     cursor:pointer;
+    &:focus {
+      background-color: transparent;
+    }
   }
 
   .x-axis line {
