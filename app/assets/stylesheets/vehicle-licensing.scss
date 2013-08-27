@@ -16,9 +16,6 @@
 
     th, td {
       white-space: normal;
-      &.numeric {
-        text-align: right;
-      }
     }
 
     th.count,
