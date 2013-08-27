@@ -229,20 +229,25 @@ function (View) {
       var tr = $('<tr></tr>');
 
       var tdString = options.header ? '<th></th>' : '<td></td>';
-
-      var that = this;
+      var iMax = options.columns.length - 1;
       _.each(options.columns, function (column, i) {
         var td = $(tdString);
         td.addClass(column.className || column.id);
+        if (i === 0) {
+          td.addClass('first-child');
+        }
+        if (i === iMax) {
+          td.addClass('last-child');
+        }
 
         var value;
         if (options.allowGetValue && typeof column.getValue === 'function') {
-          value = column.getValue.call(that, model, column); 
+          value = column.getValue.call(this, model, column); 
         } else {
           if (_.isFunction(model.get)) {
             value = model.get(column.id);
           } else if (_.isFunction(model[column.id])) {
-            value = model[column.id].call(that);
+            value = model[column.id].call(this);
           } else {
             value = model[column.id];
           }
@@ -253,10 +258,10 @@ function (View) {
         if (options.header && column.sortable) {
           td.addClass('sortable');
 
-          var currentSortColumn = (column.id === that.collection.sortAttr);
+          var currentSortColumn = (column.id === this.collection.sortAttr);
 
           if (currentSortColumn) {
-            td.addClass(that.collection.sortDescending ? 'descending' : 'ascending');
+            td.addClass(this.collection.sortDescending ? 'descending' : 'ascending');
           }
         }
       }, this);

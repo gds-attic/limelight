@@ -507,6 +507,22 @@ function (Table, Collection, Model) {
         expect(cells.eq(1).html()).toEqual('bar title');
         expect(cells.eq(1).hasClass('barclass')).toBe(true);
       });
+
+      it("adds fallback classes to the first and last element in a body row", function() {
+        var tr = table.renderRow(model);
+        var cells = tr.find('td');
+        expect(cells.eq(0)).toHaveClass('first-child');
+        expect(cells.eq(1)).toHaveClass('last-child');
+      });
+
+      it("adds fallback classes to the first and last element in a header row", function() {
+        var tr = table.renderRow(model, {
+          header: true
+        });
+        var cells = tr.find('th');
+        expect(cells.eq(0)).toHaveClass('first-child');
+        expect(cells.eq(1)).toHaveClass('last-child');
+      });
     });
 
     describe("applyPreventDocumentScroll", function () {

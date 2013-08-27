@@ -40,12 +40,24 @@ article table {
     }
     
     tbody {
+      td.first-child {
+          border-left:0;
+      }
+
       td:first-child {
           border-left:0;
       }
 
+      tr.first-child td {
+          border-top:0;
+      }
+
       tr:first-child td {
           border-top:0;
+      }
+
+      tr.last-child td {
+          border-bottom:0;
       }
 
       tr:last-child td {
@@ -74,6 +86,10 @@ article table {
         &.numeric {
             text-align: right;
         }
+        &.last-child {
+            border-right:0;
+            padding-right: 1em;
+        }
         &:last-child {
             border-right:0;
             padding-right: 1em;
@@ -86,6 +102,10 @@ article table {
         white-space:nowrap;
         word-wrap:break-word;
         
+        &.first-child {
+            border-left:0;
+        }
+
         &:first-child {
             border-left:0;
         }
