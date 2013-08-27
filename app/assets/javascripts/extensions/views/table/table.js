@@ -5,7 +5,7 @@ function (View) {
   var Table = View.extend({
 
     lazyRender: false,
-    preventDocumentScroll: true,
+    preventDocumentScroll: false,
     
     initialize: function (options) {
       options = _.extend({}, options);
