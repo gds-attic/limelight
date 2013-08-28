@@ -1,0 +1,14 @@
+<section class="half-width row-start">
+  <h1><%= title %></h1>
+  <ul class="module-actions">
+    <li class="info">
+      <div>
+        <p>Data source: <%= data_source%></p>
+        <p><%= description %></p>
+        <p>Users on this page have not started the transaction at this point.</p>
+      </div>
+    </li>
+  </ul>
+  <h2>Users currently on the GOV.UK <abbr title="<%=transaction_title%>"><%=transaction_shortname%></abbr> start page</h2>
+  <div id="<%= "#{service_name}-realtime" %>"></div>
+</section>

@@ -39,5 +39,5 @@ Feature: Tax disc dashboard
   Scenario: looking for live users
     Given The tax-disc realtime bucket returns the response in "licensing_realtime.json"
     When I go to /performance/tax-disc
-    Then I should see the module "Live service usage"
+    Then I should see the module "Users on start page"
     And the tax-disc realtime module should display a user count of 11

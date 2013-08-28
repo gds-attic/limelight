@@ -1,12 +1,14 @@
 <% id ||= "volumetrics" %>
 <% title ||= "Service Volumetrics" %>
 <% description ||= "Service Volumetrics by week" %>
+<% info_text ||= "The number of successful applications for a #{transaction_shortname}." %>
 <section class="graph">
   <h1><%= title %></h1>
   <ul class="module-actions">
     <li class="info">
       <div>
-        <p>Data source: TBD</p>
+        <p>Data source: DVLA database</p>
+        <p><%=info_text%></p>
       </div>
     </li>
   </ul>
@@ -14,3 +16,4 @@
   <h2 id="<%= id %>-headline"><%= description %></h2>
   <figure class="graph timeseries-graph" id="<%= id %>"></figure>
 </section>
+

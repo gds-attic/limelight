@@ -1,4 +1,66 @@
-<%= render partial: "common/vehicle_licensing_dashboard", locals: {
-        transaction_title: 'SORN (Statutory Off Road Notification)',
-        explanatory_copy: 'Service to make a SORN (Statutory Off Road Notification). This must be made for a registered vehicle that is not being used on the road, and which has been taxed since 31 January 1998.'
-} %>
+<%
+  transaction_title = 'Statutory Off Road Notification'
+  explanatory_copy = 'Service to make a SORN. This must be made for a registered vehicle that is not being used on the road, and which has been taxed since 31 January 1998.'
+  transaction_shortname = 'SORN'
+
+  @js_config = {
+    "controller" => "vehicle-licensing/controllers/vehicle-licensing-service",
+    "service-name" => service_name
+  }
+%>
+
+<% content_for :title do %><%= transaction_title %> - Vehicle licensing - Service performance - GOV.UK<% end %>
+
+<%= render :partial => "vehicle-licensing/vehicle_licensing_navigation" %>
+
+<%= render(partial: "common/copy/dashboard_header", locals: {
+    title: transaction_shortname + ' ('+transaction_title+')', copy: explanatory_copy}) %>
+
+<%= render(partial: "vehicle-licensing/active-users", locals: {
+  title: "Users on start page",
+  data_source: "Google Analytics",
+  description: "Shows the estimated number of users currently accessing the GOV.UK start page for the #{transaction_shortname} transaction.", 
+  id: "#{params[:slug]}-volumes",
+  transaction_shortname:transaction_shortname,
+  transaction_title: transaction_title
+}) %>
+
+<section id="customer-satisfaction" class="half-width">
+  <h1>Customer satisfaction</h1>
+  <ul class="module-actions">
+    <li class="info">
+      <div>
+        <p>Data source: Driver and Vehicle Licensing Agency database</p>
+        <p>Customer satisfaction with the SORN/Tax disc transaction is recorded on a scale of 1 to 5. 1 being most satisfied and 5 being least satisfied. The mean of these responses is converted to a percentage to display on the dashboard. </p>
+      </div>
+    </li>
+  </ul>
+  <h2>Average score of satisfied responses</h2>
+  <p class="impact-number current-value"></p>
+  <p class="stat-description current-date"></p>
+  <div class="previous-month">
+    <p class="impact-number change"></p>
+    <p class="stat-description previous-date"></p>
+  </div>
+</section>
+
+<%= render(partial: "vehicle-licensing/volumetrics", locals: {
+  title: "Applications", 
+  description: "", 
+  id: "#{params[:slug]}-volumes",
+  info_text: "Shows the number of SORNs received by the DVLA in the period shown.",
+  transaction_title:transaction_title,
+  transaction_shortname:transaction_shortname
+}) %>
+
+<%= render(partial: "vehicle-licensing/failures", 
+  locals: {
+    title: "Application failures", 
+    id: "#{params[:slug]}-failures",  
+    transaction_title:transaction_title,
+    transaction_shortname:transaction_shortname
+}) %>
+
+<% if Rails.application.config.feature_toggles[:evl_availability_modules] %>
+    <%= render(partial: "common/modules/availability", locals: {title: "Service availability", id: "#{params[:slug]}-availability"}) %>
+<% end %>
