@@ -5,12 +5,13 @@ define([
   function (Collection, View) {
     return function (selector, service) {
       var collection = new Collection();
-      collection.fetch();
 
       var view = new View({
         el: $(selector),
         collection: collection,
         service: service
       });
+
+      collection.fetch();
     };
   });
