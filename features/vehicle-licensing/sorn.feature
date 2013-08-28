@@ -11,7 +11,7 @@ Feature: SORN dashboard
       And the module should contain a table
 
   Scenario: looking up the sorn availability module
-    Given The register-sorn-statutory-off-road-notification monitoring bucket returns the response in "availability.json"
+    Given The sorn monitoring bucket returns the response in "availability.json"
     When I go to /performance/sorn
     Then I should see the module "Service availability"
      And the module should display an uptime of 85.0%
