@@ -13,13 +13,14 @@ function (Component, Pivot) {
     xOffset: -7,
     yOffset: -7,
 
-    x: function (model, index) {
-      var x = this.moment(model.get('_end_at'));
-      return this.scales.x(x.toDate());
+    x: function (group, groupIndex, model, index) {
+      var xPos = this.graph.getXPos(groupIndex, index);
+      return this.scales.x(xPos);
     },
 
-    y: function (model, index) {
-      return this.scales.y(model.get(this.graph.valueAttr));
+    y: function (group, groupIndex, model, index) {
+      var yPos = this.graph.getYPos(groupIndex, index);
+      return this.scales.y(yPos);
     },
 
     textWidth: function (selection) {
@@ -50,8 +51,8 @@ function (Component, Pivot) {
       selection.text(value);
 
       var basePos = {
-        x: this.x(model, index, group, groupIndex),
-        y: this.y(model, index, group, groupIndex)
+        x: this.x(group, groupIndex, model, index),
+        y: this.y(group, groupIndex, model, index)
       };
 
       var pos = this.applyPivot(basePos, {

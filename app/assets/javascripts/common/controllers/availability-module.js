@@ -1,14 +1,13 @@
 define([
   'extensions/collections/graphcollection',
   'extensions/collections/availability-for-24-hours',
-  'extensions/views/single-stat',
   'extensions/views/availability/uptime-number',
   'extensions/views/availability/uptime-graph',
   'extensions/views/availability/response-time-number',
   'extensions/views/availability/response-time-graph'
 ],
 function (GraphCollection, AvailabilityCollection,
-          SingleStatView, UptimeNumber, UptimeGraph,
+          UptimeNumber, UptimeGraph,
           ResponseTimeNumber, ResponseTimeGraph) {
 
   return function (serviceName, locator) {
@@ -40,8 +39,7 @@ function (GraphCollection, AvailabilityCollection,
 
     new ResponseTimeNumber({
       el: moduleEl.find('.response-time'),
-      collection: availabilityCollection,
-      getStatFunction: function (c) { return Math.round(c.getAverageResponseTime()) + 'ms'; }
+      collection: availabilityCollection
     });
 
     new ResponseTimeGraph({

@@ -52,22 +52,9 @@ define([
         var collection =
           new AvailabilityFor24HoursCollection(availabilityData, options);
 
-          var percentageOfUptime = collection.getPercentageOfUptime();
+          var fractionOfUptime = collection.getFractionOfUptime();
 
-          expect(percentageOfUptime).toEqual(95);
-      });
-
-      xit("should provide percentage uptime + unmonitored", function () {
-        var collection =
-          new AvailabilityFor24HoursCollection({"data": [{
-            "uptime": 8,
-            "downtime": 1,
-            "unmonitored": 1
-          }]}, options);
-
-        var percentageOfUptime = collection.getPercentageOfUptime();
-
-        expect(percentageOfUptime).toEqual(90);
+          expect(fractionOfUptime).toEqual(0.95);
       });
 
       it("should provide total uptime", function () {

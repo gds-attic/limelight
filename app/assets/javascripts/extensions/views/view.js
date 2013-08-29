@@ -178,6 +178,16 @@ function (Backbone, moment, Modernizr) {
         numDecimals = numDecimals || 0;
         return (100 * fraction).toFixed(numDecimals) + '%';
       },
+
+      pluralise: function (singular, quantity, plural) {
+        if (quantity === 1) {
+          return singular;
+        } else if (plural) {
+          return plural;
+        } else {
+          return singular + 's';
+        }
+      },
       
       /**
        * Convenience method, gets object property or method result. The method

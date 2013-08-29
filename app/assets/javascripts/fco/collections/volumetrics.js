@@ -52,7 +52,7 @@ function (Collection, Group, dateFunctions) {
     },
 
     completionRate: function () {
-      return (this.numberOfJourneyCompletions() / this.numberOfJourneyStarts() * 100);
+      return this.numberOfJourneyCompletions() / this.numberOfJourneyStarts();
     },
 
     applicationsSeries: function () {

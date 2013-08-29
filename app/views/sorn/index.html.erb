@@ -53,6 +53,9 @@
   transaction_shortname:transaction_shortname
 }) %>
 
+<%= render(partial: "vehicle-licensing/digital_takeup", locals: {
+  id: "#{params[:slug]}-takeup"}) %>
+
 <%= render(partial: "vehicle-licensing/failures", 
   locals: {
     title: "Application failures", 

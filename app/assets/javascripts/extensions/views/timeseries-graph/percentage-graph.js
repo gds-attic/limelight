@@ -1,44 +1,52 @@
 define([
+  'require',
   'extensions/views/graph/graph'
 ],
-function (Graph) {
-  var ResponseTimeGraph = Graph.extend({
-
-    valueAttr: 'avgresponse',
-    numYTicks: 3,
+function (require, Graph) {
+  var PercentageGraph = Graph.extend({
 
     getConfigNames: function () {
-      return ['stack', 'hour'];
+      return ['stack', 'week'];
     },
+
+    minYDomainExtent: 1,
+    numYTicks: 3,
 
     components: function () {
       return [
         { view: this.sharedComponents.xaxis },
-        { view: this.sharedComponents.yaxis,options: {
+        {
+          view: this.sharedComponents.yaxis,
+          options: {
             tickFormat: function () {
               return function (d) {
-                return d + 'ms';
+                return Math.round(100 * d) + '%';
               };
             }
           }
         },
         {
           view: this.sharedComponents.stack,
-          options: { drawCursorLine: true }
+          options: {
+            drawCursorLine: true
+          }
         },
         {
           view: this.sharedComponents.tooltip,
           options: {
             getValue: function (group, groupIndex, model, index) {
-              return model.get(this.graph.valueAttr) + 'ms';
+              var value = model.get(this.graph.valueAttr) * 100;
+              if (value !== 100) {
+                value = value.toFixed(1);
+              }
+              return value + '%';
             }
           }
         },
         { view: this.sharedComponents.hover }
       ];
     }
-
   });
 
-  return ResponseTimeGraph;
+  return PercentageGraph;
 });

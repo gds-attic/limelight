@@ -56,7 +56,7 @@ define(['fco/collections/volumetrics'],
       });
 
       it("should give the total completion rate as a percentage", function () {
-        expect(volumetricsCollection.completionRate()).toBeCloseTo(47.6, 0.01);
+        expect(volumetricsCollection.completionRate()).toBeCloseTo(0.476, 0.01);
       });
 
       it("should give a series for applications", function () {
@@ -73,7 +73,7 @@ define(['fco/collections/volumetrics'],
         expect(completionSeries.title).toBe("Completion rate");
         expect(completionSeries.id).toBe("completion");
         expect(completionSeries.weeksWithData).toBe(3);
-        expect(completionSeries.totalCompletion).toBeCloseTo(47.6, 0.01);
+        expect(completionSeries.totalCompletion).toBeCloseTo(0.476, 0.01);
         expect(completionSeries.values.length).not.toBeUndefined();
       });
       

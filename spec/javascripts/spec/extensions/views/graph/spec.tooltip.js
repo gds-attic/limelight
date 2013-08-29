@@ -1,5 +1,5 @@
 define([
-  'extensions/views/availability/tooltip',
+  'extensions/views/graph/tooltip',
   'extensions/models/model'
 ],
 function (Tooltip, Model) {
@@ -20,18 +20,21 @@ function (Tooltip, Model) {
             valueAttr: "modelValue"
           },
           constrainToBounds: false,
-          x: function (model, index) {
-            return 110;
+          x: function (group, groupIndex, model, index) {
+            return model.get('x');
           },
-          y: function (model, index) {
-            return 120;
+          y: function (group, groupIndex, model, index) {
+            return model.get('y');
           },
           textWidth: function() {
-            return 100;
+            return model.get('textWidth');
           }
         });
 
         model = new Model({
+          x: 110,
+          y: 120,
+          textWidth: 100,
           modelValue: "Tooltip Text"
         });
       });

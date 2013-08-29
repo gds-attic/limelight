@@ -4,13 +4,42 @@ define([
 function (View) {
   var SingleStatView = View.extend({
 
+    changeOnSelected: false,
+
     initialize: function () {
       View.prototype.initialize.apply(this, arguments);
-      this.collection.on('reset', this.render, this);
+
+      var events = 'reset';
+      if (this.changeOnSelected) {
+        events += ' change:selected';
+      }
+      this.collection.on(events, this.render, this);
     },
+
     render: function () {
-      this.$el.html("<strong>" + this.getStatFunction(this.collection) + "</strong>");
+      View.prototype.render.apply(this, arguments);
+
+      var value, label;
+      var selection = this.collection.getCurrentSelection();
+      if (this.changeOnSelected && selection.selectedModel) {
+        value = this.getValueSelected(selection);
+        label = this.getLabelSelected(selection);
+      } else {
+        value = this.getValue();
+        label = this.getLabel();
+      }
+
+      var content = '<strong>' + value + '</strong>';
+      if (label) {
+        content += ' ' + label;
+      }
+      this.$el.html(content);
+    },
+
+    getLabel: function () {
+      return '';
     }
   });
+
   return SingleStatView;
 });

@@ -41,6 +41,7 @@ function (Backbone, Model, Query, SafeSync, DateRange, moment) {
         this.instantiateParts(models, options);
       }
       this.createQueryModel();
+
       Backbone.Collection.prototype.initialize.apply(this, arguments);
     },
 
@@ -252,6 +253,13 @@ function (Backbone, Model, Query, SafeSync, DateRange, moment) {
       if (!options || !options.silent) {
         this.trigger("change:selected", model, index);
       }
+    },
+
+    getCurrentSelection: function () {
+      return {
+        selectedModel: this.selectedItem,
+        selectedModelIndex: this.selectedIndex
+      };
     }
   });
 

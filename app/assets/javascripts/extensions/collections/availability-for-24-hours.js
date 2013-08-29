@@ -53,8 +53,8 @@ function (GraphCollection) {
       }, 0)
     },
 
-    getPercentageOfUptime: function () {
-      return 100 * (this._getTotalUptime() / this._getTotalTime());
+    getFractionOfUptime: function () {
+      return this._getTotalUptime() / this._getTotalTime();
     },
 
     getAverageResponseTime: function () {

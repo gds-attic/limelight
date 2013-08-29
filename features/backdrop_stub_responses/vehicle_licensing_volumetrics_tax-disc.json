@@ -1,0 +1,112 @@
+{
+  "data": [
+    {
+      "_timestamp": "2013-08-01T00:00:00+00:00",
+      "_id": "2013-08-01T00:00:00+00:00_tax-disc-fully-digital",
+      "_week_start_at": "2013-07-29T00:00:00+00:00",
+      "channel": "fully-digital",
+      "service": "tax-disc",
+      "transaction": "V-V890 Another transaction",
+      "volume": 123456
+    },
+    {
+      "_timestamp": "2013-08-02T00:00:00+00:00",
+      "_id": "2013-08-02T00:00:00+00:00_tax-disc-fully-digital",
+      "_week_start_at": "2013-07-29T00:00:00+00:00",
+      "channel": "fully-digital",
+      "service": "tax-disc",
+      "transaction": "V-V890 Another transaction",
+      "volume": 142193
+    },
+    {
+      "_timestamp": "2013-08-01T00:00:00+00:00",
+      "_id": "2013-08-01T00:00:00+00:00_tax-disc-assisted-digital",
+      "_week_start_at": "2013-07-29T00:00:00+00:00",
+      "channel": "assisted-digital",
+      "service": "tax-disc",
+      "transaction": "V-V890 Another transaction",
+      "volume": 1356
+    },
+    {
+      "_timestamp": "2013-08-02T00:00:00+00:00",
+      "_id": "2013-08-02T00:00:00+00:00_tax-disc-assisted-digital",
+      "_week_start_at": "2013-07-29T00:00:00+00:00",
+      "channel": "assisted-digital",
+      "service": "tax-disc",
+      "transaction": "V-V890 Another transaction",
+      "volume": 1193
+    },
+    {
+      "_timestamp": "2013-08-01T00:00:00+00:00",
+      "_id": "2013-08-01T00:00:00+00:00_tax-disc-manual",
+      "_week_start_at": "2013-07-29T00:00:00+00:00",
+      "channel": "manual",
+      "service": "tax-disc",
+      "transaction": "V-V890 Another transaction",
+      "volume": 20156
+    },
+    {
+      "_timestamp": "2013-08-02T00:00:00+00:00",
+      "_id": "2013-08-02T00:00:00+00:00_tax-disc-manual",
+      "_week_start_at": "2013-07-29T00:00:00+00:00",
+      "channel": "manual",
+      "service": "tax-disc",
+      "transaction": "V-V890 Another transaction",
+      "volume": 30193
+    },
+    {
+      "_timestamp": "2013-08-08T00:00:00+00:00",
+      "_id": "2013-08-08T00:00:00+00:00_tax-disc-fully-digital",
+      "_week_start_at": "2013-08-05T00:00:00+00:00",
+      "channel": "fully-digital",
+      "service": "tax-disc",
+      "transaction": "V-V890 Another transaction",
+      "volume": 12456
+    },
+    {
+      "_timestamp": "2013-08-08T00:00:00+00:00",
+      "_id": "2013-08-08T00:00:00+00:00_tax-disc-assisted-digital",
+      "_week_start_at": "2013-08-05T00:00:00+00:00",
+      "channel": "assisted-digital",
+      "service": "tax-disc",
+      "transaction": "V-V890 Another transaction",
+      "volume": 1356
+    },
+    {
+      "_timestamp": "2013-08-08T00:00:00+00:00",
+      "_id": "2013-08-08T00:00:00+00:00_tax-disc-manual",
+      "_week_start_at": "2013-08-05T00:00:00+00:00",
+      "channel": "manual",
+      "service": "tax-disc",
+      "transaction": "V-V890 Another transaction",
+      "volume": 20156
+    },
+    {
+      "_timestamp": "2013-08-15T00:00:00+00:00",
+      "_id": "2013-08-15T00:00:00+00:00_tax-disc-fully-digital",
+      "_week_start_at": "2013-08-12T00:00:00+00:00",
+      "channel": "fully-digital",
+      "service": "tax-disc",
+      "transaction": "V-V890 Another transaction",
+      "volume": 123456
+    },
+    {
+      "_timestamp": "2013-08-15T00:00:00+00:00",
+      "_id": "2013-08-15T00:00:00+00:00_tax-disc-assisted-digital",
+      "_week_start_at": "2013-08-12T00:00:00+00:00",
+      "channel": "assisted-digital",
+      "service": "tax-disc",
+      "transaction": "V-V890 Another transaction",
+      "volume": 1356
+    },
+    {
+      "_timestamp": "2013-08-15T00:00:00+00:00",
+      "_id": "2013-08-15T00:00:00+00:00_tax-disc-manual",
+      "_week_start_at": "2013-08-12T00:00:00+00:00",
+      "channel": "manual",
+      "service": "tax-disc",
+      "transaction": "V-V890 Another transaction",
+      "volume": 20156
+    }
+  ]
+}
