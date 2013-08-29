@@ -1,5 +1,2 @@
-backdrop_location = 'http://publicapi.dev.gov.uk'
-if Rails.env.test?
-  backdrop_location = '/backdrop_stub'
-end
+backdrop_location = Rails.env.test? ? '/backdrop_stub' : '/'
 Limelight::Application.config.backdrop_url = ENV["BACKDROP_URL"] || backdrop_location
