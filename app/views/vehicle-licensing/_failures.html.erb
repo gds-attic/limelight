@@ -1,12 +1,12 @@
 <% id ||= "failures" %>
-<% title ||= "Application failures" %>
+<% title ||= "Error codes (web)" %>
 <section id="<%= id %>" class="failures">
   <h1><%= title %></h1>
   <ul class="module-actions">
     <li class="info">
       <div>
-        <p>Data source: DVLA database</p>
-        <p>The number of users failing the <%=transaction_shortname%> transaction are recorded in the DVLA database. These are classified by failure description. A user can only fail once per transaction.</p>
+        <p>Data source: <abbr title="Driver and Vehicle Licensing Agency">DVLA</abbr> database</p>
+        <p>Shows errors that have been logged in the web transaction. More than one error may be logged per user.</p>
       </div>
     </li>
   </ul>

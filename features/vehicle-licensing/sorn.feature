@@ -4,10 +4,10 @@ Feature: SORN dashboard
   I want to measure my service
   So that I can take data driven decisions
 
-   Scenario: looking at the SORN failures module
+   Scenario: looking at the SORN error codes module
      Given The vehicle-licensing failures bucket returns the response in "vehicle_licensing_failures.json"
      When I go to /performance/sorn
-     Then I should see the module "Application failures"
+     Then I should see the module "Error codes (web)"
       And the module should contain a table
 
   Scenario: looking up the sorn availability module

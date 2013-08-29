@@ -10,10 +10,10 @@ Feature: Tax disc dashboard
     Then I should see the module "Applications"
     And the module should contain a graph
 
-  Scenario: looking at the tax disc failures module
+  Scenario: looking at the tax disc error codes module
     Given The vehicle-licensing failures bucket returns the response in "vehicle_licensing_failures.json"
     When I go to /performance/tax-disc
-    Then I should see the module "Application failures"
+    Then I should see the module "Error codes (web)"
      And the module should contain a table
 
   Scenario: looking up the tax disc availability module

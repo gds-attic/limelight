@@ -21,10 +21,10 @@ function (Table, Collection) {
         });
         jasmine.renderView(table, function () {
           expect(table.$el.find('.head tr:eq(0) th:eq(0)')).toHaveText('Description');
-          expect(table.$el.find('.head tr:eq(0) th:eq(1)')).toHaveText('Occurrences last week');
+          expect(table.$el.find('.head tr:eq(0) th:eq(1)')).toHaveText('Volume last week');
           expect(table.$el.find('.head tr:eq(0) th:eq(1)')).toHaveClass('descending');
           expect(table.$el.find('.head tr:eq(0) th:eq(2)')).toHaveText('Percentage of total errors');
-          expect(table.$el.find('.head tr:eq(0) th:eq(3)')).toHaveText('Difference from week before');
+          expect(table.$el.find('.head tr:eq(0) th:eq(3)')).toHaveText('Change from previous week');
 
           expect(table.$el.find('.body tr:eq(0) td:eq(0)')).toHaveText('Bar');
           expect(table.$el.find('.body tr:eq(1) td:eq(0)')).toHaveText('Foo');

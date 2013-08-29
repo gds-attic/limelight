@@ -1,6 +1,6 @@
 <%
   transaction_title = 'Tax disc'
-  explanatory_copy = 'Service to license motor vehicles that are kept on public roads.'
+  explanatory_copy = 'Service provided by the DVLA to license motor vehicles that are kept on public roads.'
   transaction_shortname = 'Tax disc'
   @js_config = {
     "controller" => "vehicle-licensing/controllers/vehicle-licensing-service",
@@ -24,16 +24,17 @@
 }) %>
 
 <section id="customer-satisfaction" class="half-width">
-  <h1>Customer satisfaction</h1>
+  <h1>Customer satisfaction (web)</h1>
   <ul class="module-actions">
     <li class="info">
       <div>
-        <p>Data source: Driver and Vehicle Licensing Agency database</p>
-        <p>Customer satisfaction with the SORN/Tax disc transaction is recorded on a scale of 1 to 5. 1 being most satisfied and 5 being least satisfied. The mean of these responses is converted to a percentage to display on the dashboard. </p>
+        <p>Data source: <abbr title="Driver and Vehicle Licensing Agency">DVLA</abbr> database</p>
+        <p>Customer satisfaction is measured using a survey on a sample of users at the point of transaction completion. It is measured on a 5 point scale from most satisfied to least satisfied. The mean of these responses is converted to a percentage for display purposes.</p>
+        <p>Responses relate to the month the tax disc starts. In most cases the user would have completed the transaction before this date.</p>
       </div>
     </li>
   </ul>
-  <h2>Average score of satisfied responses</h2>
+  <h2>Average satisfaction score last month</h2>
   <p class="impact-number current-value"></p>
   <p class="stat-description current-date"></p>
   <div class="previous-month">
@@ -52,7 +53,7 @@
 }) %>
 
 <%= render(partial: "vehicle-licensing/failures", locals: {
-  title: "Application failures", 
+  title: "Error codes (web)", 
   id: "#{params[:slug]}-failures",  
   transaction_title:transaction_title,
   transaction_shortname:transaction_shortname

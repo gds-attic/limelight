@@ -13,7 +13,7 @@ function (Table) {
       {
         id: 'count',
         className: 'count numeric',
-        title: 'Occurrences last week',
+        title: 'Volume last week',
         sortable: true,
         defaultDescending: true,
         getValue: function (model) {
@@ -33,7 +33,7 @@ function (Table) {
       {
         id: 'change',
         className: 'change numeric',
-        title: 'Difference from week before',
+        title: 'Change from previous week',
         sortable: true,
         defaultDescending: true,
         getValue: function (model) {
