@@ -1,3 +1,5 @@
+@import 'typography';
+
 #vehicle-licensing-channels,
 #vehicle-licensing-services {
   .inner {
@@ -43,10 +45,32 @@
     position: absolute;
     bottom: 0;
     left: 16em;
+
   }
 
   .change {
-    font-size: 24px;
+    @include core-24($tabular-numbers: true) ;
+  }
+
+  @media (max-width: 850px) {
+    p.impact-number strong {
+      @include bold-48($tabular-numbers: true);
+    }
+    .previous-month {
+      left: 11em;
+    }
+  }
+
+  @media (max-width: 640px) {
+    p.impact-number strong {
+      // Revert back to default impact number size for small screen sizes.
+      // GOV.UK frontend toolkit rule decreases font size automatically
+      // for small screens.
+      @include bold-80($tabular-numbers: true);
+    }
+    .previous-month p {
+      margin-bottom: 0;
+    }
   }
 
 }
