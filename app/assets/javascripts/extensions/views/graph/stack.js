@@ -75,9 +75,19 @@ function (require, Line, Component) {
           .attr("class", function (group, index) {
             return 'line line' + (maxGroupIndex-index) + ' ' + group.get('id');
           });
+
       selectionLines.select('path').attr("d", function(group, groupIndex) {
         return line(group.get('values').models);
       });
+
+      // Restore correct order element order. Order gets mixed up on selection
+      // change when we bring the 'selected' line to front.
+      this.collection.each(function (group, groupIndex) {
+        var index = maxGroupIndex - groupIndex;
+        var line = selectionLines.select('path.line' + index);
+        var group = line.node().parentNode;
+        group.parentNode.appendChild(group);
+      }, this);
     },
 
     onChangeSelected: function (groupSelected, groupIndexSelected, modelSelected, indexSelected) {
