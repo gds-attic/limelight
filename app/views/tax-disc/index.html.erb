@@ -1,6 +1,6 @@
 <%
   transaction_title = 'Tax disc'
-  explanatory_copy = 'Service provided by the DVLA to license motor vehicles that are kept on public roads.'
+  explanatory_copy = 'Service provided by the DVLA to relicense motor vehicles that are kept on public roads. This service does not include first vehicle registrations.'
   transaction_shortname = 'Tax disc'
   @js_config = {
     "controller" => "vehicle-licensing/controllers/vehicle-licensing-service",
@@ -47,7 +47,7 @@
   title: "Applications", 
   description: "", 
   id: "#{params[:slug]}-volumes", 
-  info_text: "Shows the number of successful applications to buy or renew a tax disc received by the DVLA.",
+  info_text: "Shows the number of successful applications to renew a tax disc received by the DVLA.",
   transaction_title:transaction_title,
   transaction_shortname:transaction_shortname
 }) %>
