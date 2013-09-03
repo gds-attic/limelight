@@ -1,0 +1,15 @@
+<% id ||= "takeup" %>
+<% title ||= "Digital take-up" %>
+<% description ||= "Service Volumetrics by week" %>
+<section class="graph digital-takeup">
+  <h1><%= title %></h1>
+  <ul class="module-actions">
+    <li class="info">
+      <div>
+        <p>Data source: TBD</p>
+      </div>
+    </li>
+  </ul>
+  <p id="<%= id %>-number" class="impact-number"></p>
+  <figure class="graph timeseries-graph" id="<%= id %>"></figure>
+</section>

@@ -29,7 +29,7 @@ function (require, TimeseriesGraph) {
     },
 
     getConfigNames: function () {
-      return ['stack', 'week'];
+      return ['stack', this.collection.query.get('period') || 'week'];
     }
     
   });

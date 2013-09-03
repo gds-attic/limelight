@@ -178,6 +178,49 @@ function (Backbone, moment, Modernizr) {
         numDecimals = numDecimals || 0;
         return (100 * fraction).toFixed(numDecimals) + '%';
       },
+
+      formatPeriod: function (model, period) {
+        var start = model.get('_start_at');
+        var end = model.get('_end_at');
+
+        switch (period) {
+          case 'week': // fall through; we're formatting weeks same as days
+          case 'day':
+            if (end) {
+              end = moment(end).subtract(1, 'days');
+              if (start.diff(end)) {
+                if (start.month() !== end.month()) {
+                  return start.format('D MMM') + ' to ' + end.format('D MMM YYYY');
+                } else {
+                  return start.format('D') + ' to ' + end.format('D MMM YYYY');
+                }
+              }
+            }
+            return start.format('D MMM YYYY');
+          case 'month':
+            if (end) {
+              end = moment(end).subtract(1, 'months');
+              if (start.diff(end)) {
+                if (start.year() !== end.year()) {
+                  return start.format('MMM YYYY') + ' to ' + end.format('MMM YYYY');
+                } else if (start.month() !== end.month()) {
+                  return start.format('MMM') + ' to ' + end.format('MMM YYYY');
+                }
+              }
+            }
+            return start.format('MMMM YYYY');
+        }
+      },
+
+      pluralise: function (singular, quantity, plural) {
+        if (quantity === 1) {
+          return singular;
+        } else if (plural) {
+          return plural;
+        } else {
+          return singular + 's';
+        }
+      },
       
       /**
        * Convenience method, gets object property or method result. The method

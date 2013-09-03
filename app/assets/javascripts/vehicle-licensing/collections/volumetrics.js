@@ -2,7 +2,7 @@ define([
   'extensions/collections/graphcollection'
 ],
 function (GraphCollection) {
-  var ServicesCollection = GraphCollection.extend({
+  var VolumetricsCollection = GraphCollection.extend({
 
     serviceName: 'vehicle-licensing',
     apiName: 'volumetrics',
@@ -11,22 +11,15 @@ function (GraphCollection) {
       return {
         collect: 'volume:sum',
         period: 'month',
-        group_by: 'service',
-        filter_by: this.options.type ? ['channel:' + this.options.type] : []
+        group_by: 'channel',
+        filter_by: this.options.type ? ['service:' + this.options.type] : []
       }
     },
 
     seriesList: [
-      {
-        id: 'sorn',
-        title: 'SORN',
-        href: '/performance/sorn'
-      },
-      {
-        id: 'tax-disc',
-        title: 'Tax disc',
-        href: '/performance/tax-disc'
-      }
+      { id: 'manual', title: 'Manual' },
+      { id: 'assisted-digital', title: 'Post Office' },
+      { id: 'fully-digital', title: 'Digital' }
     ],
 
     parse: function (response) {
@@ -34,7 +27,7 @@ function (GraphCollection) {
 
       return _.map(this.seriesList, function (series) {
         var dataSeries = _.find(data, function (d) {
-          return d.service === series.id;
+          return d.channel === series.id;
         });
 
         _.each(dataSeries.values, function (d) {
@@ -51,5 +44,5 @@ function (GraphCollection) {
 
   });
 
-  return ServicesCollection;
+  return VolumetricsCollection;
 });

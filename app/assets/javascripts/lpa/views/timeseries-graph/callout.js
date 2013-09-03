@@ -1,5 +1,5 @@
 define([
-  'extensions/views/timeseries-graph/callout'
+  'extensions/views/graph/callout'
 ],
 function (TimeseriesCallout) {
   

@@ -3,9 +3,18 @@
 #vehicle-licensing-channels,
 #vehicle-licensing-services {
   .inner {
-    right: 100px;
+    right: 120px;
   }
 }
+
+.vehicle-licensing-volumetrics {
+
+  ul.module-actions {
+    margin-top:-36px;
+    margin-bottom: 44px;
+  }
+}
+
 
 .failures {
 
@@ -33,6 +42,32 @@
     th.change,
     td.change {
       width: 10em;
+    }
+  }
+}
+
+.digital-takeup {
+  ul.module-actions {
+    margin-top:-36px;
+    margin-bottom: 44px;
+  }
+
+  p.impact-number {
+    float:left;
+  }
+
+  .graph {
+    margin-left: 12.5em;
+    min-height: 135px;
+    max-height: 200px;
+
+    margin-right:-30px;
+    .inner {
+      left: 65px;
+      right:30px;
+    }
+    .cursorLine {
+      display: none;
     }
   }
 }

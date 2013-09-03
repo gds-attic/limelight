@@ -8,3 +8,6 @@ spec_files:
 
 helpers:
   - helpers/**/*.js
+
+stylesheets:
+  - spec/javascripts/stylesheets/*.css

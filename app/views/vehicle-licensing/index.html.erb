@@ -24,23 +24,13 @@
       </div>
     </li>
   </ul>
-  <h2>Vehicle licensing applications per week broken down by service</h2>
+  <h2>Vehicle licensing applications per month broken down by service</h2>
   <figure class="graph timeseries-graph" id="vehicle-licensing-services"></figure>
 </section>
 
-<section class="graph">
-  <h1>Application channels</h1>
-  <ul class="module-actions">
-    <li class="info">
-      <div>
-        <p>Data source: <abbr title="Driver and Vehicle Licensing Agency">DVLA</abbr> database</p>
-        <p>The number of successful applications for a tax disc and <abbr title="Statutory Off Road Notification">SORN</abbr>, broken by channel.</p>
-        <p>Phone (agent): Applications made over the phone to a person</p>
-          <p>Phone (automated): Applications made using the interactive voice response (IVR) system</p>
-          <p>Web: Applications made using the digital web service.</p>
-      </div>
-    </li>
-  </ul>
-  <h2>Vehicle licensing applications per week broken down by channel</h2>
-  <figure class="graph timeseries-graph" id="vehicle-licensing-channels"></figure>
-</section>
+<%= render(partial: "vehicle-licensing/volumetrics", locals: {
+  title: "Application channels", 
+  description: "Vehicle licensing applications per month broken down by channel", 
+  id: "vehicle-licensing-channels",
+  info_text: 'The number of successful applications for a tax disc and <abbr title="Statutory Off Road Notification">SORN</abbr>, broken by channel.'
+}) %>

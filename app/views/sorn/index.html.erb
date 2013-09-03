@@ -1,6 +1,6 @@
 <%
   transaction_title = 'Statutory Off Road Notification'
-  explanatory_copy = 'Service provided by the DVLA to make a SORN. This must be made for a registered vehicle that is not being used on the road, and which has been taxed since 31 January 1998.'
+  explanatory_copy = 'Service to make a SORN. This must be made for a registered vehicle that is not being used on the road, and which has been taxed since 31 January 1998.'
   transaction_shortname = 'SORN'
 
   @js_config = {
@@ -26,13 +26,12 @@
 }) %>
 
 <section id="customer-satisfaction" class="half-width">
-  <h1>Customer satisfaction (web)</h1>
+  <h1>Customer satisfaction</h1>
   <ul class="module-actions">
     <li class="info">
       <div>
-        <p>Data source: <abbr title="Driver and Vehicle Licensing Agency">DVLA</abbr> database</p>
-        <p>Customer satisfaction is measured using a survey on a sample of users at the point of transaction completion. It is measured on a 5 point scale from most satisfied to least satisfied. The mean of these responses is converted to a percentage for display purposes.</p>
-        <p>Responses relate to the month the <abbr title="Statutory Off Road Notification">SORN</abbr> starts. In most cases the user would have completed the transaction before this date.</p>
+        <p>Data source: Driver and Vehicle Licensing Agency database</p>
+        <p>Customer satisfaction with the SORN/Tax disc transaction is recorded on a scale of 1 to 5. 1 being most satisfied and 5 being least satisfied. The mean of these responses is converted to a percentage to display on the dashboard. </p>
       </div>
     </li>
   </ul>
@@ -48,11 +47,14 @@
 <%= render(partial: "vehicle-licensing/volumetrics", locals: {
   title: "Applications", 
   description: "", 
-  id: "#{params[:slug]}-volumes",
-  info_text: "Shows the number of SORN's received by the DVLA.",
+  id: "vehicle-licensing-channels",
+  info_text: "Shows the number of SORNs received by the DVLA.",
   transaction_title:transaction_title,
   transaction_shortname:transaction_shortname
 }) %>
+
+<%= render(partial: "vehicle-licensing/digital_takeup", locals: {
+  id: "#{params[:slug]}-takeup"}) %>
 
 <%= render(partial: "vehicle-licensing/failures", 
   locals: {

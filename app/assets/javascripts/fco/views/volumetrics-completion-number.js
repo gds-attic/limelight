@@ -1,44 +1,27 @@
 define([
-  'extensions/views/view'
+  'extensions/views/single-stat'
 ],
-function (View) {
-  var contentString = function(value, caption) {
-    return [ '<strong>', value, '%</strong>', caption ].join('');
-  };
+function (SingleStatView) {
+  var CompletionNumberView = SingleStatView.extend({
 
-  var CompletionSelectedView = View.extend({
-    initialize: function (attrs, options) {
-      View.prototype.initialize.apply(this, arguments);
-      this.collection.on('change:selected reset', this.render, this);
+    changeOnSelected: true,
+
+    getValue: function () {
+      return this.formatPercentage(this.collection.at(0).get('totalCompletion'));
     },
 
-    render: function () {
-      View.prototype.render.apply(this, arguments);
-      this.$el.html(this.content());
+    getLabel: function () {
+      return 'last ' + this.collection.at(0).get('weeksWithData') + ' weeks';
     },
 
-    content:function () {
-      var selection = this.collection.getCurrentSelection();
+    getValueSelected: function (selection) {
+      return this.formatPercentage(selection.selectedModel.get('completion'));
+    },
 
-      if (selection.selectedModel) {
-        var model = selection.selectedModel;
-        var start = model.get('_start_at');
-        var end = moment(model.get('_end_at')).subtract(1, 'days');
-
-        var percentage = Math.round(selection.selectedModel.get('completion') * 100);
-
-        var startLabel = start.format(start.month() === end.month() ? 'D' : 'D MMM');
-        var endLabel = end.format('D MMM YYYY');
-        return contentString(percentage, startLabel + ' to ' + endLabel);
-      } else {
-        var availableWeeks = this.collection.at(0).get('weeksWithData');
-        var totalCompletion = this.collection.at(0).get('totalCompletion');
-
-        return contentString(Math.round(totalCompletion), ' last ' + availableWeeks + ' weeks');
-      }
+    getLabelSelected: function (selection) {
+      return this.formatPeriod(selection.selectedModel, 'week');
     }
   });
 
-
-  return CompletionSelectedView;
+  return CompletionNumberView;
 });

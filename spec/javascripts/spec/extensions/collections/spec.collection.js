@@ -612,5 +612,29 @@ function (Collection, Model, Backbone) {
       });
 
     });
+
+    describe("getCurrentSelection", function () {
+      it("retrieves the current selection", function () {
+        var collection = new Collection([
+          { a: 'one' },
+          { a: 'two' },
+          { a: 'three' }
+        ]);
+
+        var selection = collection.getCurrentSelection();
+        expect(selection.selectedModelIndex).toBeFalsy();
+        expect(selection.selectedModel).toBeFalsy();
+
+        collection.selectItem(1);
+        selection = collection.getCurrentSelection();
+        expect(selection.selectedModelIndex).toEqual(1);
+        expect(selection.selectedModel).toBe(collection.at(1));
+
+        collection.selectItem(null);
+        selection = collection.getCurrentSelection();
+        expect(selection.selectedModelIndex).toBeFalsy();
+        expect(selection.selectedModel).toBeFalsy();
+      });
+    });
   });
 });
