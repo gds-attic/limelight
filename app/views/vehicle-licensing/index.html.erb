@@ -20,7 +20,7 @@
     <li class="info">
       <div>
         <p>Data source: <abbr title="Driver and Vehicle Licensing Agency">DVLA</abbr> database</p>
-        <p>Shows the weekly number of successful applications to renew a tax disc and the number of <abbr title="Statutory Off Road Notification">SORN</abbr>'s received.</p>
+        <p>Shows the monthly number of successful applications to renew a tax disc and the number of <abbr title="Statutory Off Road Notification">SORN</abbr>'s received.</p>
       </div>
     </li>
   </ul>
@@ -29,8 +29,8 @@
 </section>
 
 <%= render(partial: "vehicle-licensing/volumetrics", locals: {
-  title: "Application channels", 
+  title: "Applications by channel", 
   description: "Vehicle licensing applications per month broken down by channel", 
   id: "vehicle-licensing-channels",
-  info_text: 'The number of successful applications for a tax disc and <abbr title="Statutory Off Road Notification">SORN</abbr>, broken by channel.'
+  info_text: 'The number of successful applications to renew a tax disc and the number of <abbr title="Statutory Off Road Notification">SORN</abbr>&rsquo;s received, broken by channel.'
 }) %>
