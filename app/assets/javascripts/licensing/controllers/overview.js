@@ -1,6 +1,6 @@
 define([
   'licensing/collections/applications-total-weekly',
-  'extensions/views/timeseries-graph/timeseries-graph',
+  'extensions/views/timeseries-graph/stacked-graph',
   'extensions/views/graph/headline',
   'licensing/collections/applications-top5-lastweek',
   'licensing/views/top5table',

@@ -154,6 +154,12 @@ function (Stack, Collection) {
         view.onHover({ x: 7, y: 8, toggle: true });
         expect(collection.selectItem.mostRecentCall.args).toEqual([null, null]);
       });
+
+      it("optionally selects all items at a given position but not the group", function () {
+        view.selectGroup = false;
+        view.onHover({ x: 1, y: 3 });
+        expect(collection.selectItem.mostRecentCall.args).toEqual([null, 0]);
+      });
     });
   });
 });

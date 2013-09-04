@@ -1,10 +1,10 @@
 define([
   'vehicle-licensing/collections/volumetrics',
-  'vehicle-licensing/views/timeseries-graph',
+  'extensions/views/timeseries-graph/stacked-graph',
   'extensions/views/tabs',
   'extensions/views/graph/headline',
 ],
-function (VolumetricsCollection, TimeseriesGraph, Tabs, Headline) {
+function (VolumetricsCollection, StackedGraph, Tabs, Headline) {
   return function (selector, type) {
     if ($('.lte-ie8').length) {
       // do not attempt to show graphs in legacy IE
@@ -16,10 +16,11 @@ function (VolumetricsCollection, TimeseriesGraph, Tabs, Headline) {
     });
     volumetricsCollection.fetch();
 
-    new TimeseriesGraph({
+    new StackedGraph({
       el: $(selector),
       collection: volumetricsCollection,
-      valueAttr: 'volume:sum'
+      valueAttr: 'volume:sum',
+      showLineLabels: true
     });
   };
 });

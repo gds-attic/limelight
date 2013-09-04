@@ -180,8 +180,8 @@ function (Backbone, moment, Modernizr) {
       },
 
       formatPeriod: function (model, period) {
-        var start = model.get('_start_at');
-        var end = model.get('_end_at');
+        var start = model.get('_start_at') || model.get('start_at');
+        var end = model.get('_end_at') || model.get('end_at');
 
         switch (period) {
           case 'week': // fall through; we're formatting weeks same as days

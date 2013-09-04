@@ -5,6 +5,7 @@ function (View) {
   var SingleStatView = View.extend({
 
     changeOnSelected: false,
+    valueTag: 'strong',
 
     initialize: function () {
       View.prototype.initialize.apply(this, arguments);
@@ -29,7 +30,10 @@ function (View) {
         label = this.getLabel();
       }
 
-      var content = '<strong>' + value + '</strong>';
+      var content = value;
+      if (this.valueTag) {
+        content = '<' + this.valueTag + '>' + value + '</' + this.valueTag + '>';
+      } 
       if (label) {
         content += ' ' + label;
       }
@@ -37,6 +41,10 @@ function (View) {
     },
 
     getLabel: function () {
+      return '';
+    },
+
+    getLabelSelected: function () {
       return '';
     }
   });

@@ -1,7 +1,9 @@
 define([
-  'extensions/views/graph/component'
+  'require',
+  'extensions/views/graph/component',
+  './timeperiod'
 ],
-function (Component) {
+function (require, Component, TimePeriod) {
 
   var LineLabel = Component.extend({
     
@@ -10,10 +12,17 @@ function (Component) {
     linePaddingOuter: 4,
     overlapLabelTop: 0,
     overlapLabelBottom: 20,
+    labelOffset: 6,
     
     showSquare: true,
+    showValues: false,
+    showValuesPercentage: false,
+    showSummary: false,
+    showTimePeriod: false,
+    attachLinks: false,
     squareSize: 11,
     squarePadding: 4,
+    summaryPadding: 6,
     
     classed: 'labels',
 
@@ -31,6 +40,8 @@ function (Component) {
       this.componentWrapper
         .classed(this.classed, true)
         .attr('transform', 'translate(' + left + ', 0)');
+
+      this.renderSummary();
       
       var selection = this.componentWrapper.selectAll('g.label')
           .data(this.collection.models);
@@ -51,6 +62,7 @@ function (Component) {
       }
 
       this.renderLinks();
+      this.renderTimePeriod();
     },
 
     /**
@@ -84,6 +96,56 @@ function (Component) {
       return events;
     },
 
+    renderSummary: function () {
+
+      this.summaryHeight = 0;
+
+      if (!this.showSummary) {
+        return;
+      }
+
+      var d = {
+        title: 'Total'
+      };
+
+      if (this.showValues) {
+        var attr = this.graph.valueAttr;
+
+        var selected = this.collection.getCurrentSelection();
+        if (selected.selectedModel) {
+          d.value = this.collection.sum(attr, null, selected.selectedModelIndex);
+        } else {
+          d.value = this.collection.sum(attr);
+        }
+
+        if (this.showValuesPercentage) {
+          d.fraction = 1;
+        }
+      }
+
+      var selection = this.componentWrapper.selectAll('g.summary')
+          .data([d]);
+      selection.exit().remove();
+      var enterSelection = selection.enter().append('g').attr('class', 'summary');
+      this.enter(enterSelection);
+
+      this.updateLabelContent(selection, d);
+      var translateY = this.overlapLabelTop - this.margin.top + this.labelOffset;
+      selection.attr('transform', 'translate(0,' + translateY + ")");
+
+      var bbox = selection.node().getBBox();
+      var y = bbox.y + bbox.height;
+      enterSelection.append('line').attr({
+        'class': 'divider',
+        x1: 0,
+        x2: this.margin.right,
+        y1: y,
+        y2: y
+      });
+
+      this.summaryHeight = y + this.labelOffset + this.summaryPadding;
+    },
+
     renderLinks: function () {
       if (!this.attachLinks) {
         return;
@@ -110,6 +172,40 @@ function (Component) {
         });
     },
 
+    renderTimePeriod: function () {
+      if (!this.showTimePeriod) {
+        return;
+      }
+      
+      if (!this.timePeriod) {
+        var el = $('<figcaption class="timeperiod">').appendTo(this.$el);
+        var timePeriod = this.timePeriod = new TimePeriod({
+          el: el,
+          collection: this.collection
+        });
+        timePeriod.render();
+      }
+
+      this.timePeriod.$el.width(
+        this.margin.right - this.getXOffset() - this.offset
+      );
+    },
+    
+    configs: {
+      'overlay': {
+        getYIdeal: function (groupIndex, index) {
+          return this.graph.getYPos(groupIndex, index);
+        }
+      },
+      'stack': {
+        getYIdeal: function (groupIndex, index) {
+          var y = this.graph.getYPos(groupIndex, index);
+          var y0 = this.graph.getY0Pos(groupIndex, index);
+          return (y + y0) / 2;
+        }
+      }
+    },
+
     /**
      * Positions labels as close as possible to y position of last data point
      * @param {Selection} selection d3 selection to operate on
@@ -121,22 +217,24 @@ function (Component) {
 
       // prepare 'positions' array
       var positions = [];
-      var graph = this.graph;
       var scale = this.scales.y;
+      var that = this;
       selection.each(function (group, groupIndex) {
-        var y = scale(graph.getYPos.call(graph, groupIndex, maxModelIndex));
-        var size = d3.select(this).select('text').node().getBBox().height;
-        
+        var y = scale(that.getYIdeal.call(that, groupIndex, maxModelIndex));
+        d3.select(this).selectAll('line').style('display', 'none');
+        var size = this.getBBox().height;
+        d3.select(this).selectAll('line').style('display', null);
+
         positions.push({
           ideal: y,
           size: size,
           id: group.get('id')
         });
       });
-      
+
       // optimise positions
       positions = this.positions = this.calcPositions(positions, {
-        min: this.overlapLabelTop,
+        min: this.overlapLabelTop + this.summaryHeight,
         max: this.graph.innerHeight + this.overlapLabelBottom
       });
       
@@ -148,15 +246,18 @@ function (Component) {
         return "translate(" + x + ", " + yLabel + ")";
       });
     },
-    
+
     /**
      * Creates label content elements.
      * @param {Selection} selection d3 selection to operate on
      */
     enter: function (selection) {
       selection.each(function (model) {
-        d3.select(this).append('text');
+        d3.select(this).append('text').attr('class', 'title');
       });
+      if (this.showValues) {
+        selection.append('text').attr('class', 'value');
+      }
     },
     
     /**
@@ -164,17 +265,67 @@ function (Component) {
      * @param {Selection} selection d3 selection to operate on
      */
     update: function (selection) {
-      var showSquare = this.showSquare;
-      var xOffset = 0;
-      if (showSquare) {
-        xOffset += this.squareSize + this.squarePadding;
+      var that = this;
+
+      var getLabelData = function (group, groupIndex) {
+        var d = {
+          title: group.get('title')
+        };
+
+        if (this.showValues) {
+          var attr = this.graph.valueAttr;
+
+          var selected = this.collection.getCurrentSelection();
+          if (selected.selectedModel) {
+            d.value = this.collection.at(
+              groupIndex, selected.selectedModelIndex
+            ).get(attr);
+          } else {
+            d.value = this.collection.sum(attr, groupIndex);
+          }
+
+          if (this.showValuesPercentage) {
+            d.fraction = this.collection.fraction(
+              attr, groupIndex, selected.selectedModelIndex
+            );
+          }
+        }
+
+        return d;
       }
-      selection.each(function (model, i) {
-        var selection = d3.select(this)
-        selection.selectAll("text")
-            .text(_.unescape(model.get('title')))
-            .attr('transform', 'translate(' + xOffset + ', 6)');
+
+      selection.each(function (group, groupIndex) {
+        var d = getLabelData.call(that, group, groupIndex);
+        that.updateLabelContent.call(that, d3.select(this), d);
       });
+    },
+
+    getXOffset: function () {
+      if (this.showSquare) {
+        return this.squareSize + this.squarePadding;
+      } else {
+        return 0;
+      }
+    },
+
+    updateLabelContent: function (selection, d) {
+      var xOffset = this.getXOffset();
+
+      selection.selectAll("text.title")
+        .text(_.unescape(d.title))
+        .attr('transform', 'translate(' + xOffset + ', ' + this.labelOffset + ')');
+
+      if (d.value != null) {
+        var text = selection.selectAll("text.value");
+        text.text(this.formatNumericLabel(d.value))
+          .attr('transform', 'translate(' + xOffset + ', 22)');
+
+        if (this.showValuesPercentage && d.value) {
+          text.append('tspan')
+            .text(' (' + this.formatPercentage(d.fraction) + ')')
+            .attr('class', 'percentage');
+        }
+      }
 
       var truncateWidth = this.margin.right - this.offset - xOffset;
       this.truncateWithEllipsis(selection, truncateWidth);
@@ -224,7 +375,7 @@ function (Component) {
      */
     truncateWithEllipsis: function (selection, maxWidth, ellipsis) {
       ellipsis = ellipsis || '…';
-      
+
       selection.selectAll('text').each(function (metaModel) {
         var text = d3.select(this);
         if (this.getBBox().width <= maxWidth) {
@@ -250,6 +401,7 @@ function (Component) {
     },
     
     onChangeSelected: function (groupSelected, groupIndexSelected, modelSelected, indexSelected) {
+      this.render();
       var labels = this.componentWrapper.selectAll('g.label');
       labels.classed('selected', function (group, groupIndex) {
         return groupIndexSelected === groupIndex;

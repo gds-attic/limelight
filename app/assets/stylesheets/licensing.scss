@@ -1,0 +1,26 @@
+@import 'typography';
+
+@media (max-width: 780px) {
+  #applications-by-licence,
+  #applications-by-authority {
+    .x-axis .tick:nth-child(even) text {
+      display:none;
+    }
+  }
+}
+
+@media (max-width: 440px) {
+  
+  #applications-by-licence,
+  #applications-by-authority {
+    text {
+      font-size:9px;
+      font-size:0.9rem;
+    }
+    .inner {
+      left: 30px;
+      bottom: 30px;
+      right: 30%;
+    }
+  }
+}

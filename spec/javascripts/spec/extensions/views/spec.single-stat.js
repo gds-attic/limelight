@@ -35,7 +35,7 @@ define([
       });
     });
 
-    it("should display calculated value in a strong tag", function () {
+    it("should display calculated value in a strong tag by default", function () {
       var collection = new Collection([{
         "foo": 'bar'
       }], collectionOptions);
@@ -49,6 +49,42 @@ define([
 
       jasmine.renderView(view, function () {
         expect(view.$el.html()).toEqual("<strong>bar</strong>");
+      });
+    });
+
+    it("should display calculated value in a custom wrapping tag when configured", function () {
+      var collection = new Collection([{
+        "foo": 'bar'
+      }], collectionOptions);
+
+      var view = new SingleStatView({
+        valueTag: 'em',
+        collection: collection,
+        getValue: function () {
+          return this.collection.first().get('foo');
+        }
+      });
+
+      jasmine.renderView(view, function () {
+        expect(view.$el.html()).toEqual("<em>bar</em>");
+      });
+    });
+
+    it("should display calculated value without a wrapping tag when configured", function () {
+      var collection = new Collection([{
+        "foo": 'bar'
+      }], collectionOptions);
+
+      var view = new SingleStatView({
+        valueTag: '',
+        collection: collection,
+        getValue: function () {
+          return this.collection.first().get('foo');
+        }
+      });
+
+      jasmine.renderView(view, function () {
+        expect(view.$el.html()).toEqual("bar");
       });
     });
 

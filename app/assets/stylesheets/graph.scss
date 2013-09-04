@@ -5,16 +5,52 @@
   margin:0 auto;
   position:relative;
 
+  figure {
+    max-width: 954px;
+    max-height: 400px;
+  }
+  
   text {
     @include core-16($tabular-numbers: true) ;
+    @media (max-width: 320px) {
+      font-size:9px;
+      font-size:0.9rem;
+    }
   }
 
   .inner {
+    padding:0;
     position:absolute;
-    top:0;
-    bottom:0;
-    left:0;
-    right:0;
+    top: 20px;
+    bottom: 45px;
+    left: 55px;
+    right: 40px;
+
+    @media (max-width: 640px) {
+      top: 20px;
+      bottom: 40px;
+      left: 40px;
+      right: 25px;
+    }
+
+    @media (max-width: 320px) {
+      bottom: 30px;
+    }
+  }
+
+  &.graph-with-labels {
+    h2 {
+      margin-right: 200px;
+    }
+
+    ul.module-actions {
+      margin-top:-32px;
+      margin-bottom: 44px;
+    }
+    
+    .inner {
+      right: 200px;
+    }
   }
   
   .line0 { stroke: $data-colour-1; }
@@ -30,6 +66,15 @@
   .stack3 { fill: mix($data-colour-4, $white, 25%); }
   .stack4 { fill: mix($data-colour-5, $white, 25%); }
   .stack5 { fill: mix($data-colour-6, $white, 25%); }
+
+  .selected {
+    &.stack0 { fill: mix($data-colour-1, $white, 40%); }
+    &.stack1 { fill: mix($data-colour-2, $white, 40%); }
+    &.stack2 { fill: mix($data-colour-3, $white, 40%); }
+    &.stack3 { fill: mix($data-colour-4, $white, 40%); }
+    &.stack4 { fill: mix($data-colour-5, $white, 40%); }
+    &.stack5 { fill: mix($data-colour-6, $white, 40%); }
+  }
   
   .text0 { fill: $data-colour-1; }
   .text1 { fill: $data-colour-2; }
@@ -114,6 +159,80 @@
     background:white;
   }
   
+  .labels {
+
+    line {
+      fill: none;
+      stroke: #444;
+      stroke-width: 1px;
+      vector-effect: non-scaling-stroke;
+
+      &.crisp {
+        shape-rendering: crispEdges;
+      }
+    }
+
+    tspan.percentage {
+      font-size: 14px;
+      fill: $grey-1;
+    }
+    
+    .square0 { fill: $data-colour-1; }
+    .square1 { fill: $data-colour-2; }
+    .square2 { fill: $data-colour-3; }
+    .square3 { fill: $data-colour-4; }
+    .square4 { fill: $data-colour-5; }
+    .square5 { fill: $data-colour-6; }
+    
+    .selected {
+      text {
+        font-weight: bold;
+      }
+      
+      line {
+        stroke-width: 2px;
+      }
+
+      rect {
+        stroke-width:2px;
+        
+        &.square0 { stroke: darken($data-colour-1, 10%); }
+        &.square1 { stroke: darken($data-colour-2, 10%); }
+        &.square2 { stroke: darken($data-colour-3, 10%); }
+        &.square3 { stroke: darken($data-colour-4, 10%); }
+        &.square4 { stroke: darken($data-colour-5, 10%); }
+        &.square5 { stroke: darken($data-colour-6, 10%); }
+      }
+    }
+
+    .summary {
+      .value {
+        font-size: 21px;
+        font-weight: bold;
+        baseline-shift:-5px;
+        .percentage {
+          baseline-shift:-5px;
+          font-weight: normal;
+        }
+      }
+
+      .divider {
+        stroke: $grey-2;
+        stroke-width: 1px;
+        shape-rendering: crispEdges;
+      }
+    }
+  }
+
+  .label-link {
+    position: absolute;
+    z-index:100;
+    cursor:pointer;
+    &:focus {
+      background-color: transparent;
+    }
+  }
+
   .callout {
     position: absolute;
     left:0;
@@ -160,12 +279,30 @@
       }
     }
   }
+
+  .cursorLine.ascender,
+  .cursorLine.descender {
+    display: none;
+  }
+
+
+  .timeperiod {
+    position:absolute;
+    @include core-16($tabular-numbers: true);
+    top:-24px;
+    right:0;
+
+    @media (max-width: 640px) {
+      top:-19px;
+    }
+  }
+
 }
 
 @media (max-width: 640px) {
   
   .graph {
-
+    .x-axis .tick:nth-child(even) text,
     .y-axis .tick:nth-child(even) text {
       display:none;
     }

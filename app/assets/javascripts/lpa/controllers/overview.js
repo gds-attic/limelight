@@ -1,6 +1,6 @@
 define([
   'lpa/collections/application-method-over-time',
-  'lpa/views/timeseries-graph/timeseries-graph',
+  'extensions/views/timeseries-graph/stacked-graph',
   'extensions/collections/multiconversioncollection',
   'lpa/collections/conversion-series',
   'extensions/views/conversion-graph/conversion-graph',
@@ -18,7 +18,8 @@ function (ApplicationsCollection, ApplicationsGraph,
 
         var graphView = new ApplicationsGraph({
           el: $('#application-method-over-time'),
-          collection: applicationsCollection
+          collection: applicationsCollection,
+          showLineLabels: true
         });
 
         applicationsCollection.fetch();

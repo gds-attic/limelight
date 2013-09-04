@@ -18,7 +18,7 @@
  = require nav
  = require table
  = require graph
- = require timeseries-graph
+ = require licensing
  = require conversion-graph
  = require volumetrics-availability
  = require applicationstable

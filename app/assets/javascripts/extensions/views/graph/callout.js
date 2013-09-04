@@ -28,7 +28,7 @@ function (Component, Pivot) {
 
     onChangeSelected: function (group, groupIndex, model, index) {
       var el = this.calloutEl;
-      if (!model) {
+      if (!group || !model) {
         el.addClass('performance-hidden');
         return;
       }
@@ -91,17 +91,24 @@ function (Component, Pivot) {
     renderContent: function (el, group, groupIndex, model, index) {
       
       var header = $('<h3>').html(this.getHeader.apply(this, arguments));
-      
-      var body = $('<dl>').html([
+
+      var value = this.formatNumericLabel(
+        Math.floor(model.get(this.graph.valueAttr))
+      );
+      if (this.showPercentage) {
+        value += ' (' + this.formatPercentage(model.get('fraction')) + ')';
+      }
+
+      var detail = $('<dl>').html([
         '<dt>',
         group.get('title'),
         '</dt>',
         '<dd>',
-        this.formatNumericLabel(Math.floor(model.get(this.graph.valueAttr))),
+        value,
         '</dd>'
       ].join(''));
-      
-      el.empty().append(header, body);
+
+      el.empty().append(header, detail);
     }
   });
 

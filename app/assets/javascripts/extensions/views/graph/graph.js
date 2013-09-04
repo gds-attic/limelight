@@ -224,8 +224,8 @@ function (require, View, d3, XAxis, YAxis, Line, Stack, LineLabel, Hover, Callou
     configs: {
       hour: {
         getXPos: function (groupIndex, modelIndex) {
-          var group = this.collection.at(groupIndex);
-          var model = group.get('values').at(modelIndex);
+          groupIndex = groupIndex || 0;
+          var model = this.collection.at(groupIndex, modelIndex);
           return this.moment(model.get('_timestamp'));
         },
         calcXScale: function () {
@@ -241,8 +241,8 @@ function (require, View, d3, XAxis, YAxis, Line, Stack, LineLabel, Hover, Callou
       },
       week: {
         getXPos: function(groupIndex, modelIndex) {
-          var group = this.collection.at(groupIndex);
-          var model = group.get('values').at(modelIndex);
+          groupIndex = groupIndex || 0;
+          var model = this.collection.at(groupIndex, modelIndex);
           return this.moment(model.get('_end_at')).subtract(1, 'days');
         },
         calcXScale: function () {

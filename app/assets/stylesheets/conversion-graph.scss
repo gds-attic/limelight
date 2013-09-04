@@ -1,10 +1,12 @@
 @import 'typography';
 
-.conversion-graph {
-    max-width: 954px;
+.graph {
+  .conversion-graph {
     max-height: 200px;
     min-height: 100px;
-
+  }
+}
+.conversion-graph {
     &:hover {
       max-height: 300px;
     }

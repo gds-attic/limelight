@@ -11,7 +11,7 @@
 </header>
 
 <% if Rails.application.config.feature_toggles[:lpa_dashboard_application_method] %>
-<section class="graph">
+<section class="graph graph-with-labels application-method-over-time">
   <h1>Applications</h1>
   <ul class="module-actions">
     <li class="info">
@@ -24,7 +24,7 @@
     </li>
   </ul>
   <h2><span class="group0">Non-digital</span> and <span class="group1">digital</span> applications over time</h2>
-  <figure class="graph timeseries-graph" id="application-method-over-time"></figure>
+  <figure class="graph" id="application-method-over-time"></figure>
 </section>
 <% end %>
 

@@ -83,15 +83,13 @@ function (Component) {
         if (this.drawCursorLine) {
           this.renderCursorLine(x);
         }
-        this.componentWrapper.append('circle').attr({
-          'class': 'selectedIndicator line' + groupIndexSelected,
-          cx: x,
-          cy: this.y(groupSelected, groupIndexSelected, modelSelected, indexSelected),
-          r: 4
-        });
-
-        if (isNaN(this.y(groupSelected, groupIndexSelected, modelSelected, indexSelected))) {
-          console.log(groupSelected, groupIndexSelected, modelSelected, indexSelected);
+        if (groupSelected) {
+          this.componentWrapper.append('circle').attr({
+            'class': 'selectedIndicator line' + groupIndexSelected,
+            cx: x,
+            cy: this.y(groupSelected, groupIndexSelected, modelSelected, indexSelected),
+            r: 4
+          });
         }
       }
     },

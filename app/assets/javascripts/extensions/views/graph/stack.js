@@ -5,6 +5,8 @@ define([
 ],
 function (require, Line, Component) {
   var Stack = Line.extend({
+
+    selectGroup: true,
     
     y0: function (group, groupIndex, model, index) {
       var yPos = this.graph.getY0Pos(groupIndex, index);
@@ -129,7 +131,12 @@ function (require, Line, Component) {
         }
       };
 
-      this.selectItem(selectedGroupIndex, selectedItemIndex, e.toggle);
+      if (this.selectGroup) {
+        this.selectItem(selectedGroupIndex, selectedItemIndex, e.toggle);
+      } else {
+        this.selectItem(null, selectedItemIndex, e.toggle);
+      }
+
     }
   });
 
