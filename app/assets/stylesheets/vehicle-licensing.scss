@@ -38,6 +38,17 @@
 
   p.impact-number {
     float:left;
+
+    strong {
+      @include bold-48($tabular-numbers: true);
+
+      @media (max-width: 640px) {
+      // Revert back to default impact number size for small screen sizes.
+      // GOV.UK frontend toolkit rule decreases font size automatically
+      // for small screens.
+      @include bold-80($tabular-numbers: true);
+    }
+  }
   }
 
   .graph {

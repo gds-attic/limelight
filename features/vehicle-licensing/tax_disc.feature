@@ -41,7 +41,7 @@ Feature: Tax disc dashboard
      When I go to /performance/tax-disc
      Then I should see the module "Digital take-up"
       And the module should contain a graph
-      And the module should contain the text "52% last 12 months"
+      And the module should contain the text "52.0% last 12 months"
 
   Scenario Outline: Navigating to related pages
     Given The vehicle-licensing channels bucket returns the response in "vehicle_licensing_channels.json"

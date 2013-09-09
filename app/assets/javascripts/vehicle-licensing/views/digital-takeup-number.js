@@ -7,7 +7,7 @@ function (SingleStatView) {
     changeOnSelected: true,
 
     getValue: function () {
-      return this.formatPercentage(this.collection.at(0).get('fraction'));
+      return this.formatPercentage(this.collection.at(0).get('fraction'), 1);
     },
 
     getLabel: function () {
@@ -20,7 +20,7 @@ function (SingleStatView) {
     },
 
     getValueSelected: function (selection) {
-      return this.formatPercentage(selection.selectedModel.get('fraction'));
+      return this.formatPercentage(selection.selectedModel.get('fraction'), 1);
     },
 
     getLabelSelected: function (selection) {
