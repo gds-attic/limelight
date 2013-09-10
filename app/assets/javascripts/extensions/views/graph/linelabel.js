@@ -6,14 +6,14 @@ define([
 function (require, Component, TimePeriod) {
 
   var LineLabel = Component.extend({
-    
+
     offset: 20,
     linePaddingInner: 4,
     linePaddingOuter: 4,
     overlapLabelTop: 0,
     overlapLabelBottom: 20,
     labelOffset: 6,
-    
+
     showSquare: true,
     showValues: false,
     showValuesPercentage: false,
@@ -23,37 +23,37 @@ function (require, Component, TimePeriod) {
     squareSize: 11,
     squarePadding: 4,
     summaryPadding: 6,
-    
+
     classed: 'labels',
 
     interactive: function (e) {
       return e.slice % 3 === 2;
     },
-    
+
     /**
      * Renders labels for current collection.
      */
     render: function () {
       Component.prototype.render.apply(this, arguments);
-      
+
       var left = this.graph.innerWidth + this.offset;
       this.componentWrapper
         .classed(this.classed, true)
         .attr('transform', 'translate(' + left + ', 0)');
 
       this.renderSummary();
-      
+
       var selection = this.componentWrapper.selectAll('g.label')
           .data(this.collection.models);
       selection.exit().remove();
-          
+
       var enterSelection = selection.enter().append('g').attr('class', 'label');
       enterSelection.append('line');
       if (this.showSquare) {
         enterSelection.append('rect');
       }
       this.enter(enterSelection);
-      
+
       this.update(selection);
       this.setLabelPositions(selection);
       this.updateLines(selection);
@@ -123,8 +123,8 @@ function (require, Component, TimePeriod) {
         }
       }
 
-      var selection = this.componentWrapper.selectAll('g.summary')
-          .data([d]);
+      var selection = this.componentWrapper.selectAll('g.summary').data([d]);
+
       selection.exit().remove();
       var enterSelection = selection.enter().append('g').attr('class', 'summary');
       this.enter(enterSelection);
@@ -176,7 +176,7 @@ function (require, Component, TimePeriod) {
       if (!this.showTimePeriod) {
         return;
       }
-      
+
       if (!this.timePeriod) {
         var el = $('<figcaption class="timeperiod">').appendTo(this.$el);
         var timePeriod = this.timePeriod = new TimePeriod({
@@ -190,7 +190,7 @@ function (require, Component, TimePeriod) {
         this.margin.right - this.getXOffset() - this.offset
       );
     },
-    
+
     configs: {
       'overlay': {
         getYIdeal: function (groupIndex, index) {
@@ -211,7 +211,7 @@ function (require, Component, TimePeriod) {
      * @param {Selection} selection d3 selection to operate on
      */
     setLabelPositions: function (selection) {
-      
+
       // labels are positioned in relation to last data point
       var maxModelIndex = this.collection.at(0).get('values').length - 1;
 
@@ -237,7 +237,7 @@ function (require, Component, TimePeriod) {
         min: this.overlapLabelTop + this.summaryHeight,
         max: this.graph.innerHeight + this.overlapLabelBottom
       });
-      
+
       // apply optimised positions
       selection.attr("transform", function (group, index) {
         var x = 0;
@@ -259,7 +259,7 @@ function (require, Component, TimePeriod) {
         selection.append('text').attr('class', 'value');
       }
     },
-    
+
     /**
      * Sets label content.
      * @param {Selection} selection d3 selection to operate on
@@ -308,6 +308,20 @@ function (require, Component, TimePeriod) {
       }
     },
 
+    /**
+     * Pass a selection or a node
+     */
+    getNodeHeight: function(selection){
+      var node;
+      // if it's a seleciton, get the node
+      if(selection.node){
+        node = selection.node();
+      } else {
+        node = selection;
+      }
+      return node.getBBox().height;
+    },
+
     updateLabelContent: function (selection, d) {
       var xOffset = this.getXOffset();
 
@@ -317,8 +331,9 @@ function (require, Component, TimePeriod) {
 
       if (d.value != null) {
         var text = selection.selectAll("text.value");
-        text.text(this.formatNumericLabel(d.value))
-          .attr('transform', 'translate(' + xOffset + ', 22)');
+        text.text(this.formatNumericLabel(d.value));
+
+        text.attr('transform', 'translate(' + xOffset + ', ' + this.getNodeHeight(text.node()) + ')');
 
         if (this.showValuesPercentage && d.value) {
           text.append('tspan')
@@ -330,7 +345,7 @@ function (require, Component, TimePeriod) {
       var truncateWidth = this.margin.right - this.offset - xOffset;
       this.truncateWithEllipsis(selection, truncateWidth);
     },
-    
+
     updateSquares: function (selection) {
       var squareSize = this.squareSize;
       selection.each(function (model, i) {
@@ -342,7 +357,7 @@ function (require, Component, TimePeriod) {
           .attr('height', squareSize);
       });
     },
-    
+
     /**
      * Draws line from y position of last item to label
      * @param {Selection} selection d3 selection to operate on
@@ -366,7 +381,7 @@ function (require, Component, TimePeriod) {
           });
       });
     },
-    
+
     /**
      * Truncates label texts to fit within defined width.
      * @param {Selection} selection d3 selection to operate on
@@ -382,7 +397,7 @@ function (require, Component, TimePeriod) {
           // text fits already, nothing to do
           return;
         }
-        
+
         // truncate with ellipsis until text fits
         var original = text.text();
         var truncated;
@@ -399,7 +414,7 @@ function (require, Component, TimePeriod) {
         };
       })
     },
-    
+
     onChangeSelected: function (groupSelected, groupIndexSelected, modelSelected, indexSelected) {
       this.render();
       var labels = this.componentWrapper.selectAll('g.label');
@@ -407,7 +422,7 @@ function (require, Component, TimePeriod) {
         return groupIndexSelected === groupIndex;
       });
     },
-    
+
     onHover: function (e) {
       var y = e.y;
       var bestIndex, bestDistance = Infinity;
@@ -424,7 +439,7 @@ function (require, Component, TimePeriod) {
         this.collection.selectItem(bestIndex);
       }
     },
-    
+
     /**
      * Optimises non-overlapping placement of items by trying to minimise the
      * sum of squared distances of each item to their "ideal" position.
@@ -438,12 +453,12 @@ function (require, Component, TimePeriod) {
      * @returns {Array} Item placement solution. Each entry contains a 'min' property defining the item's positions.
      */
     calcPositions: function (items, bounds) {
-      
+
       var sumSize = _.reduce(items, function(memo, item){
         return memo + item.size;
       }, 0);
 
-      
+
       // check if everything fits
       if (bounds) {
         var availableSpace = bounds.max - bounds.min;
@@ -456,7 +471,7 @@ function (require, Component, TimePeriod) {
           sumSize = availableSpace;
         }
       }
-      
+
       if (bounds) {
         // set boundaries for each item
         var sizeUsed = 0, sizeAvailable = bounds.max - bounds.min - sumSize;
@@ -466,12 +481,12 @@ function (require, Component, TimePeriod) {
           sizeUsed += item.size;
         });
       }
-      
+
       // calculate initial solution
       var curMax = 0, sumSquareDist = 0;
-      
+
       var bestSolution = _.map(items, function (item, index) {
-        
+
         item = _.extend({}, item);
         item.index = index;
         item.min = Math.max(curMax, item.ideal);
@@ -485,20 +500,20 @@ function (require, Component, TimePeriod) {
         item.dist = item.min - item.ideal;
         item.squareDist = Math.pow(item.dist, 2);
         sumSquareDist += item.squareDist;
-        
+
         return item;
       });
       bestSolution.sumSquareDist = sumSquareDist;
-      
+
       var calcSolution = function (items, indexToOptimise) {
-        
+
         var solution = [];
-        
+
         // move anchor element a bit closer to ideal
         var anchor = _.extend({}, items[indexToOptimise]);
         var targetDist = anchor.dist * .9;
-        
-        anchor.min = anchor.ideal + targetDist; 
+
+        anchor.min = anchor.ideal + targetDist;
         if (anchor.absoluteLowestMin != null) {
           anchor.min = Math.max(anchor.min, anchor.absoluteLowestMin);
         }
@@ -508,11 +523,11 @@ function (require, Component, TimePeriod) {
         anchor.dist = anchor.min - anchor.ideal;
         var curMin = anchor.min;
         var curMax = anchor.max = anchor.min + anchor.size;
-        
+
         anchor.squareDist = Math.pow(anchor.dist, 2);
         var sumSquareDist = anchor.squareDist;
         solution[anchor.index] = anchor;
-        
+
         // nudge previous elements upwards
         for (var i = indexToOptimise - 1; i >= 0; i--) {
           var item = _.extend({}, items[i]);
@@ -523,7 +538,7 @@ function (require, Component, TimePeriod) {
           sumSquareDist += item.squareDist;
           solution[i] = item;
         };
-        
+
         // nudge following elements downwards
         for (var i = indexToOptimise + 1; i < items.length; i++) {
           var item = _.extend({}, items[i]);
@@ -534,12 +549,12 @@ function (require, Component, TimePeriod) {
           sumSquareDist += item.squareDist;
           solution[i] = item;
         };
-        
+
         solution.sumSquareDist = sumSquareDist;
-        
+
         return solution;
       };
-      
+
       var doIterate = true;
       var maxIterations = 100;
       var threshold = 1;
@@ -548,7 +563,7 @@ function (require, Component, TimePeriod) {
         var itemsBySquareDist = _.sortBy(bestSolution, function (item) {
           return -item.squareDist;
         });
-        
+
         for (var i = 0, ni = itemsBySquareDist.length; i < ni && !doIterate; i++) {
           var item = itemsBySquareDist[i];
           var solution = calcSolution(bestSolution, item.index);
@@ -561,7 +576,7 @@ function (require, Component, TimePeriod) {
           }
         };
       };
-      
+
       return bestSolution;
     }
   });

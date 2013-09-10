@@ -9,7 +9,7 @@
     max-width: 954px;
     max-height: 400px;
   }
-  
+
   text {
     @include core-16($tabular-numbers: true) ;
     @media (max-width: 320px) {
@@ -47,19 +47,19 @@
       margin-top:-32px;
       margin-bottom: 44px;
     }
-    
+
     .inner {
       right: 200px;
     }
   }
-  
+
   .line0 { stroke: $data-colour-1; }
   .line1 { stroke: $data-colour-2; }
   .line2 { stroke: $data-colour-3; }
   .line3 { stroke: $data-colour-4; }
   .line4 { stroke: $data-colour-5; }
   .line5 { stroke: $data-colour-6; }
-  
+
   .stack0 { fill: mix($data-colour-1, $white, 25%); }
   .stack1 { fill: mix($data-colour-2, $white, 25%); }
   .stack2 { fill: mix($data-colour-3, $white, 25%); }
@@ -75,7 +75,7 @@
     &.stack4 { fill: mix($data-colour-5, $white, 40%); }
     &.stack5 { fill: mix($data-colour-6, $white, 40%); }
   }
-  
+
   .text0 { fill: $data-colour-1; }
   .text1 { fill: $data-colour-2; }
   .text2 { fill: $data-colour-3; }
@@ -94,7 +94,7 @@
   .y-axis path {
     display: none;
   }
-  
+
   .selectedIndicator {
     fill: white;
     vector-effect: non-scaling-stroke;
@@ -109,35 +109,35 @@
     stroke-width: 1px;
     shape-rendering: crispEdges;
   }
-  
+
   .line {
     fill: none;
     stroke-width: 2.5px;
     stroke-linecap: round;
     stroke-linejoin: round;
     vector-effect: non-scaling-stroke;
-    
+
     &.selected {
       stroke-width: 4px;
     }
   }
-  
+
   .bar {
     line {
       stroke-width: 2px;
       shape-rendering: crispEdges;
       vector-effect: non-scaling-stroke;
     }
-    
+
     rect {
       shape-rendering: crispEdges;
     }
-    
+
     text {
       text-anchor: middle;
     }
   }
-  
+
   .tick line {
     vector-effect: non-scaling-stroke;
   }
@@ -148,7 +148,7 @@
     stroke-width: 1px;
     shape-rendering: crispEdges;
   }
-  
+
   .hover {
     position: absolute;
     left:0;
@@ -158,7 +158,7 @@
     opacity:0;
     background:white;
   }
-  
+
   .labels {
 
     line {
@@ -176,26 +176,26 @@
       font-size: 14px;
       fill: $grey-1;
     }
-    
+
     .square0 { fill: $data-colour-1; }
     .square1 { fill: $data-colour-2; }
     .square2 { fill: $data-colour-3; }
     .square3 { fill: $data-colour-4; }
     .square4 { fill: $data-colour-5; }
     .square5 { fill: $data-colour-6; }
-    
+
     .selected {
       text {
         font-weight: bold;
       }
-      
+
       line {
         stroke-width: 2px;
       }
 
       rect {
         stroke-width:2px;
-        
+
         &.square0 { stroke: darken($data-colour-1, 10%); }
         &.square1 { stroke: darken($data-colour-2, 10%); }
         &.square2 { stroke: darken($data-colour-3, 10%); }
@@ -209,9 +209,7 @@
       .value {
         font-size: 21px;
         font-weight: bold;
-        baseline-shift:-5px;
         .percentage {
-          baseline-shift:-5px;
           font-weight: normal;
         }
       }
@@ -300,22 +298,22 @@
 }
 
 @media (max-width: 640px) {
-  
+
   .graph {
     .x-axis .tick:nth-child(even) text,
     .y-axis .tick:nth-child(even) text {
       display:none;
     }
-    
+
     .line {
       fill: none;
       stroke-width: 1.5px;
-      
+
       &.selected {
         stroke-width: 3px;
       }
     }
-    
+
     .callout {
       @include core-16;
       margin-top:.5em;
