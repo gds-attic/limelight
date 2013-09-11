@@ -4,7 +4,6 @@ Feature: Listing licences
   So I can navigate to individual licences
 
   Scenario: there are two licences
-      Given API responds with licences.json
        When I go to /performance/licensing/licences
        Then I should get back a status of 200
         And the navigation link for "Licences" should be active
@@ -18,9 +17,9 @@ Feature: Listing licences
         And the 1st title in the 2nd group should be "Register as a scrap metal dealer"
         And the 1st link in the 2nd group should be "/performance/licensing/licences/register-as-a-scrap-metal-dealer"
   
-  @no-selenium @svg
+  #wip due to inability to register no license response in multi process (e.g. cross browser) testing
+  @no-selenium @svg @wip
   Scenario: there are no licences
-      Given API responds with no_licences.json
        When I go to /performance/licensing/licences
        Then I should get back a status of 200
         And the navigation link for "Licences" should be active

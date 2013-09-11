@@ -1,3 +1,12 @@
+Then(/^Say something$/) do
+  p "HERE"
+  Rails.logger.info "HERE"
+end
+
+Then(/^pry me up$/) do
+  binding.pry
+end
+
 Given(/^the flag (.+) is (not )?set$/) do |flag, status|
   Rails.application.config.feature_toggles[flag.to_sym] = !(status == 'not ')
 end

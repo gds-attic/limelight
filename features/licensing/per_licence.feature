@@ -5,7 +5,6 @@ Feature: Visiting per-licence
   
   @svg
   Scenario: visiting per-licence page on an SVG browser
-      Given API responds with application-to-licence-a-street-collection.json
        When I go to /performance/licensing/licences/application-to-licence-a-street-collection
        Then I should get back a status of 200
         And the navigation link for "Licences" should be active
@@ -17,7 +16,6 @@ Feature: Visiting per-licence
 
   @no-svg
   Scenario: visiting per-licence page on a non-SVG browser
-      Given API responds with application-to-licence-a-street-collection.json
        When I go to /performance/licensing/licences/application-to-licence-a-street-collection
        Then I should get back a status of 200
         And the navigation link for "Licences" should be active

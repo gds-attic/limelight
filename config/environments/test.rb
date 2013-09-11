@@ -34,5 +34,5 @@ Limelight::Application.configure do
 
   config.slimmer.asset_host = ENV['GOVUK_ASSET_HOST'] if ENV['GOVUK_ASSET_HOST']
 
-  config.use_api_stub = false
+  config.use_stub_api = true
 end

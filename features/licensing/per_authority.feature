@@ -5,7 +5,6 @@ Feature: Visiting per-authority
 
   @svg
   Scenario: visiting per-authority page on an SVG browser
-    Given API responds with fake-authority-1.json
     When I go to /performance/licensing/authorities/fake-authority-1
     Then I should get back a status of 200
     And the navigation link for "Authorities" should be active
@@ -17,7 +16,6 @@ Feature: Visiting per-authority
 
   @no-svg
   Scenario: visiting per-authority page on a non-SVG browser
-    Given API responds with fake-authority-1.json
     When I go to /performance/licensing/authorities/fake-authority-1
     Then I should get back a status of 200
     And the navigation link for "Authorities" should be active
