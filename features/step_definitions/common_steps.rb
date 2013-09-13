@@ -1,9 +1,14 @@
-Given(/^the flag (.+) is (not )?set$/) do |flag, status|
-  Rails.application.config.feature_toggles[flag.to_sym] = !(status == 'not ')
+Then(/^Say something$/) do
+  p "HERE"
+  Rails.logger.info "HERE"
 end
 
-Given(/^The ([\w-]+) ([\w-]+) bucket returns the response in "(.*?)"$/) do |service, bucket, fixture_file|
-  BackdropStubController.register(service, bucket, fixture_file)
+Then(/^pry me up$/) do
+  binding.pry
+end
+
+Given(/^the flag (.+) is (not )?set$/) do |flag, status|
+  Rails.application.config.feature_toggles[flag.to_sym] = !(status == 'not ')
 end
 
 Then(/^I should see the module "(.*?)"$/) do |module_title|
@@ -46,7 +51,10 @@ Then(/^I should be at (.*)$/) do |path|
 end
 
 Then(/^I should get back a status of (\d+)$/) do |status_code|
-  page.status_code.should == status_code.to_i
+  if Capybara.current_driver == 'rack_test'
+    # TODO: check for status_code capability instead of checking driver name
+    page.status_code.should == status_code.to_i
+  end
 end
 
 Then(/^the "(.*?)" count should be (\d+)$/) do |type, count|
@@ -64,7 +72,7 @@ end
 
 Then(/^the (\d+)(?:st|nd|rd|th) link in the (\d+)(?:st|nd|rd|th) group should be "(.*?)"$/) do |position, group, href|
   dd = page.all('#content dd')[group.to_i - 1]
-  dd.all("li a")[position.to_i - 1][:href].should == href
+  dd.all("li a")[position.to_i - 1][:href].should include(href)
 end
 
 Then(/^the category title should be "(.*?)"$/) do |title|
@@ -72,7 +80,7 @@ Then(/^the category title should be "(.*?)"$/) do |title|
 end
 
 Then(/^the category title should link to "(.*?)"$/) do |href|
-  page.find("#content header p.category-title a")[:href].should == href
+  page.find("#content header p.category-title a")[:href].should include(href)
 end
 
 Then(/^the page title should be "(.*?)"$/) do |title|

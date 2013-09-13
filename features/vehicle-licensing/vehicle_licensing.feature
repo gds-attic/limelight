@@ -7,21 +7,20 @@ Feature: Vehicle licensing dashboard
   Scenario: visiting the dashboard
     When I go to /performance/vehicle-licensing
     Then the page title should be "Vehicle licensing"
-
+  
+  @svg
   Scenario: looking at the application types graph
-    Given The vehicle-licensing channels bucket returns the response in "vehicle_licensing_services.json"
     When I go to /performance/vehicle-licensing
     Then I should see the module "Applications by service"
      And the module should contain a graph
 
+  @svg
   Scenario: looking at the application channels graph
-    Given The vehicle-licensing channels bucket returns the response in "vehicle_licensing_channels.json"
     When I go to /performance/vehicle-licensing
     Then I should see the module "Applications by channel"
      And the module should contain a graph
 
   Scenario Outline: Navigating to related pages
-    Given The vehicle-licensing channels bucket returns the response in "vehicle_licensing_channels.json"
     When I go to /performance/vehicle-licensing
      And I click on "<Title>"
     Then I should get back a status of 200

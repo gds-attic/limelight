@@ -1,5 +1,14 @@
 require "spec_helper"
 
+# This is a provisional fix for an rails 3.2 issue
+# (see https://github.com/rails/rails/pull/9248).
+# It allows for a proper test execution with `config.threadsafe!`.
+p "Ensuring inclusion of route helpers for 'threadsafe!' tests..."
+class ActionView::TestCase::TestController
+  include Rails.application.routes.url_helpers
+end
+p "Done"
+
 describe ApplicationHelper do
   describe "current_main_navigation_path" do
     it "relates licensing to services" do

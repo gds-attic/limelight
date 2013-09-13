@@ -45,7 +45,10 @@ group :test, :development do
   gem "rspec-rails", "2.14.0"
   
   gem "brakeman", "2.1.1"
-
+  gem 'parallel_tests', "0.15.0", :require => false
+  gem 'sauce', :require => false
+  gem 'sauce-cucumber', '3.1.1', :require => false
+  gem 'sauce-connect', "3.1.0", :require => false
   gem "cucumber-rails", "1.4.0", :require => false
   gem "poltergeist", "1.4.0"
   gem "jasmine", "1.3.2"

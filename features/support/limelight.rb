@@ -17,7 +17,3 @@ Capybara.default_wait_time = (ENV['CAPYBARA_WAIT_TIME'] || 5).to_i
 puts ""
 puts "Capybara wait time: #{Capybara.default_wait_time.inspect}"
 puts ""
-
-Before do
-  BackdropStubController.reset
-end

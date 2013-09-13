@@ -9,13 +9,12 @@ Feature: Overview page
        Then I should get back a status of 200
 
   Scenario: live service module
-    Given The licensing realtime bucket returns the response in "licensing_realtime.json"
     When I go to /performance/licensing
     Then I should see the module "Live service usage"
      And the module should contain the text "11 users online now"
 
+  @svg
   Scenario: form submissions module
-    Given The licensing applications bucket returns the response in "licensing_applications.json"
     When I go to /performance/licensing
     Then I should see the module "Form submissions"
      And the module should contain a graph
@@ -25,6 +24,7 @@ Feature: Overview page
     When I go to /performance/licensing
     Then I should see the module "Completion rate"
 
+  @svg
   Scenario: submission drop-offs module
     When I go to /performance/licensing
     Then I should see the module "Submission drop-offs"
