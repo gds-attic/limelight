@@ -13,7 +13,7 @@ namespace :dev do
     desc "Start Rails development server"
     task :start do
       if !(`lsof -i :49221 | tail -1` =~ /^ruby/)
-        sh %[STATIC_DEV='https://static.production.alphagov.co.uk' BACKDROP_URL=/backdrop_stub rails s -p 49221 -d]
+        sh %[STATIC_DEV='https://static.production.alphagov.co.uk' USE_STUB_API=true BACKDROP_PORT=49221 rails s -p 49221 -d]
       end
       Rake::Task['dev:rails:status'].invoke
     end

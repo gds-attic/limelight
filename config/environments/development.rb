@@ -6,6 +6,8 @@ Limelight::Application.configure do
   # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
 
+  config.threadsafe!
+
   # Log error messages when you accidentally call methods on nil.
   config.whiny_nils = true
 
@@ -28,10 +30,6 @@ Limelight::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 
-  if ENV.has_key?("USE_STUB_API")
-    config.assets.paths << Rails.root.join("fakeapi")
-    config.use_api_stub = true
-    config.additional_requirejs_dependencies = "fakeapi"
-  end
+  config.use_stub_api = ENV["USE_STUB_API"]
 
 end

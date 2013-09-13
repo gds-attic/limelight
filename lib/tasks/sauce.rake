@@ -41,7 +41,9 @@ namespace :sauce do
           "--profile sauce",
           format_options,
           options,
-          "BROWSER='#{browser.join(',')}'"
+          "--tags ~@wip",
+          "BROWSER='#{browser.join(',')}'",
+          "NO_SPECIFIED_CAPYBARA_PORT=true"
         ].join(' ')
         
         Rake::Task[ "sauce:run_browser_tests" ].execute

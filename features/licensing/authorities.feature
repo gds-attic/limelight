@@ -3,8 +3,8 @@ Feature: Listing authorities
   I want to see a list of authorities
   So I can navigate to individual authorities
 
+  @javascript
   Scenario: there are two authorities
-    Given API responds with authorities.json
     When I go to /performance/licensing/authorities
     Then I should get back a status of 200
     And the navigation link for "Authorities" should be active
@@ -20,9 +20,9 @@ Feature: Listing authorities
     And the 3rd title in the 2nd group should be "Fake authority 2"
     And the 3rd link in the 2nd group should be "/performance/licensing/authorities/fake-authority-2"
 
-  @no-selenium @svg
+  #wip due to inability to register no license response in multi process (e.g. cross browser) testing
+  @no-selenium @svg @wip
   Scenario: there are no authorities
-    Given API responds with no_authorities.json
     When I go to /performance/licensing/authorities
     Then I should get back a status of 200
      And the navigation link for "Authorities" should be active
