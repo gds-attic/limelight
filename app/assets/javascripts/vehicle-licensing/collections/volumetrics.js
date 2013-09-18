@@ -30,12 +30,6 @@ function (GraphCollection) {
           return d.channel === series.id;
         });
 
-        _.each(dataSeries.values, function (d) {
-          if (d['volume:sum'] == null) {
-            d['volume:sum'] = 0;
-          }
-        });
-
         return _.extend({}, series, {
           values: dataSeries.values
         });

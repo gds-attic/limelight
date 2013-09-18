@@ -161,5 +161,22 @@ define([
         expect(view.$el.html()).toEqual("<strong>bar</strong> label");
       });
     });
+
+    it("should display (no data) when data is missing", function () {
+      var collection = new Collection([{
+        "foo": null
+      }], collectionOptions);
+
+      var view = new SingleStatView({
+        collection: collection,
+        getValue: function () {
+          return this.collection.first().get('foo');
+        }
+      });
+
+      jasmine.renderView(view, function () {
+        expect(view.$el.html()).toEqual("<strong>(no data)</strong>");
+      });
+    });
   });
 });

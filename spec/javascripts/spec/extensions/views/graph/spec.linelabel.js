@@ -166,7 +166,6 @@ function (LineLabel, Collection) {
           expect(label2.select('text.value').text()).toEqual('210 (78%)');
         });
 
-
         it("renders a summary label when enabled", function () {
           spyOn(lineLabel, "getNodeHeight").andReturn(18);
           lineLabel.showSummary = true;
@@ -208,7 +207,6 @@ function (LineLabel, Collection) {
           expect(lineLabel.$el.find('figcaption.timeperiod').length).toEqual(1);
           expect(lineLabel.$el.find('figcaption.timeperiod')).toHaveHtml('Last 3 weeks')
         });
-
       });
 
       describe("event handling", function () {
@@ -310,6 +308,65 @@ function (LineLabel, Collection) {
           expect(label2.select('text.value').text()).toEqual('210 (78%)');
           expect(lineLabel.$el.find('figcaption.timeperiod')).toHaveHtml('Last 3 weeks')
         });
+
+        it("displays (no data) when the current selection is null", function () {
+          collection.at(0).get('values').at(2).set('_count', null);
+          lineLabel.showValues = true;
+          lineLabel.showValuesPercentage = true;
+          lineLabel.showSummary = true;
+          lineLabel.showTimePeriod = true;
+          lineLabel.render();
+
+          var labels = wrapper.select('.labels');
+          var summary = labels.select('g:nth-child(1)');
+          var label1 = labels.select('g:nth-child(2)');
+          var label2 = labels.select('g:nth-child(3)');
+
+          var models = collection.map(function (group) {
+            return group.get('values').at(1);
+          });
+          collection.selectItem(null, 2);
+          expect(summary.select('text.value').text()).toEqual('80 (100%)');
+          expect(label1.select('text.value').text()).toEqual('(no data)');
+          expect(label2.select('text.value').text()).toEqual('80 (100%)');
+          expect(lineLabel.$el.find('figcaption.timeperiod')).toHaveHtml('26 Aug to 1 Sep 2013')
+
+          collection.selectItem(null, null);
+          expect(summary.select('text.value').text()).toEqual('240 (100%)');
+          expect(label1.select('text.value').text()).toEqual('30 (13%)');
+          expect(label2.select('text.value').text()).toEqual('210 (88%)');
+          expect(lineLabel.$el.find('figcaption.timeperiod')).toHaveHtml('Last 3 weeks')
+        });
+
+        it("displays (no data) for all items when the current selection is null", function () {
+          collection.at(0).get('values').at(2).set('_count', null);
+          collection.at(1).get('values').at(2).set('_count', null);
+          lineLabel.showValues = true;
+          lineLabel.showValuesPercentage = true;
+          lineLabel.showSummary = true;
+          lineLabel.showTimePeriod = true;
+          lineLabel.render();
+
+          var labels = wrapper.select('.labels');
+          var summary = labels.select('g:nth-child(1)');
+          var label1 = labels.select('g:nth-child(2)');
+          var label2 = labels.select('g:nth-child(3)');
+
+          var models = collection.map(function (group) {
+            return group.get('values').at(1);
+          });
+          collection.selectItem(null, 2);
+          expect(summary.select('text.value').text()).toEqual('(no data)');
+          expect(label1.select('text.value').text()).toEqual('(no data)');
+          expect(label2.select('text.value').text()).toEqual('(no data)');
+          expect(lineLabel.$el.find('figcaption.timeperiod')).toHaveHtml('26 Aug to 1 Sep 2013')
+
+          collection.selectItem(null, null);
+          expect(summary.select('text.value').text()).toEqual('160 (100%)');
+          expect(label1.select('text.value').text()).toEqual('30 (19%)');
+          expect(label2.select('text.value').text()).toEqual('130 (81%)');
+          expect(lineLabel.$el.find('figcaption.timeperiod')).toHaveHtml('Last 3 weeks')
+        });
       });
 
       describe("onHover", function () {
@@ -337,9 +394,9 @@ function (LineLabel, Collection) {
     });
 
     describe("setLabelPositions", function() {
-      var el, wrapper, lineLabel, graph;
+      var el, wrapper, lineLabel, graph, collection;
       beforeEach(function() {
-        var collection = new Collection([
+        collection = new Collection([
           {
             id: 'a',
             values: new Collection([
@@ -393,14 +450,6 @@ function (LineLabel, Collection) {
         wrapper = lineLabel.d3.select(el[0]).append('svg').append('g');
         wrapper.selectAll('g').data(collection.models)
           .enter().append('g').append('text');
-      });
-
-      afterEach(function() {
-        el.remove();
-      });
-
-      it("positions labels vertically so they do not collide and snaps to half pixels to avoid antialiasing", function() {
-        lineLabel.applyConfig('overlay');
         wrapper.selectAll('g').each(function (metaModel) {
           spyOn(this, "getBBox").andReturn({
             height: 20
@@ -410,6 +459,14 @@ function (LineLabel, Collection) {
           { min: 20 },
           { min: 30 }
         ]);
+      });
+
+      afterEach(function() {
+        el.remove();
+      });
+
+      it("positions labels vertically so they do not collide and snaps to half pixels to avoid antialiasing", function() {
+        lineLabel.applyConfig('overlay');
         lineLabel.setLabelPositions(wrapper.selectAll('g'));
         expect(lineLabel.calcPositions).toHaveBeenCalled();
         var startPositions = lineLabel.calcPositions.argsForCall[0][0];
@@ -430,17 +487,29 @@ function (LineLabel, Collection) {
         expect(wrapper.select('g:nth-child(2)').attr('transform')).toEqual('translate(0, 30.5)');
       });
 
+      it("uses the last non-null value for positioning in overlay configuration", function() {
+        collection.at(0).get('values').last().set('_count', null);
+        collection.at(1).get('values').last().set('_count', null);
+        lineLabel.applyConfig('overlay');
+        lineLabel.setLabelPositions(wrapper.selectAll('g'));
+        expect(lineLabel.calcPositions).toHaveBeenCalled();
+        var startPositions = lineLabel.calcPositions.argsForCall[0][0];
+        expect(lineLabel.scales.y).toHaveBeenCalledWith(4);
+        expect(startPositions[0]).toEqual({
+          ideal: 16, // yScale was applied to '_count' attribute of penultimate element in line 'a'
+          size: 20,
+          id: 'a'
+        });
+        expect(lineLabel.scales.y).toHaveBeenCalledWith(5);
+        expect(startPositions[1]).toEqual({
+          ideal: 25, // yScale was applied to '_count' attribute of penultimate element in line 'b'
+          size: 20,
+          id: 'b'
+        });
+      });
+
       it("positions labels closest to the centre of the area in stack configuration", function() {
         lineLabel.applyConfig('stack');
-        wrapper.selectAll('g').each(function (metaModel) {
-          spyOn(this, "getBBox").andReturn({
-            height: 20
-          });
-        });
-        spyOn(lineLabel, "calcPositions").andReturn([
-          { min: 20 },
-          { min: 30 }
-        ]);
         lineLabel.setLabelPositions(wrapper.selectAll('g'));
         expect(lineLabel.calcPositions).toHaveBeenCalled();
         var startPositions = lineLabel.calcPositions.argsForCall[0][0];
@@ -460,6 +529,29 @@ function (LineLabel, Collection) {
         expect(wrapper.select('g:nth-child(1)').attr('transform')).toEqual('translate(0, 20.5)');
         expect(wrapper.select('g:nth-child(2)').attr('transform')).toEqual('translate(0, 30.5)');
       });
+
+      it("uses the last non-null value for positioning in stack configuration", function() {
+        collection.at(0).get('values').last().set('_count', null);
+        collection.at(1).get('values').last().set('_count', null);
+
+        lineLabel.applyConfig('stack');
+        lineLabel.setLabelPositions(wrapper.selectAll('g'));
+        expect(lineLabel.calcPositions).toHaveBeenCalled();
+        var startPositions = lineLabel.calcPositions.argsForCall[0][0];
+        expect(lineLabel.scales.y).toHaveBeenCalledWith(2);
+        expect(startPositions[0]).toEqual({
+          ideal: 4, // centre of first area when using penultimate value
+          size: 20,
+          id: 'a'
+        });
+        expect(lineLabel.scales.y).toHaveBeenCalledWith(4.5);
+        expect(startPositions[1]).toEqual({
+          ideal: 20.25, // centre of second area when using penultimate value
+          size: 20,
+          id: 'b'
+        });
+      });
+
     });
 
     describe("updateLines", function() {

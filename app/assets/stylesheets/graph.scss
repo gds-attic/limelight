@@ -172,7 +172,8 @@
       }
     }
 
-    tspan.percentage {
+    .no-data,
+    .percentage {
       font-size: 14px;
       fill: $grey-1;
     }
@@ -209,7 +210,8 @@
       .value {
         font-size: 21px;
         font-weight: bold;
-        .percentage {
+        .percentage,
+        &.no-data {
           font-weight: normal;
         }
       }

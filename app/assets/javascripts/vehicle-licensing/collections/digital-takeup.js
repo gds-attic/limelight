@@ -27,12 +27,12 @@ function (GraphCollection) {
       });
 
       var getFraction = function (index) {
-        var digital = channels['fully-digital'].values[index]['volume:sum'] || 0;
-        var assisted = channels['assisted-digital'].values[index]['volume:sum'] || 0;
-        var manual = channels['manual'].values[index]['volume:sum'] || 0;
+        var digital = channels['fully-digital'].values[index]['volume:sum'] || null;
+        var assisted = channels['assisted-digital'].values[index]['volume:sum'] || null;
+        var manual = channels['manual'].values[index]['volume:sum'] || null;
         var fraction = digital / (digital + assisted + manual);
         if (isNaN(fraction)) {
-          fraction = 0;
+          fraction = null;
         }
         return fraction;
       };

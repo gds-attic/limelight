@@ -30,6 +30,10 @@ function (View) {
         label = this.getLabel();
       }
 
+      if (value === null) {
+        value = '(no data)';
+      }
+      
       var content = value;
       if (this.valueTag) {
         content = '<' + this.valueTag + '>' + value + '</' + this.valueTag + '>';

@@ -162,18 +162,50 @@ function (Line, Collection) {
         var res = view.getDistanceAndClosestModel(collection.at(0), 0, {
           x: 2.5,
           y: -3
+        }, {
+          allowNull: true
         });
         expect(res.dist).toEqual(6.5);
         expect(res.diff).toEqual(-6.5);
         expect(res.index).toEqual(1);
 
+        res = view.getDistanceAndClosestModel(collection.at(0), 0, {
+          x: 7,
+          y: 8
+        }, {
+          allowNull: true
+        });
+        expect(res.dist).toEqual(0);
+        expect(res.diff).toEqual(0);
+        expect(res.index).toEqual(2);
+      });
+
+      it("calculates distance to an interpolated position between points and picks closest model that is not null", function () {
+        collection.at(0).get('values').at(1).set('b', null);
         var res = view.getDistanceAndClosestModel(collection.at(0), 0, {
+          x: 2.5,
+          y: 2
+        });
+        expect(res.dist).toEqual(1.5);
+        expect(res.diff).toEqual(-1.5);
+        expect(res.index).toEqual(0);
+
+        res = view.getDistanceAndClosestModel(collection.at(0), 0, {
           x: 7,
           y: 8
         });
         expect(res.dist).toEqual(0);
         expect(res.diff).toEqual(0);
         expect(res.index).toEqual(2);
+
+        collection.at(0).get('values').at(2).set('b', null);
+        res = view.getDistanceAndClosestModel(collection.at(0), 0, {
+          x: 7,
+          y: 2
+        });
+        expect(res.dist).toEqual(0);
+        expect(res.diff).toEqual(0);
+        expect(res.index).toEqual(0);
       });
     });
 

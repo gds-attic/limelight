@@ -200,6 +200,9 @@ function (require, Component, TimePeriod) {
       'stack': {
         getYIdeal: function (groupIndex, index) {
           var y = this.graph.getYPos(groupIndex, index);
+          if (y === null) {
+            return null;
+          }
           var y0 = this.graph.getY0Pos(groupIndex, index);
           return (y + y0) / 2;
         }
@@ -220,13 +223,19 @@ function (require, Component, TimePeriod) {
       var scale = this.scales.y;
       var that = this;
       selection.each(function (group, groupIndex) {
-        var y = scale(that.getYIdeal.call(that, groupIndex, maxModelIndex));
+        var y;
+        for (var index = maxModelIndex; index >= 0; index--) {
+          y = that.getYIdeal.call(that, groupIndex, index);
+          if (y !== null) {
+            break;
+          }
+        }
         d3.select(this).selectAll('line').style('display', 'none');
         var size = this.getBBox().height;
         d3.select(this).selectAll('line').style('display', null);
 
         positions.push({
-          ideal: y,
+          ideal: scale(y),
           size: size,
           id: group.get('id')
         });
@@ -309,12 +318,14 @@ function (require, Component, TimePeriod) {
     },
 
     /**
-     * Pass a selection or a node
+     * Calculates height of SVG node
+     * @param {Object} selection d3 selection or native SVG DOM node
+     * @returns Height in pixels
      */
     getNodeHeight: function(selection){
       var node;
-      // if it's a seleciton, get the node
-      if(selection.node){
+      // if it's a selection, get the node
+      if (selection.node){
         node = selection.node();
       } else {
         node = selection;
@@ -329,17 +340,21 @@ function (require, Component, TimePeriod) {
         .text(_.unescape(d.title))
         .attr('transform', 'translate(' + xOffset + ', ' + this.labelOffset + ')');
 
-      if (d.value != null) {
+      if (this.showValues) {
         var text = selection.selectAll("text.value");
-        text.text(this.formatNumericLabel(d.value));
+        if (d.value == null) {
+          text.text('(no data)').classed('no-data', true);
+        } else {
+          text.text(this.formatNumericLabel(d.value)).classed('no-data', false);
+          
+          if (this.showValuesPercentage && d.value) {
+            text.append('tspan')
+              .text(' (' + this.formatPercentage(d.fraction) + ')')
+              .attr('class', 'percentage');
+          }
+        }
 
         text.attr('transform', 'translate(' + xOffset + ', ' + this.getNodeHeight(text.node()) + ')');
-
-        if (this.showValuesPercentage && d.value) {
-          text.append('tspan')
-            .text(' (' + this.formatPercentage(d.fraction) + ')')
-            .attr('class', 'percentage');
-        }
       }
 
       var truncateWidth = this.margin.right - this.offset - xOffset;

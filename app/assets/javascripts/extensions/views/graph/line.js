@@ -10,12 +10,12 @@ function (Component) {
     
     x: function (group, groupIndex, model, index) {
       var xPos = this.graph.getXPos(groupIndex, index);
-      return Math.floor(this.scales.x(xPos)) + 0.5;
+      return xPos === null ? xPos : Math.floor(this.scales.x(xPos)) + 0.5;
     },
     
     y: function (group, groupIndex, model, index) {
       var yPos = this.graph.getYPos(groupIndex, index);
-      return this.scales.y(yPos);
+      return yPos === null ? yPos : this.scales.y(yPos);
     },
 
     /**
@@ -121,39 +121,70 @@ function (Component) {
     /**
      * Calculates the `distance` of a group to a given point, then picks the
      * closest point in the group.
+     * @param {Object} group Data series collection
+     * @param {Number} groupIndex Index of data series
+     * @param {Object} point Coordinates to calculate distance from
+     * @param {Number} point.x x-coordinate
+     * @param {Number} point.y y-coordinate
+     * @param {Object} [options={}] Options
+     * @param {Boolean} [options.allowNull=false] Accept data points with null value
      */
-    getDistanceAndClosestModel: function (group, groupIndex, point) {
+    getDistanceAndClosestModel: function (group, groupIndex, point, options) {
+      options = _.extend({
+        allowNull: false
+      }, options);
+
       var values = group.get('values');
-      var leftIndex, rightIndex, left, right;
       
-      right = values.find(function (model, index) {
-        rightIndex = index;
-        return this.x(group, groupIndex, model, index) >= point.x;
-      }, this);
-      
-      if (!right) {
-        leftIndex = rightIndex;
-        left = right = values.last();
-      } else if (rightIndex === 0) {
-        leftIndex = rightIndex;
-        left = right;
-      } else {
-        leftIndex = rightIndex - 1;
-        left = values.at(leftIndex);
+      // find indices right and left of point
+      var leftIndexStart = values.length -1;
+      var rightIndexStart = 0;
+      for (var i = 0; i < values.length; i++) {
+        if (this.x(group, groupIndex, values.at(i), i) >= point.x) {
+          rightIndexStart = i;
+          leftIndexStart = i - 1;
+          break;
+        }
+      };
+
+      // search for valid models. when not allowing nulls, search for models
+      // with non-null values
+      var leftIndex, rightIndex;
+      for (var i = leftIndexStart; i >= 0; i--) {
+        if (options.allowNull || this.y(group, groupIndex, values.at(i), i) !== null) {
+          leftIndex = i;
+          break;
+        }
       }
-      
+      for (var i = rightIndexStart; i < values.length; i++) {
+        if (options.allowNull || this.y(group, groupIndex, values.at(i), i) !== null) {
+          rightIndex = i;
+          break;
+        }
+      }
+
+      var left = values.at(leftIndex);
+      var right = values.at(rightIndex);
+      if (!left && !right) {
+        return;
+      } else if (!left) {
+        left = right;
+        leftIndex = rightIndex;
+      } else if (!right) {
+        right = left;
+        rightIndex = leftIndex;
+      }
+
       var distLeft = Math.abs(point.x - this.x(group, groupIndex, left, leftIndex));
       var distRight = Math.abs(this.x(group, groupIndex, right, rightIndex) - point.x);
       var weight = distLeft / (distLeft + distRight) || 0;
-      var bestIndex = values.indexOf(distLeft < distRight ? left : right);
-
       var leftY = this.y(group, groupIndex, left, leftIndex);
       var rightY = this.y(group, groupIndex, right, rightIndex);
       var y = this.d3.interpolate(leftY, rightY)(weight);
       var diff = point.y - y;
       var dist = Math.abs(diff);
 
-      var bestIndex = values.indexOf(distLeft < distRight ? left : right);
+      var bestIndex = distLeft < distRight ? leftIndex : rightIndex;
 
       return {
         dist: dist,

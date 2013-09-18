@@ -17,7 +17,7 @@ function (require, Line, Component) {
       Component.prototype.render.apply(this, arguments);
 
       var layers = this.graph.layers;
-      
+
       var groupStacks = this.componentWrapper.selectAll('g.stacks').data([0]);
       groupStacks.enter().append('g').attr('class', 'stacks');
 
@@ -54,11 +54,13 @@ function (require, Line, Component) {
       };
 
       var area = d3.svg.area()
+        .defined(function(d) { return d.y != null; })
         .x(getX)
         .y0(getY0)
         .y1(getY);
         
       var line = d3.svg.line()
+        .defined(function(d) { return d.y != null; })
         .x(getX)
         .y(getY);
 
@@ -121,7 +123,7 @@ function (require, Line, Component) {
       for (var i = this.collection.models.length - 1; i >= 0; i--) {
         var group = this.collection.models[i];
         var distanceAndClosestModel = this.getDistanceAndClosestModel(
-          group, i, point
+          group, i, point, { allowNull: !this.selectGroup }
         );
 
         if (distanceAndClosestModel.diff > 0 || i === 0) {

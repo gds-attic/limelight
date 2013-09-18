@@ -118,29 +118,39 @@ function (require, Collection, Group) {
 
     groupSum: function (attr, index) {
       return this.at(index).get('values').reduce(function (memo, model) {
-        var value = model.get(attr) || 0;
-        return memo + value;
-      }, 0);
+        var value = model.get(attr);
+        if (_.isNumber(value)) {
+          memo += value;
+        }
+        return memo;
+      }, null);
     },
 
     itemSum: function (attr, index) {
       return this.reduce(function (memo, group) {
-        var value = group.get('values').at(index).get(attr) || 0;
-        return memo + value;
-      }, 0);
+        var value = group.get('values').at(index).get(attr);
+        if (_.isNumber(value)) {
+          memo += value;
+        }
+        return memo;
+      }, null);
     },
     
     sum: function (attr, groupIndex, index) {
       if (groupIndex != null && index != null) {
-        return this.at(groupIndex, index).get(attr) || 0;
+        return this.at(groupIndex, index).get(attr);
       } else if (groupIndex != null) {
         return this.groupSum(attr, groupIndex);
       } else if (index != null) {
         return this.itemSum(attr, index);
       } else {
         return this.reduce(function (memo, group, groupIndex) {
-          return memo + this.groupSum(attr, groupIndex);
-        }, 0, this);
+          var groupSum = this.groupSum(attr, groupIndex);
+          if (_.isNumber(groupSum)) {
+            memo += groupSum;
+          }
+          return memo;
+        }, null, this);
       }
     },
 

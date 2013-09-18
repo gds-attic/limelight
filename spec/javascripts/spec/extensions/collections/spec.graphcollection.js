@@ -244,37 +244,82 @@ function (GraphCollection, Collection, Group) {
 
     describe("aggregates", function () {
 
-      var collection;
-      beforeEach(function() {
-        collection = new GraphCollection([{}, {}]);
-        collection.at(0).set('values', new Collection([
-          { a: 1, b: 2 },
-          { a: 3, b: 4 }
-        ]))
-        collection.at(1).set('values', new Collection([
-          { a: 5, b: 6 },
-          { a: 7, b: null }
-        ]))
-      });
-      
       describe("sum", function () {
-        it("sums a given attribute for all items in all groups", function () {
-          expect(collection.sum('a')).toEqual(16);
-          expect(collection.sum('b')).toEqual(12);
+        describe("default case", function () {
+          var collection;
+          beforeEach(function() {
+            collection = new GraphCollection([{}, {}]);
+            collection.at(0).set('values', new Collection([
+              { a: 1, b: 2 },
+              { a: 3, b: 4 }
+            ]))
+            collection.at(1).set('values', new Collection([
+              { a: 5, b: 6 },
+              { a: 7, b: null }
+            ]))
+          });
+
+          it("sums a given attribute for all items in all groups", function () {
+            expect(collection.sum('a')).toEqual(16);
+            expect(collection.sum('b')).toEqual(12);
+          });
+
+          it("sums a given attribute for all items in a specific group", function () {
+            expect(collection.sum('a', 1)).toEqual(12);
+            expect(collection.sum('b', 1)).toEqual(6);
+          });
+
+          it("sums a given attribute for a specific item in all groups", function () {
+            expect(collection.sum('a', null, 1)).toEqual(10);
+            expect(collection.sum('b', null, 1)).toEqual(4);
+          });
         });
 
-        it("sums a given attribute for all items in a specific group", function () {
-          expect(collection.sum('a', 1)).toEqual(12);
-          expect(collection.sum('b', 1)).toEqual(6);
-        });
+        describe("null case", function () {
+          var collection;
+          beforeEach(function() {
+            collection = new GraphCollection([{}, {}]);
+            collection.at(0).set('values', new Collection([
+              { a: null, b: null },
+              { a: null, b: null }
+            ]))
+            collection.at(1).set('values', new Collection([
+              { a: null, b: null },
+              { a: null, b: null }
+            ]))
+          });
 
-        it("sums a given attribute for a specific item in all groups", function () {
-          expect(collection.sum('a', null, 1)).toEqual(10);
-          expect(collection.sum('b', null, 1)).toEqual(4);
+          it("sums a given attribute for all items in all groups", function () {
+            expect(collection.sum('a')).toEqual(null);
+            expect(collection.sum('b')).toEqual(null);
+          });
+
+          it("sums a given attribute for all items in a specific group", function () {
+            expect(collection.sum('a', 1)).toEqual(null);
+            expect(collection.sum('b', 1)).toEqual(null);
+          });
+
+          it("sums a given attribute for a specific item in all groups", function () {
+            expect(collection.sum('a', null, 1)).toEqual(null);
+            expect(collection.sum('b', null, 1)).toEqual(null);
+          });
         });
       });
 
       describe("fraction", function () {
+        var collection;
+        beforeEach(function() {
+          collection = new GraphCollection([{}, {}]);
+          collection.at(0).set('values', new Collection([
+            { a: 1, b: 2 },
+            { a: 3, b: 4 }
+          ]))
+          collection.at(1).set('values', new Collection([
+            { a: 5, b: 6 },
+            { a: 7, b: null }
+          ]))
+        });
+        
         it("always returns 1 when applied to all groups and items", function () {
           expect(collection.fraction('a')).toEqual(1);
           expect(collection.fraction('b')).toEqual(1);
