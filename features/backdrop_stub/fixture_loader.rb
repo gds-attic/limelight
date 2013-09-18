@@ -5,9 +5,10 @@ class FixtureLoader
 
   def load(file_name)
     begin
-      JSON.parse(File.read(File.join(dir_path, file_name)))
+      JSON.parse(File.read(File.join(Rails.root, dir_path, file_name)))
     rescue Errno::ENOENT => e
       p "Unable to find file #{file_name}"
+      Rails.logger.warn "Unable to find file #{file_name}"
       nil
     end
   end

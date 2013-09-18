@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   slimmer_template :homepage
 
   def backdrop_api
-    config_value(:use_api_stub, false) ? BackdropAPIStub.new : BackdropAPI.new(backdrop_url, backdrop_auth())
+    config_value(:use_stub_api, false) ? BackdropAPI.new("127.0.0.1#{backdrop_port}#{backdrop_url}", backdrop_auth()) : BackdropAPI.new(backdrop_url, backdrop_auth())
   end
 
   def backdrop_auth
@@ -15,6 +15,10 @@ class ApplicationController < ActionController::Base
     else
       nil
     end
+  end
+
+  def backdrop_port
+    Rails.application.config.backdrop_port.present? ? ":#{Rails.application.config.backdrop_port}" : ""
   end
 
   def backdrop_url

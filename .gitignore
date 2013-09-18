@@ -22,3 +22,8 @@ app/assets/javascripts/production.js
 
 *.swp
 *.swo
+
+chromedriver.log
+sauce_connect.log*
+sauce_connect.ready
+reports/*
