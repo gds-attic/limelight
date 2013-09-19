@@ -5,7 +5,7 @@ define([
 function (Line, Collection) {
   
   describe("Line Component", function () {
-    var el, wrapper, collection;
+    var el, wrapper, collection, view;
     beforeEach(function() {
       el = $('<div></div>').appendTo($('body'));
       wrapper = Line.prototype.d3.select(el[0]).append('svg').append('g');
@@ -15,7 +15,9 @@ function (Line, Collection) {
           values: new Collection([
             { a: 1, b: 2},
             { a: 4, b: 5},
-            { a: 7, b: 8}
+            { a: 7, b: 8},
+            { a: 9, b: 10},
+            { a: 11, b: 12}
           ])
         },
         {
@@ -23,7 +25,9 @@ function (Line, Collection) {
           values: new Collection([
             { a: 1, b: 3, c: 3},
             { a: 4, b: 6, c: 6},
-            { a: 7, b: 9, c: 9}
+            { a: 7, b: 9, c: 9},
+            { a: 10, b: 11, c: 11},
+            { a: 12, b: 13, c: 13}
           ])
         }
       ]);
@@ -32,6 +36,18 @@ function (Line, Collection) {
         selectedGroupIndex: 0,
         selectedModel: { a: 1 },
         selectedModelIndex: 2
+      });
+      view = new Line({
+        interactive: false,
+        wrapper: wrapper,
+        collection: collection,
+        x: function (group, groupIndex, model, index) {
+          return model.get('a');
+        },
+        y: function (group, groupIndex, model, index) {
+          var attr = group.get('testAttr');
+          return model.get(attr);
+        }
       });
       spyOn(Line.prototype, "onChangeSelected");
     });
@@ -63,38 +79,20 @@ function (Line, Collection) {
       });
 
       it("renders paths for each group in the collection in reverse order with sections for each point in the timeseries", function() {
-        var view = new Line({
-          interactive: false,
-          wrapper: wrapper,
-          collection: collection,
-          x: function (group, groupIndex, model, index) {
-            return model.get('a') + index;
-          },
-          y: function (group, groupIndex, model, index) {
-            var attr = group.get('testAttr');
-            return model.get(attr) + index;
-          }
-        });
         view.render();
 
-        expect(wrapper.select('g.group:nth-child(1) path').attr('d')).toEqual('M1,3L5,7L9,11');
-        expect(wrapper.select('g.group:nth-child(2) path').attr('d')).toEqual('M1,2L5,6L9,10');
+        expect(wrapper.select('g.group:nth-child(1) path').attr('d')).toEqual('M1,3L4,6L7,9L10,11L12,13');
+        expect(wrapper.select('g.group:nth-child(2) path').attr('d')).toEqual('M1,2L4,5L7,8L9,10L11,12');
+      });
+
+      it("renders multiple paths when there are gaps in the data", function() {
+        collection.at(0).get('values').at(2).set('b', null);
+        view.render();
+
+        expect(wrapper.select('g.group:nth-child(2) path').attr('d')).toEqual('M1,2L4,5M9,10L11,12');
       });
 
       it("highlights the current selection", function () {
-        var view = new Line({
-          interactive: false,
-          wrapper: wrapper,
-          collection: collection,
-          x: function (group, groupIndex, model, index) {
-            return model.get('a') + index;
-          },
-          y: function (group, groupIndex, model, index) {
-            var attr = group.get('testAttr');
-            return model.get(attr) + index;
-          }
-        });
-
         view.render();
 
         expect(view.onChangeSelected).toHaveBeenCalledWith(
@@ -105,21 +103,7 @@ function (Line, Collection) {
 
     describe("onChangeSelected", function () {
 
-      var view;
       beforeEach(function() {
-        view = new Line({
-          interactive: false,
-          wrapper: wrapper,
-          collection: collection,
-          x: function (group, groupIndex, model, index) {
-            return model.get('a') + index;
-          },
-          y: function (group, groupIndex, model, index) {
-            var attr = group.get('testAttr');
-            return model.get(attr) + index;
-          }
-        });
-
         view.render();
       });
 
@@ -137,26 +121,12 @@ function (Line, Collection) {
         view.onChangeSelected.originalValue.call(view, collection.at(1), 1, collection.at(1).get('values').at(1), 1);
         expect(view.componentWrapper.select('path.line1').attr('class').indexOf('selected')).not.toBe(-1);
         expect(view.componentWrapper.selectAll('.selectedIndicator')[0].length).toEqual(1);
-        expect(view.componentWrapper.selectAll('.selectedIndicator').attr('cx')).toEqual('5');
-        expect(view.componentWrapper.selectAll('.selectedIndicator').attr('cy')).toEqual('7');
+        expect(view.componentWrapper.selectAll('.selectedIndicator').attr('cx')).toEqual('4');
+        expect(view.componentWrapper.selectAll('.selectedIndicator').attr('cy')).toEqual('6');
       });
     });
 
     describe("getDistanceAndClosestModel", function () {
-      var view;
-      beforeEach(function() {
-        view = new Line({
-          interactive: false,
-          wrapper: wrapper,
-          collection: collection,
-          x: function (group, groupIndex, model, index) {
-            return model.get('a');
-          },
-          y: function (group, groupIndex, model, index) {
-            return model.get('b');
-          }
-        });
-      });
 
       it("calculates distance to an interpolated position between points and picks closest model", function () {
         var res = view.getDistanceAndClosestModel(collection.at(0), 0, {
@@ -197,8 +167,14 @@ function (Line, Collection) {
         expect(res.dist).toEqual(0);
         expect(res.diff).toEqual(0);
         expect(res.index).toEqual(2);
+      });
 
+
+      it("selected the first point when no other points have a value", function() {
+        collection.at(0).get('values').at(1).set('b', null);
         collection.at(0).get('values').at(2).set('b', null);
+        collection.at(0).get('values').at(3).set('b', null);
+        collection.at(0).get('values').at(4).set('b', null);
         res = view.getDistanceAndClosestModel(collection.at(0), 0, {
           x: 7,
           y: 2
@@ -209,21 +185,10 @@ function (Line, Collection) {
       });
     });
 
+
     describe("onHover", function () {
 
-      var view;
       beforeEach(function() {
-        view = new Line({
-          interactive: false,
-          wrapper: wrapper,
-          collection: collection,
-          x: function (group, groupIndex, model, index) {
-            return model.get('a');
-          },
-          y: function (group, groupIndex, model, index) {
-            return model.get('b');
-          }
-        });
         spyOn(collection, "selectItem");
       });
 
