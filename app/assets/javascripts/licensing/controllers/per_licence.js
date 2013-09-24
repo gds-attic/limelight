@@ -35,7 +35,7 @@ define([
       var graphHeadline = new HeadlineView({
         el: $('#applications-by-authority').siblings('h2'),
         model: graphCollection.query,
-        postfix: 'and top authorities by submission volume in this time'
+        postfix: 'and top authorities by volume in this time'
       });
 
       graphCollection.query.set('period', 'week');

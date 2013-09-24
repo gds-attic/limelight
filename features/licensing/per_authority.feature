@@ -9,9 +9,9 @@ Feature: Visiting per-authority
     Then I should get back a status of 200
     And the navigation link for "Authorities" should be active
     And the page title should be "Fake authority 1"
-    And the 1st subtitle should be "Form submissions"
-    And the 1st section description should be "Total form submissions per week over the last 9 weeks and top licences by submission volume in this time"
-    And the 2nd subtitle should be "Licence submissions"
+    And the 1st subtitle should be "Forms received"
+    And the 1st section description should be "Total forms received per week over the last 9 weeks and top licences by volume in this time"
+    And the 2nd subtitle should be "Licence submissions received"
     And the 2nd section description should be "Licences offered by Fake authority 1 on GOV.UK"
 
   @no-svg @javascript

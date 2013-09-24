@@ -12,31 +12,33 @@
 
 <% if Rails.application.config.feature_toggles[:show_licensing_visitors_realtime] %>
   <section>
-    <h1>Live service usage</h1>
+    <h1>Real-time usage</h1>
     <ul class="module-actions">
       <li class="info">
         <div>
           <p>Data source: Google Analytics</p>
-          <p>Shows estimated number of users currently accessing licensing pages.</p>
+          <p>Shows the estimated number of users currently accessing licensing pages on GOV.UK.</p>
         </div>
       </li>
     </ul>
-    <h2>Users actively browsing licensing pages now</h2>
+    <h2>Live number of users on any page within the service</h2>
     <div id="number-of-visitors-realtime"></div>
   </section>
 <% end %>
 
 <section class="graph">
-  <h1>Form submissions</h1>
+  <h1>Forms received</h1>
   <ul class="module-actions">
     <li class="info">
       <div>
         <p>Data source: GOV.UK licensing database</p>
+        <p>Shows the total number licensing forms received by GOV.UK.</p>        
+        <p>This does not measure whether a submission was subsequently paid for, valid or accepted by the authority.</p>        
       </div>
     </li>
   </ul>
   <nav id="applications-nav"></nav>
-  <h2>Total form submissions per week over the last 9 weeks</h2>
+  <h2>Total forms received per week over the last 9 weeks</h2>
   <figure class="graph timeseries-graph" id="total-applications"></figure>
 </section>
 
@@ -46,14 +48,16 @@
     <ul class="module-actions">
       <li class="info">
         <div>
-          <p>Data source: Google Analytics (unique visitor numbers based on sampled data)</p>
-          <p>Completion calculated as percentage of unique visitors who arrived at the done page out of those who arrived at the download form page.</p>
+          <p>Data source: Google Analytics</p>
+          <p><a href="/service-manual/measurement/completion-rate.html" rel="external" target="_blank">Completion rate</a> measures the proportion of people who started a form submission and were able to complete it.</p>
+          <p>This measures submissions only, not whether a submission was valid or accepted by the authority.</p>
+          <p>It is calculated by dividing the number of unique visitors to the final page of a form submission by the number of unique visitors to the first page.</p>
         </div>
       </li>
     </ul>
-    <h2>Completion rate for all submissions for last week</h2>
+    <h2>Percentage of users who successfully submitted a form</h2>
     <p id="applications-success-rate" class="impact-number"></p>
-    <p class="stat-description">average completion rate</p>
+    <p class="stat-description">average last week</p>
   </section>
 <% end %>
 

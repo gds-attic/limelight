@@ -9,37 +9,39 @@
 
 <% if Rails.application.config.feature_toggles[:show_fco_visitors_realtime] %>
   <section>
-    <h1>Live digital service usage</h1>
+    <h1>Real-time usage</h1>
     <ul class="module-actions">
       <li class="info">
         <div>
           <p>Data source: Google Analytics</p>
-          <p>Shows estimated number of users currently accessing the transaction online.</p>
+          <p>Shows the estimated number of users currently accessing the service on GOV.UK.</p>
         </div>
       </li>
     </ul>
-    <h2>Users currently browsing the service</h2>
+    <h2>Live number of users on any page within the service</h2>
     <div id="number-of-visitors-realtime"></div>
   </section>
 <% end %>
 
 <section class="graph volumetrics">
-  <h1>Applications and digital completion rate</h1>
+  <h1>Completion rate and completed applications</h1>
   <ul class="module-actions">
     <li class="info">
       <div>
         <p>Data source: Google Analytics (unique visitor numbers based on sampled data)</p>
-        <p>Application counts based on unique visitors to the final page of the transaction.</p>
-        <p>Completion rate calculated as percentage of unique visitors who arrived at the final page of the transaction out of those who arrived at the start page.</p>
+        <p><a href="/service-manual/measurement/completion-rate.html" rel="external" target="_blank">Completion rate</a> measures the proportion of people who started an application and were able to complete it.</p>
+        <p>It is calculated as percentage of unique visitors who arrived at the final page of the service out of those who arrived at the start page.</p>
+        <p>Completed applications count based on unique visitors to the final page of the service.</p>
       </div>
     </li>
   </ul>
-  <h3>Applications</h3>
-  <p id="volumetrics-submissions-selected" class="impact-number"></p>
-  <figure class="graph timeseries-graph" id="volumetrics-submissions"></figure>
   <h3>Completion rate</h3>
   <p id="volumetrics-completion-selected" class="impact-number"></p>
   <figure class="graph timeseries-graph" id="volumetrics-completion"></figure>
+  <h3>Completed applications</h3>
+  <p id="volumetrics-submissions-selected" class="impact-number"></p>
+  <figure class="graph timeseries-graph" id="volumetrics-submissions"></figure>
+  
 </section>
 
 <section class="graph">

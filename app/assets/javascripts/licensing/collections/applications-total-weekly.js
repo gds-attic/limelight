@@ -11,7 +11,7 @@ function (Collection) {
     
     id: 'total',
     
-    title: 'Total submissions',
+    title: 'Total forms received',
 
     parse: function (response) {
       return response.data;

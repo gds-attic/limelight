@@ -35,7 +35,7 @@ define([
       var graphHeadline = new HeadlineView({
         el: $('#applications-by-licence').siblings('h2'),
         model: graphCollection.query,
-        postfix: 'and top licences by submission volume in this time'
+        postfix: 'and top licences by volume in this time'
       });
 
       graphCollection.query.set('period', 'week');

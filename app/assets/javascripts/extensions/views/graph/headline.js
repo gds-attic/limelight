@@ -8,7 +8,7 @@ define([
         this.model.on('change', this.render, this);
       },
 
-      prefix: 'Total form submissions',
+      prefix: 'Total forms received',
       postfix: '',
 
       headliner: function (period, duration) {

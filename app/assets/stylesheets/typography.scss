@@ -10,6 +10,15 @@ p {
   @include core-16($tabular-numbers: true) ;
 }
 
+a[rel="external"] {
+  @include external-link-default;
+  @include external-link-16;
+
+  @media (max-width: 640px) {
+    @include external-link-14;
+  }
+}
+
 
 #content {
   

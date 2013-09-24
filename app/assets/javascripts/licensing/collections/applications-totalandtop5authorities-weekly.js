@@ -20,7 +20,7 @@ function (require, GraphCollection, Total, ByAuthority) {
       var data = byAuthorityCollection.clone();
       data.unshift(new this.model({
         id: 'total',
-        title: 'Total submissions',
+        title: 'Total forms received',
         values: totalCollection.models
       }, { parse: true }));
       

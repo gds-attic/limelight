@@ -27,7 +27,7 @@ define([
           var headline = new Headline({model: model});
 
           jasmine.renderView(headline, function () {
-            expect(headline.$el).toHaveText("Total form submissions per week over the last 9 weeks");
+            expect(headline.$el).toHaveText("Total forms received per week over the last 9 weeks");
           });
         });
 
