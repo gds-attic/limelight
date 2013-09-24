@@ -119,10 +119,18 @@ function (Line, Collection) {
 
       it("renders a selection indicator on the selected item", function () {
         view.onChangeSelected.originalValue.call(view, collection.at(1), 1, collection.at(1).get('values').at(1), 1);
+
         expect(view.componentWrapper.select('path.line1').attr('class').indexOf('selected')).not.toBe(-1);
-        expect(view.componentWrapper.selectAll('.selectedIndicator')[0].length).toEqual(1);
-        expect(view.componentWrapper.selectAll('.selectedIndicator').attr('cx')).toEqual('4');
-        expect(view.componentWrapper.selectAll('.selectedIndicator').attr('cy')).toEqual('6');
+        expect(view.componentWrapper.selectAll('circle.selectedIndicator')[0].length).toEqual(1);
+        expect(view.componentWrapper.selectAll('circle.selectedIndicator').attr('cx')).toEqual('4');
+        expect(view.componentWrapper.selectAll('circle.selectedIndicator').attr('cy')).toEqual('6');
+      });
+
+      it("doesn't renders a selection indicator for missing data item", function () {
+        collection.at(1).get('values').at(1).set('c', null);
+        view.onChangeSelected.originalValue.call(view, collection.at(1), 1, collection.at(1).get('values').at(1), 1);
+
+        expect(view.componentWrapper.selectAll('circle.selectedIndicator')[0].length).toEqual(0);
       });
     });
 
@@ -133,7 +141,7 @@ function (Line, Collection) {
           x: 2.5,
           y: -3
         }, {
-          allowNull: true
+          allowMissingData: true
         });
         expect(res.dist).toEqual(6.5);
         expect(res.diff).toEqual(-6.5);
@@ -143,7 +151,7 @@ function (Line, Collection) {
           x: 7,
           y: 8
         }, {
-          allowNull: true
+          allowMissingData: true
         });
         expect(res.dist).toEqual(0);
         expect(res.diff).toEqual(0);

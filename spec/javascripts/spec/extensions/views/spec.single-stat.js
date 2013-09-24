@@ -175,7 +175,7 @@ define([
       });
 
       jasmine.renderView(view, function () {
-        expect(view.$el.html()).toEqual("<strong>(no data)</strong>");
+        expect(view.$el.html()).toEqual("<span class=\"no-data\">(no data)</span>");
       });
     });
   });

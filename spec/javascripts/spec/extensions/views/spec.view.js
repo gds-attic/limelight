@@ -146,6 +146,10 @@ function (View, Model, Backbone) {
     describe("formatNumericLabel", function() {
       
       var formatNumericLabel = View.prototype.formatNumericLabel;
+
+      it("should handle null input, when missing data", function() {
+        expect(formatNumericLabel(null)).toBe(null);
+      }),
       
       it("should display entire numbers from 0 to 499", function() {
         expect(formatNumericLabel(0)).toBe('0');

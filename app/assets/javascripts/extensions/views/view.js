@@ -126,6 +126,7 @@ function (Backbone, moment, Modernizr) {
        * See for example View.prototype.format for a simpler alternative.
        */
       formatNumericLabel: function(value) {
+        if (value === null) return null;
         if (value === 0) return "0";
 
         /*

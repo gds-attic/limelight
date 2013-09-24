@@ -18,6 +18,7 @@ function (Graph) {
         };
         stackOptions = {
           selectGroup: false,
+          allowMissingData: true,
           drawCursorLine: true,
           interactive: function (e) {
             return e.slice % 3 !== 2;

@@ -97,30 +97,35 @@ function (Component) {
     },
 
     onChangeSelected: function (groupSelected, groupIndexSelected, modelSelected, indexSelected) {
+      this.componentWrapper.selectAll('path.line').classed('selected', false);
+      if (groupSelected) {
+        var line = this.componentWrapper.select('path.line' + groupIndexSelected).classed('selected', true);
+        var group = line.node().parentNode;
+        group.parentNode.appendChild(group);
+      }
+
       this.componentWrapper.selectAll('.selectedIndicator').remove();
-      this.collection.each(function (group, groupIndex) {
-        var selected = (groupIndexSelected === groupIndex);
-        var line = this.componentWrapper.select('path.line' + groupIndex);
-        line.classed('selected', selected);
-        if (selected) {
-          var group = line.node().parentNode;
-          group.parentNode.appendChild(group);
-        }
-      }, this);
       if (modelSelected) {
         var x = this.x(groupSelected, groupIndexSelected, modelSelected, indexSelected);
         if (this.drawCursorLine) {
           this.renderCursorLine(x);
         }
         if (groupSelected) {
-          this.componentWrapper.append('circle').attr({
-            'class': 'selectedIndicator line' + groupIndexSelected,
-            cx: x,
-            cy: this.y(groupSelected, groupIndexSelected, modelSelected, indexSelected),
-            r: 4
-          });
+          var y = this.y(groupSelected, groupIndexSelected, modelSelected, indexSelected);
+          if (y !== null) {
+            this.renderSelectionPoint(groupIndexSelected, x, y);
+          }
         }
       }
+    },
+
+    renderSelectionPoint: function (groupIndexSelected, x, y) {
+      this.componentWrapper.append('circle').attr({
+        'class': 'selectedIndicator line' + groupIndexSelected,
+        cx: x,
+        cy: y,
+        r: 4
+      });
     },
 
     renderCursorLine: function (x) {
@@ -156,11 +161,11 @@ function (Component) {
      * @param {Number} point.x x-coordinate
      * @param {Number} point.y y-coordinate
      * @param {Object} [options={}] Options
-     * @param {Boolean} [options.allowNull=false] Accept data points with null value
+     * @param {Boolean} [options.allowMissingData=false] Accept data points with null value
      */
     getDistanceAndClosestModel: function (group, groupIndex, point, options) {
       options = _.extend({
-        allowNull: false
+        allowMissingData: false
       }, options);
 
       var values = group.get('values');
@@ -180,13 +185,13 @@ function (Component) {
       // with non-null values
       var leftIndex, rightIndex;
       for (var i = leftIndexStart; i >= 0; i--) {
-        if (options.allowNull || this.y(group, groupIndex, values.at(i), i) !== null) {
+        if (options.allowMissingData || this.y(group, groupIndex, values.at(i), i) !== null) {
           leftIndex = i;
           break;
         }
       }
       for (var i = rightIndexStart; i < values.length; i++) {
-        if (options.allowNull || this.y(group, groupIndex, values.at(i), i) !== null) {
+        if (options.allowMissingData || this.y(group, groupIndex, values.at(i), i) !== null) {
           rightIndex = i;
           break;
         }

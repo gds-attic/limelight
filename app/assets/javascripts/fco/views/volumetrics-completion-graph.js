@@ -26,7 +26,7 @@ function (Graph) {
         },
         {
           view: this.sharedComponents.stack,
-          options: { drawCursorLine: true }
+          options: { allowMissingData: true, drawCursorLine: true }
         },
         { view: this.sharedComponents.hover }
       ];

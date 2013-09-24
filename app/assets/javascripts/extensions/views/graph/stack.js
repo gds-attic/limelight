@@ -7,6 +7,7 @@ function (require, Line, Component) {
   var Stack = Line.extend({
 
     selectGroup: true,
+    allowMissingData: false,
     
     y0: function (group, groupIndex, model, index) {
       var yPos = this.graph.getY0Pos(groupIndex, index);
@@ -123,7 +124,7 @@ function (require, Line, Component) {
       for (var i = this.collection.models.length - 1; i >= 0; i--) {
         var group = this.collection.models[i];
         var distanceAndClosestModel = this.getDistanceAndClosestModel(
-          group, i, point, { allowNull: !this.selectGroup }
+          group, i, point, { allowMissingData: this.allowMissingData }
         );
 
         if (distanceAndClosestModel.diff > 0 || i === 0) {

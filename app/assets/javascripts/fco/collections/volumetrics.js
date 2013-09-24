@@ -13,9 +13,19 @@ function (Collection, Group, dateFunctions) {
     });
   }
 
+  function countProvidedData(data) {
+    var providedData = _.filter(data, function (d) {
+      return d.uniqueEvents != null;
+    });
+    return providedData.length;
+  }
+
   function findCompletion(existingStartedEvent, existingCompletedEvent) {
-    var completion = 0;
-    if (_.isObject(existingStartedEvent) && _.isObject(existingCompletedEvent)) {
+    var completion = null,
+        hasUniqueEvent = function(event) {
+          return _.isObject(event) && event.uniqueEvents !== null;
+        };
+    if (hasUniqueEvent(existingStartedEvent) && hasUniqueEvent(existingCompletedEvent)) {
       completion = existingCompletedEvent.uniqueEvents / existingStartedEvent.uniqueEvents;
     }
     return completion;
@@ -58,6 +68,7 @@ function (Collection, Group, dateFunctions) {
     applicationsSeries: function () {
       var data = this.pluck('data')[0];
       var applicationEvents = filterByEventCategory(data, DONE_STAGE_MATCHER);
+      var weeksWithData = countProvidedData(applicationEvents);
 
       var latestEventTimestamp = dateFunctions.latest(data, function (d) { return moment(d._timestamp); });
       var weekDates = dateFunctions.weeksFrom(latestEventTimestamp, 9);
@@ -67,15 +78,18 @@ function (Collection, Group, dateFunctions) {
         return {
           _start_at: timestamp.clone().add(1, 'hours'),
           _end_at: timestamp.clone().add(1, 'hours').add(1, 'weeks'),
-          uniqueEvents: _.isUndefined(existingEvent) ? 0 : existingEvent.uniqueEvents
+          uniqueEvents: _.isUndefined(existingEvent) ? null : existingEvent.uniqueEvents
         };
       });
 
       return {
         id: "done",
         title: "Done",
-        weeksWithData: applicationEvents.length,
-        mean: this.numberOfJourneyCompletions() / applicationEvents.length,
+        weeks: {
+          total: applicationEvents.length,
+          available: weeksWithData
+        },
+        mean: this.numberOfJourneyCompletions() / weeksWithData,
         values: new Collection(values)
       };
     },
@@ -101,7 +115,10 @@ function (Collection, Group, dateFunctions) {
       return {
         id: "completion",
         title: "Completion rate",
-        weeksWithData: completedApplicationEvents.length,
+        weeks: {
+          total: completedApplicationEvents.length,
+          available: countProvidedData(completedApplicationEvents)
+        },
         totalCompletion: this.completionRate(),
         values: new Collection(values)
       };

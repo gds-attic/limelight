@@ -122,25 +122,61 @@ function (Stack, Collection) {
 
     describe("onHover", function () {
 
+      var collection;
       var view;
+      var layers;
+      var stack;
       beforeEach(function() {
+        collection = new Collection([
+          {
+            // group 0
+            values: new Collection([
+              { x: 1, y: 2},
+              { x: 2, y: 4},
+              { x: 3, y: 6},
+              { x: 4, y: 8},
+              { x: 5, y: 10}
+            ])
+          },
+          {
+            // group 1
+            values: new Collection([
+              { x: 1, y: 3},
+              { x: 2, y: 5},
+              { x: 3, y: 7},
+              { x: 4, y: 9},
+              { x: 5, y: 11}
+            ])
+          }
+        ]);
+
+
+        stack = Stack.prototype.d3.layout.stack()
+          .values(function (group) {
+            return group.get('values').models;
+          })
+          .y(function (model, index) {
+            return model.get('y');
+          });
+        layers = stack(collection.models.slice().reverse());
+
         view = new Stack({
           interactive: false,
           wrapper: wrapper,
           collection: collection,
-          scales: {
-            y: function (x) {
-              return x * 2;
-            }
-          },
           graph: {
             layers: layers
           },
+          scales: {
+            y: function (y) {
+              return y;
+            }
+          },
           x: function (group, groupIndex, model, index) {
-            return model.get('a') + index;
+            return model.get('x');
           },
           y: function (group, groupIndex, model, index) {
-            return model.y + model.y0;
+            return model.get('y');
           },
           y0: function (group, groupIndex, model, index) {
             return model.y0;
@@ -152,7 +188,7 @@ function (Stack, Collection) {
       });
 
       it("selects the group the user is hovering over and the closest model in that group", function () {
-        view.onHover({ x: 1, y: 3 });
+        view.onHover({ x: 1, y: 2 });
         expect(collection.selectItem.mostRecentCall.args).toEqual([0, 0]);
         view.onHover({ x: 1, y: 4 });
         expect(collection.selectItem.mostRecentCall.args).toEqual([1, 0]);
@@ -168,11 +204,11 @@ function (Stack, Collection) {
         expect(collection.selectItem).toHaveBeenCalledWith(1, 0);
       });
 
-      it("optionally toggles selection when the new item is the currently selected item", function () {
+      it("optionally toggles selection when the new item is already selected", function () {
         view.collection.selectedIndex = 0;
         view.collection.selectedItem = view.collection.at(0);
         view.collection.at(0).get('values').selectItem(2);
-        view.onHover({ x: 7, y: 8, toggle: true });
+        view.onHover({ x: 3, y: 6, toggle: true });
         expect(collection.selectItem.mostRecentCall.args).toEqual([null, null]);
       });
 
@@ -180,6 +216,27 @@ function (Stack, Collection) {
         view.selectGroup = false;
         view.onHover({ x: 1, y: 3 });
         expect(collection.selectItem.mostRecentCall.args).toEqual([null, 0]);
+      });
+
+      it("selects closest point when hovering over missing data and missing data is not allowed", function() {
+        var missingDataIndex = 2;
+
+        collection.at(0).get('values').at(missingDataIndex).set('y', null);
+        collection.at(1).get('values').at(missingDataIndex).set('y', null);
+
+        view.onHover({ x: 3.1, y: missingDataIndex });
+        expect(collection.selectItem.mostRecentCall.args).toEqual([0, 3]);
+      });
+
+      it("selects missing data index when missing data is allowed", function() {
+        var missingDataIndex = 2;
+
+        collection.at(0).get('values').at(missingDataIndex).set('y', null);
+        collection.at(1).get('values').at(missingDataIndex).set('y', null);
+
+        view.allowMissingData = true;
+        view.onHover({ x: 3.1, y: missingDataIndex });
+        expect(collection.selectItem.mostRecentCall.args[1]).toEqual(missingDataIndex);
       });
     });
   });

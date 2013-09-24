@@ -19,8 +19,21 @@ p.impact-number {
       // for small screens.
       @include bold-80($tabular-numbers: true);
     }
+  }
 
+  .unavailable {
+    color: $grey-1;
+  }
 
+  .no-data {
+    color: $grey-1;
+    @include core-24($tabular-numbers: true);
+    display: block;
+    margin-bottom: 0.6em;
+
+    @media (max-width: 640px) {
+      margin-bottom: 0.4em;
+    }
   }
 }
 
