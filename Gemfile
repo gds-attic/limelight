@@ -4,7 +4,7 @@ source "https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/"
 gem "rails", "3.2.14"
 gem "unicorn", "4.6.3"
 
-gem "slimmer", "3.19.0"
+gem "slimmer", "3.20.0"
 gem "songkick-transport", "1.0.1", :git => "git://github.com/songkick/transport.git"
 gem "httparty", "0.11.0"
 gem "multi_xml", "0.5.5"
