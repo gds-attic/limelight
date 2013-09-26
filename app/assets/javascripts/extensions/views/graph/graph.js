@@ -317,7 +317,7 @@ function (require, View, d3, XAxis, YAxis, Line, Stack, LineLabel, Hover, Callou
           var yProperty = this.stackYProperty || 'y';
           if (model[yProperty] === null) {
             return null;
-          } 
+          }
           var y0Property = this.stackY0Property || 'y0';
           return model[y0Property] + model[yProperty];
         },

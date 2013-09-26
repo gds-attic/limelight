@@ -557,6 +557,52 @@ function (Graph, Collection, d3) {
       });
 
       describe("stack", function () {
+
+        describe("calculation", function () {
+          it("calculates d3 stack", function () {
+            graph.applyConfig('stack');
+
+            expect(graph.layers.length).toEqual(3);
+            expect(graph.layers[0].get('values').at(0).y0).toEqual(0);
+            expect(graph.layers[0].get('values').at(0).y).toEqual(2);
+            expect(graph.layers[0].get('values').at(1).y0).toEqual(0);
+            expect(graph.layers[0].get('values').at(1).y).toEqual(7);
+            expect(graph.layers[0].get('values').at(2).y0).toEqual(0);
+            expect(graph.layers[0].get('values').at(2).y).toEqual(12);
+
+            expect(graph.layers[1].get('values').at(0).y0).toEqual(2);
+            expect(graph.layers[1].get('values').at(0).y).toEqual(1);
+
+            expect(graph.layers[2].get('values').at(0).y0).toEqual(3);
+            expect(graph.layers[2].get('values').at(0).y).toEqual(90);
+          });
+
+          it("calculates d3 stack using custom properties", function () {
+            graph.stackYProperty = 'yCustom';
+            graph.stackY0Property = 'yCustom0';
+            graph.outStack = function (model, y0, y) {
+              model.yCustom0 = y0;
+              model.yCustom = y;
+            };
+
+            graph.applyConfig('stack');
+            
+            expect(graph.layers.length).toEqual(3);
+            expect(graph.layers[0].get('values').at(0).yCustom0).toEqual(0);
+            expect(graph.layers[0].get('values').at(0).yCustom).toEqual(2);
+            expect(graph.layers[0].get('values').at(1).yCustom0).toEqual(0);
+            expect(graph.layers[0].get('values').at(1).yCustom).toEqual(7);
+            expect(graph.layers[0].get('values').at(2).yCustom0).toEqual(0);
+            expect(graph.layers[0].get('values').at(2).yCustom).toEqual(12);
+
+            expect(graph.layers[1].get('values').at(0).yCustom0).toEqual(2);
+            expect(graph.layers[1].get('values').at(0).yCustom).toEqual(1);
+
+            expect(graph.layers[2].get('values').at(0).yCustom0).toEqual(3);
+            expect(graph.layers[2].get('values').at(0).yCustom).toEqual(90);
+          });
+        });
+
         describe("calcYScale", function() {
 
           beforeEach(function() {

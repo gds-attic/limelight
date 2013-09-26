@@ -1,6 +1,6 @@
 define([
   'extensions/views/graph/stack',
-  'extensions/collections/collection'
+  'extensions/collections/graphcollection'
 ],
 function (Stack, Collection) {
   describe("Stack component", function () {
@@ -59,21 +59,19 @@ function (Stack, Collection) {
           wrapper: wrapper,
           collection: collection,
           scales: {
+            x: function (x) {
+              return x;
+            },
             y: function (x) {
               return x * 2;
             }
           },
           graph: {
-            layers: layers
-          },
-          x: function (group, groupIndex, model, index) {
-            return model.get('a') + index;
-          },
-          y: function (group, groupIndex, model, index) {
-            return model.y + model.y0;
-          },
-          y0: function (group, groupIndex, model, index) {
-            return model.y0;
+            layers: layers,
+            getXPos: function (groupIndex, modelIndex) {
+              var model = collection.at(groupIndex, modelIndex);
+              return model.get('a') + modelIndex;
+            }
           }
         });
       });
@@ -81,11 +79,11 @@ function (Stack, Collection) {
       it("renders a stack consisting of a stroked path and a filled path for each item in the collection", function() {
         view.render();
         var group1 = wrapper.selectAll('g.group:nth-child(1)');
-        expect(group1.selectAll('path.line').attr('d')).toEqual('M1,6L5,14L9,22L13,28L16,34');
-        expect(group1.selectAll('path.stack').attr('d')).toEqual('M1,6L5,14L9,22L13,28L16,34L16,0L13,0L9,0L5,0L1,0Z');
+        expect(group1.selectAll('path.line').attr('d')).toEqual('M1.5,6L5.5,14L9.5,22L12.5,28L15.5,34');
+        expect(group1.selectAll('path.stack').attr('d')).toEqual('M1.5,6L5.5,14L9.5,22L12.5,28L15.5,34L15.5,0L12.5,0L9.5,0L5.5,0L1.5,0Z');
         var group2 = wrapper.selectAll('g.group:nth-child(2)');
-        expect(group2.selectAll('path.line').attr('d')).toEqual('M1,10L5,26L9,42L12,54L15,66');
-        expect(group2.selectAll('path.stack').attr('d')).toEqual('M1,10L5,26L9,42L12,54L15,66L15,34L12,28L9,22L5,14L1,6Z');
+        expect(group2.selectAll('path.line').attr('d')).toEqual('M1.5,10L5.5,26L9.5,42L12.5,54L15.5,66');
+        expect(group2.selectAll('path.stack').attr('d')).toEqual('M1.5,10L5.5,26L9.5,42L12.5,54L15.5,66L15.5,34L12.5,28L9.5,22L5.5,14L1.5,6Z');
       });
 
       it("renders multiple paths when there are gaps in the data", function() {
@@ -94,11 +92,32 @@ function (Stack, Collection) {
         view.graph.layers = stack(collection.models.slice().reverse());
         view.render();
         var group1 = wrapper.selectAll('g.group:nth-child(1)');
-        expect(group1.selectAll('path.line').attr('d')).toEqual('M1,6L5,14M13,28L16,34');
-        expect(group1.selectAll('path.stack').attr('d')).toEqual('M1,6L5,14L5,0L1,0ZM13,28L16,34L16,0L13,0Z');
+        expect(group1.selectAll('path.line').attr('d')).toEqual('M1.5,6L5.5,14M12.5,28L15.5,34');
+        expect(group1.selectAll('path.stack').attr('d')).toEqual('M1.5,6L5.5,14L5.5,0L1.5,0ZM12.5,28L15.5,34L15.5,0L12.5,0Z');
         var group2 = wrapper.selectAll('g.group:nth-child(2)');
-        expect(group2.selectAll('path.line').attr('d')).toEqual('M1,10L5,26M12,54L15,66');
-        expect(group2.selectAll('path.stack').attr('d')).toEqual('M1,10L5,26L5,14L1,6ZM12,54L15,66L15,34L12,28Z');
+        expect(group2.selectAll('path.line').attr('d')).toEqual('M1.5,10L5.5,26M12.5,54L15.5,66');
+        expect(group2.selectAll('path.stack').attr('d')).toEqual('M1.5,10L5.5,26L5.5,14L1.5,6ZM12.5,54L15.5,66L15.5,34L12.5,28Z');
+      });
+
+      it("renders multiple paths when there are gaps in the data and when using custom stack properties", function() {
+        collection.at(0).get('values').at(2).set('b', null);
+        collection.at(1).get('values').at(2).set('b', null);
+        view.graph.stackYProperty = 'yCustom';
+        view.graph.stackY0Property = 'yCustom0';
+        stack.out(function (model, y0, y) {
+          delete model.y0;
+          delete model.y;
+          model.yCustom0 = y0;
+          model.yCustom = y;
+        });
+        view.graph.layers = stack(collection.models.slice().reverse());
+        view.render();
+        var group1 = wrapper.selectAll('g.group:nth-child(1)');
+        expect(group1.selectAll('path.line').attr('d')).toEqual('M1.5,6L5.5,14M12.5,28L15.5,34');
+        expect(group1.selectAll('path.stack').attr('d')).toEqual('M1.5,6L5.5,14L5.5,0L1.5,0ZM12.5,28L15.5,34L15.5,0L12.5,0Z');
+        var group2 = wrapper.selectAll('g.group:nth-child(2)');
+        expect(group2.selectAll('path.line').attr('d')).toEqual('M1.5,10L5.5,26M12.5,54L15.5,66');
+        expect(group2.selectAll('path.stack').attr('d')).toEqual('M1.5,10L5.5,26L5.5,14L1.5,6ZM12.5,54L15.5,66L15.5,34L12.5,28Z');
       });
 
       it("ensures that elements are rendered in correct order after an element was selected", function () {
@@ -204,12 +223,11 @@ function (Stack, Collection) {
         expect(collection.selectItem).toHaveBeenCalledWith(1, 0);
       });
 
-      it("optionally toggles selection when the new item is already selected", function () {
-        view.collection.selectedIndex = 0;
-        view.collection.selectedItem = view.collection.at(0);
-        view.collection.at(0).get('values').selectItem(2);
-        view.onHover({ x: 3, y: 6, toggle: true });
-        expect(collection.selectItem.mostRecentCall.args).toEqual([null, null]);
+      it("optionally toggles selection when the new item is the currently selected item", function () {
+        view.collection.selectItem(1, 0);
+        view.onHover({ x: 1, y: 200, toggle: true });
+        expect(collection.getCurrentSelection().selectedGroup).toBeFalsy();
+        expect(collection.getCurrentSelection().selectedModel).toBeFalsy();
       });
 
       it("optionally selects all items at a given position but not the group", function () {
