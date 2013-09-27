@@ -4,10 +4,12 @@ define([
   'extensions/collections/multiconversioncollection',
   'lpa/collections/conversion-series',
   'extensions/views/conversion-graph/conversion-graph',
+  'lpa/collections/help-usage', 'lpa/views/help-usage-table',
   'common/controllers/availability-module'
 ],
 function (ApplicationsCollection, ApplicationsGraph,
           MultiConversionCollection, ConversionSeries, ConversionGraph,
+          HelpUsageCollection, HelpUsageTable,
           availabilityModule) {
   return function () {
 
@@ -38,6 +40,15 @@ function (ApplicationsCollection, ApplicationsGraph,
         conversionCollection.fetch();
       }
     }
+
+    var helpUsageCollection = new HelpUsageCollection();
+
+    new HelpUsageTable({
+       el: $('.help-usage-table'),
+       collection: helpUsageCollection
+    });
+
+    helpUsageCollection.fetch();
 
     availabilityModule('lasting-power-of-attorney');
   }

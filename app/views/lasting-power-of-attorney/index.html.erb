@@ -47,4 +47,19 @@
 </section>
 <% end %>
 
+<section class="help-usage">
+  <h1>Help usage</h1>
+  <ul class="module-actions">
+    <li class="info">
+      <div>
+        <p>Data source: Google Analytics (unique visitors numbers based on sampled data)</p>
+        <p>TBD.</p>
+      </div>
+    </li>
+  </ul>
+
+  <article class="help-usage-table"></article>
+</section>
+
+
 <%= render(partial: "common/modules/availability") if Rails.application.config.feature_toggles[:show_lpa_availability] %>

@@ -1,0 +1,21 @@
+@import 'typography';
+
+.help-usage {
+
+  ul.module-actions {
+    margin-top:-36px;
+    margin-bottom: 44px;
+  }
+
+  .help-usage-table {
+
+    th, td {
+      white-space: normal;
+    }
+
+    th.count,
+    td.count {
+      width: 12em;
+    }
+  }
+}

@@ -20,6 +20,7 @@ class BackdropStubController < ApplicationController
           StubConfig.new({'service' => 'pay-foreign-marriage-certificates', 'api_name' => 'monitoring'}, 'availability.json'),
           StubConfig.new({'service' => 'pay-register-death-abroad', 'api_name' => 'journey'}, 'pay-register-death-abroad-journey.json'),
           StubConfig.new({'service' => 'deposit-foreign-marriage', 'api_name' => 'journey'}, 'journey-with-missing-data.json'),
+          StubConfig.new({'service' => 'lasting-power-of-attorney', 'api_name' => 'journey', 'group_by' => 'eventLabel', 'filter_by' => 'eventAction:help'}, 'lpa_help_usage.json'),
           StubConfig.new({'service' => 'lasting-power-of-attorney', 'api_name' => 'journey'}, 'lpa_journey.json'),
           StubConfig.new({'service' => 'lasting-power-of-attorney', 'api_name' => 'monitoring'}, 'availability.json'),
           StubConfig.new({'service' => 'lasting-power-of-attorney'}, 'lpa_volumes.json'),
