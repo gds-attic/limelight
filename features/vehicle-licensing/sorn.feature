@@ -20,7 +20,7 @@ Feature: SORN dashboard
     When I go to /performance/sorn
     Then I should see the module "Service availability"
      And the module should display an uptime of 85%
-     And the module should display a response time of 150ms
+     And the module should display a response time of 12.6s
 
   Scenario: customer satisfaction module
      When I go to /performance/sorn

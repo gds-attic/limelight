@@ -9,7 +9,7 @@ Feature: uptime and response time for lpa dashboard
     When I go to /performance/lasting-power-of-attorney
     Then I should see the module "Service availability"
      And the module should display an uptime of 85%
-     And the module should display a response time of 150ms
+     And the module should display a response time of 563ms
 
   @svg
   Scenario: conversion funnel
