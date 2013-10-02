@@ -8,16 +8,13 @@ define([
       apiName:'journey',
 
       queryParams: function () {
-        return {
-          period: 'week',
-          duration: 1,
-          ago: 0,
+        return _.extend(this.lastWeekDateRangeParams(this.moment()), {
           filter_by: 'eventAction:help',
           group_by: 'eventLabel',
           collect: [
             'uniqueEvents'
           ]
-        };
+        });
       },
 
       parse: function (response) {

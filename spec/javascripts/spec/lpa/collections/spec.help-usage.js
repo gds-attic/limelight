@@ -7,18 +7,17 @@ define([
       describe("queryParams", function () {
 
         it("queries for help usage in the last week", function () {
-          var params = new Collection().queryParams();
+          var collection = new Collection();
 
-          expect(params).toEqual({
-            period: 'week',
-            duration: 1,
-            ago: 0,
-            filter_by: 'eventAction:help',
-            group_by: 'eventLabel',
-            collect: [
-              'uniqueEvents'
-            ]
-          });
+          setupMoment('2013-09-30 15:20:31', collection);
+
+          var params = collection.queryParams();
+
+          expect(params.filter_by).toEqual('eventAction:help');
+          expect(params.group_by).toEqual('eventLabel');
+          expect(params.collect).toEqual(['uniqueEvents']);
+          expect(params.start_at).toBeMoment(moment('2013-09-23 00:00:00'));
+          expect(params.end_at).toBeMoment(moment('2013-09-30 00:00:00'));
         });
       });
 
