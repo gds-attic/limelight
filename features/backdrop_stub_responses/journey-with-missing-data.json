@@ -99,50 +99,6 @@
     "uniqueEvents": 279
   },
   {
-    "_id": "ZGVwb3NpdF9mb3JlaWduX21hcnJpYWdlX2pvdXJuZXlfMjAxMzA4MDQyMzAwMDBfd2Vla19kZXBvc2l0LWZvcmVpZ24tbWFycmlhZ2U6Y29uZmlybQ==",
-    "_month_start_at": "2013-08-01T00:00:00",
-    "_timestamp": "2013-08-04T23:00:00+00:00",
-    "_updated_at": "2013-08-18T05:00:03.749000",
-    "_week_start_at": "2013-07-29T00:00:00",
-    "dataType": "deposit_foreign_marriage_journey",
-    "eventCategory": "deposit-foreign-marriage:confirm",
-    "timeSpan": "week",
-    "uniqueEvents": null
-  },
-  {
-    "_id": "ZGVwb3NpdF9mb3JlaWduX21hcnJpYWdlX2pvdXJuZXlfMjAxMzA4MDQyMzAwMDBfd2Vla19kZXBvc2l0LWZvcmVpZ24tbWFycmlhZ2U6ZG9uZQ==",
-    "_month_start_at": "2013-08-01T00:00:00",
-    "_timestamp": "2013-08-04T23:00:00+00:00",
-    "_updated_at": "2013-08-18T05:00:03.752000",
-    "_week_start_at": "2013-07-29T00:00:00",
-    "dataType": "deposit_foreign_marriage_journey",
-    "eventCategory": "deposit-foreign-marriage:done",
-    "timeSpan": "week",
-    "uniqueEvents": null
-  },
-  {
-    "_id": "ZGVwb3NpdF9mb3JlaWduX21hcnJpYWdlX2pvdXJuZXlfMjAxMzA4MDQyMzAwMDBfd2Vla19kZXBvc2l0LWZvcmVpZ24tbWFycmlhZ2U6c3RhcnQ=",
-    "_month_start_at": "2013-08-01T00:00:00",
-    "_timestamp": "2013-08-04T23:00:00+00:00",
-    "_updated_at": "2013-08-18T05:00:03.755000",
-    "_week_start_at": "2013-07-29T00:00:00",
-    "dataType": "deposit_foreign_marriage_journey",
-    "eventCategory": "deposit-foreign-marriage:start",
-    "timeSpan": "week",
-    "uniqueEvents": null
-  },
-  {
-    "_id": "ZGVwb3NpdF9mb3JlaWduX21hcnJpYWdlX2pvdXJuZXlfMjAxMzA4MDQyMzAwMDBfd2Vla19kZXBvc2l0LWZvcmVpZ24tbWFycmlhZ2U6cGF5bWVudF9lcnJvcg==",
-    "_month_start_at": "2013-08-01T00:00:00",
-    "_timestamp": "2013-08-04T23:00:00+00:00",
-    "_updated_at": "2013-08-18T05:00:03.753000",
-    "_week_start_at": "2013-07-29T00:00:00",
-    "dataType": "deposit_foreign_marriage_journey",
-    "eventCategory": "deposit-foreign-marriage:payment_error",
-    "timeSpan": "week",
-    "uniqueEvents": 1
-  },
-  {
     "_id": "ZGVwb3NpdF9mb3JlaWduX21hcnJpYWdlX2pvdXJuZXlfMjAxMzA4MTEyMzAwMDBfd2Vla19kZXBvc2l0LWZvcmVpZ24tbWFycmlhZ2U6Y29uZmlybQ==",
     "_month_start_at": "2013-08-01T00:00:00",
     "_timestamp": "2013-08-11T23:00:00+00:00",

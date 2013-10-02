@@ -14,6 +14,27 @@ define(
         expect(latestDate).toBeMoment(moment("28-Jul-2013"));
       });
 
+      it("should find the earliest date in a list of objects", function () {
+        var latestDate = dateFunctions.earliest([
+          { d: moment("26-Jul-2013") },
+          { d: moment("27-Jul-2013") },
+          { d: moment("28-Jul-2013") }
+        ], function (obj) {
+          return obj.d;
+        });
+
+        expect(latestDate).toBeMoment(moment("26-Jul-2013"));
+      });
+
+      it("should count number of weeks in a time period", function () {
+        var start = moment("05-Jul-2013");
+        var end = moment("26-Jul-2013");
+
+        var weeks = dateFunctions.numberOfWeeksInPeriod(start, end);
+
+        expect(weeks).toEqual(3);
+      });
+
       it("should return undefined when no objects supplied", function () {
         expect(dateFunctions.latest([], function() {})).toBeUndefined();
       });

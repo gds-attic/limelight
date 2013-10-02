@@ -40,11 +40,6 @@ define(['fco/collections/volumetrics'],
         uniqueEvents: 5
       },
       {
-        _timestamp: "2013-06-16T23:00:00+00:00",
-        eventCategory: "fco-transaction-name:start",
-        uniqueEvents: null
-      },
-      {
         _timestamp: "2013-06-23T23:00:00+00:00",
         eventCategory: "fco-transaction-name:start",
         uniqueEvents: 9
@@ -53,11 +48,6 @@ define(['fco/collections/volumetrics'],
         _timestamp: "2013-06-09T23:00:00+00:00",
         eventCategory: "fco-transaction-name:done",
         uniqueEvents: 3
-      },
-      {
-        _timestamp: "2013-06-16T23:00:00+00:00",
-        eventCategory: "fco-transaction-name:done",
-        uniqueEvents: null
       },
       {
         _timestamp: "2013-06-23T23:00:00+00:00",
@@ -174,13 +164,12 @@ define(['fco/collections/volumetrics'],
       });
 
       it("should pad out missing data for application series", function () {
-        var paddedValues = volumetricsCollection.applicationsSeries().values.first(6);
-        var paddedValue = paddedValues.pop();
+        var paddedValue = volumetricsCollection.applicationsSeries().values.at(5);
         expect(paddedValue.get('_start_at')).toBeMoment(moment("2013-06-03T01:00:00+01:00"));
         expect(paddedValue.get('_end_at')).toBeMoment(moment("2013-06-10T01:00:00+01:00"));
         expect(paddedValue.get('uniqueEvents')).toBe(null);
 
-        var paddedValue2 = paddedValues.pop();
+        var paddedValue2 = volumetricsCollection.applicationsSeries().values.at(4);
         expect(paddedValue2.get('_start_at')).toBeMoment(moment("2013-05-27T01:00:00+01:00"));
         expect(paddedValue2.get('_end_at')).toBeMoment(moment("2013-06-03T01:00:00+01:00"));
         expect(paddedValue2.get('uniqueEvents')).toBe(null);
@@ -191,14 +180,13 @@ define(['fco/collections/volumetrics'],
       });
 
       it("should pad out missing data for completions series", function () {
-        var paddedValues = volumetricsCollection.completionSeries().values.first(6);
-        var paddedValue = paddedValues.pop();
+        var paddedValue = volumetricsCollection.completionSeries().values.at(5);
         expect(paddedValue.get('_start_at')).toBeMoment(moment("2013-06-03T01:00:00+0100"));
         expect(paddedValue.get('_end_at')).toBeMoment(moment("2013-06-10T01:00:00+01:00"));
         expect(paddedValue.get('completion')).toBe(null);
       });
 
-      it("should have a completion rate of null when there's no done event for the timestamp", function () {
+      it("should have a completion rate of 0 when there's no done event for the timestamp", function () {
         var events = { data: [
           {
             _timestamp: "2013-06-09T23:00:00+00:00",
@@ -211,7 +199,7 @@ define(['fco/collections/volumetrics'],
           serviceName: 'notARealFCOTransaction'
         });
 
-        expect(noDoneEventVolumetricsCollection.completionSeries().values.at(8).get('completion')).toBe(null);
+        expect(noDoneEventVolumetricsCollection.completionSeries().values.at(8).get('completion')).toBe(0);
       })
     });
   }
