@@ -1,9 +1,9 @@
 define([
   'extensions/collections/graphcollection',
-  'fco/collections/volumetrics',
+  'extensions/collections/volumetrics',
   'fco/views/volumetrics-submissions-graph',
-  'fco/views/volumetrics-completion-graph',
-  'fco/views/volumetrics-number'
+  'extensions/views/volumetrics/completion-graph',
+  'extensions/views/volumetrics/number'
 ],
 function (GraphCollection, VolumetricsCollection,
   VolumetricsSubmissionsGraph, VolumetricsCompletionGraph, VolumetricsNumberView) {
@@ -15,7 +15,10 @@ function (GraphCollection, VolumetricsCollection,
     }
 
     var volumetricsCollection = new VolumetricsCollection([], {
-      serviceName: serviceName
+      serviceName: serviceName,
+      startMatcher: /start$/,
+      endMatcher: /done$/,
+      matchingAttribute: "eventCategory"
     });
 
     var volumetricsSubmissions = new GraphCollection();

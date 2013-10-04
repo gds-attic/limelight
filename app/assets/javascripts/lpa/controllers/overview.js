@@ -5,12 +5,18 @@ define([
   'lpa/collections/conversion-series',
   'extensions/views/conversion-graph/conversion-graph',
   'lpa/collections/help-usage', 'lpa/views/help-usage-table',
-  'common/controllers/availability-module'
+  'common/controllers/availability-module',
+  'lpa/controllers/volumetrics-module'
 ],
-function (ApplicationsCollection, ApplicationsGraph,
-          MultiConversionCollection, ConversionSeries, ConversionGraph,
-          HelpUsageCollection, HelpUsageTable,
-          availabilityModule) {
+function (ApplicationsCollection, 
+          ApplicationsGraph,
+          MultiConversionCollection, 
+          ConversionSeries, 
+          ConversionGraph,
+          HelpUsageCollection, 
+          HelpUsageTable,
+          availabilityModule, 
+          volumetricsModule) {
   return function () {
 
     if (!$('.lte-ie8').length) {
@@ -51,5 +57,7 @@ function (ApplicationsCollection, ApplicationsGraph,
     helpUsageCollection.fetch();
 
     availabilityModule('lasting-power-of-attorney');
+
+    volumetricsModule();
   }
 });
