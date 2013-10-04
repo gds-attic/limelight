@@ -41,8 +41,8 @@ function (require, Component, TimePeriod) {
         .classed(this.classed, true)
         .attr('transform', 'translate(' + left + ', 0)');
 
-      this.renderLabels();
       this.renderSummary();
+      this.renderLabels();
       this.renderTimePeriod();
     },
 
@@ -80,6 +80,8 @@ function (require, Component, TimePeriod) {
     renderSummary: function () {
 
       this.summaryHeight = 0;
+
+      return;
 
       if (!this.showSummary) {
         return;
@@ -133,6 +135,7 @@ function (require, Component, TimePeriod) {
 
       var figcaption = wrapper.selectAll('figcaption').data(['one-figcaption']);
       figcaption.enter().append('figcaption').attr('class', 'legend');
+      figcaption.style('width', that.margin.right + 'px');
 
       var labelWrapper = figcaption.selectAll('ol').data(['one-wrapper']);
       labelWrapper.enter().append('ol').attr('class', 'labels');
@@ -144,15 +147,6 @@ function (require, Component, TimePeriod) {
         .attr('class', function (model, index) {
           return 'label' + index;
         });
-        // do this after the lines have been rendered
-        // .attr('style', function (model, index) {
-        //   console.log(positions);
-        //   return [
-        //     // 'top:', that.margin.top + positions[index].min, 'px;',
-        //     'left:', that.margin.left + that.graph.innerWidth, 'px;',
-        //     // 'height:', positions[index].size, 'px;',
-        //     'width:', that.margin.right, 'px;'
-        //   ].join('');
 
       if (this.attachLinks) {
         //todo
@@ -162,11 +156,7 @@ function (require, Component, TimePeriod) {
         that.setLabelContent.call(that, that.d3.select(this), group, i);
       });
 
-      this.renderLines();
-    },
-
-    renderLines: function () {
-      console.log("rendering lines...");
+      this.setLabelPositions(selection);
     },
 
     renderTimePeriod: function () {
@@ -226,9 +216,8 @@ function (require, Component, TimePeriod) {
             break;
           }
         }
-        d3.select(this).selectAll('line').style('display', 'none');
-        var size = this.getBBox().height;
-        d3.select(this).selectAll('line').style('display', null);
+        var size = $(this).height();
+        console.log(size);
 
         positions.push({
           ideal: scale(y),
@@ -244,25 +233,16 @@ function (require, Component, TimePeriod) {
       });
 
       // apply optimised positions
-      selection.attr("transform", function (group, index) {
-        var x = 0;
-        var yLabel = Math.floor(positions[index].min) + .5;
-        group.set('yLabel', yLabel);
-        return "translate(" + x + ", " + yLabel + ")";
+      selection.attr('style', function (model, index) {
+        console.log(positions);
+        return [
+          'top:', that.margin.top + positions[index].min, 'px;',
+          // 'left:', that.margin.left + that.graph.innerWidth, 'px;',
+          'left:', '6px;',
+          // 'height:', positions[index].size, 'px;',
+          'width:', that.margin.right, 'px;'
+        ].join('');
       });
-    },
-
-    /**
-     * Creates label content elements.
-     * @param {Selection} selection d3 selection to operate on
-     */
-    enter: function (selection) {
-      selection.each(function (model) {
-        d3.select(this).append('text').attr('class', 'title');
-      });
-      if (this.showValues) {
-        selection.append('text').attr('class', 'value');
-      }
     },
 
     setLabelContent: function (selection, group, groupIndex) {
@@ -285,11 +265,11 @@ function (require, Component, TimePeriod) {
           labelHTML += ("<span>" + this.formatNumericLabel(value) + "</span>");
         }
 
-        if (this.showValuesPercentage) {
+        if (this.showValuesPercentage && value) {
           var fraction = this.collection.fraction(
             attr, groupIndex, selected.selectedModelIndex
           );
-          labelHTML += (" <span class='percentage'>(" + this.formatPercentage(fraction) + ")</span>");
+          labelHTML += (" <span class='percentage'>(" + this.formatPercentage(fraction) + ")</span>");            
         }
       }
 
@@ -338,7 +318,7 @@ function (require, Component, TimePeriod) {
      * Draws line from y position of last item to label
      * @param {Selection} selection d3 selection to operate on
      */
-    updateLines: function (selection) {
+    renderLines: function (selection) {
       var positions = this.positions;
       var that = this;
       selection.each(function (group, groupIndex) {
@@ -429,6 +409,7 @@ function (require, Component, TimePeriod) {
      * @returns {Array} Item placement solution. Each entry contains a 'min' property defining the item's positions.
      */
     calcPositions: function (items, bounds) {
+      console.log(arguments);
 
       var sumSize = _.reduce(items, function(memo, item){
         return memo + item.size;

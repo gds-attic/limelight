@@ -53,24 +53,16 @@ function (LineLabel, Collection) {
       });
 
       describe("render", function () {
-        it("renders a label with text and line at the correct position", function () {
+        it("renders a label with text and line", function () {
           lineLabel.render();
 
           var textLabels = lineLabel.$el.find('figcaption li');
           expect(textLabels.length).toEqual(2);
 
           expect(textLabels.eq(0)).toHaveText('Title 1');
-          expect(textLabels.eq(0).prop('style').top).toEqual('130px');
-          expect(textLabels.eq(0).prop('style').height).toEqual('20px');
-          expect(textLabels.eq(0).prop('style').left).toEqual('800px');
-          expect(textLabels.eq(0).prop('style').width).toEqual('200px');
           expect(textLabels.eq(0).prop('class')).toEqual('label0');
 
           expect(textLabels.eq(1)).toHaveText('Title 2');
-          expect(textLabels.eq(1).prop('style').top).toEqual('180px');
-          expect(textLabels.eq(1).prop('style').height).toEqual('30px');
-          expect(textLabels.eq(1).prop('style').left).toEqual('800px');
-          expect(textLabels.eq(1).prop('style').width).toEqual('200px');
           expect(textLabels.eq(1).prop('class')).toEqual('label1');
 
         });
