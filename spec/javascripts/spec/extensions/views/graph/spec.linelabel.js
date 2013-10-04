@@ -69,35 +69,11 @@ function (LineLabel, Collection) {
           expect(lines[0].length).toEqual(2);
         });
 
-        it("renders a label with text, square and line at the correct position", function () {
+        it("renders a label with squares", function () {
           lineLabel.showSquare = true;
-          lineLabel.squareSize = 20;
-          lineLabel.squarePadding = 6;
           lineLabel.render();
-          var labels = wrapper.select('.labels');
-          expect(labels.attr('transform')).toEqual('translate(500, 0)');
-          var label1 = labels.select('g:nth-child(1)');
-          var label2 = labels.select('g:nth-child(2)');
 
-          expect(label1.select('line').length).toEqual(1);
-          expect(label1.select('text').attr('transform')).toEqual('translate(26, 6)');
-          expect(label1.select('text').text()).toEqual('Title 1');
-          expect(label1.select('rect').attr('class')).toMatch('id1');
-          expect(label1.select('rect').attr('class')).toMatch('square0');
-          expect(label1.select('rect').attr('x')).toEqual('0');
-          expect(label1.select('rect').attr('y')).toEqual('-10');
-          expect(label1.select('rect').attr('width')).toEqual('20');
-          expect(label1.select('rect').attr('height')).toEqual('20');
-
-          expect(label2.select('line').length).toEqual(1);
-          expect(label2.select('text').attr('transform')).toEqual('translate(26, 6)');
-          expect(label2.select('text').text()).toEqual('Title 2');
-          expect(label2.select('rect').attr('class')).toMatch('id2');
-          expect(label2.select('rect').attr('class')).toMatch('square1');
-          expect(label2.select('rect').attr('x')).toEqual('0');
-          expect(label2.select('rect').attr('y')).toEqual('-10');
-          expect(label2.select('rect').attr('width')).toEqual('20');
-          expect(label2.select('rect').attr('height')).toEqual('20');
+          expect(lineLabel.$el.find('figcaption ol')).toHaveClass('squares');
         });
 
         it("does not render links by default", function () {

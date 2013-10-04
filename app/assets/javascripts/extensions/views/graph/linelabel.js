@@ -139,7 +139,9 @@ function (require, Component, TimePeriod) {
       figcaption.style('width', that.margin.right + 'px');
 
       var labelWrapper = figcaption.selectAll('ol').data(['one-wrapper']);
-      labelWrapper.enter().append('ol').attr('class', 'labels');
+      labelWrapper.enter().append('ol').classed('squares', function (d, i) {
+        return that.showSquare;
+      });
 
       var numLabels = this.collection.models.length;
       var selection = labelWrapper.selectAll('li')
