@@ -43,6 +43,7 @@ function (require, Component, TimePeriod) {
 
       this.renderSummary();
       this.renderLabels();
+      this.renderLines();
       this.renderTimePeriod();
     },
 
@@ -234,13 +235,10 @@ function (require, Component, TimePeriod) {
 
       // apply optimised positions
       selection.attr('style', function (model, index) {
-        console.log(positions);
         return [
           'top:', that.margin.top + positions[index].min, 'px;',
-          // 'left:', that.margin.left + that.graph.innerWidth, 'px;',
-          'left:', '6px;',
-          // 'height:', positions[index].size, 'px;',
-          'width:', that.margin.right, 'px;'
+          'left:', that.offset, 'px;',
+          'width:', that.margin.right - that.offset, 'px;'
         ].join('');
       });
     },
@@ -316,24 +314,25 @@ function (require, Component, TimePeriod) {
 
     /**
      * Draws line from y position of last item to label
-     * @param {Selection} selection d3 selection to operate on
      */
-    renderLines: function (selection) {
-      var positions = this.positions;
+    renderLines: function () {
       var that = this;
-      selection.each(function (group, groupIndex) {
-        var position = positions[groupIndex];
-        d3.select(this).select('line')
+      var selection = this.componentWrapper.selectAll('line')
+        .data(this.positions);
+      selection.enter().append('line');
+
+      selection.each(function (d) {
+        d3.select(this)
           .attr('x1', -that.offset + that.linePaddingInner)
           .attr('x2', -that.linePaddingOuter)
-          .attr('y1', function(group, index) {
-            return position.ideal - position.min;
+          .attr('y1', function(d) {
+            return d.ideal;
           })
-          .attr('y2', function(group) {
-            return 0;
+          .attr('y2', function(d) {
+            return d.min;
           })
-          .classed('crisp', function () {
-            return position.ideal - position.min == 0;
+          .classed('crisp', function (d) {
+            return d.ideal - d.min == 0;
           });
       });
     },

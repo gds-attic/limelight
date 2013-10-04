@@ -65,6 +65,8 @@ function (LineLabel, Collection) {
           expect(textLabels.eq(1)).toHaveText('Title 2');
           expect(textLabels.eq(1).prop('class')).toEqual('label1');
 
+          var lines = wrapper.select('line');
+          expect(lines[0].length).toEqual(2);
         });
 
         it("renders a label with text, square and line at the correct position", function () {
