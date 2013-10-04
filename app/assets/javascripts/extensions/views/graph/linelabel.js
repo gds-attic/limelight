@@ -41,27 +41,8 @@ function (require, Component, TimePeriod) {
         .classed(this.classed, true)
         .attr('transform', 'translate(' + left + ', 0)');
 
+      this.renderLabels();
       this.renderSummary();
-
-      var selection = this.componentWrapper.selectAll('g.label')
-          .data(this.collection.models);
-      selection.exit().remove();
-
-      var enterSelection = selection.enter().append('g').attr('class', 'label');
-      enterSelection.append('line');
-      if (this.showSquare) {
-        enterSelection.append('rect');
-      }
-      this.enter(enterSelection);
-
-      this.update(selection);
-      this.setLabelPositions(selection);
-      this.updateLines(selection);
-      if (this.showSquare) {
-        this.updateSquares(selection);
-      }
-
-      this.renderLinks();
       this.renderTimePeriod();
     },
 
@@ -146,30 +127,46 @@ function (require, Component, TimePeriod) {
       this.summaryHeight = y + this.labelOffset + this.summaryPadding;
     },
 
-    renderLinks: function () {
-      if (!this.attachLinks) {
-        return;
-      }
+    renderLabels: function () {
       var wrapper = this.d3.select(this.$el[0]);
-      var selection = wrapper.selectAll('a.label-link')
-        .data(this.collection.models);
-      selection.enter().append('a')
-        .attr('class', 'label-link')
-
-      var positions = this.positions;
       var that = this;
-      selection
-        .attr('href', function (model, index) {
-          return model.get('href');
-        })
-        .attr('style', function (model, index) {
-          return [
-            'left: ', that.margin.left + that.graph.innerWidth, 'px; ',
-            'width: ', that.margin.right, 'px; ',
-            'top: ', that.margin.top + positions[index].min, 'px; ',
-            'height: ', positions[index].size, 'px; '
-          ].join('')
+
+      var figcaption = wrapper.selectAll('figcaption').data(['one-figcaption']);
+      figcaption.enter().append('figcaption').attr('class', 'legend');
+
+      var labelWrapper = figcaption.selectAll('ol').data(['one-wrapper']);
+      labelWrapper.enter().append('ol').attr('class', 'labels');
+
+      var numLabels = this.collection.models.length;
+      var selection = labelWrapper.selectAll('li')
+        .data(this.collection.models);
+      selection.enter().append('li')
+        .attr('class', function (model, index) {
+          return 'label' + index;
         });
+        // do this after the lines have been rendered
+        // .attr('style', function (model, index) {
+        //   console.log(positions);
+        //   return [
+        //     // 'top:', that.margin.top + positions[index].min, 'px;',
+        //     'left:', that.margin.left + that.graph.innerWidth, 'px;',
+        //     // 'height:', positions[index].size, 'px;',
+        //     'width:', that.margin.right, 'px;'
+        //   ].join('');
+
+      if (this.attachLinks) {
+        //todo
+      }
+
+      selection.each(function(group, i) {
+        that.setLabelContent.call(that, that.d3.select(this), group, i);
+      });
+
+      this.renderLines();
+    },
+
+    renderLines: function () {
+      console.log("rendering lines...");
     },
 
     renderTimePeriod: function () {
@@ -178,9 +175,8 @@ function (require, Component, TimePeriod) {
       }
 
       if (!this.timePeriod) {
-        var el = $('<figcaption class="timeperiod">').appendTo(this.$el);
         var timePeriod = this.timePeriod = new TimePeriod({
-          el: el,
+          el: this.figcaption,
           collection: this.collection
         });
         timePeriod.render();
@@ -269,44 +265,37 @@ function (require, Component, TimePeriod) {
       }
     },
 
-    /**
-     * Sets label content.
-     * @param {Selection} selection d3 selection to operate on
-     */
-    update: function (selection) {
-      var that = this;
+    setLabelContent: function (selection, group, groupIndex) {
+      var labelHTML = "<span class='label-title'>" + group.get('title') + "</span>";
 
-      var getLabelData = function (group, groupIndex) {
-        var d = {
-          title: group.get('title')
-        };
+      if (this.showValues) {
+        var attr = this.graph.valueAttr,
+            selected = this.collection.getCurrentSelection(),
+            value = 0;
 
-        if (this.showValues) {
-          var attr = this.graph.valueAttr;
-
-          var selected = this.collection.getCurrentSelection();
-          if (selected.selectedModel) {
-            d.value = this.collection.at(
-              groupIndex, selected.selectedModelIndex
-            ).get(attr);
-          } else {
-            d.value = this.collection.sum(attr, groupIndex);
-          }
-
-          if (this.showValuesPercentage) {
-            d.fraction = this.collection.fraction(
-              attr, groupIndex, selected.selectedModelIndex
-            );
-          }
+        if (selected.selectedModel) {
+          value = this.collection.at(groupIndex, selected.selectedModelIndex).get(attr);
+        } else {
+          value = this.collection.sum(attr, groupIndex);
         }
 
-        return d;
+        if (value === null) {
+          labelHTML += "<span class='no-data'>(no data)</span>";
+        } else {
+          labelHTML += ("<span>" + this.formatNumericLabel(value) + "</span>");
+        }
+
+        if (this.showValuesPercentage) {
+          var fraction = this.collection.fraction(
+            attr, groupIndex, selected.selectedModelIndex
+          );
+          labelHTML += (" <span class='percentage'>(" + this.formatPercentage(fraction) + ")</span>");
+        }
       }
 
-      selection.each(function (group, groupIndex) {
-        var d = getLabelData.call(that, group, groupIndex);
-        that.updateLabelContent.call(that, d3.select(this), d);
-      });
+      console.log(labelHTML);
+
+      selection.html(labelHTML);
     },
 
     getXOffset: function () {
@@ -331,34 +320,6 @@ function (require, Component, TimePeriod) {
         node = selection;
       }
       return node.getBBox().height;
-    },
-
-    updateLabelContent: function (selection, d) {
-      var xOffset = this.getXOffset();
-
-      selection.selectAll("text.title")
-        .text(_.unescape(d.title))
-        .attr('transform', 'translate(' + xOffset + ', ' + this.labelOffset + ')');
-
-      if (this.showValues) {
-        var text = selection.selectAll("text.value");
-        if (d.value == null) {
-          text.text('(no data)').classed('no-data', true);
-        } else {
-          text.text(this.formatNumericLabel(d.value)).classed('no-data', false);
-          
-          if (this.showValuesPercentage && d.value) {
-            text.append('tspan')
-              .text(' (' + this.formatPercentage(d.fraction) + ')')
-              .attr('class', 'percentage');
-          }
-        }
-
-        text.attr('transform', 'translate(' + xOffset + ', ' + this.getNodeHeight(text.node()) + ')');
-      }
-
-      var truncateWidth = this.margin.right - this.offset - xOffset;
-      this.truncateWithEllipsis(selection, truncateWidth);
     },
 
     updateSquares: function (selection) {
@@ -425,9 +386,9 @@ function (require, Component, TimePeriod) {
           text.text(truncated);
           if (this.getBBox().width <= maxWidth) {
             break;
-          };
-        };
-      })
+          }
+        }
+      });
     },
 
     onChangeSelected: function (groupSelected, groupIndexSelected, modelSelected, indexSelected) {
@@ -552,7 +513,7 @@ function (require, Component, TimePeriod) {
           item.squareDist = Math.pow(item.dist, 2);
           sumSquareDist += item.squareDist;
           solution[i] = item;
-        };
+        }
 
         // nudge following elements downwards
         for (var i = indexToOptimise + 1; i < items.length; i++) {
@@ -563,7 +524,7 @@ function (require, Component, TimePeriod) {
           item.squareDist = Math.pow(item.dist, 2);
           sumSquareDist += item.squareDist;
           solution[i] = item;
-        };
+        }
 
         solution.sumSquareDist = sumSquareDist;
 
@@ -589,8 +550,8 @@ function (require, Component, TimePeriod) {
             // result has not converged yet, continue search
             doIterate = true;
           }
-        };
-      };
+        }
+      }
 
       return bestSolution;
     }
