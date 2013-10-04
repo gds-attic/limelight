@@ -141,18 +141,24 @@ function (require, Component, TimePeriod) {
       var labelWrapper = figcaption.selectAll('ol').data(['one-wrapper']);
       labelWrapper.enter().append('ol').classed('squares', function (d, i) {
         return that.showSquare;
+      }).classed('has-links', function () {
+        return that.attachLinks;
       });
 
       var numLabels = this.collection.models.length;
       var selection = labelWrapper.selectAll('li')
         .data(this.collection.models);
-      selection.enter().append('li')
-        .attr('class', function (model, index) {
-          return 'label' + index;
-        });
+      var enterSelection = selection.enter().append('li');
+
+      selection.attr('class', function (model, index) {
+        return 'label' + index;
+      });
 
       if (this.attachLinks) {
-        //todo
+        enterSelection.append('a');
+        selection.selectAll('a').attr('href', function (group, groupIndex) {
+          return group.get('href');
+        });
       }
 
       selection.each(function(group, i) {
@@ -272,7 +278,12 @@ function (require, Component, TimePeriod) {
         }
       }
 
-      selection.html(labelHTML);
+      if (this.attachLinks) {
+        selection.select('a').html(labelHTML);
+      } else {
+        selection.html(labelHTML);
+      }
+
     },
 
     getXOffset: function () {

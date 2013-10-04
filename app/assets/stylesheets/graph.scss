@@ -213,9 +213,18 @@
         }
       }
 
+      &.has-links li {
+        z-index:100;
+      }
+
       li {
         position: absolute;
-        padding-top:16px;
+        margin-top:16px;
+
+        a {
+          color: $text-colour;
+          text-decoration: none;
+        }
 
         .label-title {
           display: block;
@@ -280,15 +289,6 @@
         stroke-width: 1px;
         shape-rendering: crispEdges;
       }
-    }
-  }
-
-  .label-link {
-    position: absolute;
-    z-index:100;
-    cursor:pointer;
-    &:focus {
-      background-color: transparent;
     }
   }
 

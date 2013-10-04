@@ -65,7 +65,7 @@ function (LineLabel, Collection) {
           expect(textLabels.eq(1)).toHaveText('Title 2');
           expect(textLabels.eq(1).prop('class')).toEqual('label1');
 
-          var lines = wrapper.select('line');
+          var lines = wrapper.selectAll('line');
           expect(lines[0].length).toEqual(2);
         });
 
@@ -78,25 +78,17 @@ function (LineLabel, Collection) {
 
         it("does not render links by default", function () {
           lineLabel.render();
-          expect(lineLabel.$el.find('.label-link').length).toEqual(0);
+          expect(lineLabel.$el.find('figcaption li a').length).toEqual(0);
         });
 
-        it("renders links at the correct position when enabled", function () {
+        it("renders links when enabled", function () {
           lineLabel.attachLinks = true;
           lineLabel.render();
-          var links = lineLabel.$el.find('.label-link');
+          expect(lineLabel.$el.find('figcaption ol')).toHaveClass('has-links');
+          var links = lineLabel.$el.find('figcaption li a')
           expect(links.length).toEqual(2);
-
-          expect(links.eq(0).prop('style').top).toEqual('130px');
-          expect(links.eq(0).prop('style').height).toEqual('20px');
-          expect(links.eq(0).prop('style').left).toEqual('800px');
-          expect(links.eq(0).prop('style').width).toEqual('200px');
+          lineLabel.render();
           expect(links.eq(0).attr('href')).toEqual('/link1');
-
-          expect(links.eq(1).prop('style').top).toEqual('180px');
-          expect(links.eq(1).prop('style').height).toEqual('30px');
-          expect(links.eq(1).prop('style').left).toEqual('800px');
-          expect(links.eq(1).prop('style').width).toEqual('200px');
           expect(links.eq(1).attr('href')).toEqual('/link2');
         });
 
