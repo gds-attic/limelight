@@ -43,12 +43,12 @@
       @include bold-48($tabular-numbers: true);
 
       @media (max-width: 640px) {
-      // Revert back to default impact number size for small screen sizes.
-      // GOV.UK frontend toolkit rule decreases font size automatically
-      // for small screens.
-      @include bold-80($tabular-numbers: true);
+        @include bold-80($tabular-numbers: true);
+      }
+      @media (max-width: 500px) {
+        @include bold-48($tabular-numbers: true);
+      }
     }
-  }
   }
 
   .graph {
@@ -63,6 +63,37 @@
     }
     .cursorLine {
       display: none;
+    }
+  }
+
+  @media (max-width: 640px) {
+
+    .graph {
+      .y-axis .tick:nth-child(even) text {
+        display:block;
+      }
+    }
+  }
+
+  @media(max-width: 500px) {
+    height:270px;
+
+    h3 {
+      clear:none;
+    }
+
+    .graph {
+      margin-left:0;
+      position:absolute;
+      left:0;
+      right:0;
+    }
+    figure:nth-of-type(1) {
+      top: 110px;
+    }
+
+    .impact-number {
+      max-width: 40%;
     }
   }
 }
