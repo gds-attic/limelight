@@ -218,7 +218,6 @@ function (require, Component, TimePeriod) {
           }
         }
         var size = $(this).height();
-        console.log(size);
 
         positions.push({
           ideal: scale(y),
@@ -271,8 +270,6 @@ function (require, Component, TimePeriod) {
         }
       }
 
-      console.log(labelHTML);
-
       selection.html(labelHTML);
     },
 
@@ -282,22 +279,6 @@ function (require, Component, TimePeriod) {
       } else {
         return 0;
       }
-    },
-
-    /**
-     * Calculates height of SVG node
-     * @param {Object} selection d3 selection or native SVG DOM node
-     * @returns Height in pixels
-     */
-    getNodeHeight: function(selection){
-      var node;
-      // if it's a selection, get the node
-      if (selection.node){
-        node = selection.node();
-      } else {
-        node = selection;
-      }
-      return node.getBBox().height;
     },
 
     updateSquares: function (selection) {
@@ -408,8 +389,6 @@ function (require, Component, TimePeriod) {
      * @returns {Array} Item placement solution. Each entry contains a 'min' property defining the item's positions.
      */
     calcPositions: function (items, bounds) {
-      console.log(arguments);
-
       var sumSize = _.reduce(items, function(memo, item){
         return memo + item.size;
       }, 0);
