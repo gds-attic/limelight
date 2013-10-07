@@ -19,8 +19,6 @@ function (require, Component) {
     showSummary: false,
     showTimePeriod: false,
     attachLinks: false,
-    squareSize: 11,
-    squarePadding: 4,
     summaryPadding: -36,
 
     classed: 'labels',
@@ -301,39 +299,6 @@ function (require, Component) {
           this.pluralise(period, numPeriods)
         ].join(' ');
       }
-    },
-
-    /**
-     * Truncates label texts to fit within defined width.
-     * @param {Selection} selection d3 selection to operate on
-     * @param {Number} maxWidth Width to truncate text elements to
-     * @param {String} [ellipsis=…] Symbol to use for truncation
-     */
-    truncateWithEllipsis: function (selection, maxWidth, ellipsis) {
-      ellipsis = ellipsis || '…';
-
-      selection.selectAll('text').each(function (metaModel) {
-        var text = d3.select(this);
-        if (this.getBBox().width <= maxWidth) {
-          // text fits already, nothing to do
-          return;
-        }
-
-        // truncate with ellipsis until text fits
-        var original = text.text();
-        var truncated;
-        for (var i = original.length; i >= 0; i--){
-          if (original.slice(i-1, i) === ' ') {
-            // do not leave trailing space
-            continue;
-          }
-          truncated = original.slice(0, i) + ellipsis;
-          text.text(truncated);
-          if (this.getBBox().width <= maxWidth) {
-            break;
-          }
-        }
-      });
     },
 
     onChangeSelected: function (groupSelected, groupIndexSelected, modelSelected, indexSelected) {

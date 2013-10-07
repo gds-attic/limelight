@@ -540,43 +540,6 @@ function (LineLabel, Collection) {
       });
     });
 
-    describe("truncateWithEllipsis", function() {
-
-      var el, wrapper;
-      beforeEach(function() {
-        el = $('<div></div>').appendTo($('body'));
-        wrapper = LineLabel.prototype.d3.select(el[0]).append('svg').append('g');
-        wrapper.append('text')
-          .text('XXX XXXXXX')
-          .attr('style', 'font: Arial; font-size:100px');
-      });
-
-      afterEach(function() {
-        el.remove();
-      });
-
-      it("does not truncate text elements when they fit", function() {
-        LineLabel.prototype.truncateWithEllipsis(wrapper, 1000);
-        expect(wrapper.select('text').text()).toEqual('XXX XXXXXX');
-      });
-
-      it("truncates text elements that don't fit with a default symbol", function() {
-        LineLabel.prototype.truncateWithEllipsis(wrapper, 500);
-        expect(wrapper.select('text').text()).toEqual('XXX XX…');
-      });
-
-      it("does not leave trailing spaces", function() {
-        LineLabel.prototype.truncateWithEllipsis(wrapper, 390);
-        expect(wrapper.select('text').text()).toEqual('XXX…');
-      });
-
-      it("truncates text elements that don't fit with a custom symbol", function() {
-        LineLabel.prototype.truncateWithEllipsis(wrapper, 460, '*');
-        expect(wrapper.select('text').text()).toEqual('XXX XX*');
-      });
-
-    });
-
     describe("calcPositions", function() {
 
       var line;
