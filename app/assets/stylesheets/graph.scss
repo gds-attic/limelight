@@ -163,14 +163,41 @@
     background:white;
   }
 
-  figcaption {
+  .legend {
     position: absolute;
     @include core-16($tabular-numbers: true);
     top: -24px;
     right: 0;
+    width: 200px;
 
     @media (max-width: 640px) {
       top: -19px;
+    }
+
+    .percentage,
+    .no-data {
+      color: $grey-1;
+      font-size: 14px;
+    }
+
+    .summary {
+      border-bottom: 1px solid $grey-2;
+      margin: 0 0 0 20px;
+      padding: 0 0 0 20px;
+
+      .title {
+        display: block;
+      }
+
+      .value {
+        font-size: 21px;
+        font-weight: bold;
+      }
+
+      .timeperiod {
+        display: block;
+      }
+
     }
 
     ol {
@@ -229,12 +256,6 @@
         .label-title {
           display: block;
         }
-
-        .no-data,
-        .percentage {
-          color: $grey-1;
-          font-size: 14px;
-        }
       }
 
     }
@@ -274,22 +295,6 @@
       }
     }
 
-    .summary {
-      .value {
-        font-size: 21px;
-        font-weight: bold;
-        .percentage,
-        &.no-data {
-          font-weight: normal;
-        }
-      }
-
-      .divider {
-        stroke: $grey-2;
-        stroke-width: 1px;
-        shape-rendering: crispEdges;
-      }
-    }
   }
 
   .callout {

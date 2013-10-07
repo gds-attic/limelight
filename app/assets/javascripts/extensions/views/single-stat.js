@@ -22,7 +22,7 @@ function (View) {
 
       var value, label;
       var selection = this.collection.getCurrentSelection();
-      if (this.changeOnSelected && selection.selectedModel) {
+      if (selection.selectedModel) {
         value = this.getValueSelected(selection);
         label = this.getLabelSelected(selection);
       } else {

@@ -1,9 +1,8 @@
 define([
   'require',
   'extensions/views/graph/component',
-  './timeperiod'
 ],
-function (require, Component, TimePeriod) {
+function (require, Component) {
 
   var LineLabel = Component.extend({
 
@@ -22,7 +21,7 @@ function (require, Component, TimePeriod) {
     attachLinks: false,
     squareSize: 11,
     squarePadding: 4,
-    summaryPadding: 6,
+    summaryPadding: -36,
 
     classed: 'labels',
 
@@ -41,10 +40,13 @@ function (require, Component, TimePeriod) {
         .classed(this.classed, true)
         .attr('transform', 'translate(' + left + ', 0)');
 
+      var wrapper = this.d3.select(this.$el[0]);
+      this.figcaption = wrapper.selectAll('figcaption').data(['one-figcaption']);
+      this.figcaption.enter().append('figcaption').attr('class', 'legend');
+
       this.renderSummary();
       this.renderLabels();
       this.renderLines();
-      this.renderTimePeriod();
     },
 
     /**
@@ -82,63 +84,51 @@ function (require, Component, TimePeriod) {
 
       this.summaryHeight = 0;
 
-      return;
-
       if (!this.showSummary) {
         return;
       }
 
-      var d = {
-        title: 'Total'
-      };
+      var summary = "<span class='title'>Total</span>";
 
       if (this.showValues) {
-        var attr = this.graph.valueAttr;
+        var attr = this.graph.valueAttr,
+            selected = this.collection.getCurrentSelection(),
+            value = "";
 
-        var selected = this.collection.getCurrentSelection();
         if (selected.selectedModel) {
-          d.value = this.collection.sum(attr, null, selected.selectedModelIndex);
+          value = this.collection.sum(attr, null, selected.selectedModelIndex);
         } else {
-          d.value = this.collection.sum(attr);
+          value = this.collection.sum(attr);
         }
 
-        if (this.showValuesPercentage) {
-          d.fraction = 1;
+        if (value === null) {
+          summary += "<span class='value'>(no data)</span>";
+        } else {
+          summary += "<span class='value'>" + this.formatNumericLabel(value) + "</span>";
+          if (this.showValuesPercentage) {
+            summary += " <span class='percentage'>(" + this.formatPercentage(1) + ")</span>";
+          }
         }
       }
 
-      var selection = this.componentWrapper.selectAll('g.summary').data([d]);
+      if (this.showTimePeriod) {
+        summary += "<span class='timeperiod'>" + this.renderTimePeriod() + "</span>";
+      }
 
-      selection.exit().remove();
-      var enterSelection = selection.enter().append('g').attr('class', 'summary');
-      this.enter(enterSelection);
+      var summaryWrapper = this.figcaption.selectAll('div.summary').data(['one-wrapper']);
+      summaryWrapper.enter().append('div').attr('class', 'summary');
+      summaryWrapper.html(summary);
 
-      this.updateLabelContent(selection, d);
       var translateY = this.overlapLabelTop - this.margin.top + this.labelOffset;
-      selection.attr('transform', 'translate(0,' + translateY + ")");
+      summaryWrapper.attr('style', 'margin-top: ' + translateY + 'px;');
 
-      var bbox = selection.node().getBBox();
-      var y = bbox.y + bbox.height;
-      enterSelection.append('line').attr({
-        'class': 'divider',
-        x1: 0,
-        x2: this.margin.right,
-        y1: y,
-        y2: y
-      });
-
-      this.summaryHeight = y + this.labelOffset + this.summaryPadding;
+      this.summaryHeight = $(summaryWrapper.node()).height() + this.summaryPadding;
     },
 
     renderLabels: function () {
-      var wrapper = this.d3.select(this.$el[0]);
       var that = this;
 
-      var figcaption = wrapper.selectAll('figcaption').data(['one-figcaption']);
-      figcaption.enter().append('figcaption').attr('class', 'legend');
-      figcaption.style('width', that.margin.right + 'px');
-
-      var labelWrapper = figcaption.selectAll('ol').data(['one-wrapper']);
+      var labelWrapper = this.figcaption.selectAll('ol').data(['one-wrapper']);
       labelWrapper.enter().append('ol').classed('squares', function (d, i) {
         return that.showSquare;
       }).classed('has-links', function () {
@@ -166,24 +156,6 @@ function (require, Component, TimePeriod) {
       });
 
       this.setLabelPositions(selection);
-    },
-
-    renderTimePeriod: function () {
-      if (!this.showTimePeriod) {
-        return;
-      }
-
-      if (!this.timePeriod) {
-        var timePeriod = this.timePeriod = new TimePeriod({
-          el: this.figcaption,
-          collection: this.collection
-        });
-        timePeriod.render();
-      }
-
-      this.timePeriod.$el.width(
-        this.margin.right - this.getXOffset() - this.offset
-      );
     },
 
     configs: {
@@ -267,14 +239,14 @@ function (require, Component, TimePeriod) {
         if (value === null) {
           labelHTML += "<span class='no-data'>(no data)</span>";
         } else {
-          labelHTML += ("<span>" + this.formatNumericLabel(value) + "</span>");
+          labelHTML += ("<span class='value'>" + this.formatNumericLabel(value) + "</span>");
         }
 
         if (this.showValuesPercentage && value) {
           var fraction = this.collection.fraction(
             attr, groupIndex, selected.selectedModelIndex
           );
-          labelHTML += (" <span class='percentage'>(" + this.formatPercentage(fraction) + ")</span>");            
+          labelHTML += (" <span class='percentage'>(" + this.formatPercentage(fraction) + ")</span>");
         }
       }
 
@@ -284,26 +256,6 @@ function (require, Component, TimePeriod) {
         selection.html(labelHTML);
       }
 
-    },
-
-    getXOffset: function () {
-      if (this.showSquare) {
-        return this.squareSize + this.squarePadding;
-      } else {
-        return 0;
-      }
-    },
-
-    updateSquares: function (selection) {
-      var squareSize = this.squareSize;
-      selection.each(function (model, i) {
-        d3.select(this).selectAll('rect')
-          .attr('class', model.get('id') + ' square' + i)
-          .attr('x', 0)
-          .attr('y', -squareSize / 2)
-          .attr('width', squareSize)
-          .attr('height', squareSize);
-      });
     },
 
     /**
@@ -329,6 +281,26 @@ function (require, Component, TimePeriod) {
             return d.ideal - d.min == 0;
           });
       });
+    },
+
+    renderTimePeriod: function() {
+      var period = this.period || this.collection.query.get('period') || 'week',
+          numPeriods = this.collection.at(0).get('values').length,
+          selection = this.collection.getCurrentSelection();
+
+      if (selection.selectedModel) {
+        var model = selection.selectedModel;
+        if (_.isArray(model) && model.length) {
+          model = model[0];
+        }
+        return this.formatPeriod(model, period);
+      } else {
+        return [
+          'last',
+          numPeriods,
+          this.pluralise(period, numPeriods)
+        ].join(' ');
+      }
     },
 
     /**

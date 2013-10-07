@@ -85,7 +85,7 @@ function (LineLabel, Collection) {
           lineLabel.attachLinks = true;
           lineLabel.render();
           expect(lineLabel.$el.find('figcaption ol')).toHaveClass('has-links');
-          var links = lineLabel.$el.find('figcaption li a')
+          var links = lineLabel.$el.find('figcaption li a');
           expect(links.length).toEqual(2);
           lineLabel.render();
           expect(links.eq(0).attr('href')).toEqual('/link1');
@@ -93,89 +93,51 @@ function (LineLabel, Collection) {
         });
 
         it("renders a label with additional value text when enabled", function () {
-          spyOn(lineLabel, "getNodeHeight").andReturn(18);
           lineLabel.showValues = true;
           lineLabel.render();
 
-          var labels = wrapper.select('.labels');
-          expect(labels.attr('transform')).toEqual('translate(500, 0)');
-          var label1 = labels.select('g:nth-child(1)');
-          var label2 = labels.select('g:nth-child(2)');
-          expect(label1.select('line').length).toEqual(1);
-          expect(label1.select('text.title').attr('transform')).toEqual('translate(0, 6)');
-          expect(label1.select('text.title').text()).toEqual('Title 1');
-          expect(label1.select('text.value').attr('transform')).toEqual('translate(0, 18)');
-          expect(lineLabel.getNodeHeight).toHaveBeenCalledWith(label1.select('text.value').node());
-          expect(label1.select('text.value').text()).toEqual('60');
-          expect(label2.select('line').length).toEqual(1);
-          expect(label2.select('text.title').attr('transform')).toEqual('translate(0, 6)');
-          expect(label2.select('text.title').text()).toEqual('Title 2');
-          expect(label2.select('text.value').attr('transform')).toEqual('translate(0, 18)');
-          expect(label2.select('text.value').text()).toEqual('210');
+          var labels = lineLabel.$el.find('figcaption ol li');
+          var label1 = labels.eq(0);
+          var label2 = labels.eq(1);
+
+          expect(label1.find('span.value')).toHaveText('60');
+          expect(label2.find('span.value')).toHaveText('210');
         });
 
         it("renders a label with additional value text and percentage when enabled", function () {
-          spyOn(lineLabel, "getNodeHeight").andReturn(18);
           lineLabel.showValues = true;
           lineLabel.showValuesPercentage = true;
           lineLabel.render();
-
-          var labels = wrapper.select('.labels');
-          expect(labels.attr('transform')).toEqual('translate(500, 0)');
-          var label1 = labels.select('g:nth-child(1)');
-          var label2 = labels.select('g:nth-child(2)');
-          expect(label1.select('line').length).toEqual(1);
-          expect(label1.select('text.title').attr('transform')).toEqual('translate(0, 6)');
-          expect(label1.select('text.title').text()).toEqual('Title 1');
-          expect(label1.select('text.value').attr('transform')).toEqual('translate(0, 18)');
-          expect(label1.select('text.value').text()).toEqual('60 (22%)');
-          expect(label2.select('line').length).toEqual(1);
-          expect(label2.select('text.title').attr('transform')).toEqual('translate(0, 6)');
-          expect(label2.select('text.title').text()).toEqual('Title 2');
-          expect(label2.select('text.value').attr('transform')).toEqual('translate(0, 18)');
-          expect(label2.select('text.value').text()).toEqual('210 (78%)');
+          var labels = lineLabel.$el.find('figcaption ol li');
+          var label1 = labels.eq(0);
+          var label2 = labels.eq(1);
+          expect(label1.find('span.percentage')).toHaveText('(22%)');
+          expect(label2.find('span.percentage')).toHaveText('(78%)');
         });
 
         it("renders a summary label when enabled", function () {
-          spyOn(lineLabel, "getNodeHeight").andReturn(18);
           lineLabel.showSummary = true;
           lineLabel.showValues = true;
           lineLabel.showValuesPercentage = true;
           lineLabel.render();
-
-          var labels = wrapper.select('.labels');
-          var label1 = labels.select('g:nth-child(1)');
-          var label2 = labels.select('g:nth-child(2)');
-          var label3 = labels.select('g:nth-child(3)');
-
-          expect(label1.attr('class')).toContain('summary');
-          expect(label1.select('line').length).toEqual(1);
-          expect(label1.select('text.title').attr('transform')).toEqual('translate(0, 6)');
-          expect(label1.select('text.title').text()).toEqual('Total');
-          expect(label1.select('text.value').attr('transform')).toEqual('translate(0, 18)');
-          expect(label1.select('text.value').text()).toEqual('270 (100%)');
-          expect(label2.select('line').length).toEqual(1);
-          expect(label2.select('text.title').attr('transform')).toEqual('translate(0, 6)');
-          expect(label2.select('text.title').text()).toEqual('Title 1');
-          expect(label2.select('text.value').attr('transform')).toEqual('translate(0, 18)');
-          expect(label2.select('text.value').text()).toEqual('60 (22%)');
-          expect(label3.select('line').length).toEqual(1);
-          expect(label3.select('text.title').attr('transform')).toEqual('translate(0, 6)');
-          expect(label3.select('text.title').text()).toEqual('Title 2');
-          expect(label3.select('text.value').attr('transform')).toEqual('translate(0, 18)');
-          expect(label3.select('text.value').text()).toEqual('210 (78%)');
+          var summary = lineLabel.$el.find('figcaption .summary');
+          expect(summary.find('span.title')).toHaveText('Total');
+          expect(summary.find('span.value')).toHaveText('270');
+          expect(summary.find('span.percentage')).toHaveText('(100%)');
         });
 
         it("does not render a time period label by default", function () {
           lineLabel.render();
-          expect(lineLabel.$el.find('figcaption.timeperiod').length).toEqual(0);
+          var summary = lineLabel.$el.find('figcaption .summary');
+          expect(summary.find('span.timeperiod').length).toEqual(0);
         });
 
         it("renders a time period label when enabled", function () {
+          lineLabel.showSummary = true;
           lineLabel.showTimePeriod = true;
           lineLabel.render();
-          expect(lineLabel.$el.find('figcaption.timeperiod').length).toEqual(1);
-          expect(lineLabel.$el.find('figcaption.timeperiod')).toHaveHtml('Last 3 weeks')
+          var summary = lineLabel.$el.find('figcaption .summary');
+          expect(summary.find('span.timeperiod')).toHaveText('last 3 weeks');
         });
       });
 
@@ -203,7 +165,7 @@ function (LineLabel, Collection) {
               { ideal: 30, min: 30, size: 20 },
               { ideal: 80, min: 80, size: 30 }
             ]
-          }
+          };
           spyOn(LineLabel.prototype, "setLabelPositions");
         });
 
