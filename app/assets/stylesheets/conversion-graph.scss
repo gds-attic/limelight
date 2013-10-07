@@ -72,7 +72,7 @@
     .callout {
       position:relative;
       width:100%;
-      margin-top:4px;
+      margin-top:12px;
 
       .date {
         float:right;
@@ -99,6 +99,11 @@
 
       dl dt {
         max-width:none;
+        width:50%;
+      }
+      dl dd {
+        width: 50%;
+        text-align:right;
       }
 
       .arrow {

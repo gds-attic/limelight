@@ -52,7 +52,7 @@
 
 <% if Rails.application.config.feature_toggles[:lpa_conversion_funnel] %>
 <section class="graph">
-  <h1>Journey stages</h1>
+  <h1>Users at each stage</h1>
   <ul class="module-actions">
     <li class="info">
       <div>
@@ -63,7 +63,7 @@
     </li>
   </ul>
   <h2>
-    Percentages of unique visitors who visited key stages of the transaction <span class="group1">last week</span> compared with <span class="group0">two weeks ago</span> 
+    Number of users who completed important stages of the transaction last week
   </h2>
   <figure class="graph conversion-graph" id="lpa-conversion-graph"></figure>
 </section>

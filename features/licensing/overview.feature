@@ -27,7 +27,7 @@ Feature: Overview page
   @svg
   Scenario: submission drop-offs module
     When I go to /performance/licensing
-    Then I should see the module "Submission drop-offs"
+    Then I should see the module "Users at each stage"
 
   Scenario: top licences module
     When I go to /performance/licensing

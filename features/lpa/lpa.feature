@@ -14,7 +14,7 @@ Feature: uptime and response time for lpa dashboard
   @svg
   Scenario: conversion funnel
     When I go to /performance/lasting-power-of-attorney
-    Then I should see the module "Journey stages"
+    Then I should see the module "Users at each stage"
      And the module should contain a graph
 
   Scenario: help usage

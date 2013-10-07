@@ -12,7 +12,7 @@ function (InterleavedBar) {
       return x1 - x0;
     },
     text: function (model, i) {
-      return Math.round(100 * model.get('uniqueEventsNormalised')) + '%';
+      return this.formatNumericLabel(model.get('uniqueEvents'));
     }
   });
 
