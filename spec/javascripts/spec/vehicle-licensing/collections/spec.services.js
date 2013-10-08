@@ -47,7 +47,6 @@ function (ServicesCollection) {
         "values": [
           {
             "_end_at": "2012-09-01T00:00:00+00:00", 
-            "volume:sum": 0,
             "_start_at": "2012-08-01T00:00:00+00:00"
           }, 
           {
