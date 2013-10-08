@@ -58,9 +58,9 @@ function (require, Component) {
 
       var eventName = this.modernizr.touch ? 'touchstart' : 'mousemove';
       var events = {};
-      events[eventName + ' .label-link'] = function (e) {
-        var target = $(e.target);
-        var index = target.parent().find('.label-link').index(target);
+      events[eventName + ' a'] = function (e) {
+        var target = $(e.currentTarget);
+        var index = $(this.figcaption.node()).find('a').index(target);
         this.collection.selectItem(index);
 
         if (!this.bodyListener) {
@@ -276,7 +276,7 @@ function (require, Component) {
             return d.min;
           })
           .classed('crisp', function (d) {
-            return d.ideal - d.min == 0;
+            return d.ideal - d.min === 0;
           });
       });
     },
@@ -303,8 +303,12 @@ function (require, Component) {
 
     onChangeSelected: function (groupSelected, groupIndexSelected, modelSelected, indexSelected) {
       this.render();
-      var labels = this.componentWrapper.selectAll('g.label');
+      var labels = this.figcaption.selectAll('li');
+      var lines = this.componentWrapper.selectAll('line');
       labels.classed('selected', function (group, groupIndex) {
+        return groupIndexSelected === groupIndex;
+      });
+      lines.classed('selected', function (group, groupIndex) {
         return groupIndexSelected === groupIndex;
       });
     },
@@ -312,8 +316,9 @@ function (require, Component) {
     onHover: function (e) {
       var y = e.y;
       var bestIndex, bestDistance = Infinity;
-      this.collection.each(function (group, index) {
-        var distance = Math.abs(group.get('yLabel') - y);
+      _.each(this.positions, function(elem, index) {
+        var yLabel = Math.floor(elem.min) + 0.5;
+        var distance = Math.abs(yLabel - y);
         if (distance < bestDistance) {
           bestDistance = distance;
           bestIndex = index;

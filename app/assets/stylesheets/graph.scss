@@ -207,33 +207,29 @@
 
       &.squares {
         li {
-          &.label0:before {
-            background-color: $data-colour-1;
-          }
-          &.label1:before {
-            background-color: $data-colour-2;
-          }
-          &.label2:before {
-            background-color: $data-colour-3;
-          }
-          &.label3:before {
-            background-color: $data-colour-4;
-          }
-          &.label4:before {
-            background-color: $data-colour-5;
-          }
-          &.label5:before {
-            background-color: $data-colour-6;
-          }
+          &.label0:before { background-color: $data-colour-1; }
+          &.label1:before { background-color: $data-colour-2; }
+          &.label2:before { background-color: $data-colour-3; }
+          &.label3:before { background-color: $data-colour-4; }
+          &.label4:before { background-color: $data-colour-5; }
+          &.label5:before { background-color: $data-colour-6; }
+
+          &.label0.selected:before { border-color: darken($data-colour-1, 10%); }
+          &.label1.selected:before { border-color: darken($data-colour-2, 10%); }
+          &.label2.selected:before { border-color: darken($data-colour-3, 10%); }
+          &.label3.selected:before { border-color: darken($data-colour-4, 10%); }
+          &.label4.selected:before { border-color: darken($data-colour-5, 10%); }
+          &.label5.selected:before { border-color: darken($data-colour-6, 10%); }
 
           &:before {
+            border:2px solid white;
             float:left;
             display:block;
             content:'';
             width:10px;
             height:10px;
-            margin-left: -16px;
-            margin-top:3px;
+            margin-left:-18px;
+            margin-top:1px;
           }
 
           margin-left: 18px;
@@ -247,6 +243,10 @@
       li {
         position: absolute;
         margin-top:16px;
+
+        &.selected {
+          font-weight: bold;
+        }
 
         a {
           color: $text-colour;
@@ -262,39 +262,25 @@
   }
 
   .labels {
-
     line {
       fill: none;
       stroke: #444;
       stroke-width: 1px;
       vector-effect: non-scaling-stroke;
 
-      &.crisp {
-        shape-rendering: crispEdges;
-      }
-    }
-
-    .selected {
-      text {
-        font-weight: bold;
-      }
-
-      line {
+      &.selected {
         stroke-width: 2px;
       }
 
-      rect {
-        stroke-width:2px;
-
-        &.square0 { stroke: darken($data-colour-1, 10%); }
-        &.square1 { stroke: darken($data-colour-2, 10%); }
-        &.square2 { stroke: darken($data-colour-3, 10%); }
-        &.square3 { stroke: darken($data-colour-4, 10%); }
-        &.square4 { stroke: darken($data-colour-5, 10%); }
-        &.square5 { stroke: darken($data-colour-6, 10%); }
+      &.crisp {
+        shape-rendering: crispEdges;
       }
-    }
 
+      @media (max-width: 640px) {
+        display: none;
+      }
+
+    }
   }
 
   .callout {
