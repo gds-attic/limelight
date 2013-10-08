@@ -13,7 +13,7 @@ define([
       'create/lpa-type',
       'create/donor',
       'create/attorneys',
-      'create/people-to-be-told',
+      'create/certificate-provider',
       'create/review',
       'create/complete'
     ],
@@ -23,9 +23,9 @@ define([
       'create/lpa-type':'Choose LPA type',
       'create/donor':'Add donor details',
       'create/attorneys':'Create attorneys',
-      'create/people-to-be-told':'People to be told',
+      'create/certificate-provider':'Choose certificate provider',
       'create/review':'Review LPA',
-      'create/complete':'LPA PDF created'
+      'create/complete':'LPA PDF complete'
     },
 
     getStep: function(d) {
