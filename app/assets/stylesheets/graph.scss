@@ -3,13 +3,15 @@
 
 .graph {
   margin:0 auto;
-  position:relative;
 
   figure {
-    max-width: 954px;
-    max-height: 400px;
+    position:relative;
+    svg {
+      max-width: 954px;
+      max-height: 400px;
+    }
   }
-
+    
   text {
     @include core-16($tabular-numbers: true) ;
     @media (max-width: 320px) {
@@ -18,23 +20,28 @@
     }
   }
 
-  .inner {
-    padding:0;
-    position:absolute;
-    top: 20px;
-    bottom: 45px;
-    left: 55px;
-    right: 40px;
+  .graph-wrapper {
 
-    @media (max-width: 640px) {
+    position:relative;
+
+    .inner {
+      padding:0;
+      position:absolute;
       top: 20px;
-      bottom: 40px;
-      left: 40px;
-      right: 25px;
-    }
+      bottom: 45px;
+      left: 55px;
+      right: 40px;
 
-    @media (max-width: 320px) {
-      bottom: 30px;
+      @media (max-width: 640px) {
+        top: 20px;
+        bottom: 40px;
+        left: 40px;
+        right: 25px;
+      }
+
+      @media (max-width: 320px) {
+        bottom: 30px;
+      }
     }
   }
 
@@ -170,10 +177,6 @@
     right: 0;
     width: 200px;
 
-    @media (max-width: 640px) {
-      top: -19px;
-    }
-
     .percentage,
     .no-data {
       color: $grey-1;
@@ -242,7 +245,7 @@
 
       li {
         position: absolute;
-        margin-top:16px;
+        margin-top: 16px;
 
         &.selected {
           font-weight: bold;
@@ -339,6 +342,65 @@
 @media (max-width: 640px) {
 
   .graph {
+    margin-bottom: 2.5em;
+
+    &.graph-with-labels {
+      h2 {
+        margin-right: 0;
+      }
+
+      .inner {
+        right: 25px;
+      }
+
+      .graph {
+        top: 20px;
+
+        svg {
+          clear: both;
+        }
+      }
+    }
+
+    .legend {
+      position: static;
+      width: 100%;
+      overflow:hidden;
+
+      .summary {
+        border: none;
+        border-right: 1px solid $grey-2;
+        float: left;
+        margin: 0;
+        padding: 0;
+        width: 26%;
+        margin-top: 0 !important;
+
+        .percentage {
+          display: block;
+        }
+
+        .timeperiod {
+          margin-top: 4px;
+        }
+      }
+
+      ol {
+        float: right;
+        padding-left: 36px;
+        width: 73%;
+
+        li {
+          cursor: default;
+          float: left;
+          margin-bottom: 12px;
+          position: static;
+          margin-top: 0;
+          width: 42%;
+        }
+      }
+    }
+
     .x-axis .tick:nth-child(even) text,
     .y-axis .tick:nth-child(even) text {
       display:none;

@@ -24,7 +24,11 @@ function (require, Component) {
     classed: 'labels',
 
     interactive: function (e) {
-      return e.slice % 3 === 2;
+      if (this.graph.lineLabelOnTop()) {
+        return false;
+      } else {
+        return e.slice % 3 === 2;
+      }
     },
 
     /**
@@ -40,7 +44,7 @@ function (require, Component) {
 
       var wrapper = this.d3.select(this.$el[0]);
       this.figcaption = wrapper.selectAll('figcaption').data(['one-figcaption']);
-      this.figcaption.enter().append('figcaption').attr('class', 'legend');
+      this.figcaption.enter().insert('figcaption', '.graph-wrapper').attr('class', 'legend');
 
       this.renderSummary();
       this.renderLabels();
@@ -52,15 +56,11 @@ function (require, Component) {
      * Replicates hover functionality for link areas.
      */
     events: function () {
-      if (!this.attachLinks) {
-        return;
-      }
-
       var eventName = this.modernizr.touch ? 'touchstart' : 'mousemove';
       var events = {};
-      events[eventName + ' a'] = function (e) {
+      events[eventName + ' li'] = function (e) {
         var target = $(e.currentTarget);
-        var index = $(this.figcaption.node()).find('a').index(target);
+        var index = $(this.figcaption.node()).find('li').index(target);
         this.collection.selectItem(index);
 
         if (!this.bodyListener) {
@@ -214,8 +214,7 @@ function (require, Component) {
       selection.attr('style', function (model, index) {
         return [
           'top:', that.margin.top + positions[index].min, 'px;',
-          'left:', that.offset, 'px;',
-          'width:', that.margin.right - that.offset, 'px;'
+          'left:', that.offset, 'px;'
         ].join('');
       });
     },

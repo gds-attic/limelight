@@ -69,14 +69,17 @@ function (require, View, d3, XAxis, YAxis, Line, Stack, LineLabel, Hover, Callou
         wrapper: this.wrapper,
         margin: this.margin,
         scales: this.scales
-      }
+      };
     },
     
     prepareGraphArea: function () {
+      var graphWrapper = this.graphWrapper = $('<div class="graph-wrapper"></div>');
+      graphWrapper.appendTo(this.$el);
+
       this.innerEl = $('<div class="inner"></div>');
-      this.innerEl.appendTo(this.$el);
+      this.innerEl.appendTo(graphWrapper);
       
-      var svg = this.svg = this.d3.select(this.$el[0]).append('svg');
+      var svg = this.svg = this.d3.select(graphWrapper[0]).append('svg');
       
       this.wrapper = svg.append('g')
         .classed('wrapper', true);
@@ -113,13 +116,15 @@ function (require, View, d3, XAxis, YAxis, Line, Stack, LineLabel, Hover, Callou
     },
 
     resize: function () {
-      var width = this.width = this.$el.width();
+      var $svg = $(this.svg.node());
+      $svg.attr('style', '');
+      var width = this.width = $svg.width();
 
       // when both max-width and max-height are defined, scale graph according
       // to this aspect ratio
-      var maxWidth = this.pxToValue(this.$el.css('max-width'));
-      var maxHeight = this.pxToValue(this.$el.css('max-height'));
-      var minHeight = this.pxToValue(this.$el.css('min-height'));
+      var maxWidth = this.pxToValue($svg.css('max-width'));
+      var maxHeight = this.pxToValue($svg.css('max-height'));
+      var minHeight = this.pxToValue($svg.css('min-height'));
       if (maxWidth != null && maxHeight != null) {
         var aspectRatio = maxWidth / maxHeight;
         height = width / aspectRatio;
@@ -127,7 +132,7 @@ function (require, View, d3, XAxis, YAxis, Line, Stack, LineLabel, Hover, Callou
           height = Math.max(height, minHeight);
         }
       } else {
-        height = this.$el.height();
+        height = $svg.height();
       }
       this.height = height;
 
@@ -138,7 +143,7 @@ function (require, View, d3, XAxis, YAxis, Line, Stack, LineLabel, Hover, Callou
         viewBox: '0 0 ' + width + ' ' + height,
         style: 'max-width:' + width + 'px; max-height:' + height + 'px; display:block;'
       });
-      $(this.svg.node()).height(height);
+      $svg.height(height);
 
       var innerEl = this.innerEl;
       this.margin.top = innerEl.position().top;
@@ -175,6 +180,14 @@ function (require, View, d3, XAxis, YAxis, Line, Stack, LineLabel, Hover, Callou
         }
         this[key] = value;
       }, this);
+    },
+
+    /**
+     * The linelabel figcaption is positioned on top of the graph
+     * at small screen sizes using position static.
+     */
+    lineLabelOnTop: function () {
+      return this.$el.find('figcaption').css('position') === 'static';
     },
 
     /**
