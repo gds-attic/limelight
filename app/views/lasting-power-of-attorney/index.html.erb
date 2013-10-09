@@ -10,7 +10,7 @@
       <span class="strapline">Service performance</span>
       Lasting Power of Attorney
   </h1>
-  <p class="explanatory">A lasting power of attorney is a legal document that lets you appoint someone (known as an ‘attorney’) to make decisions on your behalf. The service is offered in both digital and non-digital formats.</p>
+  <p class="explanatory">A lasting power of attorney (<abbr title="lasting power of attorney">LPA</abbr>) is a legal document that lets you appoint someone (known as an ‘attorney’) to make decisions on your behalf. The service is offered in both digital and non-digital formats.</p>
 </header>
 
 <% if Rails.application.config.feature_toggles[:lpa_dashboard_application_method] %>
@@ -19,8 +19,8 @@
   <ul class="module-actions">
     <li class="info">
       <div>
-        <p>Data source: Office of the Public Guardian (test data)</p>
-        <p>Non digital applications include all applications made using the traditional paper based forms.</p>
+        <p>Data source: Office of the Public Guardian</p>
+        <p>Non-digital applications include all applications made using the traditional paper based forms.</p>
         <p>Digital applications include applications created using the Lasting Power of Attorney digital service.</p>
         <p>Applications are counted at point of receipt.</p>
       </div>
@@ -34,13 +34,14 @@
 <% if Rails.application.config.feature_toggles[:lpa_dashboard_completion_rate] %>
 <section class="graph completion-rate">
   <h1>Completion rate</h1>
+  <h2>Proportion of people who got to the end of the digital service</h2>
   <ul class="module-actions">
     <li class="info">
       <div>
-        <p>Data source: Google Analytics (unique visitor numbers based on sampled data)</p>
+        <p>Data source: Google Analytics</p>
         <p><a href="/service-manual/measurement/completion-rate.html" rel="external" target="_blank">Completion rate</a> measures the proportion of people who started an application and were able to complete it.</p>
-        <p>It is calculated as percentage of unique visitors who arrived at the final page of the service out of those who arrived at the start page.</p>
-        <p>Completed applications count based on unique visitors to the final page of the service.</p>
+        <p>It is calculated as percentage of unique visitors who arrived at the final page of the digital service out of those who arrived at the login page.</p>
+        <p>After using the digital service, users have further offline steps to complete, which this does not measure.</p>
       </div>
     </li>
   </ul>
@@ -53,29 +54,31 @@
 <% if Rails.application.config.feature_toggles[:lpa_conversion_funnel] %>
 <section class="graph">
   <h1>Users at registration stages</h1>
+  <h2>
+    Number of users who visited important stages of the <abbr title="lasting power of attorney">LPA</abbr> registration process last week
+  </h2>
   <ul class="module-actions">
     <li class="info">
       <div>
-        <p>Data source: Google Analytics (unique visitors numbers based on sampled data)</p>
-        <p>Compares the visitors to different key stages of the transaction relative to the number that started.</p>
-        <p>Stages are in the order a user would see them as they progress through the transaction. Some stages may be repeated or returned to, as indicated by higher visitor numbers.</p>
+        <p>Data source: Google Analytics</p>
+        <p>Stages are in the order a user would see them as they progress through the transaction.</p>
+        <p>Some stages may be repeated or returned to, as indicated by higher visitor numbers.</p>
       </div>
     </li>
   </ul>
-  <h2>
-    Number of users who visited important stages of the registration process last week
-  </h2>
   <figure class="graph conversion-graph" id="lpa-conversion-graph"></figure>
 </section>
 <% end %>
 
 <section class="help-usage">
   <h1>Help usage</h1>
+  <h2>How often help buttons in the transaction were used last week</h2>
   <ul class="module-actions">
     <li class="info">
       <div>
-        <p>Data source: Google Analytics (unique visitors numbers based on sampled data)</p>
-        <p>TBD.</p>
+        <p>Data source: Google Analytics</p>
+        <p>Help buttons are available to assist users as they complete the transaction.</p>
+        <p>Help usage counts the number of unique visitors who clicked on each help button.</p>
       </div>
     </li>
   </ul>
