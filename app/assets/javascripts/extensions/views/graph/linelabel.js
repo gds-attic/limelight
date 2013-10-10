@@ -1,9 +1,8 @@
 define([
   'require',
   'extensions/views/graph/component',
-  './timeperiod'
 ],
-function (require, Component, TimePeriod) {
+function (require, Component) {
 
   var LineLabel = Component.extend({
 
@@ -20,14 +19,16 @@ function (require, Component, TimePeriod) {
     showSummary: false,
     showTimePeriod: false,
     attachLinks: false,
-    squareSize: 11,
-    squarePadding: 4,
-    summaryPadding: 6,
+    summaryPadding: -36,
 
     classed: 'labels',
 
     interactive: function (e) {
-      return e.slice % 3 === 2;
+      if (this.graph.lineLabelOnTop()) {
+        return false;
+      } else {
+        return e.slice % 3 === 2;
+      }
     },
 
     /**
@@ -41,28 +42,13 @@ function (require, Component, TimePeriod) {
         .classed(this.classed, true)
         .attr('transform', 'translate(' + left + ', 0)');
 
+      var wrapper = this.d3.select(this.$el[0]);
+      this.figcaption = wrapper.selectAll('figcaption').data(['one-figcaption']);
+      this.figcaption.enter().insert('figcaption', '.graph-wrapper').attr('class', 'legend');
+
       this.renderSummary();
-
-      var selection = this.componentWrapper.selectAll('g.label')
-          .data(this.collection.models);
-      selection.exit().remove();
-
-      var enterSelection = selection.enter().append('g').attr('class', 'label');
-      enterSelection.append('line');
-      if (this.showSquare) {
-        enterSelection.append('rect');
-      }
-      this.enter(enterSelection);
-
-      this.update(selection);
-      this.setLabelPositions(selection);
-      this.updateLines(selection);
-      if (this.showSquare) {
-        this.updateSquares(selection);
-      }
-
-      this.renderLinks();
-      this.renderTimePeriod();
+      this.renderLabels();
+      this.renderLines();
     },
 
     /**
@@ -70,15 +56,11 @@ function (require, Component, TimePeriod) {
      * Replicates hover functionality for link areas.
      */
     events: function () {
-      if (!this.attachLinks) {
-        return;
-      }
-
       var eventName = this.modernizr.touch ? 'touchstart' : 'mousemove';
       var events = {};
-      events[eventName + ' .label-link'] = function (e) {
-        var target = $(e.target);
-        var index = target.parent().find('.label-link').index(target);
+      events[eventName + ' li'] = function (e) {
+        var target = $(e.currentTarget);
+        var index = $(this.figcaption.node()).find('li').index(target);
         this.collection.selectItem(index);
 
         if (!this.bodyListener) {
@@ -104,91 +86,74 @@ function (require, Component, TimePeriod) {
         return;
       }
 
-      var d = {
-        title: 'Total'
-      };
+      var summary = "<span class='title'>Total</span>";
 
       if (this.showValues) {
-        var attr = this.graph.valueAttr;
+        var attr = this.graph.valueAttr,
+            selected = this.collection.getCurrentSelection(),
+            value = "";
 
-        var selected = this.collection.getCurrentSelection();
         if (selected.selectedModel) {
-          d.value = this.collection.sum(attr, null, selected.selectedModelIndex);
+          value = this.collection.sum(attr, null, selected.selectedModelIndex);
         } else {
-          d.value = this.collection.sum(attr);
+          value = this.collection.sum(attr);
         }
 
-        if (this.showValuesPercentage) {
-          d.fraction = 1;
+        if (value === null) {
+          summary += "<span class='value'>(no data)</span>";
+        } else {
+          summary += "<span class='value'>" + this.formatNumericLabel(value) + "</span>";
+          if (this.showValuesPercentage) {
+            summary += " <span class='percentage'>(" + this.formatPercentage(1) + ")</span>";
+          }
         }
       }
 
-      var selection = this.componentWrapper.selectAll('g.summary').data([d]);
+      if (this.showTimePeriod) {
+        summary += "<span class='timeperiod'>" + this.renderTimePeriod() + "</span>";
+      }
 
-      selection.exit().remove();
-      var enterSelection = selection.enter().append('g').attr('class', 'summary');
-      this.enter(enterSelection);
+      var summaryWrapper = this.figcaption.selectAll('div.summary').data(['one-wrapper']);
+      summaryWrapper.enter().append('div').attr('class', 'summary');
+      summaryWrapper.html(summary);
 
-      this.updateLabelContent(selection, d);
       var translateY = this.overlapLabelTop - this.margin.top + this.labelOffset;
-      selection.attr('transform', 'translate(0,' + translateY + ")");
+      summaryWrapper.attr('style', 'margin-top: ' + translateY + 'px;');
 
-      var bbox = selection.node().getBBox();
-      var y = bbox.y + bbox.height;
-      enterSelection.append('line').attr({
-        'class': 'divider',
-        x1: 0,
-        x2: this.margin.right,
-        y1: y,
-        y2: y
+      this.summaryHeight = $(summaryWrapper.node()).height() + this.summaryPadding;
+    },
+
+    renderLabels: function () {
+      var that = this;
+
+      var labelWrapper = this.figcaption.selectAll('ol').data(['one-wrapper']);
+      labelWrapper.enter().append('ol').classed('squares', function (d, i) {
+        return that.showSquare;
+      }).classed('has-links', function () {
+        return that.attachLinks;
       });
 
-      this.summaryHeight = y + this.labelOffset + this.summaryPadding;
-    },
-
-    renderLinks: function () {
-      if (!this.attachLinks) {
-        return;
-      }
-      var wrapper = this.d3.select(this.$el[0]);
-      var selection = wrapper.selectAll('a.label-link')
+      var numLabels = this.collection.models.length;
+      var selection = labelWrapper.selectAll('li')
         .data(this.collection.models);
-      selection.enter().append('a')
-        .attr('class', 'label-link')
+      var enterSelection = selection.enter().append('li');
 
-      var positions = this.positions;
-      var that = this;
-      selection
-        .attr('href', function (model, index) {
-          return model.get('href');
-        })
-        .attr('style', function (model, index) {
-          return [
-            'left: ', that.margin.left + that.graph.innerWidth, 'px; ',
-            'width: ', that.margin.right, 'px; ',
-            'top: ', that.margin.top + positions[index].min, 'px; ',
-            'height: ', positions[index].size, 'px; '
-          ].join('')
+      selection.attr('class', function (model, index) {
+        return 'label' + index;
+      });
+
+      if (this.attachLinks) {
+        enterSelection.append('a');
+        selection.selectAll('a').attr('href', function (group, groupIndex) {
+          return group.get('href');
         });
-    },
-
-    renderTimePeriod: function () {
-      if (!this.showTimePeriod) {
-        return;
       }
 
-      if (!this.timePeriod) {
-        var el = $('<figcaption class="timeperiod">').appendTo(this.$el);
-        var timePeriod = this.timePeriod = new TimePeriod({
-          el: el,
-          collection: this.collection
-        });
-        timePeriod.render();
-      }
+      selection.each(function(group, i) {
+        that.setLabelContent.call(that, that.d3.select(this), group, i);
+      });
 
-      this.timePeriod.$el.width(
-        this.margin.right - this.getXOffset() - this.offset
-      );
+      this.setLabelPositions(selection);
     },
 
     configs: {
@@ -230,9 +195,7 @@ function (require, Component, TimePeriod) {
             break;
           }
         }
-        d3.select(this).selectAll('line').style('display', 'none');
-        var size = this.getBBox().height;
-        d3.select(this).selectAll('line').style('display', null);
+        var size = $(this).height();
 
         positions.push({
           ideal: scale(y),
@@ -248,192 +211,103 @@ function (require, Component, TimePeriod) {
       });
 
       // apply optimised positions
-      selection.attr("transform", function (group, index) {
-        var x = 0;
-        var yLabel = Math.floor(positions[index].min) + .5;
-        group.set('yLabel', yLabel);
-        return "translate(" + x + ", " + yLabel + ")";
+      selection.attr('style', function (model, index) {
+        return [
+          'top:', that.margin.top + positions[index].min, 'px;',
+          'left:', that.offset, 'px;'
+        ].join('');
       });
     },
 
-    /**
-     * Creates label content elements.
-     * @param {Selection} selection d3 selection to operate on
-     */
-    enter: function (selection) {
-      selection.each(function (model) {
-        d3.select(this).append('text').attr('class', 'title');
-      });
-      if (this.showValues) {
-        selection.append('text').attr('class', 'value');
-      }
-    },
-
-    /**
-     * Sets label content.
-     * @param {Selection} selection d3 selection to operate on
-     */
-    update: function (selection) {
-      var that = this;
-
-      var getLabelData = function (group, groupIndex) {
-        var d = {
-          title: group.get('title')
-        };
-
-        if (this.showValues) {
-          var attr = this.graph.valueAttr;
-
-          var selected = this.collection.getCurrentSelection();
-          if (selected.selectedModel) {
-            d.value = this.collection.at(
-              groupIndex, selected.selectedModelIndex
-            ).get(attr);
-          } else {
-            d.value = this.collection.sum(attr, groupIndex);
-          }
-
-          if (this.showValuesPercentage) {
-            d.fraction = this.collection.fraction(
-              attr, groupIndex, selected.selectedModelIndex
-            );
-          }
-        }
-
-        return d;
-      }
-
-      selection.each(function (group, groupIndex) {
-        var d = getLabelData.call(that, group, groupIndex);
-        that.updateLabelContent.call(that, d3.select(this), d);
-      });
-    },
-
-    getXOffset: function () {
-      if (this.showSquare) {
-        return this.squareSize + this.squarePadding;
-      } else {
-        return 0;
-      }
-    },
-
-    /**
-     * Calculates height of SVG node
-     * @param {Object} selection d3 selection or native SVG DOM node
-     * @returns Height in pixels
-     */
-    getNodeHeight: function(selection){
-      var node;
-      // if it's a selection, get the node
-      if (selection.node){
-        node = selection.node();
-      } else {
-        node = selection;
-      }
-      return node.getBBox().height;
-    },
-
-    updateLabelContent: function (selection, d) {
-      var xOffset = this.getXOffset();
-
-      selection.selectAll("text.title")
-        .text(_.unescape(d.title))
-        .attr('transform', 'translate(' + xOffset + ', ' + this.labelOffset + ')');
+    setLabelContent: function (selection, group, groupIndex) {
+      var labelHTML = "<span class='label-title'>" + group.get('title') + "</span>";
 
       if (this.showValues) {
-        var text = selection.selectAll("text.value");
-        if (d.value == null) {
-          text.text('(no data)').classed('no-data', true);
+        var attr = this.graph.valueAttr,
+            selected = this.collection.getCurrentSelection(),
+            value = 0;
+
+        if (selected.selectedModel) {
+          value = this.collection.at(groupIndex, selected.selectedModelIndex).get(attr);
         } else {
-          text.text(this.formatNumericLabel(d.value)).classed('no-data', false);
-          
-          if (this.showValuesPercentage && d.value) {
-            text.append('tspan')
-              .text(' (' + this.formatPercentage(d.fraction) + ')')
-              .attr('class', 'percentage');
-          }
+          value = this.collection.sum(attr, groupIndex);
         }
 
-        text.attr('transform', 'translate(' + xOffset + ', ' + this.getNodeHeight(text.node()) + ')');
+        if (value === null) {
+          labelHTML += "<span class='no-data'>(no data)</span>";
+        } else {
+          labelHTML += ("<span class='value'>" + this.formatNumericLabel(value) + "</span>");
+        }
+
+        if (this.showValuesPercentage && value) {
+          var fraction = this.collection.fraction(
+            attr, groupIndex, selected.selectedModelIndex
+          );
+          labelHTML += (" <span class='percentage'>(" + this.formatPercentage(fraction) + ")</span>");
+        }
       }
 
-      var truncateWidth = this.margin.right - this.offset - xOffset;
-      this.truncateWithEllipsis(selection, truncateWidth);
-    },
+      if (this.attachLinks) {
+        selection.select('a').html(labelHTML);
+      } else {
+        selection.html(labelHTML);
+      }
 
-    updateSquares: function (selection) {
-      var squareSize = this.squareSize;
-      selection.each(function (model, i) {
-        d3.select(this).selectAll('rect')
-          .attr('class', model.get('id') + ' square' + i)
-          .attr('x', 0)
-          .attr('y', -squareSize / 2)
-          .attr('width', squareSize)
-          .attr('height', squareSize);
-      });
     },
 
     /**
      * Draws line from y position of last item to label
-     * @param {Selection} selection d3 selection to operate on
      */
-    updateLines: function (selection) {
-      var positions = this.positions;
+    renderLines: function () {
       var that = this;
-      selection.each(function (group, groupIndex) {
-        var position = positions[groupIndex];
-        d3.select(this).select('line')
+      var selection = this.componentWrapper.selectAll('line')
+        .data(this.positions);
+      selection.enter().append('line');
+
+      selection.each(function (d) {
+        d3.select(this)
           .attr('x1', -that.offset + that.linePaddingInner)
           .attr('x2', -that.linePaddingOuter)
-          .attr('y1', function(group, index) {
-            return position.ideal - position.min;
+          .attr('y1', function(d) {
+            return d.ideal;
           })
-          .attr('y2', function(group) {
-            return 0;
+          .attr('y2', function(d) {
+            return d.min;
           })
-          .classed('crisp', function () {
-            return position.ideal - position.min == 0;
+          .classed('crisp', function (d) {
+            return d.ideal - d.min === 0;
           });
       });
     },
 
-    /**
-     * Truncates label texts to fit within defined width.
-     * @param {Selection} selection d3 selection to operate on
-     * @param {Number} maxWidth Width to truncate text elements to
-     * @param {String} [ellipsis=…] Symbol to use for truncation
-     */
-    truncateWithEllipsis: function (selection, maxWidth, ellipsis) {
-      ellipsis = ellipsis || '…';
+    renderTimePeriod: function() {
+      var period = this.period || this.collection.query.get('period') || 'week',
+          numPeriods = this.collection.at(0).get('values').length,
+          selection = this.collection.getCurrentSelection();
 
-      selection.selectAll('text').each(function (metaModel) {
-        var text = d3.select(this);
-        if (this.getBBox().width <= maxWidth) {
-          // text fits already, nothing to do
-          return;
+      if (selection.selectedModel) {
+        var model = selection.selectedModel;
+        if (_.isArray(model) && model.length) {
+          model = model[0];
         }
-
-        // truncate with ellipsis until text fits
-        var original = text.text();
-        var truncated;
-        for (var i = original.length; i >= 0; i--){
-          if (original.slice(i-1, i) === ' ') {
-            // do not leave trailing space
-            continue;
-          }
-          truncated = original.slice(0, i) + ellipsis;
-          text.text(truncated);
-          if (this.getBBox().width <= maxWidth) {
-            break;
-          };
-        };
-      })
+        return this.formatPeriod(model, period);
+      } else {
+        return [
+          'last',
+          numPeriods,
+          this.pluralise(period, numPeriods)
+        ].join(' ');
+      }
     },
 
     onChangeSelected: function (groupSelected, groupIndexSelected, modelSelected, indexSelected) {
       this.render();
-      var labels = this.componentWrapper.selectAll('g.label');
+      var labels = this.figcaption.selectAll('li');
+      var lines = this.componentWrapper.selectAll('line');
       labels.classed('selected', function (group, groupIndex) {
+        return groupIndexSelected === groupIndex;
+      });
+      lines.classed('selected', function (group, groupIndex) {
         return groupIndexSelected === groupIndex;
       });
     },
@@ -441,8 +315,9 @@ function (require, Component, TimePeriod) {
     onHover: function (e) {
       var y = e.y;
       var bestIndex, bestDistance = Infinity;
-      this.collection.each(function (group, index) {
-        var distance = Math.abs(group.get('yLabel') - y);
+      _.each(this.positions, function(elem, index) {
+        var yLabel = Math.floor(elem.min) + 0.5;
+        var distance = Math.abs(yLabel - y);
         if (distance < bestDistance) {
           bestDistance = distance;
           bestIndex = index;
@@ -468,7 +343,6 @@ function (require, Component, TimePeriod) {
      * @returns {Array} Item placement solution. Each entry contains a 'min' property defining the item's positions.
      */
     calcPositions: function (items, bounds) {
-
       var sumSize = _.reduce(items, function(memo, item){
         return memo + item.size;
       }, 0);
@@ -552,7 +426,7 @@ function (require, Component, TimePeriod) {
           item.squareDist = Math.pow(item.dist, 2);
           sumSquareDist += item.squareDist;
           solution[i] = item;
-        };
+        }
 
         // nudge following elements downwards
         for (var i = indexToOptimise + 1; i < items.length; i++) {
@@ -563,7 +437,7 @@ function (require, Component, TimePeriod) {
           item.squareDist = Math.pow(item.dist, 2);
           sumSquareDist += item.squareDist;
           solution[i] = item;
-        };
+        }
 
         solution.sumSquareDist = sumSquareDist;
 
@@ -589,8 +463,8 @@ function (require, Component, TimePeriod) {
             // result has not converged yet, continue search
             doIterate = true;
           }
-        };
-      };
+        }
+      }
 
       return bestSolution;
     }

@@ -3,13 +3,15 @@
 
 .graph {
   margin:0 auto;
-  position:relative;
 
   figure {
-    max-width: 954px;
-    max-height: 400px;
+    position:relative;
+    svg {
+      max-width: 954px;
+      max-height: 400px;
+    }
   }
-
+    
   text {
     @include core-16($tabular-numbers: true) ;
     @media (max-width: 320px) {
@@ -18,23 +20,28 @@
     }
   }
 
-  .inner {
-    padding:0;
-    position:absolute;
-    top: 20px;
-    bottom: 45px;
-    left: 55px;
-    right: 40px;
+  .graph-wrapper {
 
-    @media (max-width: 640px) {
+    position:relative;
+
+    .inner {
+      padding:0;
+      position:absolute;
       top: 20px;
-      bottom: 40px;
-      left: 40px;
-      right: 25px;
-    }
+      bottom: 45px;
+      left: 55px;
+      right: 40px;
 
-    @media (max-width: 320px) {
-      bottom: 30px;
+      @media (max-width: 640px) {
+        top: 20px;
+        bottom: 40px;
+        left: 40px;
+        right: 25px;
+      }
+
+      @media (max-width: 320px) {
+        bottom: 30px;
+      }
     }
   }
 
@@ -163,77 +170,119 @@
     background:white;
   }
 
-  .labels {
+  .legend {
+    position: absolute;
+    @include core-16($tabular-numbers: true);
+    top: -24px;
+    right: 0;
+    width: 200px;
 
+    .percentage,
+    .no-data {
+      color: $grey-1;
+      font-size: 14px;
+    }
+
+    .summary {
+      border-bottom: 1px solid $grey-2;
+      margin: 0 0 0 20px;
+      padding: 0 0 0 20px;
+
+      .title {
+        display: block;
+      }
+
+      .value {
+        font-size: 21px;
+        font-weight: bold;
+      }
+
+      .timeperiod {
+        display: block;
+      }
+
+    }
+
+    ol {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      &.squares {
+        li {
+          &.label0:before { background-color: $data-colour-1; }
+          &.label1:before { background-color: $data-colour-2; }
+          &.label2:before { background-color: $data-colour-3; }
+          &.label3:before { background-color: $data-colour-4; }
+          &.label4:before { background-color: $data-colour-5; }
+          &.label5:before { background-color: $data-colour-6; }
+
+          &.label0.selected:before { border-color: darken($data-colour-1, 10%); }
+          &.label1.selected:before { border-color: darken($data-colour-2, 10%); }
+          &.label2.selected:before { border-color: darken($data-colour-3, 10%); }
+          &.label3.selected:before { border-color: darken($data-colour-4, 10%); }
+          &.label4.selected:before { border-color: darken($data-colour-5, 10%); }
+          &.label5.selected:before { border-color: darken($data-colour-6, 10%); }
+
+          &:before {
+            border:2px solid white;
+            float:left;
+            display:block;
+            content:'';
+            width:10px;
+            height:10px;
+            margin-left:-18px;
+            margin-top:1px;
+          }
+
+          margin-left: 18px;
+        }
+      }
+
+      &.has-links li {
+        z-index:100;
+      }
+
+      li {
+        position: absolute;
+        margin-top: 16px;
+
+        &.selected {
+          font-weight: bold;
+        }
+
+        a {
+          color: $text-colour;
+          text-decoration: none;
+        }
+
+        .label-title {
+          display: block;
+        }
+      }
+
+    }
+  }
+
+  .labels {
     line {
       fill: none;
       stroke: #444;
       stroke-width: 1px;
       vector-effect: non-scaling-stroke;
 
-      &.crisp {
-        shape-rendering: crispEdges;
-      }
-    }
-
-    .no-data,
-    .percentage {
-      font-size: 14px;
-      fill: $grey-1;
-    }
-
-    .square0 { fill: $data-colour-1; }
-    .square1 { fill: $data-colour-2; }
-    .square2 { fill: $data-colour-3; }
-    .square3 { fill: $data-colour-4; }
-    .square4 { fill: $data-colour-5; }
-    .square5 { fill: $data-colour-6; }
-
-    .selected {
-      text {
-        font-weight: bold;
-      }
-
-      line {
+      &.selected {
         stroke-width: 2px;
       }
 
-      rect {
-        stroke-width:2px;
-
-        &.square0 { stroke: darken($data-colour-1, 10%); }
-        &.square1 { stroke: darken($data-colour-2, 10%); }
-        &.square2 { stroke: darken($data-colour-3, 10%); }
-        &.square3 { stroke: darken($data-colour-4, 10%); }
-        &.square4 { stroke: darken($data-colour-5, 10%); }
-        &.square5 { stroke: darken($data-colour-6, 10%); }
-      }
-    }
-
-    .summary {
-      .value {
-        font-size: 21px;
-        font-weight: bold;
-        .percentage,
-        &.no-data {
-          font-weight: normal;
-        }
-      }
-
-      .divider {
-        stroke: $grey-2;
-        stroke-width: 1px;
+      &.crisp {
         shape-rendering: crispEdges;
       }
-    }
-  }
 
-  .label-link {
-    position: absolute;
-    z-index:100;
-    cursor:pointer;
-    &:focus {
-      background-color: transparent;
+      @media (max-width: 640px) {
+        display: none;
+      }
+
     }
   }
 
@@ -288,24 +337,70 @@
   .cursorLine.descender {
     display: none;
   }
-
-
-  .timeperiod {
-    position:absolute;
-    @include core-16($tabular-numbers: true);
-    top:-24px;
-    right:0;
-
-    @media (max-width: 640px) {
-      top:-19px;
-    }
-  }
-
 }
 
 @media (max-width: 640px) {
 
   .graph {
+    margin-bottom: 2.5em;
+
+    &.graph-with-labels {
+      h2 {
+        margin-right: 0;
+      }
+
+      .inner {
+        right: 25px;
+      }
+
+      .graph {
+        top: 20px;
+
+        svg {
+          clear: both;
+        }
+      }
+    }
+
+    .legend {
+      position: static;
+      width: 100%;
+      overflow:hidden;
+
+      .summary {
+        border: none;
+        border-right: 1px solid $grey-2;
+        float: left;
+        margin: 0;
+        padding: 0;
+        width: 26%;
+        margin-top: 0 !important;
+
+        .percentage {
+          display: block;
+        }
+
+        .timeperiod {
+          margin-top: 4px;
+        }
+      }
+
+      ol {
+        float: right;
+        padding-left: 36px;
+        width: 73%;
+
+        li {
+          cursor: default;
+          float: left;
+          margin-bottom: 12px;
+          position: static;
+          margin-top: 0;
+          width: 42%;
+        }
+      }
+    }
+
     .x-axis .tick:nth-child(even) text,
     .y-axis .tick:nth-child(even) text {
       display:none;

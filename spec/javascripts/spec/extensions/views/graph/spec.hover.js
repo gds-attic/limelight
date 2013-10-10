@@ -5,22 +5,29 @@ define([
 function (Hover) {
   describe("Hover Component", function () {
     describe("events", function () {
-      
+
+      var graphWrapper;
+
       beforeEach(function() {
-        spyOn(Hover.prototype, "onMouseMove");
-        spyOn(Hover.prototype, "onTouchStart");
+          graphWrapper = $('<div class ="graph-wrapper"></div>');
+          spyOn(Hover.prototype, "onMouseMove");
+          spyOn(Hover.prototype, "onTouchStart");
       });
       
       it("listens to mousemove events in mouse environments", function () {
-        var component = new Hover({
+          var component = new Hover({
           modernizr: { touch: false },
           collection: { on: jasmine.createSpy() },
-          graph: { on: jasmine.createSpy() }
+          graph: {
+              on: jasmine.createSpy(),
+              graphWrapper: graphWrapper
+          }
         });
+        graphWrapper.appendTo(component.$el);
         component.render();
         
         jasmine.renderView(component, function () {
-          component.$el.find('.hover').trigger('mousemove');
+          component.graph.graphWrapper.find('.hover').trigger('mousemove');
           expect(component.onMouseMove).toHaveBeenCalled();
           expect(component.onTouchStart).not.toHaveBeenCalled();
         });
@@ -33,8 +40,10 @@ function (Hover) {
             on: jasmine.createSpy(),
             selectItem: jasmine.createSpy()
           },
-          graph: { on: jasmine.createSpy() }
+          graph: { on: jasmine.createSpy(),
+                   graphWrapper: graphWrapper}
         });
+        graphWrapper.appendTo(component.$el);
         component.render();
         
         jasmine.renderView(component, function () {
