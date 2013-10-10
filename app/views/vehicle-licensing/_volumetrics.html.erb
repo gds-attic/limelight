@@ -4,6 +4,7 @@
 <% info_text ||= "The number of successful applications for a #{transaction_shortname}." %>
 <section class="graph graph-with-labels vehicle-licensing-volumetrics">
   <h1><%= title %></h1>
+  <h2 id="<%= id %>-headline"><%= description %></h2>
   <ul class="module-actions">
     <li class="info">
       <div>
@@ -13,7 +14,6 @@
     </li>
   </ul>
   <nav id="<%= id %>-nav"></nav>
-  <h2 id="<%= id %>-headline"><%= description %></h2>
   <figure class="graph timeseries-graph" id="<%= id %>"></figure>
 </section>
 
