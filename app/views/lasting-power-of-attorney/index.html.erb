@@ -53,19 +53,17 @@
 
 <% if Rails.application.config.feature_toggles[:lpa_conversion_funnel] %>
 <section class="graph">
-  <h1>Users at registration stages</h1>
-  <h2>
-    Number of users who visited important stages of the <abbr title="lasting power of attorney">LPA</abbr> registration process last week
-  </h2>
+  <h1>Stages of making an <abbr title="lasting power of attorney">LPA</abbr></h1>
   <ul class="module-actions">
     <li class="info">
       <div>
         <p>Data source: Google Analytics</p>
         <p>Stages are in the order a user would see them as they progress through the transaction.</p>
-        <p>Some stages may be repeated or returned to, as indicated by higher visitor numbers.</p>
+        <p>Shows significant stages only.</p>
       </div>
     </li>
   </ul>
+  <h2>Number of visitors to stages a user goes through whilst making an <abbr title="lasting power of attorney">LPA</abbr>. Some stages may be repeated or returned to, as indicated by higher visitor numbers.</h2>
   <figure class="graph conversion-graph" id="lpa-conversion-graph"></figure>
 </section>
 <% end %>

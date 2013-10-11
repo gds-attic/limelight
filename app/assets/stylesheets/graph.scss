@@ -5,6 +5,10 @@
   margin:0 auto;
   position:relative;
 
+  h2 {
+    max-width: 75%;
+  }
+
   figure {
     max-width: 954px;
     max-height: 400px;
@@ -306,6 +310,10 @@
 @media (max-width: 640px) {
 
   .graph {
+    h2 {
+      max-width: 92%;
+    }
+
     .x-axis .tick:nth-child(even) text,
     .y-axis .tick:nth-child(even) text {
       display:none;
