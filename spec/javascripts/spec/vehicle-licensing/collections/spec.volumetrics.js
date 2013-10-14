@@ -57,8 +57,8 @@ function (VolumetricsCollection) {
 
     var expected = [
       {
-        "id": "manual",
-        "title": "Manual",
+        "id": "fully-digital",
+        "title": "Digital",
         "values": [
           {
             "_end_at": "2012-09-01T00:00:00+00:00", 
@@ -67,6 +67,7 @@ function (VolumetricsCollection) {
           }, 
           {
             "_end_at": "2012-10-01T00:00:00+00:00", 
+            "volume:sum": 4,
             "_start_at": "2012-09-01T00:00:00+00:00"
           }
         ]
@@ -88,8 +89,8 @@ function (VolumetricsCollection) {
         ]
       }, 
       {
-        "id": "fully-digital",
-        "title": "Digital",
+        "id": "manual",
+        "title": "Manual",
         "values": [
           {
             "_end_at": "2012-09-01T00:00:00+00:00", 
@@ -98,7 +99,6 @@ function (VolumetricsCollection) {
           }, 
           {
             "_end_at": "2012-10-01T00:00:00+00:00", 
-            "volume:sum": 4,
             "_start_at": "2012-09-01T00:00:00+00:00"
           }
         ]

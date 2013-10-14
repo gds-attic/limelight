@@ -41,22 +41,6 @@ function (ServicesCollection) {
 
     var expected = [
       {
-        "id": "sorn",
-        "title": "SORN",
-        "href": "/performance/sorn",
-        "values": [
-          {
-            "_end_at": "2012-09-01T00:00:00+00:00", 
-            "_start_at": "2012-08-01T00:00:00+00:00"
-          }, 
-          {
-            "_end_at": "2012-10-01T00:00:00+00:00", 
-            "volume:sum": 4,
-            "_start_at": "2012-09-01T00:00:00+00:00"
-          }
-        ]
-      },
-      {
         "id": "tax-disc",
         "title": "Tax disc",
         "href": "/performance/tax-disc",
@@ -69,6 +53,22 @@ function (ServicesCollection) {
           {
             "_end_at": "2012-10-01T00:00:00+00:00", 
             "volume:sum": 2,
+            "_start_at": "2012-09-01T00:00:00+00:00"
+          }
+        ]
+      },
+      {
+        "id": "sorn",
+        "title": "SORN",
+        "href": "/performance/sorn",
+        "values": [
+          {
+            "_end_at": "2012-09-01T00:00:00+00:00", 
+            "_start_at": "2012-08-01T00:00:00+00:00"
+          }, 
+          {
+            "_end_at": "2012-10-01T00:00:00+00:00", 
+            "volume:sum": 4,
             "_start_at": "2012-09-01T00:00:00+00:00"
           }
         ]

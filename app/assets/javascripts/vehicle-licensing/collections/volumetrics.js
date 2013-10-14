@@ -17,9 +17,9 @@ function (GraphCollection) {
     },
 
     seriesList: [
-      { id: 'manual', title: 'Manual' },
+      { id: 'fully-digital', title: 'Digital' },
       { id: 'assisted-digital', title: 'Post Office' },
-      { id: 'fully-digital', title: 'Digital' }
+      { id: 'manual', title: 'Manual' }
     ],
 
     parse: function (response) {

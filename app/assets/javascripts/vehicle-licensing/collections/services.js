@@ -18,14 +18,14 @@ function (GraphCollection) {
 
     seriesList: [
       {
-        id: 'sorn',
-        title: 'SORN',
-        href: '/performance/sorn'
-      },
-      {
         id: 'tax-disc',
         title: 'Tax disc',
         href: '/performance/tax-disc'
+      },
+      {
+        id: 'sorn',
+        title: 'SORN',
+        href: '/performance/sorn'
       }
     ],
 
