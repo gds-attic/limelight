@@ -2,8 +2,10 @@
 
 .graph {
   .conversion-graph {
-    max-height: 200px;
-    min-height: 100px;
+    svg {
+      max-height: 200px;
+      min-height: 100px;
+    }
   }
 }
 .conversion-graph {
@@ -22,7 +24,7 @@
     }
   }
 
-  .inner {
+  .graph-wrapper .inner {
     top: 40px;
     bottom: 30px;
     left: 0px;
@@ -157,7 +159,9 @@
 
 @media (max-width: 640px) {
   .half-width .conversion-graph {
-    max-width: 954px;
+    svg {
+      max-width: 954px;
+    }
   }
 
   .conversion-graph {

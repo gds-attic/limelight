@@ -26,7 +26,7 @@ Then /^the module should contain the text "(.*?)"$/ do |text|
 end
 
 Then /^the module should contain a graph$/ do
-  @module.should have_xpath("./figure/*[name()='svg']")
+  @module.should have_xpath("./figure/div/*[name()='svg']")
 end
 
 Then /^the module should contain a table$/ do

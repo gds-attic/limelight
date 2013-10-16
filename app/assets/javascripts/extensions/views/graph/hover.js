@@ -29,7 +29,7 @@ function (Component) {
     
     render: function () {
       if (!this.hoverEl) {
-        this.hoverEl = $('<div></div>').addClass('hover').appendTo(this.$el);
+        this.hoverEl = $('<div></div>').addClass('hover').appendTo(this.graph.graphWrapper);
       }
     },
 
