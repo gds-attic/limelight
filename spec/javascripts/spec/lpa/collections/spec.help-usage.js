@@ -13,8 +13,8 @@ define([
 
           var params = collection.queryParams();
 
-          expect(params.filter_by).toEqual('eventAction:help');
-          expect(params.group_by).toEqual('eventLabel');
+          expect(params.filter_by).toEqual('eventAction:help.inline');
+          expect(params.group_by).toEqual('eventDestination');
           expect(params.collect).toEqual(['uniqueEvents']);
           expect(params.start_at).toBeMoment(moment('2013-09-23 00:00:00'));
           expect(params.end_at).toBeMoment(moment('2013-09-30 00:00:00'));
@@ -26,15 +26,18 @@ define([
           var response = {
             "data": [
               {
-                "eventLabel":"help1",
+                "eventLabel":"page1:help1",
+                "eventDestination":"help1",
                 "uniqueEvents": [123]
               },
               {
-                "eventLabel":"help2",
+                "eventLabel":"page1:help2",
+                "eventDestination":"help2",
                 "uniqueEvents":[456]
               },
               {
-                "eventLabel":"help3",
+                "eventLabel":"page1:help3",
+                "eventDestination":"help3",
                 "uniqueEvents":[789]
               }
             ]
