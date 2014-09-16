@@ -9,7 +9,7 @@ gem "songkick-transport", "1.0.1", :git => "git://github.com/songkick/transport.
 gem "httparty", "0.11.0"
 gem "multi_xml", "0.5.5"
 gem "plek", "1.4.0"
-gem "govuk_frontend_toolkit", "0.35.0"
+gem "govuk_frontend_toolkit", "1.4.0"
 
 
 # Bundle edge Rails instead:
