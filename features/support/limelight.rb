@@ -6,7 +6,7 @@ Capybara.register_driver :poltergeist do |app|
   # TODO: this should really be true and the js layer should deal with any
   # errors before they bubble up
   Capybara::Poltergeist::Driver.new(app, {
-    :js_errors => false,
+    :js_errors => true,
     :debug => false
   })
 end

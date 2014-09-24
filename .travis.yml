@@ -9,7 +9,6 @@ env:
   global:
     - secure: "SPkvVOl32mVTKB0cYA3zXtyksQcKmb4hDI6wPSzqxKVy+Ugv+vsR/x7wUd6ilMEKekFBbOsXysnWrHRfBevm6j9zh5TA40BZhReNFHI2h0sNlZjklqolQY/mEP82dYKHKYeH/McG3bQU+NdTo0UFl6v6CGVMF/V4qRR895GLTLw="
     - secure: "cMatu5jn1qabWT8qaoAk2qHrzmWyrmxkUW3XUrLeKLLgfuFN6uOkOz/JXdbVEV1AOCgwlwaDDruZkWhBjeKJO73+biM/gHK7cOOuqY5XIEnBfiGIGUR53aaMNjmjHlRSH1MlkwVGtrmrRmw9XNjXsmCsfBIOdkOVYIkzbe8buGw="
-    - GOVUK_ASSET_HOST='https://static.production.alphagov.co.uk'
     - RUN_SERVER=true
     - APP_HOST='http://127.0.0.1:49221'
     - CAPYBARA_WAIT_TIME=30

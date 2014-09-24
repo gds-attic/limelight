@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 gem "rails", "3.2.18"
 gem "unicorn", "4.6.3"
 
-gem "slimmer", "3.20.0"
+gem "slimmer", "5.0.0"
 gem "songkick-transport", "1.0.1", :git => "git://github.com/songkick/transport.git"
 gem "httparty", "0.11.0"
 gem "multi_xml", "0.5.5"
