@@ -1,26 +1,16 @@
 @import 'colours';
+@import 'design-patterns/_alpha-beta';
 
 #search,
 #global-header .search-toggle {
   display:none;
 }
 
-span.alpha-tag {
-  text-transform: uppercase;
-  font-weight:normal;
-  letter-spacing: 1px;
-  color: white;
-  -webkit-font-smoothing: subpixel-antialiased;
-  background-color: $pink;
-  padding: 2px 5px 0;
-  font-size:67%;
-  display:inline-block;
-  vertical-align:top;
-  margin-top:2px;
-}
-
-a:hover span.alpha-tag {
-    text-decoration: none;
+span.beta-tag {
+  @include phase-tag(beta);
+  margin-left: 2px;
+  position: relative;
+  top: -2px;
 }
 
 #global-header .header-proposition a.menu {
